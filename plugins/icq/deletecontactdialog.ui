@@ -1,0 +1,100 @@
+<ui version="4.0" >
+ <class>deleteContactDialogClass</class>
+ <widget class="QDialog" name="deleteContactDialogClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>310</width>
+    <height>142</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>deleteContactDialog</string>
+  </property>
+  <property name="windowIcon" >
+   <iconset resource="../../../qutim.qrc" >:/icons/crystal_project/deleteuser.png</iconset>
+  </property>
+  <layout class="QGridLayout" >
+   <item row="0" column="0" colspan="3" >
+    <widget class="QLabel" name="label" >
+     <property name="text" >
+      <string>Contact will be deleted. Are you sure?</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="3" >
+    <widget class="QCheckBox" name="checkBox" >
+     <property name="text" >
+      <string>Delete contact history</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="1" >
+    <widget class="QPushButton" name="yesButton" >
+     <property name="text" >
+      <string>Yes</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2" >
+    <widget class="QPushButton" name="noButton" >
+     <property name="text" >
+      <string>No</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources>
+  <include location="../../../qutim.qrc" />
+ </resources>
+ <connections>
+  <connection>
+   <sender>noButton</sender>
+   <signal>clicked()</signal>
+   <receiver>deleteContactDialogClass</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>244</x>
+     <y>116</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>308</x>
+     <y>120</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>yesButton</sender>
+   <signal>clicked()</signal>
+   <receiver>deleteContactDialogClass</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>193</x>
+     <y>129</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>88</x>
+     <y>121</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

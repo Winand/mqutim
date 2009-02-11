@@ -1,0 +1,9 @@
+	.incoming_row, .incoming_row_context
+	{
+		color: #0000FF;
+	}
+
+	.outgoing_row, .outgoing_row_context
+	{
+		color: #FF0000;
+	}

@@ -1,0 +1,204 @@
+<ui version="4.0" >
+ <class>privacyListWindowClass</class>
+ <widget class="QWidget" name="privacyListWindowClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>417</width>
+    <height>358</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>privacyListWindow</string>
+  </property>
+  <layout class="QGridLayout" >
+   <item row="0" column="0" >
+    <widget class="QTabWidget" name="tabWidget" >
+     <property name="currentIndex" >
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tab" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>395</width>
+        <height>308</height>
+       </rect>
+      </property>
+      <attribute name="title" >
+       <string>Visible list</string>
+      </attribute>
+      <attribute name="icon" >
+       <iconset resource="../../../qutim.qrc" >
+        <normaloff>:/icons/crystal_project/visible.png</normaloff>:/icons/crystal_project/visible.png</iconset>
+      </attribute>
+      <layout class="QGridLayout" >
+       <item row="0" column="0" >
+        <widget class="QTreeWidget" name="visibleTreeWidget" >
+         <property name="alternatingRowColors" >
+          <bool>true</bool>
+         </property>
+         <property name="rootIsDecorated" >
+          <bool>false</bool>
+         </property>
+         <property name="itemsExpandable" >
+          <bool>false</bool>
+         </property>
+         <property name="sortingEnabled" >
+          <bool>true</bool>
+         </property>
+         <property name="allColumnsShowFocus" >
+          <bool>true</bool>
+         </property>
+         <column>
+          <property name="text" >
+           <string>UIN</string>
+          </property>
+         </column>
+         <column>
+          <property name="text" >
+           <string>Nick name</string>
+          </property>
+         </column>
+         <column>
+          <property name="text" >
+           <string>I</string>
+          </property>
+         </column>
+         <column>
+          <property name="text" >
+           <string>D</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_2" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>395</width>
+        <height>308</height>
+       </rect>
+      </property>
+      <attribute name="title" >
+       <string>Invisible list</string>
+      </attribute>
+      <attribute name="icon" >
+       <iconset resource="../../../qutim.qrc" >
+        <normaloff>:/icons/crystal_project/privacy.png</normaloff>:/icons/crystal_project/privacy.png</iconset>
+      </attribute>
+      <layout class="QGridLayout" >
+       <item row="0" column="0" >
+        <widget class="QTreeWidget" name="invisibleTreeWidget" >
+         <property name="alternatingRowColors" >
+          <bool>true</bool>
+         </property>
+         <property name="rootIsDecorated" >
+          <bool>false</bool>
+         </property>
+         <property name="itemsExpandable" >
+          <bool>false</bool>
+         </property>
+         <property name="sortingEnabled" >
+          <bool>true</bool>
+         </property>
+         <property name="allColumnsShowFocus" >
+          <bool>true</bool>
+         </property>
+         <column>
+          <property name="text" >
+           <string>UIN</string>
+          </property>
+         </column>
+         <column>
+          <property name="text" >
+           <string>Nick name</string>
+          </property>
+         </column>
+         <column>
+          <property name="text" >
+           <string>I</string>
+          </property>
+         </column>
+         <column>
+          <property name="text" >
+           <string>D</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_3" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>395</width>
+        <height>308</height>
+       </rect>
+      </property>
+      <attribute name="title" >
+       <string>Ignore list</string>
+      </attribute>
+      <attribute name="icon" >
+       <iconset resource="../../../qutim.qrc" >
+        <normaloff>:/icons/ignorelist.png</normaloff>:/icons/ignorelist.png</iconset>
+      </attribute>
+      <layout class="QGridLayout" >
+       <item row="0" column="0" >
+        <widget class="QTreeWidget" name="ignoreTreeWidget" >
+         <property name="alternatingRowColors" >
+          <bool>true</bool>
+         </property>
+         <property name="rootIsDecorated" >
+          <bool>false</bool>
+         </property>
+         <property name="itemsExpandable" >
+          <bool>false</bool>
+         </property>
+         <property name="sortingEnabled" >
+          <bool>true</bool>
+         </property>
+         <property name="allColumnsShowFocus" >
+          <bool>true</bool>
+         </property>
+         <column>
+          <property name="text" >
+           <string>UIN</string>
+          </property>
+         </column>
+         <column>
+          <property name="text" >
+           <string>Nick name</string>
+          </property>
+         </column>
+         <column>
+          <property name="text" >
+           <string>I</string>
+          </property>
+         </column>
+         <column>
+          <property name="text" >
+           <string>D</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources>
+  <include location="../../../qutim.qrc" />
+ </resources>
+ <connections/>
+</ui>

@@ -31,7 +31,7 @@ bool ContactListEventEater::eventFilter(QObject *obj, QEvent *event)
 	if(event->type() == QEvent::ContextMenu)
         {
                 QContextMenuEvent *menu_event = static_cast<QContextMenuEvent *>(event);
-                QTreeView *tree_view = dynamic_cast<QTreeView *>(obj->parent());
+                QTreeView *tree_view = qobject_cast<QTreeView *>(obj->parent());
                 if(!tree_view)
                     return QObject::eventFilter(obj, event);
                 QModelIndex index = tree_view->indexAt(menu_event->pos());
@@ -41,7 +41,7 @@ bool ContactListEventEater::eventFilter(QObject *obj, QEvent *event)
         if(event->type() == QEvent::MouseButtonDblClick)
         {
 		QMouseEvent *mouse_event = static_cast<QMouseEvent *>(event);
-                QTreeView *tree_view = dynamic_cast<QTreeView *>(obj->parent());
+                QTreeView *tree_view = qobject_cast<QTreeView *>(obj->parent());
                 if(!tree_view)
                     return QObject::eventFilter(obj, event);
                 QModelIndex index = tree_view->indexAt(mouse_event->pos());
@@ -64,7 +64,7 @@ bool ContactListEventEater::eventFilter(QObject *obj, QEvent *event)
 			}
 			if(key_event->key() == Qt::Key_Enter || key_event->key() == Qt::Key_Return)
 			{
-                                QTreeView *tree_view = dynamic_cast<QTreeView *>(obj);
+                                QTreeView *tree_view = qobject_cast<QTreeView *>(obj);
                                 if(!tree_view)
                                     return QObject::eventFilter(obj, event);
                                 QModelIndexList list = tree_view->selectionModel()->selectedIndexes();

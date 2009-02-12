@@ -33,7 +33,7 @@ bool ConferenceContactListEventEater::eventFilter(QObject *obj, QEvent *event)
 	if(event->type() == QEvent::ContextMenu)
 	{
                 QContextMenuEvent *menu_event = static_cast<QContextMenuEvent *>(event);
-                QListView *list_view = dynamic_cast<QListView *>(obj->parent());
+                QListView *list_view = qobject_cast<QListView *>(obj->parent());
                 if(!list_view)
                     return QObject::eventFilter(obj, event);
                 QModelIndex index = list_view->indexAt(menu_event->pos());
@@ -43,7 +43,7 @@ bool ConferenceContactListEventEater::eventFilter(QObject *obj, QEvent *event)
 	if(event->type() == QEvent::MouseButtonDblClick)
 	{
 		QMouseEvent *mouse_event = static_cast<QMouseEvent *>(event);
-                QListView *list_view = dynamic_cast<QListView *>(obj->parent());
+                QListView *list_view = qobject_cast<QListView *>(obj->parent());
                 if(!list_view)
                     return QObject::eventFilter(obj, event);
                 QModelIndex index = list_view->indexAt(mouse_event->pos());
@@ -57,7 +57,7 @@ bool ConferenceContactListEventEater::eventFilter(QObject *obj, QEvent *event)
 		{
 			if(key_event->key() == Qt::Key_Enter || key_event->key() == Qt::Key_Return)
 			{
-                                QListView *list_view = dynamic_cast<QListView *>(obj);
+                                QListView *list_view = qobject_cast<QListView *>(obj);
                                 if(!list_view)
                                         return QObject::eventFilter(obj, event);
                                 QModelIndexList list = list_view->selectionModel()->selectedIndexes();

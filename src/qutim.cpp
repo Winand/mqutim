@@ -288,7 +288,7 @@ void qutIM::createActions()
 
 void qutIM::appQuit()
 {
-        saveMainSettings(); // save all main settings on exit
+  saveMainSettings(); // save all main settings on exit
 	AbstractContactList::instance().saveSettings();
 //	letMeQuit = true;
 	QCoreApplication::exit(0);
@@ -447,7 +447,7 @@ void qutIM::destroySettings()
 
 void qutIM::reloadGeneralSettings()
 {
-        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
+  QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
 
 	autoHide = settings.value("contactlist/autohide",false).toBool();
 	hideSec = settings.value("contactlist/hidesecs",60).toUInt();
@@ -569,8 +569,8 @@ void qutIM::focusInEvent(QFocusEvent */*event*/)
 
 void qutIM::keyPressEvent( QKeyEvent *event )
 {
-    if (event->key() == Qt::Key_Escape)
-	hide();
+  if (event->key() == Qt::Key_Back)
+    hide();
 }
 
 
@@ -597,7 +597,8 @@ void qutIM::updateTrayToolTip()
 
 void qutIM::createMainMenu()
 {
-	mainMenu = new QMenu(this);
+	//mainMenu = new QMenu(this);
+  mainMenu = QSoftMenuBar::menuFor(this);
 	if ( m_plugin_actions.count() > 0)
 	{
 		foreach(QAction *action, m_plugin_actions)
@@ -612,7 +613,7 @@ void qutIM::createMainMenu()
 	mainMenu->addAction(switchUserAction);
 	mainMenu->addSeparator();
 	mainMenu->addAction(quitAction);
-	ui.menuButton->setMenu(mainMenu);
+	//ui.menuButton->setMenu(mainMenu);
 }
 
 void qutIM::loadStyle()

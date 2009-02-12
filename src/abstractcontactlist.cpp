@@ -583,22 +583,10 @@ void AbstractContactList::loadGuiSettings()
 	m_tree_view->setUpdatesEnabled(false);
 	qutIM *main = (qutIM *)m_tree_view->parentWidget();
 	bool show_window = !main->isHidden();
-	main->reloadCLWindowStyle(settings);
-	settings.beginGroup("contactlist");
-	double opacity = settings.value("opacity",1).toDouble();
-	int window_style = settings.value("windowstyle",0).toInt();
-	/*QList<bool> show_icons;
-	show_icons.append(settings.value("showicon0",true).toBool());	
-	show_icons.append(settings.value("showicon1",false).toBool());
-	for(int i=2;i<12;i++)
-		show_icons.append(settings.value("showicon"+QString::number(i),true).toBool());
-	show_icons.append(settings.value("showicon12",false).toBool());
-	m_item_delegate->setSettings(show_icons, opacity);*/
-	settings.endGroup();	
 	settings.beginGroup("gui");
 	m_tree_view->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	bool style_result = m_item_delegate->setThemeStyle(settings.value("listtheme","").toString());
-	if(settings.value("listtheme","").toString().endsWith(".ListTheme") && style_result && window_style==2)
+	if(settings.value("listtheme","").toString().endsWith(".ListTheme") && style_result)
 	{
 		m_tree_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 		m_do_screenshots=true;
@@ -607,9 +595,7 @@ void AbstractContactList::loadGuiSettings()
 	}
 	else
 	{
-		main->setWindowOpacity(opacity);
 		m_do_screenshots=false;
-		opacity=1;
 		m_do_screenshot=false;
 		if(show_window)
 			main->show();

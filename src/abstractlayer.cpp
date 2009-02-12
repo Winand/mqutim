@@ -206,6 +206,7 @@ void AbstractLayer::addAccountMenusToTrayMenu(bool add)
 
 void AbstractLayer::updateTrayIcon()
 {
+  /*
 	QList<AccountStructure> status_list = m_plugin_system.getAccountsStatusesList();
 	bool account_founded = false;
 	foreach(AccountStructure account_status, status_list)
@@ -229,6 +230,7 @@ void AbstractLayer::updateTrayIcon()
 			m_parent->updateTrayIcon(QIcon(":/icons/qutim.png"));
 		}
 	}
+  */
 }
 
 void AbstractLayer::updateStausMenusInTrayMenu()
@@ -249,12 +251,12 @@ void AbstractLayer::setStatusAfterAutoAway()
 
 void AbstractLayer::animateTrayNewMessage()
 {
-	m_parent->animateNewMessageInTray();
+	//m_parent->animateNewMessageInTray();
 }
 
 void AbstractLayer::stopTrayNewMessageAnimation()
 {
-	m_parent->stopNewMessageAnimation();
+	//m_parent->stopNewMessageAnimation();
 }
 
 qutIM *AbstractLayer::getParent()
@@ -264,7 +266,7 @@ qutIM *AbstractLayer::getParent()
 
 void AbstractLayer::showBalloon(const QString &title, const QString &message, int time)
 {
-	m_parent->showBallon(title, message, time);
+	//m_parent->showBallon(title, message, time);
 }
 
 void AbstractLayer::reloadStyleLanguage()

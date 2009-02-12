@@ -1,229 +1,141 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ui version="4.0">
+<ui version="4.0" >
  <class>ChatWindowSettingsClass</class>
- <widget class="QWidget" name="ChatWindowSettingsClass">
-  <property name="geometry">
+ <widget class="QWidget" name="ChatWindowSettingsClass" >
+  <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>480</width>
-    <height>439</height>
+    <width>383</width>
+    <height>254</height>
    </rect>
   </property>
-  <property name="windowTitle">
+  <property name="windowTitle" >
    <string>ChatWindowSettings</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <property name="margin">
-    <number>0</number>
-   </property>
-   <item row="0" column="0">
-    <widget class="QFrame" name="frame">
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
+  <layout class="QVBoxLayout" name="verticalLayout_2" >
+   <item>
+    <widget class="QCheckBox" name="openBox" >
+     <property name="text" >
+      <string>Open tab if received message</string>
      </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="eventsBox" >
+     <property name="text" >
+      <string>Don't show events if message window is open</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout_3">
-      <property name="margin">
-       <number>6</number>
-      </property>
-      <item row="0" column="0">
-       <layout class="QVBoxLayout" name="verticalLayout_2">
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="typingBox" >
+     <property name="text" >
+      <string>Send typing notifications</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="contentBox" >
+     <property name="text" >
+      <string>Don't show message content in notifications</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout" >
+     <item>
+      <widget class="QCheckBox" name="removeBox" >
+       <property name="text" >
+        <string>Remove messages from chat view after:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="removeSpinBox" >
+       <property name="enabled" >
+        <bool>false</bool>
+       </property>
+       <property name="sizePolicy" >
+        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="suffix" >
+        <string> msg</string>
+       </property>
+       <property name="minimum" >
+        <number>10</number>
+       </property>
+       <property name="maximum" >
+        <number>100</number>
+       </property>
+       <property name="value" >
+        <number>60</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="textGroupBox" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title" >
+      <string>Text browser mode:</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2" >
+      <item row="0" column="0" >
+       <layout class="QVBoxLayout" name="verticalLayout" >
         <item>
-         <widget class="QCheckBox" name="tabbedBox">
-          <property name="text">
-           <string>Tabbed messaging mode</string>
+         <widget class="QCheckBox" name="namesBox" >
+          <property name="text" >
+           <string>Show names</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="rememberBox">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>Remember opened tabs after closing chat window</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="closeBox">
-          <property name="text">
-           <string>Close tab/message window after sending a message</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="openBox">
-          <property name="text">
-           <string>Open tab/message window if received message</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="webkitBox">
-          <property name="text">
-           <string>Webkit mode</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="eventsBox">
-          <property name="text">
-           <string>Don't show events if message window is open</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="onEnterBox">
-          <property name="text">
-           <string>Send message on enter</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="typingBox">
-          <property name="text">
-           <string>Send typing notifications</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="trayMessageBox">
-          <property name="text">
-           <string>Don't blink in system tray</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="contentBox">
-          <property name="text">
-           <string>Don't show message content in notifications</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
+         <layout class="QHBoxLayout" name="horizontalLayout_2" >
           <item>
-           <widget class="QCheckBox" name="removeBox">
-            <property name="text">
-             <string>Remove messages from chat view after:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSpinBox" name="removeSpinBox">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <widget class="QLabel" name="label" >
+            <property name="sizePolicy" >
+             <sizepolicy vsizetype="Preferred" hsizetype="Fixed" >
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="suffix">
-             <string> msg</string>
-            </property>
-            <property name="minimum">
-             <number>10</number>
-            </property>
-            <property name="maximum">
-             <number>100</number>
-            </property>
-            <property name="value">
-             <number>60</number>
+            <property name="text" >
+             <string>Timestamp:</string>
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QComboBox" name="timestampComboBox" >
+            <property name="currentIndex" >
+             <number>1</number>
+            </property>
+            <item>
+             <property name="text" >
+              <string>( hour:min:sec day/month/year )</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>( hour:min:sec )</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>( hour:min, full date ) </string>
+             </property>
+            </item>
+           </widget>
+          </item>
          </layout>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="openAllBox">
-          <property name="text">
-           <string>After clicking on tray icon show all unreaded messages</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QGroupBox" name="textGroupBox">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="title">
-           <string>Text browser mode:</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_2">
-           <item row="0" column="0">
-            <layout class="QVBoxLayout" name="verticalLayout">
-             <item>
-              <widget class="QCheckBox" name="namesBox">
-               <property name="text">
-                <string>Show names</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_2">
-               <item>
-                <widget class="QLabel" name="label">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string>Timestamp:</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QComboBox" name="timestampComboBox">
-                 <property name="currentIndex">
-                  <number>1</number>
-                 </property>
-                 <item>
-                  <property name="text">
-                   <string>( hour:min:sec day/month/year )</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>( hour:min:sec )</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>( hour:min, full date ) </string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-              </layout>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>459</width>
-            <height>13</height>
-           </size>
-          </property>
-         </spacer>
         </item>
        </layout>
       </item>
@@ -232,40 +144,7 @@
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11"/>
+ <layoutdefault spacing="6" margin="11" />
  <resources/>
- <connections>
-  <connection>
-   <sender>removeBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>removeSpinBox</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>239</x>
-     <y>285</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>443</x>
-     <y>262</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>tabbedBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>rememberBox</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>140</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>144</x>
-     <y>44</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

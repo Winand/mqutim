@@ -34,13 +34,6 @@ public:
 	virtual ~ContactListSettings();
     void loadSettings();
     void saveSettings();
-public slots:
-/*	void on_accountColorButton_clicked();
-	void on_groupColorButton_clicked();
-	void on_onlineColorButton_clicked();
-	void on_offlineColorButton_clicked();
-        void on_separatorColorButton_clicked();*/
-	void onOpacitySliderValueChanged(int value);
     
 signals:
 	void settingsChanged();

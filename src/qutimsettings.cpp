@@ -50,6 +50,9 @@ qutimSettings::qutimSettings(const QString &profile_name,
   connect(ui.protocolBox, SIGNAL(currentIndexChanged(int)), SLOT(changeProtocolSettings(int)));
   
   QSoftMenuBar::setLabel(this, Qt::Key_Back, QSoftMenuBar::Back);
+  QMenu *menu = QSoftMenuBar::menuFor(this);
+  menu->clear();
+  menu->addAction(tr("Cancel"), this, SLOT(cancel()));
 }
 qutimSettings::~qutimSettings()
 {
@@ -177,7 +180,7 @@ void qutimSettings::showSettings(QTreeWidgetItem *current, int)
 
 void qutimSettings::cancel()
 {
-	close();
+	deleteLater();
 }
 
 void qutimSettings::accept()

@@ -5,7 +5,7 @@ AddAccountWizard::AddAccountWizard(QWidget *parent)
 {
     m_protocol_page = new ProtocolPage;
     m_login_page = new LastLoginPage;
-	setPage(Page_Protocol, m_protocol_page);
+    setPage(Page_Protocol, m_protocol_page);
     setPage(Page_Login, m_login_page);
     setStartId(Page_Protocol);
 #ifndef Q_WS_MAC
@@ -14,7 +14,6 @@ AddAccountWizard::AddAccountWizard(QWidget *parent)
 //    setPixmap(QWizard::LogoPixmap, QPixmap(":/icons/qutim_64.png"));
     setWindowTitle(tr("Add Account Wizard"));
     connect(this, SIGNAL(currentIdChanged(int)), SLOT(on_currentIdChanged(int)));
-        move(0,0);
 }
 
 AddAccountWizard::~AddAccountWizard()
@@ -62,7 +61,7 @@ QPoint AddAccountWizard::desktopCenter()
 ProtocolPage::ProtocolPage(QWidget *parent)
     : QWizardPage(parent)
 {
-    setTitle(tr("Please choose IM protocol"));
+    setTitle(tr("IM protocol"));
 //    setPixmap(QWizard::WatermarkPixmap, QPixmap(":/pictures/wizard.png"));
 
 /*    m_top_label = new QLabel(tr("This wizard will help you add your account of "
@@ -111,7 +110,7 @@ QString ProtocolPage::getChosenProtocol() const
 LastLoginPage::LastLoginPage(QWidget *parent)
     : QWizardPage(parent)
 {
-    setTitle(tr("Please type chosen protocol login data"));
+    setTitle(tr("Login data"));
 //    setSubTitle(tr("Please fill all fields."));
     layout = new QVBoxLayout;
     setLayout(layout);

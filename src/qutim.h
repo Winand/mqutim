@@ -75,7 +75,6 @@ public:
 	void animateNewMessageInTray();
 	void stopNewMessageAnimation();
 	void showBallon(const QString &title, const QString &message, int time);
-	void reloadCLWindowStyle(const QSettings &settings);
 	void reloadStyleLanguage();
 	void addActionToList(QAction *);
 private slots:
@@ -89,19 +88,19 @@ private slots:
 	void guiSettingsDeleted(QObject *);
 	void checkEventChanging();
 	void updateTrayToolTip();
-	void on_infoButton_clicked();
 	void infoWindowDestroyed(QObject *);
 	void on_showHideButton_clicked();
 	void onSecondsIdle(int);
-	void updateMessageIcon();
 	void on_showHideGroupsButton_clicked();
 	void on_soundOnOffButton_clicked();
 //	void on_toolButton_clicked();
 protected:
+  /*
 	virtual void resizeEvent ( QResizeEvent * event );
 	virtual void closeEvent(QCloseEvent *event);
 	virtual void focusOutEvent( QFocusEvent * event );
 	virtual void focusInEvent ( QFocusEvent * event );
+  */
 	void keyPressEvent ( QKeyEvent *event );
 private:
 	static qutIM		*fInstance;
@@ -119,21 +118,16 @@ private:
     QMenu *mainMenu;
     QMenu *trayMenu;
 
-	bool bShouldRun;
+    bool bShouldRun;
     bool createMenuAccounts;
     bool letMeQuit;
     bool unreadMessages;
-    bool autoHide;
-    int hideSec;
     bool m_auto_away;
     bool msgIcon;
     quint32 m_auto_away_minutes;
 
     IconManager& m_iconManager;//!< use it to get icons from file or program
-
-	CLWindowStyle fWindowStyle;
-
-    QTimer *timer;
+    
     eventEater *eventObject;
     aboutInfo *infoWindow;
     bool aboutWindowOpen;
@@ -144,14 +138,9 @@ private:
 	Idle fIdleDetector;
 //    void createTrayIcon();
     void createActions();
-	void createMainMenu();
+    void createMainMenu();
     void saveMainSettings();
     void loadMainSettings();
-    void updateTrayStatus();
-    void readMessages();
-    void loadStyle();
-    void loadTranslation(const int);
-    void readTranslation();
 
     void initIcons();//!< It loads all icons by icon manager.
     

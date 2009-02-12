@@ -13,6 +13,8 @@
  ***************************************************************************
 */
 
+#include <QtopiaApplication>
+
 #include "abstractlayer.h"
 #include "profilelogindialog.h"
 #include "addaccountwizard.h"
@@ -62,7 +64,7 @@ bool AbstractLayer::showLoginDialog()
 	{
 		settings.setValue("general/switch", false);
 		ProfileLoginDialog login_dialog;
-		if ( login_dialog.exec() )
+		if ( QtopiaApplication::execDialog(&login_dialog) )
 		{
 			m_current_profile = login_dialog.getProfileName();
 			loadCurrentProfile();
@@ -114,7 +116,7 @@ void AbstractLayer::createNewAccount()
 {
 	AddAccountWizard wizard;
 	wizard.addProtocolsToWizardList(m_plugin_system.getPluginsByType("protocol"));
-	if ( wizard.exec() )
+	if ( QtopiaApplication::execDialog(&wizard) )
 	{
 		QString protocol_name = wizard.getChosenProtocol();
 		if ( !protocol_name.isEmpty() )
@@ -134,20 +136,14 @@ void AbstractLayer::createNewAccount()
 
 void AbstractLayer::openSettingsDialog()
 {
-
-	qutimSettings *settingsDialog = new qutimSettings(m_current_profile);
-//	settingsDialog->setIcqList(&icqList);
+	qutimSettings *settingsDialog = new qutimSettings(m_current_profile, m_parent);
+  m_parent->addTab(settingsDialog, m_parent->tr("Settings"));
+  m_parent->setCurrentWidget(settingsDialog);
+  
 	QObject::connect ( settingsDialog, SIGNAL(destroyed()),
-				m_parent, SLOT(destroySettings()) );
+    m_parent, SLOT(destroySettings()) );
 	QObject::connect(m_parent, SIGNAL(updateTranslation()),
 		settingsDialog, SLOT(onUpdateTranslation()));
-
-//	settingsDialog->loadAllSettings(); //load all settings to "Settings" window
-	settingsDialog->applyDisable(); //disable "Settings" window's Apply button
-//	rellocateSettingsDialog(settingsDialog);
-	settingsDialog->show();
-	settingsDialog->setAttribute(Qt::WA_QuitOnClose, false); //don't close app on "Settings" exit
-	settingsDialog->setAttribute(Qt::WA_DeleteOnClose, true);
 }
 
 void AbstractLayer::initializePointers(QTreeView *contact_list_view, QHBoxLayout *account_button_layout,

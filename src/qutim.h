@@ -35,11 +35,6 @@ enum CLWindowStyle
 #include "pluginsettings.h"
 #include "ui_qutim.h"
 #include "idle/idle.h"
-#if defined(Q_OS_WIN32) || defined(Q_OS_MAC)
-	#include "ex/exsystrayicon.h"
-#else
-	#include <QSystemTrayIcon>
-#endif
 
 class QCloseEvent;
 class QMutex;
@@ -65,7 +60,7 @@ protected:
 };
 
 
-class qutIM : public QWidget
+class qutIM : public QTabWidget
 {
     Q_OBJECT
 
@@ -84,8 +79,6 @@ public:
 	void reloadStyleLanguage();
 	void addActionToList(QAction *);
 private slots:
-	void trayActivated(QSystemTrayIcon::ActivationReason);
-
 	void appQuit();
 	void qutimSettingsMenu();
 	void qutimPluginSettingsMenu();//!< Now it only shows plug-in settings window.
@@ -115,14 +108,16 @@ private:
 	static QMutex		fInstanceGuard;
 
     Ui::qutIMClass ui;
+    QWidget *contactListContainer;
+    
     QList<QAction *> m_plugin_actions;
     QAction *quitAction;
     QAction *settingsAction;
     QAction *m_pluginSettingsAction;//!< This action connected with qutimPluginSettingsMenu();
     QAction *switchUserAction;
     QAction *m_gui_settings_action;
-    QMenu *trayMenu;
     QMenu *mainMenu;
+    QMenu *trayMenu;
 
 	bool bShouldRun;
     bool createMenuAccounts;
@@ -137,12 +132,6 @@ private:
     IconManager& m_iconManager;//!< use it to get icons from file or program
 
 	CLWindowStyle fWindowStyle;
-
-#ifndef Q_OS_WIN32
-    QSystemTrayIcon *trayIcon;
-#else
-//    ExSysTrayIcon *trayIcon;
-#endif
 
     QTimer *timer;
     eventEater *eventObject;

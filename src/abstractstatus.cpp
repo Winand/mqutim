@@ -13,6 +13,8 @@
  ***************************************************************************
 */
 
+#include <QtopiaApplication>
+
 #include "abstractstatus.h"
 #include "statusdialog.h"
 
@@ -36,7 +38,7 @@ bool AbstractStatusLayer::setStatusMessage(QString &status_message, bool &dshow)
 {
 	StatusDialog status_dialog(m_profile_name);
 	status_dialog.setStatusMessage(status_message);
-	if ( status_dialog.exec() )
+	if ( QtopiaApplication::execDialog(&status_dialog) )
 	{
 		status_message = status_dialog.getStatusMessage();
 		dshow = status_dialog.getDshowFlag();

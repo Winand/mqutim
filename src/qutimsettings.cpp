@@ -15,6 +15,11 @@
 
 
 #include <QDebug>
+#include <QtopiaApplication>
+#include <QKeyEvent>
+#include <QSoftMenuBar>
+#include <QTabWidget>
+
 #include "qutimsettings.h"
 #include "pluginsettings.h"
 #include "pluginsystem.h"
@@ -26,23 +31,25 @@
 #include "abstractcontactlist.h"
 #include "globalsettings/abstractglobalsettings.h"
 
+
+
 qutimSettings::qutimSettings(const QString &profile_name,
 		QWidget *parent) :
-	QDialog(parent),
-	m_iconManager(IconManager::instance())
-	, m_profile_name(profile_name)
+	QStackedWidget(parent),
+	m_iconManager(IconManager::instance()),
+	m_profile_name(profile_name),
+  justShown(true)
 {
-	ui.setupUi(this);
-	connect( ui.accountBox, SIGNAL(currentIndexChanged(int)),
-		this, SLOT(changeProtocolSettings(int)));
-	move(desktopCenter()); // move dialog to desktop center
-	setMinimumSize(size());
+  settingsSelector = new QWidget(this);
+	ui.setupUi(settingsSelector);
 	ui.settingsTree->header()->hide();
+  addWidget(settingsSelector);
+  
 	createSettingsWidget();
-	ui.okButton    ->setIcon (m_iconManager.getIcon("apply" ));
-	ui.applyButton ->setIcon (m_iconManager.getIcon("apply" ));
-	ui.cancelButton->setIcon (m_iconManager.getIcon("cancel"));
 	fillProtocolComboBox();
+  connect(ui.protocolBox, SIGNAL(currentIndexChanged(int)), SLOT(changeProtocolSettings(int)));
+  
+  QSoftMenuBar::setLabel(this, Qt::Key_Back, QSoftMenuBar::Back);
 }
 qutimSettings::~qutimSettings()
 {
@@ -63,14 +70,8 @@ void qutimSettings::fillProtocolComboBox()
 	PluginInfoList protocol_list = ps.getPluginsByType("protocol");
 	foreach(PluginInfo information_about_plugin, protocol_list)
 	{
-		ui.accountBox->addItem(information_about_plugin.icon, information_about_plugin.name);
+		ui.protocolBox->addItem(information_about_plugin.icon, information_about_plugin.name);
 	}
-}
-
-QPoint qutimSettings::desktopCenter()
-{
-	QDesktopWidget desktop;
-	return QPoint(desktop.width() / 2 - size().width() / 2, desktop.height() / 2 - size().height() / 2);
 }
 
 void qutimSettings::createSettingsWidget()
@@ -112,101 +113,80 @@ void qutimSettings::createSettingsWidget()
 	m_global_proxy_item->setText(0, tr("Global proxy"));
 	m_global_proxy_item->setIcon(0, m_iconManager.getIcon("proxy"));
 	
-	ui.settingsTree->resizeColumnToContents(0);
+	//ui.settingsTree->resizeColumnToContents(0);
 	createWidgetsStack();
 
     connect(ui.settingsTree,
-            SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)),
-            this, SLOT(changeSettings(QTreeWidgetItem *, QTreeWidgetItem *)));
-	ui.settingsTree->setCurrentItem(m_account_management_item);
+            SIGNAL(itemActivated ( QTreeWidgetItem *, int)),
+            this, SLOT(showSettings(QTreeWidgetItem *, int)));
+	//ui.settingsTree->setCurrentItem(m_account_management_item);
 }
 
 void qutimSettings::createWidgetsStack()
 {
 	m_account_management_widget = new AccountManagement;
-	ui.settingsStack->addWidget(m_account_management_widget);
+	addWidget(m_account_management_widget);
 	
 	msettings = new mainSettings(m_profile_name);
-	connect(msettings, SIGNAL(settingsChanged()),
-		this, SLOT(enableApply()));
 	connect(msettings, SIGNAL(settingsSaved()),
 		this, SLOT(mainSettingsChanged()));
 	connect(m_account_management_widget, SIGNAL(updateAccountComboBoxFromMainSettings()),
 		msettings, SLOT(updateAccountComboBox()));
-	ui.settingsStack->addWidget(msettings);
+	addWidget(msettings);
 	
 	m_contact_list_settings = new ContactListSettings(m_profile_name);
-	ui.settingsStack->addWidget(m_contact_list_settings);
-	connect(m_contact_list_settings, SIGNAL(settingsChanged()),
-		this, SLOT(enableApply()));
+	addWidget(m_contact_list_settings);
 	connect(m_contact_list_settings, SIGNAL(settingsSaved()),
 		this, SLOT(contactListSettingsChanged()));
 	
 	m_chat_window_settings = new ChatWindowSettings(m_profile_name);
-	ui.settingsStack->addWidget(m_chat_window_settings);
-	connect(m_chat_window_settings, SIGNAL(settingsChanged()),
-		this, SLOT(enableApply()));
+	addWidget(m_chat_window_settings);
 	connect(m_chat_window_settings, SIGNAL(settingsSaved()),
 		this, SLOT(chatWindowSettingsChanged()));
 	
 	m_history_settings = new HistorySettings(m_profile_name);
-	ui.settingsStack->addWidget(m_history_settings);
-	connect(m_history_settings, SIGNAL(settingsChanged()),
-		this, SLOT(enableApply()));
+	addWidget(m_history_settings);
 	connect(m_history_settings, SIGNAL(settingsSaved()),
 		this, SLOT(historySettingsChanged()));
 	
 	m_notification_settings = new NotificationsLayerSettings(m_profile_name);
-	ui.settingsStack->addWidget(m_notification_settings);
-	connect(m_notification_settings, SIGNAL(settingsChanged()),
-		this, SLOT(enableApply()));
+	addWidget(m_notification_settings);
 	connect(m_notification_settings, SIGNAL(settingsSaved()),
 		this, SLOT(notificationsSettingsChanged()));
 	
 	m_anti_spam_settings = new AntiSpamLayerSettings(m_profile_name);
-	ui.settingsStack->addWidget(m_anti_spam_settings);
-	connect(m_anti_spam_settings, SIGNAL(settingsChanged()),
-		this, SLOT(enableApply()));
+	addWidget(m_anti_spam_settings);
 	connect(m_anti_spam_settings, SIGNAL(settingsSaved()),
 		this, SLOT(antiSpamSettingsChanged()));
 	
 	m_sound_settings = new SoundLayerSettings(m_profile_name);
-	ui.settingsStack->addWidget(m_sound_settings);
-	connect(m_sound_settings, SIGNAL(settingsChanged()),
-		this, SLOT(enableApply()));
+	addWidget(m_sound_settings);
 	connect(m_sound_settings, SIGNAL(settingsSaved()),
 		this, SLOT(soundSettingsChanged()));
 	
 	m_proxy_settings = new GlobalProxySettings(m_profile_name);
-	ui.settingsStack->addWidget(m_proxy_settings);
-	connect(m_proxy_settings, SIGNAL(settingsChanged()),
-		this, SLOT(enableApply()));
+	addWidget(m_proxy_settings);
 /*	connect(m_proxy_settings, SIGNAL(settingsSaved()),
                 this, SLOT(globalProxySettingsChanged()));*/
 }
 
-void qutimSettings::changeSettings(QTreeWidgetItem *current, QTreeWidgetItem *previous)
+void qutimSettings::showSettings(QTreeWidgetItem *current, int)
 {
-    if (!current) current = previous;
-    ui.settingsStack->setCurrentIndex(ui.settingsTree->indexOfTopLevelItem(current));
+  setCurrentIndex(ui.settingsTree->indexOfTopLevelItem(current)+1); // the first one is selector
 }
 
-void qutimSettings::on_okButton_clicked()
+void qutimSettings::cancel()
 {
-	if (ui.applyButton->isEnabled() && ui.accountBox->count()) 
-		signalForSettingsSaving(ui.accountBox->currentText());
-	else
-		signalForSettingsSaving();
-	accept();
+	close();
 }
 
-void qutimSettings::on_applyButton_clicked()
+void qutimSettings::accept()
 {
-	if ( ui.accountBox->count() )
-		signalForSettingsSaving(ui.accountBox->currentText());
+	if ( ui.protocolBox->count() )
+		signalForSettingsSaving(ui.protocolBox->currentText());
 	else
 		signalForSettingsSaving();
-	ui.applyButton->setEnabled(false);
+  deleteLater();
 }
 
 void qutimSettings::saveAllSettings()
@@ -223,26 +203,23 @@ void qutimSettings::saveAllSettings()
 
 void qutimSettings::changeProtocolSettings(int index)
 {
-	if ( ui.applyButton->isEnabled() )
-	{
-		QMessageBox msgBox(QMessageBox::NoIcon, tr("Save settings"),
-		tr("Save %1 settings?").arg(m_current_account_name), QMessageBox::Yes | QMessageBox::No, this);
-		switch( msgBox.exec() )
-		{
-			case QMessageBox::Yes:
-				signalForSettingsSaving(m_current_account_name);
-				break;
-		
-			case QMessageBox::No:
-				break;
-		
-			default:
-				break;
-		}
-	}
+  QMessageBox msgBox(QMessageBox::NoIcon, tr("Save settings"),
+  tr("Save %1 settings?").arg(m_current_account_name), QMessageBox::Yes | QMessageBox::No, this);
+  switch( QtopiaApplication::execDialog(&msgBox) )
+  {
+    case QMessageBox::Yes:
+      signalForSettingsSaving(m_current_account_name);
+      break;
+  
+    case QMessageBox::No:
+      break;
+  
+    default:
+      break;
+  }
 	deleteCurrentProtocolSettings();
 	
-	m_current_account_name = ui.accountBox->itemText(index);
+	m_current_account_name = ui.protocolBox->itemText(index);
 	if ( !m_current_account_name.isEmpty() )
 	{
 		PluginSystem &ps = PluginSystem::instance();
@@ -254,7 +231,7 @@ void qutimSettings::changeProtocolSettings(int index)
 				ui.settingsTree->addTopLevelItem(settings_structure.settings_item);
 				QWidget *settings_widget = settings_structure.settings_widget;
 				connect( settings_widget, SIGNAL(settingsChanged()), this, SLOT(enableApply()) );
-				ui.settingsStack->addWidget(settings_widget);
+				addWidget(settings_widget);
 			}
 		}
 	}
@@ -263,7 +240,6 @@ void qutimSettings::changeProtocolSettings(int index)
 void qutimSettings::onUpdateTranslation()
 {
 	general->setText(0, tr("General"));
-
 }
 
 void qutimSettings::signalForSettingsSaving(const QString &protocol_name)
@@ -312,6 +288,7 @@ void qutimSettings::soundSettingsChanged()
 {
 	AbstractSoundLayer::instance().loadSettings();
 }
+
 void qutimSettings::contactListSettingsChanged()
 {
 	AbstractContactList::instance().loadSettings();
@@ -322,7 +299,24 @@ void qutimSettings::historySettingsChanged()
 	AbstractHistoryLayer::instance().loadSettings();
 }
 
-/*void qutimSettings::globalProxySettingsChanged()
+void qutimSettings::showSelector()
 {
-	AbstractGlobalSettings::instance().loadNetworkSettings();
-}*/
+  setCurrentWidget(settingsSelector);
+}
+
+void qutimSettings::keyPressEvent(QKeyEvent *ev)
+{
+  if (ev->key()==Qt::Key_Back)
+  {
+    if (currentWidget()==settingsSelector) // Exit settings
+    {
+      qDebug() << "Accept Settings";
+      accept();
+    }
+    else // go back to selector
+    {
+      qDebug() << "Back to Selector";
+      showSelector();
+    }
+  }
+}

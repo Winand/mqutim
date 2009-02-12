@@ -13,6 +13,8 @@
  ***************************************************************************
 */
 
+#include <QtopiaApplication>
+
 #include "statusdialog.h"
 #include "statuspresetcaption.h"
 
@@ -55,7 +57,7 @@ void StatusDialog::on_saveButton_clicked()
 	caption_dialog.setWindowIcon(m_icon_manager.getIcon("statuses"));
 	caption_dialog.setButtonIcon(m_icon_manager.getIcon("apply"),
 			m_icon_manager.getIcon("cancel"));
-	if ( caption_dialog.exec() )
+	if ( QtopiaApplication::execDialog(&caption_dialog) )
 	{
 		savePreset(caption_dialog.getCaption());
 	}

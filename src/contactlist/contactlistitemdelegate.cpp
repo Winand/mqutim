@@ -25,7 +25,7 @@
 #include "src/qutim.h"
 #include "abstractlayer.h"
 
-ContactListItemDelegate::ContactListItemDelegate(QObject *parent) : QAbstractItemDelegate(parent)
+ContactListItemDelegate::ContactListItemDelegate(QObject *parent) : QtopiaItemDelegate(parent)
 {
 	m_margin=1;
 	m_margin_x = QPoint(m_margin,0);

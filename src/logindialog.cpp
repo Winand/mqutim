@@ -13,6 +13,7 @@
  ***************************************************************************
 */
 
+#include <QtopiaApplication>
 
 #include "logindialog.h"
 
@@ -47,12 +48,6 @@ loginDialog::loginDialog(QWidget *parent)
 loginDialog::~loginDialog()
 {
 
-}
-
-QPoint loginDialog::desktopCenter()
-{
-	QDesktopWidget desktop;
-	return QPoint(desktop.width() / 2 - size().width() / 2, desktop.height() / 2 - size().height() / 2);
 }
 
 void loginDialog::saveSettings()
@@ -181,7 +176,7 @@ void loginDialog::on_deleteButton_clicked()
 	QString account(ui.accountBox->currentText());
 	QMessageBox msgBox(QMessageBox::NoIcon, tr("Delete account"),
 			tr("Delete %1 account?").arg(account), QMessageBox::Yes | QMessageBox::No, this);
-	switch( msgBox.exec() )
+	switch( QtopiaApplication::execDialog(&msgBox) )
 	{
 	case QMessageBox::Yes:
 		deleteCurrentAccount(account);

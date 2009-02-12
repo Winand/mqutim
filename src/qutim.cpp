@@ -15,12 +15,13 @@
 */
 
 #include <QMutexLocker>
-#include <QDesktopWidget>
 #include <QCloseEvent>
 #include <QSettings>
 #include <QMutex>
 #include <QDebug>
 #include <QMenu>
+#include <QSoftMenuBar>
+#include <QtopiaApplication>
 
 #include "aboutinfo.h"
 //#include "qutimsettings.h"
@@ -36,21 +37,6 @@
 #include "abstractsoundlayer.h"
 #include "themeengine/abstractthemeengine.h"
 #include "abstractcontextlayer.h"
-
-#if defined(Q_OS_WIN32)
-#include "windows.h"
-
-#pragma comment(lib, "user32.lib")
-#endif
-
-#if defined(Q_OS_MAC)
-// macx specific functions, that exported by QT GUI lib
-extern void qt_mac_set_dock_menu(QMenu *menu);
-#endif
-
-#if defined(_MSC_VER)
-#pragma warning (disable:4138)
-#endif
 
 bool eventEater::eventFilter(QObject *obj, QEvent *event)
 {
@@ -82,10 +68,8 @@ bool eventEater::eventFilter(QObject *obj, QEvent *event)
 qutIM				*qutIM::fInstance = NULL;
 QMutex				qutIM::fInstanceGuard;
 
-
-
 qutIM::qutIM(QWidget *parent, Qt::WFlags f ) :
-        QWidget(parent, f),
+  QTabWidget(parent),
 	bShouldRun(true),
 	fWindowStyle(CLThemeBorder),
 	m_iconManager (IconManager::instance()),
@@ -112,7 +96,12 @@ qutIM::qutIM(QWidget *parent, Qt::WFlags f ) :
 	m_plugin_settings = 0;
 	timer = new QTimer(this);
 	connect(timer, SIGNAL(timeout()), this, SLOT(hide()));
-	ui.setupUi(this);
+  
+  contactListContainer = new QWidget(this);
+	ui.setupUi(contactListContainer);
+  addTab(contactListContainer, tr("Contact List"));
+  setCurrentWidget(contactListContainer);
+  
 	createActions();
 	createMainMenu();
 //	ui.contactListView->setFocusProxy(this);
@@ -122,38 +111,14 @@ qutIM::qutIM(QWidget *parent, Qt::WFlags f ) :
 	setAttribute(Qt::WA_AlwaysShowToolTips, true);
 	setFocus(Qt::ActiveWindowFocusReason);
 
-/*	if ( QSystemTrayIcon::isSystemTrayAvailable() )
-	{
-		createTrayIcon();
-		connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
-	             this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)));
-	}
-        else*/
-	{
-		trayIcon = NULL;
-		trayMenu = NULL;
-	}
-/*	if ( QSystemTrayIcon::isSystemTrayAvailable() )
-          trayIcon->show();
-        else
-          trayIcon = NULL;*/
-	
 	loadMainSettings();
 
 	if (!bShouldRun)
 		return;
 
-
-
-
-//	if (trayIcon)
-//		updateTrayStatus();
-
-
 	connect(timer, SIGNAL(timeout()), this, SLOT(hide()));
 	QTimer::singleShot(60000, this, SLOT(checkEventChanging()));
-//	if (trayIcon)
-//		updateTrayToolTip();
+
 	aboutWindowOpen = false;
 	connect(&fIdleDetector, SIGNAL(secondsIdle(int)), this, SLOT(onSecondsIdle(int)));
 
@@ -170,8 +135,6 @@ qutIM::qutIM(QWidget *parent, Qt::WFlags f ) :
         m_abstract_layer.initializePointers(ui.contactListView, ui.hboxLayout, trayMenu,
                         settingsAction);
         AbstractContextLayer::instance().createActions();
-//        m_abstract_layer.addAccountMenusToTrayMenu(createMenuAccounts);
-//        m_abstract_layer.updateTrayIcon();
 }
 
 qutIM::~qutIM()
@@ -185,36 +148,6 @@ qutIM *qutIM::getInstance()
 	QMutexLocker locker(&fInstanceGuard);
 	return fInstance;
 }
-
-/*void qutIM::createTrayIcon()
-{
-	trayMenu = new QMenu(this);
-	trayMenu->addAction(settingsAction);
-	trayMenu->addAction(switchUserAction);
-
-#if !defined(Q_OS_MAC)
-	// Mac OS has it's own quit trigger in Dock menu
-	trayMenu->addSeparator();
-	trayMenu->addAction(quitAction);
-#endif
-
-#if defined(Q_OS_WIN32) || defined(Q_OS_MAC)
-//	trayIcon = new ExSysTrayIcon(this);
-#else
-	trayIcon = new QSystemTrayIcon(this);
-#endif
-
-	trayIcon->setIcon(QIcon(":/icons/qutim.png"));
-
-	// It's very unlikely for Mac OS X application to have
-	// tray menu and reactions to the tray action at the same time.
-	// So we decided to add tray menu to Dock
-#if !defined(Q_OS_MAC)
-	trayIcon->setContextMenu(trayMenu);
-#else
-	qt_mac_set_dock_menu(trayMenu);
-#endif
-}*/
 
 void qutIM::resizeEvent(QResizeEvent * )
 {
@@ -237,33 +170,6 @@ void qutIM::closeEvent(QCloseEvent *event)
 	else
 	{
 		appQuit();
-	}
-}
-
-void qutIM::trayActivated(QSystemTrayIcon::ActivationReason reason)
-{
-	switch(reason)
-	{
-	case QSystemTrayIcon::Trigger:
-		if (! unreadMessages )
-		{
-			if (this->isVisible())
-				this->setVisible(false);
-			else
-			{
-				this->setVisible(true);
-				this->activateWindow();
-			}
-		}
-		else
-		{
-//			stopNewMessageAnimation();
-			AbstractChatLayer &acl = AbstractChatLayer::instance();
-			acl.readAllUnreadedMessages();
-		}
-		break;
-	default:
-		break;
 	}
 }
 
@@ -490,9 +396,7 @@ void qutIM::updateTrayStatus()
 
 void qutIM::updateTrayIcon(const QIcon &statusIcon)
 {
-	if (trayIcon)
-		trayIcon->setIcon(statusIcon);
-	tempIcon = statusIcon;
+
 }
 
 void qutIM::readMessages()
@@ -585,14 +489,6 @@ void qutIM::checkEventChanging()
 
 void qutIM::updateTrayToolTip()
 {
-//	if (!trayIcon) return;
-//	QString toolTip;
-//	foreach(icqAccount *account, icqList)
-//	{
-//		toolTip.append(tr("<img src='%1'>  %2<br>").arg(account->currentIconPath).arg(account->getIcquin()));
-//	}
-//	toolTip.chop(4);
-//	trayIcon->setToolTip(toolTip);
 }
 
 void qutIM::createMainMenu()
@@ -650,7 +546,7 @@ void qutIM::on_infoButton_clicked()
 		infoWindow = new aboutInfo;
 		connect(infoWindow, SIGNAL(destroyed ( QObject * )),
 				this, SLOT(infoWindowDestroyed(QObject *)));
-		infoWindow->show();
+		infoWindow->showFullScreen();
 	}
 }
 
@@ -684,7 +580,6 @@ void qutIM::loadTranslation(int index)
 
 	if (quitAction)
 	{
-		if (trayIcon) updateTrayToolTip();
 		quitAction->setText(tr("&Quit"));
 		settingsAction->setText(tr("&Settings..."));
 		switchUserAction->setText(tr("Switch user"));
@@ -745,37 +640,12 @@ void qutIM::onSecondsIdle(int seconds)
 
 void qutIM::animateNewMessageInTray()
 {
-	if (trayIcon)
-	{
-		if ( !unreadMessages )
-		{
-			unreadMessages = true;
-			msgIcon = true;
-			updateMessageIcon();
-		}
-	}
+
 }
 
 void qutIM::updateMessageIcon()
 {
-	// Check wheather we have unread messaged
-	if ( unreadMessages )
-	{
-		// And tray icon is enabled
-		if (trayIcon)
-		{
-			// We want to make some blink effect, so change one icon with other
-			if ( msgIcon )
-				trayIcon->setIcon(m_iconManager.getIcon("message"));
-			else 
-				trayIcon->setIcon(QIcon());
-			//trayIcon->setIcon(tempIcon);
-		}
-		msgIcon = !msgIcon;
-		QTimer::singleShot(500,this, SLOT(updateMessageIcon()));
-	}
-	else if (trayIcon)
-		trayIcon->setIcon(tempIcon);
+
 }
 
 void qutIM::stopNewMessageAnimation()
@@ -815,8 +685,6 @@ void qutIM::on_showHideGroupsButton_clicked()
 
 void qutIM::showBallon(const QString &title, const QString &message, int time)
 {
-	trayIcon->showMessage(title, 
-			message, QSystemTrayIcon::NoIcon, time);
 }
 
 void qutIM::on_soundOnOffButton_clicked()

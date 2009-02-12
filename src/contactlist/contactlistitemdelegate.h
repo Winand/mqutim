@@ -16,7 +16,7 @@
 #ifndef CONTACTLISTITEMDELEGATE_H_
 #define CONTACTLISTITEMDELEGATE_H_
 #include <QItemDelegate>
-#include <QAbstractItemDelegate>
+#include <QtopiaItemDelegate>
 #include <QPainter>
 #include <QDebug>
 #include <QDomElement>
@@ -37,7 +37,7 @@
 	QVector<double> m_reals;
 	QVector<bool> m_booleans;
 };*/
-class ContactListItemDelegate : public QAbstractItemDelegate
+class ContactListItemDelegate : public QtopiaItemDelegate
 {
 	Q_OBJECT
 public:

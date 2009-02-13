@@ -742,6 +742,7 @@ void PluginSystem::sendMessageToContact(const TreeModelItem &item, QString &mess
 void PluginSystem::addMessageFromContact(const TreeModelItem &item, const QString &message
 		, const QDateTime &message_date)
 {
+    qDebug("PluginSystem::addMessageFromContact\n");
 	QString tmp_message = message;
 	bool stop_on_this_level = false;
 	TreeModelItem tmp_item = item;

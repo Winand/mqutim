@@ -97,6 +97,7 @@ qutIM::qutIM(QWidget *parent, Qt::WFlags f ) :
 	ui.setupUi(contactListContainer);
   ui.contactListView->header()->hide();
   addTab(contactListContainer, tr("Contact List"));
+//  addTab(contactListContainer, QIcon(":/icons/qutim_64.png"), "");
   setCurrentWidget(contactListContainer);
   QSoftMenuBar::setLabel(this, Qt::Key_Back, QSoftMenuBar::NoLabel);
   

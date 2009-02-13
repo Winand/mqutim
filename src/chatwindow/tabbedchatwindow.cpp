@@ -86,7 +86,7 @@ TabbedChatWindow::TabbedChatWindow(/*bool webkit_mode, */
 	m_text_changed = false;
 	m_typing_changed = false;
 	m_previous_tab = -1;
-resize(200,150);
+//resize(200,150);
 	m_chat_tab_bar = new GeneralTabBar;
 	m_chat_tab_bar->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 	connect(m_chat_tab_bar, SIGNAL(currentChanged(int)), this, SLOT(currentTabChanged(int)));
@@ -303,7 +303,7 @@ void TabbedChatWindow::closeTabAt(int index)
 	item.m_item_type = 0;	
 	if ( current_user_space )
 	{
-	m_abstract_chat_layer.sendTypingNotification(current_user_space->m_protocol_name,
+        m_abstract_chat_layer.sendTypingNotification(current_user_space->m_protocol_name,
 			current_user_space->m_account_name, 
 			current_user_space->m_contact_name, 0);
 	}
@@ -514,7 +514,7 @@ void TabbedChatWindow::on_sendButton_clicked()
         focusTextEdit();
 }*/
 
-void TabbedChatWindow::on_sendFileButton_clicked()
+/*void TabbedChatWindow::on_sendFileButton_clicked()
 {
 	ContactChatUserSpace *current_user_space = m_user_spaces_chat_list.at(m_chat_tab_bar->currentIndex());
 	m_abstract_chat_layer.sendFileTo(current_user_space->m_protocol_name,
@@ -527,7 +527,7 @@ void TabbedChatWindow::on_onEnterButton_clicked()
 {
 	m_event_eater->m_send_on_enter = m_on_enter_button->isChecked();
 	focusTextEdit();
-}
+}*/
 
 void TabbedChatWindow::on_typingButton_clicked()
 {
@@ -652,11 +652,11 @@ void TabbedChatWindow::setDefaultForm()
     m_info_button = ui->infoButton;
     m_history_button = ui->historyButton;
     m_emoticons_button = ui->emoticonButton;
-    m_send_picture_button = ui->sendPictureButton;
+/*    m_send_picture_button = ui->sendPictureButton;
     m_send_file_button = ui->sendFileButton;
-    m_on_enter_button = ui->onEnterButton;
+    m_on_enter_button = ui->onEnterButton;*/
     m_send_typing_button = ui->typingButton;
-    m_translate_button = ui->translitButton;
+/*    m_translate_button = ui->translitButton;*/
 	m_quote_button = ui->quoteButton;
 	m_clear_button = ui->clearChatButton;
 //    m_main_splitter= ui->splitter;
@@ -911,7 +911,7 @@ void TabbedChatWindow::typingNow()
 	}
 }
 
-void TabbedChatWindow::on_translitButton_clicked()
+/*void TabbedChatWindow::on_translitButton_clicked()
 {
 	if (m_plain_text_edit )
 	{
@@ -930,7 +930,7 @@ void TabbedChatWindow::on_translitButton_clicked()
 		m_plain_text_edit->insertPlainText(txt);
 	}
 	focusTextEdit();
-}
+}*/
 
 QString TabbedChatWindow::checkForEmoticons(const QString &message)
 {

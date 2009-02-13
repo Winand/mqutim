@@ -130,12 +130,12 @@ private slots:
 	void on_chatInputEdit_textChanged();
 	void windowFocused();
 	void on_infoButton_clicked();
-//	void on_sendPictureButton_clicked();
+/*	void on_sendPictureButton_clicked();
 	void on_sendFileButton_clicked();
-	void on_onEnterButton_clicked();
+        void on_onEnterButton_clicked();*/
 	void on_typingButton_clicked();
 	void typingNow();
-	void on_translitButton_clicked();
+/*	void on_translitButton_clicked();*/
 	void on_historyButton_clicked();
 	void on_clearChatButton_clicked();
 	void on_quoteButton_clicked();

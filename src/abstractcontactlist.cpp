@@ -579,7 +579,7 @@ void AbstractContactList::signalToDoScreenShot()
 void AbstractContactList::loadGuiSettings()
 {
 	m_tree_view->setStyleSheet("");
-        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
+  QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
 	m_tree_view->setUpdatesEnabled(false);
 	qutIM *main = (qutIM *)m_tree_view->parentWidget();
 	bool show_window = !main->isHidden();

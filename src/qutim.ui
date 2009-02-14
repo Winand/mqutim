@@ -10,7 +10,7 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>qutIM</string>
+   <string>Contact List</string>
   </property>
   <property name="windowIcon" >
    <iconset resource="../qutim.qrc" >

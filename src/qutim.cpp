@@ -96,7 +96,7 @@ qutIM::qutIM(QWidget *parent, Qt::WFlags f ) :
   contactListContainer = new QWidget(this);
 	ui.setupUi(contactListContainer);
   ui.contactListView->header()->hide();
-  addTab(contactListContainer, tr("Contact List"));
+  addTab(contactListContainer, QString::null);
   setCurrentWidget(contactListContainer);
   QSoftMenuBar::setLabel(this, Qt::Key_Back, QSoftMenuBar::NoLabel);
   
@@ -421,4 +421,40 @@ void qutIM::pluginSettingsDeleted(QObject *)
 void qutIM::addActionToList(QAction *action)
 {
 	m_plugin_actions.append(action);
+}
+
+bool qutIM::eventFilter(QObject *watched, QEvent *event)
+{
+  QWidget *w_receiver = qobject_cast<QWidget *>(watched);
+  if (w_receiver)
+  {
+    int tab_index = indexOf(w_receiver);
+    if (tab_index<0)
+      return false; // not a tab
+      
+    if (event->type()==QEvent::WindowIconChange)
+    {
+      qDebug() << "Tab" << tab_index << "icon changed";
+      //setTabIcon(tab_index, w_receiver->windowIcon());
+    }
+    else if (event->type()==QEvent::WindowTitleChange)
+    {
+      qDebug() << "Tab" << tab_index << "title changed";
+      setTabText(tab_index, w_receiver->windowTitle());
+    }
+  }
+  return false;
+}
+
+void qutIM::tabInserted(int index)
+{
+  qDebug() << "Widget inserted at" << index;
+  QWidget *w = widget(index);
+  if (w)
+  {
+    w->installEventFilter(this);
+    //setTabIcon(index, w->windowIcon());
+    if (!w->windowTitle().isEmpty())
+      setTabText(index, w->windowTitle());
+  }
 }

@@ -77,6 +77,9 @@ public:
 	void showBallon(const QString &title, const QString &message, int time);
 	void reloadStyleLanguage();
 	void addActionToList(QAction *);
+  
+  bool eventFilter (QObject *watched, QEvent *event); // Intercept some events to provide pseudo-wm
+                                                      // capabilities for tabs
 private slots:
 	void appQuit();
 	void qutimSettingsMenu();
@@ -95,13 +98,8 @@ private slots:
 	void on_soundOnOffButton_clicked();
 //	void on_toolButton_clicked();
 protected:
-  /*
-	virtual void resizeEvent ( QResizeEvent * event );
-	virtual void closeEvent(QCloseEvent *event);
-	virtual void focusOutEvent( QFocusEvent * event );
-	virtual void focusInEvent ( QFocusEvent * event );
-  */
-	void keyPressEvent ( QKeyEvent *event );
+  void tabInserted(int index);
+	void keyPressEvent(QKeyEvent *event);
 private:
 	static qutIM		*fInstance;
 	static QMutex		fInstanceGuard;

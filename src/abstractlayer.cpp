@@ -136,8 +136,9 @@ void AbstractLayer::createNewAccount()
 
 void AbstractLayer::openSettingsDialog()
 {
-	qutimSettings *settingsDialog = new qutimSettings(m_current_profile, m_parent);
+        qutimSettings *settingsDialog = new qutimSettings(m_current_profile, m_parent);
   m_parent->addTab(settingsDialog, m_parent->tr("Settings"));
+//  m_parent->addTab(settingsDialog, QIcon("icons/crystal_project/settings.png"),"");
   m_parent->setCurrentWidget(settingsDialog);
   
 	QObject::connect ( settingsDialog, SIGNAL(destroyed()),

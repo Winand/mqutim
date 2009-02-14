@@ -22,6 +22,7 @@
 #include <QtXml>
 #include <QRegExp>
 #include <QTimer>
+#include <QSoftMenuBar>
 
 bool ChatEventEater::eventFilter(QObject *obj, QEvent *event)
 {
@@ -316,6 +317,7 @@ void SeparateChatWindow::on_sendButton_clicked()
 
 void SeparateChatWindow::addMessage(const QString &message, bool in, const QString &message_date, bool history)
 {
+    qDebug()<<message;
 /*	if (m_webkit_mode && m_web_view)
 	{
 		QString add_new_message = QString("%1")
@@ -569,11 +571,11 @@ void SeparateChatWindow::createFontMenu()
 	
 }
 
-void SeparateChatWindow::on_sendFileButton_clicked()
+/*void SeparateChatWindow::on_sendFileButton_clicked()
 {
 	m_abstract_chat_layer.sendFileTo(m_protocol_name, m_account_name, m_item_name);
 	focusTextEdit();
-}
+}*/
 
 /*void SeparateChatWindow::on_sendPictureButton_clicked()
 {
@@ -629,11 +631,11 @@ void SeparateChatWindow::setOptions(bool remove_after, quint16 remove_count,
 	m_send_typing_notifications = typing_notifications;
 }
 
-void SeparateChatWindow::on_onEnterButton_clicked()
+/*void SeparateChatWindow::on_onEnterButton_clicked()
 {
 	m_event_eater->m_send_on_enter = m_on_enter_button->isChecked();
 	focusTextEdit();
-}
+}*/
 
 void SeparateChatWindow::on_typingButton_clicked()
 {
@@ -704,7 +706,7 @@ void SeparateChatWindow::contactTyping(bool typing)
 	}
 }
 
-void SeparateChatWindow::on_translitButton_clicked()
+/*void SeparateChatWindow::on_translitButton_clicked()
 {
 	if (m_plain_text_edit )
 	{
@@ -723,7 +725,7 @@ void SeparateChatWindow::on_translitButton_clicked()
 		m_plain_text_edit->insertPlainText(txt);
 	}
 	focusTextEdit();
-}
+}*/
 
 QString SeparateChatWindow::invertMessage(QString &text)
 {
@@ -940,11 +942,11 @@ void SeparateChatWindow::setDefaultForm()
     m_info_button = ui->infoButton;
     m_history_button = ui->historyButton;
     m_emoticons_button = ui->emoticonButton;
-    m_send_picture_button = ui->sendPictureButton;
+/*    m_send_picture_button = ui->sendPictureButton;
     m_send_file_button = ui->sendFileButton;
-    m_on_enter_button = ui->onEnterButton;
+    m_on_enter_button = ui->onEnterButton;*/
     m_send_typing_button = ui->typingButton;
-    m_translate_button = ui->translitButton;
+/*    m_translate_button = ui->translitButton;*/
 	m_quote_button = ui->quoteButton;
 	m_clear_button = ui->clearChatButton;
 //    m_main_splitter= ui->splitter;

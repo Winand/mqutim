@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>qutimSettingsSelector</class>
- <widget class="QWidget" name="qutimSettingsSelector" >
-  <property name="geometry" >
+ <widget class="QWidget" name="qutimSettingsSelector">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,41 +10,41 @@
     <height>192</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Settings</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" >
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QComboBox" name="protocolBox" />
+    <widget class="QComboBox" name="protocolBox"/>
    </item>
    <item>
-    <widget class="QTreeWidget" name="settingsTree" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+    <widget class="QTreeWidget" name="settingsTree">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="alternatingRowColors" >
+     <property name="alternatingRowColors">
       <bool>false</bool>
      </property>
-     <property name="verticalScrollMode" >
+     <property name="verticalScrollMode">
       <enum>QAbstractItemView::ScrollPerItem</enum>
      </property>
-     <property name="horizontalScrollMode" >
+     <property name="horizontalScrollMode">
       <enum>QAbstractItemView::ScrollPerItem</enum>
      </property>
-     <property name="rootIsDecorated" >
+     <property name="rootIsDecorated">
       <bool>false</bool>
      </property>
-     <property name="animated" >
+     <property name="animated">
       <bool>true</bool>
      </property>
-     <property name="allColumnsShowFocus" >
+     <property name="allColumnsShowFocus">
       <bool>true</bool>
      </property>
      <column>
-      <property name="text" >
+      <property name="text">
        <string>1</string>
       </property>
      </column>
@@ -51,9 +52,7 @@
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
- <resources>
-  <include location="../qutim.qrc" />
- </resources>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
  <connections/>
 </ui>

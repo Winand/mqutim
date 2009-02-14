@@ -102,12 +102,12 @@ private slots:
 	void on_sendButton_clicked();
 	void on_infoButton_clicked();
 	void insertEmoticon(const QString &emoticon_text);
-//	void on_sendPictureButton_clicked();
+/*	void on_sendPictureButton_clicked();
 	void on_sendFileButton_clicked();
-	void on_onEnterButton_clicked();
+        void on_onEnterButton_clicked();*/
 	void on_typingButton_clicked();
 	void on_chatInputEdit_textChanged();
-	void on_translitButton_clicked();
+/*	void on_translitButton_clicked();*/
 	void on_historyButton_clicked();
 	void typingNow();
 	void on_clearChatButton_clicked();

@@ -84,8 +84,8 @@ public:
 	virtual void sendMessageTo(const QString &account_name, const QString &contact_name, int item_type, const QString& message, int message_icon_position);
 	virtual QStringList getAdditionalInfoAboutContact(const QString &account_name, const QString &item_name, int item_type ) const;
 	virtual void showContactInformation(const QString &account_name, const QString &item_name, int item_type );
-	virtual void sendImageTo(const QString &account_name, const QString &item_name, int item_type, const QByteArray &image_raw );
-	virtual void sendFileTo(const QString &account_name, const QString &item_name, int item_type);
+/*	virtual void sendImageTo(const QString &account_name, const QString &item_name, int item_type, const QByteArray &image_raw );*/
+/*        virtual void sendFileTo(const QString &account_name, const QString &item_name, int item_type, const QStringList &file_names);*/
 	virtual void sendTypingNotification(const QString &account_name, const QString &item_name, int item_type, int notification_type);
 	virtual void moveItemSignalFromCL(const TreeModelItem &old_item, const TreeModelItem &new_item);
 	

@@ -14,7 +14,7 @@
 */
 
 
-#include "filetransfer.h"
+/*#include "filetransfer.h"
 #include "icqpluginsystem.h"
 
 FileTransfer::FileTransfer(const QString & uin, QObject *parent)
@@ -44,24 +44,9 @@ QAction *FileTransfer::getSendFileAction()
 	return sendFileAction;
 }
 
-void FileTransfer::sendFileTriggered(const QString &uin)
+void FileTransfer::sendFileTriggered(const QString &uin, const QStringList &fileName)
 {
 	sendToUin = uin;
-/*	QFileDialog dialog(0,tr("Open File"),"",tr("All files (*)"));
-	dialog.setFileMode(QFileDialog::ExistingFiles);
-        dialog.setAttribute(Qt::WA_QuitOnClose, false);*/
-
-//	QString fil;
-	QStringList fileName;
-/*	if ( dialog.exec())
-                fileName = dialog.selectedFiles();*/
-//		fil = 	QFileDialog::getOpenFileName(0,tr("Open File"),"",tr("All files (*)"));
-
-//	if ( fil.isEmpty() )
-//		return;
-
-
-//	fileName<<fil;
 
 	if ( fileName.count() )
 	{
@@ -486,4 +471,4 @@ void FileTransfer::disconnectFromAll()
 	foreach(fileTransferWindow *w, fileSendWindowList)
 		delete w;
 	fileSendWindowList.clear();
-}
+}*/

@@ -52,7 +52,7 @@ treeBuddyItem::treeBuddyItem(const QString &pUin, const QString &profile_name) :
 	regTime = 0;
 	idleSinceTime = 0;
 	clientId = "-";
-	fileTransferSupport = false;
+/*	fileTransferSupport = false;*/
 	xStatusPresent = false;
 	m_visible_contact = false;
 	m_invisible_contact = false;
@@ -850,8 +850,8 @@ void treeBuddyItem::setCapabilities(QByteArray capList)
 			UTF8 = true;
 		}
 		
-		if ( capability == QByteArray::fromHex("094613434c7f11d18222444553540000"))
-			fileTransferSupport = true;
+/*		if ( capability == QByteArray::fromHex("094613434c7f11d18222444553540000"))
+                        fileTransferSupport = true;*/
 		if ( capability == QByteArray::fromHex("178c2d9bdaa545bb8ddbf3bdbd53a10a"))
 			icqLite = true;
 		capList = capList.left(capList.length() - 16);
@@ -1131,17 +1131,17 @@ void treeBuddyItem::readShortCap(quint16 length, const QByteArray &array)
 {
 	shortCaps.clear();
 	m_channel_two_support = false;
-	fileTransferSupport = false;
+/*	fileTransferSupport = false;*/
 	for(;length; length -= 2)
 	{
 		quint16 cap = byteArrayToInt16(array.left(length).right(2));
 		shortCaps.append(cap);
 		if ( cap == 0x134e)
 			UTF8 =  true;
-		else if (cap == 0x1343)
+                else /*if (cap == 0x1343)
 			fileTransferSupport = true;
 //			icqLite = (cap == 0x1343);
-		else if ( cap == 0x1349 )
+                else*/ if ( cap == 0x1349 )
 			m_channel_two_support = true;
 		
 	}

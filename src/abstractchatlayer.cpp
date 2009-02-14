@@ -379,14 +379,14 @@ void AbstractChatLayer::showContactInformation(const QString &protocol_name, con
 void AbstractChatLayer::sendImageTo(const QString &protocol_name, const QString &account_name, const QString &item_name,
 		const QByteArray &image_raw)
 {
-	TreeModelItem contact_item;
+/*	TreeModelItem contact_item;
 	contact_item.m_protocol_name = protocol_name;
 	contact_item.m_account_name = account_name;
 	contact_item.m_item_name = item_name;
 	contact_item.m_parent_name = "";
 	contact_item.m_item_type = 0;
 	m_plugin_system.sendImageTo(contact_item, image_raw);
-	addImage(contact_item, image_raw, false);
+        addImage(contact_item, image_raw, false);*/
 }
 
 void AbstractChatLayer::addImage(const TreeModelItem &item, const QByteArray &image_raw, bool in)
@@ -408,13 +408,13 @@ void AbstractChatLayer::addImage(const TreeModelItem &item, const QByteArray &im
 
 void AbstractChatLayer::sendFileTo(const QString &protocol_name, const QString &account_name, const QString &contact_name)
 {
-	TreeModelItem contact_item;
+/*	TreeModelItem contact_item;
 	contact_item.m_protocol_name = protocol_name;
 	contact_item.m_account_name = account_name;
 	contact_item.m_item_name = contact_name;
 	contact_item.m_parent_name = "";
 	contact_item.m_item_type = 0;
-	m_plugin_system.sendFileTo(contact_item);
+        m_plugin_system.sendFileTo(contact_item);*/
 }
 
 void AbstractChatLayer::loadSettings()

@@ -81,7 +81,7 @@ public:
 	quint32 regTime;
 	quint32 idleSinceTime;
 	
-	bool fileTransferSupport;
+/*	bool fileTransferSupport;*/
 	
 	bool xStatusPresent;
 	

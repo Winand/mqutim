@@ -54,7 +54,7 @@ class treeBuddyItem;
 class messageFormat;
 class chatWindow;
 class contactSeparator;
-class FileTransfer;
+/*class FileTransfer;*/
 class metaInformation;
 class buddyPicture;
 class searchUser;
@@ -112,10 +112,10 @@ public:
 	void sendMessageTo(const QString &contact_uin, const QString &message, int message_icon_position);
 	QStringList getAdditionalInfoAboutContact(const QString &item_name, int item_type ) const;
 
-	void sendImageTo(const QString &contact_uin, const QByteArray &image_raw);
-	void sendFileTo(const QString &contact_uin);
+/*	void sendImageTo(const QString &contact_uin, const QByteArray &image_raw);*/
+/*        void sendFileTo(const QString &contact_uin, const QStringList &file_names);*/
 	void sendTypingNotifications(const QString &, quint16);
-	FileTransfer *fileTransferObject;
+/*	FileTransfer *fileTransferObject;*/
 	void moveItemSignalFromCL(const TreeModelItem &old_item, const TreeModelItem &new_item);
 	void deleteItemSignalFromCL(const QString &item_name, int item_type);
 	const QString getItemToolTip(const QString &contact_name);

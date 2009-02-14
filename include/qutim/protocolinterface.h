@@ -224,7 +224,7 @@ public:
 	 * @param item_type - item type: 0 - buddy; 1 - group; 2 - account
 	 * @param image_raw - raw image to send
 	 */
-	virtual void sendImageTo(const QString &account_name, const QString &item_name, int item_type, const QByteArray &image_raw ) = 0;
+/*	virtual void sendImageTo(const QString &account_name, const QString &item_name, int item_type, const QByteArray &image_raw ) = 0;*/
 
 	/*!
 	 * @brief send file to target contact
@@ -233,7 +233,7 @@ public:
 	 * @param item_name - target contact
 	 * @param item_type - item type: 0 - buddy; 1 - group; 2 - account item
 	 */
-	virtual void sendFileTo(const QString &account_name, const QString &item_name, int item_type) = 0;
+/*	virtual void sendFileTo(const QString &account_name, const QString &item_name, int item_type) = 0;*/
 
 	/*!
 	 * @brief send notitication about typing

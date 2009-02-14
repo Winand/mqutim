@@ -31,7 +31,7 @@ icqMessage::icqMessage(const QString &codepage)
 	downCounter2 = convertToByteArray((quint16)1);
 	msgType = 0;
 	reason = 0;
-	fileAnswer = false;
+/*	fileAnswer = false;*/
 	peerIP = 0;
 	peerPort = 0;
 	fileSize = 0;
@@ -412,12 +412,12 @@ quint16 icqMessage::readRendezvousData(tlv tlv05)
 	QByteArray msgCapab = data05.left(16);
 	data05 = data05.right(data05.size() - 16);
 		
-	if ( msgCapab == QByteArray::fromHex("094613434c7f11d18222444553540000"))
+/*	if ( msgCapab == QByteArray::fromHex("094613434c7f11d18222444553540000"))
 	{
 		fileAnswer = true;
 		if ( reason )
 			return length;
-	}
+        }*/
 	
 	
 		quint16 leftsize = data05.size();
@@ -462,7 +462,7 @@ quint16 icqMessage::readRendezvousData(tlv tlv05)
 		
 		
 		
-		if ( fileAnswer && extentionDataPresent)
+/*		if ( fileAnswer && extentionDataPresent)
 		{
 			quint16 folowingLength = extentionData.size();
 			
@@ -479,7 +479,7 @@ quint16 icqMessage::readRendezvousData(tlv tlv05)
 			return length;
 			
 			
-		}
+                }*/
 		
 //		if ( !extentionDataPresent )
 //			return length;
@@ -1139,4 +1139,33 @@ void icqMessage::sendMessageRecieved(QTcpSocket *socket,const QString &uin, cons
 		
 		socket->write(packet);
 	
+}
+
+bool icqMessage::isValidUtf8(const QByteArray &array)
+{
+    int i=0, num;
+    while(i < array.size())
+    {
+        if(array[i]&0x80)
+            return false;
+        else
+        {
+            num = 0;
+            if(array[i]&0xE0 == 0xC0)
+                num = 1;
+            else if(array[i]&0xF0 == 0xE0)
+                num = 2;
+            else if(array[i]&0xF8 == 0xE0)
+                num = 3;
+            else
+                return false;
+            if(i+num >= array.size())
+                return false;
+            while(num--)
+                if(array[++i]&0xC0 != 0x80)
+                    return false;
+        }
+        i++;
+    }
+    return true;
 }

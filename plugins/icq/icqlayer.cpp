@@ -408,21 +408,21 @@ void IcqLayer::showContactInformation(const QString &account_name, const QString
 	}
 }
 
-void IcqLayer::sendImageTo(const QString &account_name, const QString &item_name, int item_type, const QByteArray &image_raw )
+/*void IcqLayer::sendImageTo(const QString &account_name, const QString &item_name, int item_type, const QByteArray &image_raw )
 {
 	if ( m_icq_list.contains(account_name) )
 	{
 		return m_icq_list.value(account_name)->getProtocol()->getContactListClass()->sendImageTo(item_name, image_raw);
 	}
-}
+}*/
 
-void IcqLayer::sendFileTo(const QString &account_name, const QString &item_name, int item_type)
+/*void IcqLayer::sendFileTo(const QString &account_name, const QString &item_name, int item_type, const QStringList &file_names)
 {
 	if ( m_icq_list.contains(account_name) )
 	{
-		m_icq_list.value(account_name)->getProtocol()->getContactListClass()->sendFileTo(item_name);
+                m_icq_list.value(account_name)->getProtocol()->getContactListClass()->sendFileTo(item_name, file_names);
 	}
-}
+}*/
 
 void IcqLayer::sendTypingNotification(const QString &account_name, const QString &item_name, int item_type, int notification_type)
 {

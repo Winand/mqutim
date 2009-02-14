@@ -14,7 +14,7 @@
 */
 
 
-#include "filetransferwindow.h"
+/*#include "filetransferwindow.h"
 #include "icqpluginsystem.h"
 
 
@@ -742,7 +742,7 @@ QByteArray fileTransferWindow::utf8toUnicode(const QString &message)
 	return msg;
 }
 
-/*void fileTransferWindow::setMainConnectionProxy(const QNetworkProxy &p)
+void fileTransferWindow::setMainConnectionProxy(const QNetworkProxy &p)
 {
 	tcpSocket->setProxy(p);
 	tcpServer->setProxy(p);

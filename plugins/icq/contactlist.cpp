@@ -37,7 +37,7 @@
 #include "requestauthdialog.h"
 #include "acceptauthdialog.h"
 //#include "clientidentify.h"
-#include "filetransfer.h"
+/*#include "filetransfer.h"*/
 #include "snac.h"
 #include "tlv.h"
 #include "contactlist.h"
@@ -113,7 +113,7 @@ contactListTree::contactListTree(QTcpSocket *s, icqBuffer *buff,
 					this, SLOT(updateAvatar(const QString &, QByteArray)));
 	avatarPort = 0;
 
-	fileTransferObject = new FileTransfer(icqUin, this);
+/*	fileTransferObject = new FileTransfer(icqUin, this);
 	connect ( fileTransferObject, SIGNAL(sendFile(QByteArray &, QByteArray &, QByteArray &)),
 			this, SLOT(sendFile(QByteArray &, QByteArray &, QByteArray &)));
 
@@ -124,7 +124,7 @@ contactListTree::contactListTree(QTcpSocket *s, icqBuffer *buff,
 	connect ( fileTransferObject, SIGNAL(sendRedirectToProxy(const QByteArray &)),
 			this, SLOT(redirectToProxy(const QByteArray &)));
 	connect ( fileTransferObject, SIGNAL(emitAcceptSending(const QByteArray &)),
-			this, SLOT(sendAcceptMessage(const QByteArray &)));
+                        this, SLOT(sendAcceptMessage(const QByteArray &)));*/
 
 	createContactListActions();
 	createSoundEvents();
@@ -657,7 +657,7 @@ void contactListTree::getMessage(quint16 l)
 	newMessage.readData(socket, l);
 
 
-	if ( newMessage.fileAnswer)
+/*	if ( newMessage.fileAnswer)
 	{
 
 		if ( !buddyList.contains(newMessage.from))
@@ -670,7 +670,7 @@ void contactListTree::getMessage(quint16 l)
 			fileTransferObject->contactCanceled(newMessage.from, newMessage.msgCookie);
 		if ( newMessage.reason == 0x0002)
 			fileTransferObject->contactAccept(newMessage.from, newMessage.msgCookie);
-	}
+        }*/
 
 	if (!buddyList.contains(newMessage.from))
 	{
@@ -1582,7 +1582,7 @@ void contactListTree::goingOnline(bool iAmOnlineSignal)
 //		privacyList->setEnabled(true);
 
 	} else {
-		fileTransferObject->disconnectFromAll();
+/*		fileTransferObject->disconnectFromAll();*/
 		visibleList.clear();
 		invisibleList.clear();
 		ignoreList.clear();
@@ -4314,7 +4314,7 @@ void contactListTree::createContactListActions()
 	removeMyself = new QAction(m_icq_plugin_system.getIcon("deletetab2"), tr("Remove myself from contact's list"), this);
 	connect(removeMyself , SIGNAL(triggered()), this, SLOT(removeMyselfTriggered()));
 
-	connect(fileTransferObject->getSendFileAction() , SIGNAL(triggered()), this, SLOT(sendFileActionTriggered()));
+/*	connect(fileTransferObject->getSendFileAction() , SIGNAL(triggered()), this, SLOT(sendFileActionTriggered()));*/
 
 	readXstatus = new QAction(m_icq_plugin_system.getIcon("xstatus"), tr("Read custom status"), this);
 	connect(readXstatus , SIGNAL(triggered()), this, SLOT(readXstatusTriggered()));
@@ -4792,11 +4792,11 @@ void contactListTree::showBuddyMenu(const QList<QAction*> &action_list,
 	currentContextMenu->addAction(action_list.at(0));
 	if ( iAmOnline )
 	{
-		if ( currentContextBuddy->getStatus() != contactOffline)
+/*		if ( currentContextBuddy->getStatus() != contactOffline)
 		{
 			if ( currentContextBuddy->fileTransferSupport )
 				currentContextMenu->addAction(fileTransferObject->getSendFileAction());
-		}
+                }*/
 
 		if ( currentContextBuddy->getNotAutho())
 		{
@@ -5918,7 +5918,7 @@ void contactListTree::sendFile(QByteArray &part1, QByteArray &part2, QByteArray 
 
 void contactListTree::sendFileActionTriggered()
 {
-	fileTransferObject->sendFileTriggered(currentContextBuddy->getUin());
+        sendFileFromWindow(currentContextBuddy->getUin());
 }
 
 void contactListTree::sendCancelSending(QByteArray &part)
@@ -6222,17 +6222,26 @@ void contactListTree::onReloadGeneralSettings()
 
 void contactListTree::sendFileFromWindow(const QString &uin)
 {
-	if ( buddyList.contains(uin))
+/*	if ( buddyList.contains(uin))
 	{
 		if ( buddyList.value(uin)->fileTransferSupport)
 		{
 			if ( !buddyList.value(uin)->isOffline)
-				fileTransferObject->sendFileTriggered(uin);
+                        {
+                                QFileDialog dialog(0,QObject::tr("Open File"),"",QObject::tr("All files (*)"));
+                                dialog.setFileMode(QFileDialog::ExistingFiles);
+                                dialog.setAttribute(Qt::WA_QuitOnClose, false);
+                                QStringList file_names;
+                                if ( !dialog.exec() )
+                                        return;
+                                file_names = dialog.selectedFiles();
+                                fileTransferObject->sendFileTriggered(uin, file_names);
+                        }
 		}
 		else
 			emit sendSystemMessage(tr("Contact does not support file transfer"));
 
-	}
+        }*/
 }
 
 void contactListTree::deleteFromIgnoreActionTriggered()
@@ -6581,7 +6590,7 @@ QStringList contactListTree::getAdditionalInfoAboutContact(const QString &item_n
 	return tmp_list;
 }
 
-void contactListTree::sendImageTo(const QString &contact_uin, const QByteArray &image_raw)
+/*void contactListTree::sendImageTo(const QString &contact_uin, const QByteArray &image_raw)
 {
 	if ( buddyList.contains(contact_uin) && !image_raw.isEmpty() )
 	{
@@ -6592,7 +6601,7 @@ void contactListTree::sendImageTo(const QString &contact_uin, const QByteArray &
 		emit incFlapSeq();
 
 	}
-}
+}*/
 
 void contactListTree::addImage(const QString &contact_uin, quint16 group_id,
 		const QByteArray &image_raw)
@@ -6606,10 +6615,10 @@ void contactListTree::addImage(const QString &contact_uin, quint16 group_id,
 	m_icq_plugin_system.addImage(contact_item,image_raw);
 }
 
-void contactListTree::sendFileTo(const QString &contact_uin)
+/*void contactListTree::sendFileTo(const QString &contact_uin, const QStringList &file_names)
 {
-	fileTransferObject->sendFileTriggered(contact_uin);
-}
+        fileTransferObject->sendFileTriggered(contact_uin, file_names);
+}*/
 
 void contactListTree::contactTyping(const QString &contact_uin,
 		quint16 group_id, bool typing)

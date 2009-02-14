@@ -798,10 +798,10 @@ void PluginSystem::showContactInformation(const TreeModelItem &item)
 
 void PluginSystem::sendImageTo(const TreeModelItem &item, const QByteArray &image_raw)
 {
-		ProtocolInterface *protocol = m_protocols.value(item.m_protocol_name);
+/*		ProtocolInterface *protocol = m_protocols.value(item.m_protocol_name);
 		if(!protocol)
 			return;
-		return protocol->sendImageTo(item.m_account_name, item.m_item_name, item.m_item_type, image_raw);
+                return protocol->sendImageTo(item.m_account_name, item.m_item_name, item.m_item_type, image_raw);*/
 }
 
 void PluginSystem::addImage(const TreeModelItem &item, const QByteArray &image_raw)
@@ -812,10 +812,10 @@ void PluginSystem::addImage(const TreeModelItem &item, const QByteArray &image_r
 
 void PluginSystem::sendFileTo(const TreeModelItem &item)
 {
-		ProtocolInterface *protocol = m_protocols.value(item.m_protocol_name);
+/*		ProtocolInterface *protocol = m_protocols.value(item.m_protocol_name);
 		if(!protocol)
 			return;
-		return protocol->sendFileTo(item.m_account_name, item.m_item_name, item.m_item_type);
+                return protocol->sendFileTo(item.m_account_name, item.m_item_name, item.m_item_type);*/
 }
 
 void PluginSystem::sendTypingNotification(const TreeModelItem &item, int notification_type)

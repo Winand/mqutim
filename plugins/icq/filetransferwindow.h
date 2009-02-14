@@ -17,7 +17,7 @@
 #ifndef FILETRANSFERWINDOW_H
 #define FILETRANSFERWINDOW_H
 
-#include <QtGui>
+/*#include <QtGui>
 #include <QTcpSocket>
 #include <QTcpServer>
 #include <QHostAddress>
@@ -128,6 +128,6 @@ private:
 	void setRemainTime();
 	QByteArray utf8toUnicode( const QString &);
 	quint16 m_listen_port;
-};
+};*/
 
 #endif // FILETRANSFERWINDOW_H

@@ -17,7 +17,7 @@
 #ifndef FILETRANSFER_H
 #define FILETRANSFER_H
 
-#include <QtGui>
+/*#include <QtGui>
 //#include <QNetworkProxy>
 #include "tlv.h"
 #include "filetransferwindow.h"
@@ -31,7 +31,7 @@ public:
 	~FileTransfer();
 	QAction *getSendFileAction();
 	void removeAll();
-	void sendFileTriggered(const QString &);
+        void sendFileTriggered(const QString &, const QStringList &);
 	void contactCanceled(const QString &, const QByteArray &);
 	void contactAccept(const QString &, const QByteArray &);
 	void requestToRedirect(const QString &, const QByteArray &, quint16, quint32, quint16, const QString &, const QString &, quint32, quint32);
@@ -76,6 +76,6 @@ private:
 
 	QHash<QByteArray, fileRequestWindow *> requestList;
 	quint16 m_listen_port;
-};
+};*/
 
 #endif // FILETRANSFER_H

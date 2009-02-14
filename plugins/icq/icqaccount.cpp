@@ -19,7 +19,7 @@
 #include "customstatusdialog.h"
 #include "contactlist.h"
 #include "icqaccount.h"
-#include "filetransfer.h"
+/*#include "filetransfer.h"*/
 
 
 icqAccount::icqAccount(QString string, const QString &profile_name, QObject *parent)
@@ -667,7 +667,7 @@ void icqAccount::loadAccountSettings()
 	autoConnect = settings.value("connection/auto", true).toBool();
 	statusIconIndex = settings.value("main/staticon", 0).toInt();
 	thisIcqProtocol->reconnectOnDisc = settings.value("connection/reconnect", true).toBool();
-	thisIcqProtocol->getContactListClass()->fileTransferObject->setListenPort(settings.value("connection/listen", 5191).toUInt());
+/*	thisIcqProtocol->getContactListClass()->fileTransferObject->setListenPort(settings.value("connection/listen", 5191).toUInt());*/
 	settings.beginGroup("clientid");
 
 	clientIndex = settings.value("index", 0).toUInt();
@@ -768,7 +768,7 @@ void icqAccount::networkSettingsChanged()
 {
         QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
 	thisIcqProtocol->sendKeepAlive(settings.value("connection/alive", true).toBool());
-	thisIcqProtocol->getContactListClass()->fileTransferObject->setListenPort(settings.value("connection/listen", 5191).toUInt());
+/*	thisIcqProtocol->getContactListClass()->fileTransferObject->setListenPort(settings.value("connection/listen", 5191).toUInt());*/
 }
 
 void icqAccount::updateStatusMenu(bool f)

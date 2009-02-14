@@ -61,7 +61,7 @@ public:
 	
 	quint8 msgType;
 	quint16 reason;
-	bool fileAnswer;
+/*	bool fileAnswer;*/
 	quint16 connectToPeer;
 	
 	quint32 peerIP;
@@ -70,6 +70,7 @@ public:
 	quint32 fileSize;
 	quint32 aolProxyIP;
 	void sendImage(QTcpSocket *, const QString &, const QByteArray &image_raw, quint16, quint32);
+        bool isValidUtf8(const QByteArray &array);
 	
 private:
 	quint16 channel;

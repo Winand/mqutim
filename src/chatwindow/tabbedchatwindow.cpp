@@ -1060,7 +1060,7 @@ void TabbedChatWindow::contactTyping(const QString &identification, bool typing)
 			item.m_item_type = 0;
 			item.m_account_name = tmp_user_space->m_account_name;
 			item.m_item_name = tmp_user_space->m_contact_name;
-			AbstractNotificationLayer::instance().userMessage(item, "", 2);
+                        AbstractNotificationLayer::instance().userMessage(item, "", NotifyTyping);
 		}
 		if ( !tmp_user_space->m_unreaded_message || m_chat_tab_bar->currentIndex() == user_space_index )
 		{

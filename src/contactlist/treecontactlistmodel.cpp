@@ -701,20 +701,20 @@ bool TreeContactListModel::setItemStatus(const TreeModelItem & Item, QIcon icon,
 			QString tr_status = m_status_to_tr.value(status,status);
 			if(old_mass==1000 && mass<1000)
 			{
-				anl.userMessage(Item,tr_status,6);
+                                anl.userMessage(Item,tr_status, NotifyOnline);
 				acl.addServiceMessage(Item,tr_status);
-				asl.playSound(qutim_sdk_0_2::ContactOnline);
+                                asl.playSound(NotifyOnline);
 			}
 			else if(old_mass<1000 && mass==1000)
 			{
-				anl.userMessage(Item,tr_status,7);
+                                anl.userMessage(Item,tr_status, NotifyOffline);
 				acl.addServiceMessage(Item,tr_status);
-				asl.playSound(qutim_sdk_0_2::ContactOffline);
+                                asl.playSound(NotifyOffline);
 			}
 			else if(old_mass!=mass)
 			{
-				anl.userMessage(Item,tr_status,0);
-				asl.playSound(qutim_sdk_0_2::ContactChangedStatus);
+                                anl.userMessage(Item,tr_status, NotifyStatusChange);
+                                asl.playSound(NotifyStatusChange);
 			}
 			m_mutex.lock();
 			m_changed_status.insert(item,5000);			

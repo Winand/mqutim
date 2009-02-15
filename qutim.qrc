@@ -1,5 +1,22 @@
 <RCC>
     <qresource prefix="/" >
+        <file>webkit/Contents/Resources/Template.html</file>
+        <file>webkit/Contents/Resources/Status.html</file>
+        <file>webkit/Contents/Resources/Header.html</file>
+        <file>webkit/Contents/Resources/Incoming/Context.html</file>
+        <file>webkit/Contents/Resources/Incoming/NextContext.html</file>
+        <file>webkit/Contents/Resources/Incoming/NextContent.html</file>
+        <file>webkit/Contents/Resources/Incoming/Content.html</file>
+        <file>webkit/Contents/Resources/Footer.html</file>
+        <file>webkit/Contents/Resources/main.css</file>
+        <file>webkit/Contents/Resources/Outgoing/Context.html</file>
+        <file>webkit/Contents/Resources/Outgoing/NextContext.html</file>
+        <file>webkit/Contents/Resources/Outgoing/NextContent.html</file>
+        <file>webkit/Contents/Resources/Outgoing/Content.html</file>
+        <file>webkit/Contents/Resources/Variants/Blue vs Red.css</file>
+        <file>webkit/Contents/Resources/Variants/Blue vs Red (Bold).css</file>
+        <file>webkit/Contents/Resources/Variants/Red vs Blue.css</file>
+        <file>webkit/Contents/Resources/Variants/Red vs Blue (Bold).css</file>
         <file>icons/clients/RQ.png</file>
         <file>icons/clients/adiumX.png</file>
         <file>icons/clients/agile.png</file>
@@ -199,7 +216,7 @@
         <file>icons/crystal_project/winter.png</file>
         <file>icons/crystal_project/work.png</file>
         <file>icons/crystal_project/xstatus.png</file>
-        <file>icons/crystal_project/year.png</file>        
+        <file>icons/crystal_project/year.png</file>
         <file>icons/crystal_project/mail_work.png</file>
         <file>icons/crystal_project/mail_home.png</file>
         <file>icons/crystal_project/mail_unknown.png</file>
@@ -207,7 +224,7 @@
         <file>icons/crystal_project/phone_work.png</file>
         <file>icons/crystal_project/phone_home.png</file>
         <file>icons/crystal_project/phone_unknown.png</file>
-        <file>icons/crystal_project/vcard.png</file>        
+        <file>icons/crystal_project/vcard.png</file>
         <file>icons/icq/athome.png</file>
         <file>icons/icq/atwork.png</file>
         <file>icons/icq/away.png</file>
@@ -240,5 +257,11 @@
         <file>icons/typing.png</file>
         <file>pictures/logo.png</file>
         <file>pictures/wizard.png</file>
+        <file>icons/crystal_project/conference.png</file>
+        <file>icons/crystal_project/conferenceuser.png</file>
+        <file>icons/crystal_project/finduser.png</file>
+        <file>icons/crystal_project/command.png</file>
+        <file>icons/crystal_project/defaultservice.png</file>
+        <file>icons/crystal_project/server.png</file>
     </qresource>
 </RCC>

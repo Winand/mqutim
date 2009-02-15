@@ -106,7 +106,7 @@ void AbstractLayer::loadCurrentProfile()
 	ahl.loadProfile(m_current_profile);
 	AbstractContactList &acll = AbstractContactList::instance();
 	acll.loadProfile(m_current_profile);
-	asndl.playSound(Startup);
+        asndl.playSound(NotifyStartup);
 	m_icon_manager.loadProfile(m_current_profile);
 	AbstractThemeEngine::instance().loadProfile(m_current_profile);
 	AbstractGlobalSettings::instance().setProfileName(m_current_profile);

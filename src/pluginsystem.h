@@ -62,6 +62,7 @@ public:
 	int pluginsCount();
 	SimplePluginInterface *getPluginByIndex(int index);
 	PluginInfoList getPluginsByType(const QString &type);
+        virtual bool setLayerInterface( LayerType type, LayerInterface *interface);
 	void processEvent(PluginEvent &event);
 	void registerEventHandler(const EventType &type, SimplePluginInterface *plugin);
 	void releaseEventHandler(const QString &event_id, PluginInterface *plugin);
@@ -125,7 +126,7 @@ public:
 	void showContactInformation(const TreeModelItem &item);
 	void sendImageTo(const TreeModelItem &item, const QByteArray &image_raw);
 	void addImage(const TreeModelItem &item, const QByteArray &image_raw);
-	void sendFileTo(const TreeModelItem &item);
+        void sendFileTo(const TreeModelItem &item, const QStringList &file_names);
 	void sendTypingNotification(const TreeModelItem &item, int notification_type);
 	void contactTyping(const TreeModelItem &item, bool typing);
 	void messageDelievered(const TreeModelItem &item, int message_position);
@@ -230,7 +231,7 @@ public:
 	void sendMessageBeforeShowing(const TreeModelItem &item, QString &message);
 	void pointersAreInitialized();
 	void playSoundByPlugin(QString path);
-	virtual void playSound(SoundEngineEvent event);
+        virtual void playSound(NotificationType event);
 	virtual void playSound(const QString &file_name);
 	void receivingMessageBeforeShowing(const TreeModelItem &item, QString &message);
 	virtual QSettings::Format plistFormat(){ return m_plist_format; }

@@ -4,8 +4,13 @@
 
 qtopia_project(qtopia app)
 
+INSTALLS = plugins
+plugins.files = plugins/libicq.so \
+    plugins/libjabber.so
+plugins.path = /plugins/
+
 TEMPLATE = app
-TARGET = 
+TARGET = mqutim
 DEPENDPATH += . \
     src \
     include \
@@ -57,6 +62,7 @@ HEADERS += src/aboutinfo.h \
     src/qutimsettings.h \
     src/statusdialog.h \
     src/statuspresetcaption.h \
+    include/qutim/layerinterface.h \
     include/qutim/plugininterface.h \
     include/qutim/protocolinterface.h \
     src/antispam/abstractantispamlayer.h \

@@ -179,27 +179,27 @@ void AbstractChatLayer::addMessage(const TreeModelItem &item, const QString &mes
 		.arg(item.m_account_name).arg(item.m_item_name);
     if ( m_separate_window_list.contains(identification) )
     {
-      SeparateChatWindow *win = m_separate_window_list.value(identification);
-      win->addMessage(message, in, getTimeStamp(message_date), history);
-      if ( !win->isActiveWindow() || win->isMinimized())
-      {
+        SeparateChatWindow *win = m_separate_window_list.value(identification);
+        win->addMessage(message, in, getTimeStamp(message_date), history);
+        if ( !win->isActiveWindow() || win->isMinimized())
+        {
         m_waiting_for_activation_list.append(item);
         if ( !m_dont_show_tray_event && in && !unreaded_message)
         {
 
             if ( m_dont_show_content_in_notifications )
-          AbstractNotificationLayer::instance().userMessage(item,
-              QObject::tr("Incoming message"), 1);
+                AbstractNotificationLayer::instance().userMessage(item,
+                    QObject::tr("Incoming message"), NotifyMessageGet);
             else
             AbstractNotificationLayer::instance().userMessage(item,
-              not_modified.isEmpty()?message:not_modified, 1);
+              not_modified.isEmpty()?message:not_modified, NotifyMessageGet);
         }
         AbstractContactList::instance().setItemHasUnviewedContent(item ,true);
-      }
-                              if ( in && !unreaded_message && AbstractSoundLayer::instance().isActiveWindowIncomeSound() )
-                              {
-                                      AbstractSoundLayer::instance().playSound(MessageGet);
-                              }
+        }
+        if ( in && !unreaded_message && AbstractSoundLayer::instance().isActiveWindowIncomeSound() )
+        {
+              AbstractSoundLayer::instance().playSound(NotifyMessageGet);
+        }
     }
     else
       can_not_read_it_now = true;
@@ -218,12 +218,12 @@ void AbstractChatLayer::addMessage(const TreeModelItem &item, const QString &mes
 			animateTrayIconMessage();
 			if ( m_dont_show_content_in_notifications )
 			    AbstractNotificationLayer::instance().userMessage(item,
-				    QObject::tr("Incoming message"), 1);
+                                    QObject::tr("Incoming message"), NotifyMessageGet);
 			else
 			    AbstractNotificationLayer::instance().userMessage(item,
-						    not_modified.isEmpty()?message:not_modified, 1);
+                                                    not_modified.isEmpty()?message:not_modified, NotifyMessageGet);
 			AbstractContactList::instance().setItemHasUnviewedContent(item, true);
-			AbstractSoundLayer::instance().playSound(MessageGet);
+                        AbstractSoundLayer::instance().playSound(NotifyMessageGet);
 		}
 	}
 }
@@ -248,7 +248,7 @@ void AbstractChatLayer::sendMessageTo(const QString &protocol_name, const QStrin
 	if (m_separate_window_list.contains(identification))
 	{
 		addModifiedMessage(contact_item, tmp_message, false, QDateTime::currentDateTime());
-		AbstractSoundLayer::instance().playSound(MessageSend);
+                AbstractSoundLayer::instance().playSound(NotifyMessageSend);
 	} else if (from_plugin)
 	{
 
@@ -413,13 +413,21 @@ void AbstractChatLayer::addImage(const TreeModelItem &item, const QByteArray &im
 
 void AbstractChatLayer::sendFileTo(const QString &protocol_name, const QString &account_name, const QString &contact_name)
 {
-/*	TreeModelItem contact_item;
+/*      QFileDialog dialog(0,QObject::tr("Open File"),"",QObject::tr("All files (*)"));
+        dialog.setFileMode(QFileDialog::ExistingFiles);
+        dialog.setAttribute(Qt::WA_QuitOnClose, false);
+        QStringList file_names;
+        if ( !dialog.exec() )
+                return;
+        file_names = dialog.selectedFiles();
+
+        TreeModelItem contact_item;
 	contact_item.m_protocol_name = protocol_name;
 	contact_item.m_account_name = account_name;
 	contact_item.m_item_name = contact_name;
 	contact_item.m_parent_name = "";
 	contact_item.m_item_type = 0;
-        m_plugin_system.sendFileTo(contact_item);*/
+        m_plugin_system.sendFileTo(contact_item, file_names);*/
 }
 
 void AbstractChatLayer::loadSettings()
@@ -479,17 +487,17 @@ void AbstractChatLayer::sendTypingNotification(const QString &protocol_name, con
 
 void AbstractChatLayer::contactTyping(const TreeModelItem &item, bool typing)
 {
-	if ( !item.m_item_type )
-	{
-		QString identification = QString("%1.%2.%3").arg(item.m_protocol_name)
-		.arg(item.m_account_name).arg(item.m_item_name);
-    if ( m_separate_window_list.contains(identification) )
-    {
-      SeparateChatWindow *win = m_separate_window_list.value(identification);
-      win->contactTyping(typing);
-    } else 	if ( typing )
-      AbstractNotificationLayer::instance().userMessage(item, "", 2);
-	}
+        if ( !item.m_item_type )
+        {
+            QString identification = QString("%1.%2.%3").arg(item.m_protocol_name)
+                .arg(item.m_account_name).arg(item.m_item_name);
+        if ( m_separate_window_list.contains(identification) )
+        {
+            SeparateChatWindow *win = m_separate_window_list.value(identification);
+            win->contactTyping(typing);
+        } else if ( typing )
+            AbstractNotificationLayer::instance().userMessage(item, "", NotifyTyping);
+        }
 }
 
 void AbstractChatLayer::messageDelievered(const TreeModelItem &item, int message_position)
@@ -669,8 +677,8 @@ void AbstractChatLayer::addItemToActivationList(const QString &protocol_name, co
 	AbstractContactList::instance().setItemHasUnviewedContent(contact_item, true);
 	if ( !m_do_not_show_if_open )
 	{
-		AbstractNotificationLayer::instance().userMessage(contact_item,message, 1);
-		AbstractSoundLayer::instance().playSound(MessageGet);
+                AbstractNotificationLayer::instance().userMessage(contact_item,message, NotifyMessageGet);
+                AbstractSoundLayer::instance().playSound(NotifyMessageGet);
 	}
 }
 

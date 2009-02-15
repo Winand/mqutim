@@ -40,7 +40,7 @@ public:
 	static AbstractSoundLayer &instance();
 	void loadProfile(const QString &profile_name);
 	void enableSound(bool enable);
-	void playSound(SoundEngineEvent event);
+        void playSound(NotificationType event);
 	void playSound(const QString &file_name);
 	void testPlaySound(SoundEngineSystem sys, const QString &argument);
 	void loadSettings();

@@ -53,7 +53,7 @@ void AbstractSoundLayer::enableSound(bool enable)
 {
 	m_enable_sound=enable;
 }
-void AbstractSoundLayer::playSound(SoundEngineEvent event)
+void AbstractSoundLayer::playSound(NotificationType event)
 {
 	QString file_name=m_sound_path.value(static_cast<int>(event),"");//.value(event,"");
 	if(file_name.isEmpty())

@@ -24,6 +24,8 @@
 
 #include "ui_soundlayersettings.h"
 
+using namespace qutim_sdk_0_2;
+
 class SoundLayerSettings : public QWidget
 {
     Q_OBJECT
@@ -50,15 +52,15 @@ private slots:
 //	void on_exportButton_clicked();
 //	void on_importButton_clicked();
 
-	void widgetStateChanged() { if (!changed) { emit settingsChanged(); changed = true; } };
+        void widgetStateChanged() { if (!changed) { emit settingsChanged(); changed = true; } };
 
 signals:
-	void settingsChanged();
-	void settingsSaved();
+        void settingsChanged();
+        void settingsSaved();
 
 private:
     void appendStatus(const QString &statusText);
-    void appendEvent(const QString &eventName, const qutim_sdk_0_2::SoundEngineEvent event);
+    void appendEvent(const QString &eventName, const NotificationType event);
     inline QString getCurrentFile() const;
     inline qutim_sdk_0_2::SoundEngineSystem getCurrentSoundSystem() const;
     bool changed;

@@ -18,7 +18,7 @@
 #define QUTIM_BUILD_VERSION_MINOR				1
 #define QUTIM_BUILD_VERSION_SECMINOR				99
 
-#define QUTIM_SVN_REVISION					114
+#define QUTIM_SVN_REVISION                                    140
 
 //#include <assert.h>
 #include <QtAlgorithms>
@@ -381,6 +381,11 @@ PluginInfoList PluginSystem::getPluginsByType(const QString &type)
 	}
 	
 	return temp;
+}
+
+bool PluginSystem::setLayerInterface( LayerType type, LayerInterface *interface)
+{
+    return false;
 }
 
 QWidget *PluginSystem::getLoginWidget(const QString &protocol_name)
@@ -810,12 +815,12 @@ void PluginSystem::addImage(const TreeModelItem &item, const QByteArray &image_r
 	acl.addImage(item, image_raw, true);
 }
 
-void PluginSystem::sendFileTo(const TreeModelItem &item)
+void PluginSystem::sendFileTo(const TreeModelItem &item, const QStringList &file_names)
 {
 /*		ProtocolInterface *protocol = m_protocols.value(item.m_protocol_name);
-		if(!protocol)
-			return;
-                return protocol->sendFileTo(item.m_account_name, item.m_item_name, item.m_item_type);*/
+                if(!protocol)
+                        return;
+                return protocol->sendFileTo(item.m_account_name, item.m_item_name, item.m_item_type, file_names);*/
 }
 
 void PluginSystem::sendTypingNotification(const TreeModelItem &item, int notification_type)
@@ -850,12 +855,14 @@ bool PluginSystem::checkForMessageValidation(const TreeModelItem &item, const QS
 
 void PluginSystem::notifyAboutBirthDay(const TreeModelItem &item)
 {
-	AbstractNotificationLayer::instance().userMessage(item, "", 4);
+        AbstractNotificationLayer::instance().userMessage(item, "", NotifyBirthday);
+        AbstractSoundLayer::instance().playSound(NotifyBirthday);
 }
 
 void PluginSystem::systemNotifiacation(const TreeModelItem &item, const QString &message)
 {
 	AbstractNotificationLayer::instance().systemMessage(item, message);
+        AbstractSoundLayer::instance().playSound(NotifySystem);
 	TreeModelItem tmp_item = item;
 	QString tmp_message = message;
 	foreach(SimplePluginInterface *plugin, m_registered_events_plugins.values(SystemNotification))
@@ -883,7 +890,7 @@ void PluginSystem::userNotification(TreeModelItem item, QString message, int typ
 
 void PluginSystem::customNotifiacation(const TreeModelItem &item, const QString &message)
 {
-	AbstractNotificationLayer::instance().userMessage(item, message, 5);
+        AbstractNotificationLayer::instance().userMessage(item, message, NotifyCustom);
 }
 QString PluginSystem::getIconFileName(const QString & icon_name)
 {
@@ -1274,7 +1281,7 @@ void PluginSystem::playSoundByPlugin(QString path)
 	}
 }
 
-void PluginSystem::playSound(SoundEngineEvent event)
+void PluginSystem::playSound(NotificationType event)
 {
 	AbstractSoundLayer::instance().playSound(event);
 }

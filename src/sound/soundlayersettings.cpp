@@ -28,14 +28,14 @@ SoundLayerSettings::SoundLayerSettings(const QString &profile_name, QWidget *par
 	ui.setupUi(this);
 
 	// Filling events table (tree widget)
-	appendEvent(tr("Startup"), qutim_sdk_0_2::Startup);
-	appendEvent(tr("System event"), qutim_sdk_0_2::SystemEvent);
-	appendEvent(tr("Outgoing message"), qutim_sdk_0_2::MessageSend);
-	appendEvent(tr("Incoming message"), qutim_sdk_0_2::MessageGet);
-	appendEvent(tr("Contact is online"), qutim_sdk_0_2::ContactOnline);
-	appendEvent(tr("Contact changed status"), qutim_sdk_0_2::ContactChangedStatus);
-	appendEvent(tr("Contact went offline"), qutim_sdk_0_2::ContactOffline);
-	appendEvent(tr("Contact's birthday is comming"), qutim_sdk_0_2::ContactBirthday);
+        appendEvent(tr("Startup"), NotifyStartup);
+        appendEvent(tr("System event"), NotifySystem);
+        appendEvent(tr("Outgoing message"), NotifyMessageSend);
+        appendEvent(tr("Incoming message"), NotifyMessageGet);
+        appendEvent(tr("Contact is online"), NotifyOnline);
+        appendEvent(tr("Contact changed status"), NotifyStatusChange);
+        appendEvent(tr("Contact went offline"), NotifyOffline);
+        appendEvent(tr("Contact's birthday is comming"), NotifyBirthday);
 
 	//ui.playOnlyTree->setEnabled(false);
 
@@ -61,7 +61,7 @@ SoundLayerSettings::SoundLayerSettings(const QString &profile_name, QWidget *par
 
 inline
 void SoundLayerSettings::appendEvent(const QString &eventName,
-	const qutim_sdk_0_2::SoundEngineEvent event)
+        const NotificationType event)
 {
 	static const Qt::ItemFlags itemFlags =
 		  Qt::ItemIsSelectable

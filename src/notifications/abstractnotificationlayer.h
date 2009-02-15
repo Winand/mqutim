@@ -27,7 +27,7 @@ public:
 	void loadProfile(const QString &profile_name);
 	void loadSettings();
 	void systemMessage(const TreeModelItem &item, const QString &message);
-	void userMessage(const TreeModelItem &item, const QString &, int);
+        void userMessage(const TreeModelItem &item, const QString &, NotificationType);
 	void deletePopupWindow(PopupWindow *window);
 	void loadTheme();
 private:

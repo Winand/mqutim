@@ -26,8 +26,42 @@
 
 namespace qutim_sdk_0_2 {
 
+class PluginSystemInterface;
 class PluginInterface;
 class SimplePluginInterface;
+
+enum LayerType
+{
+    AntiSpamLayer = 0,  // + -
+    ChatLayer,          // - -
+    ContactListLayer,   // - -
+    HistoryLayer,       // + -
+    NotificationLayer,  // + -
+    SoundEngineLayer,   // + -
+    VideoEngineLayer,   // + -
+    StatusLayer,        // + -
+    UnknownLayer,
+    UnknownLayer1,
+    UnknownLayer2,
+    UnknownLayer3,
+    UnknownLayer4,
+    UnknownLayer5,
+    UnknownLayer6,
+    UnknownLayer7,
+    UnknownLayer8,
+    InvalidLayer
+};
+
+class LayerInterface
+{
+public:
+    virtual bool init(PluginSystemInterface *plugin_system) = 0;
+    virtual void setProfileName(const QString &profile_name) = 0;
+    virtual void cleanup() = 0;
+    virtual void setLayerInterface( LayerType type, LayerInterface *interface) = 0;
+    virtual void loadSettings() = 0;
+    virtual void saveSettings() = 0;
+};
 /*!
  * @brief item of the TreeModel, used to represent contact, message or somewhat
  */
@@ -81,6 +115,22 @@ enum EventType {
 	ReceivingMessageFourthLevel
 };
 
+enum NotificationType
+{
+    NotifyOnline = 0,
+    NotifyOffline,
+    NotifyStatusChange,
+    NotifyBirthday,
+    NotifyStartup,
+    NotifyMessageGet,
+    NotifyMessageSend,
+    NotifySystem,
+    NotifyTyping,
+    NotifyBlockedMessage,
+    NotifyCustom,
+    EVENT_COUNT = NotifyTyping
+};
+
 enum MessageToProtocolEventType {
 	SetStatus = 0,
 	RestoreStatus
@@ -104,17 +154,6 @@ enum SoundEngineSystem {
 /*!
  * @brief event for sound engine
  */
-enum SoundEngineEvent {
-	ContactOnline = 0,
-	ContactOffline,
-	ContactChangedStatus,
-	ContactBirthday,
-	Startup,
-	MessageGet,
-	MessageSend,
-	SystemEvent,
-	EVENT_COUNT
-};
 const char* const XmlEventNames[] = { "c_online",
 	"c_offline", "c_changed_status",
 	"c_birth", "start",
@@ -477,10 +516,12 @@ public:
 	virtual void sendCustomMessage(const TreeModelItem &item, const QString &message, bool silent = false) = 0;
 	virtual void registerMainMenuAction(QAction *menu_action) = 0;
 	virtual void redirectEventToProtocol(const QStringList &protocol_name, const QList<void*> &event) = 0;
-	virtual void playSound(SoundEngineEvent event) = 0;
+        virtual void playSound(NotificationType event) = 0;
 	virtual void playSound(const QString &file_name) = 0;
 	virtual QSettings::Format plistFormat() = 0;
         virtual bool changeChatWindowID(const TreeModelItem &item, const QString &id) = 0;
+        virtual QStringList getAdditionalInfoAboutContact(const TreeModelItem &item) const = 0;
+        virtual bool setLayerInterface( LayerType type, LayerInterface *interface) = 0;
 };
 
 

@@ -67,7 +67,6 @@ void AbstractNotificationLayer::loadSettings()
 
 void AbstractNotificationLayer::systemMessage(const TreeModelItem &item, const QString &message)
 {
-	AbstractSoundLayer::instance().playSound(SystemEvent);
 	if ( m_show_balloon )
 	{
 		AbstractLayer::instance().showBalloon(QObject::tr("System message for : %1").arg(item.m_account_name),
@@ -95,7 +94,7 @@ void AbstractNotificationLayer::systemMessage(const TreeModelItem &item, const Q
 	}
 }
 
-void AbstractNotificationLayer::userMessage(const TreeModelItem &item, const QString &message, int type)
+void AbstractNotificationLayer::userMessage(const TreeModelItem &item, const QString &message, NotificationType type)
 {
 	PluginSystem::instance().userNotification(item, message, type);
 	QString trayMessageMsg;
@@ -130,51 +129,42 @@ void AbstractNotificationLayer::userMessage(const TreeModelItem &item, const QSt
 	bool show_message = false;
 	switch ( type )
 	{
-		//status change
-		case 0:
+                case NotifyStatusChange:
 			msg = contact_nick + " " + message;
 			trayMessageMsg =  message;
 			show_message = m_show_change_status;
 			break;
-		//message notification
-		case 1:
+                case NotifyMessageGet:
 			msg = QObject::tr("Message from %1:\n%2").arg(contact_nick).arg(message);
 			trayMessageMsg = message;
 			show_message = m_show_message;
 			break;
-		//typing notification;
-		case 2:
+                case NotifyTyping:
 			msg = QObject::tr("%1 is typing").arg(contact_nick);
 			trayMessageMsg = QObject::tr("typing");
 			show_message = m_show_typing;
 			break;
-		//blocked message
-		case 3:
+                case NotifyBlockedMessage:
 			msg = QObject::tr("Blocked message from %1:\n%2").arg(contact_nick).arg(message);
 			trayMessageMsg = QObject::tr("(BLOCKED)\n") + message;
 			show_message = true;
 			break;
-		//birthday
-		case 4:
+                case NotifyBirthday:
 			msg = QObject::tr("%1 has birthday today!!").arg(contact_nick);
 			trayMessageMsg = QObject::tr("has birthday today!!");
 			show_message = true;
-			AbstractSoundLayer::instance().playSound(ContactBirthday);
 			break;
-		//custom
-		case 5:
+                case NotifyCustom:
 			msg = contact_nick + "(" + item.m_item_name + ") " + message;
 			trayMessageMsg =  message;
 			show_message = true;
 			break;
-		//online
-		case 6:
+                case NotifyOnline:
 			msg = contact_nick + " " + message;
 			trayMessageMsg =  message;
 			show_message = m_show_signon;
 			break;
-		//offline
-		case 7:
+                case NotifyOffline:
 			msg = contact_nick + " " + message;
 			trayMessageMsg =  message;
 			show_message = m_show_signoff;

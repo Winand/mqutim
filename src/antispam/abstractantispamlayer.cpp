@@ -110,7 +110,7 @@ void AbstractAntiSpamLayer::notifyAboutBlock(const TreeModelItem &item, const QS
 {
 	if ( m_notify_on_block )
 	{
-		AbstractNotificationLayer::instance().userMessage(item, message, 3);
+                AbstractNotificationLayer::instance().userMessage(item, message, NotifyBlockedMessage);
 	}
 }
 

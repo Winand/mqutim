@@ -62,9 +62,9 @@ public:
     		const QString &item_name,
                 /*bool webkit_mode,*/
     		const QString &emoticon_path,
-/*    		const QString &chat_style,*/
+/*    		const QString &chat_style,
     		const QString &webkit_style,
-    		const QString &webkit_variant,
+    		const QString &webkit_variant,*/
     		QWidget *parent = 0);
     ~SeparateChatWindow();
     static bool lengthLessThan (const QString &s1, const QString &s2);

@@ -374,7 +374,7 @@ void TabbedChatWindow::addMessage(const QString &identification, const QString &
 					.arg(tmp_user_space->m_last_message_icon_position));
 			tmp_user_space->m_last_message_icon_position++;
 	
-			add_text.append(in?QString("<b><font color='blue'>"):QString("<b><font color='red'>"));
+			add_text.append(in?QString("<b><font color=#0000FF>"):QString("<b><font color=#FF0000>"));
 			if ( m_show_names )
 			{
 				add_text.append(in?tmp_user_space->m_contact_nick:tmp_user_space->m_account_nick);
@@ -448,9 +448,9 @@ void TabbedChatWindow::addServiceMessage(const QString &identification, const QS
 	{
 		int user_space_index = m_tab_chat_index_list.indexOf(identification);
 		ContactChatUserSpace *tmp_user_space = m_user_spaces_chat_list.at(user_space_index);
-		tmp_user_space->m_chat_history.append(QString("<font size='-1' color='grey'>%1</font><br>").arg(message));
+		tmp_user_space->m_chat_history.append(QString("<font size='-1' color=#808080>%1</font><br>").arg(message));
 		if ( user_space_index == m_chat_tab_bar->currentIndex() )
-			m_text_browser->append(QString("<font size='-1' color='grey'>%1</font>").arg(message));
+			m_text_browser->append(QString("<font size='-1' color=#808080>%1</font>").arg(message));
 	}
 }
 
@@ -601,7 +601,7 @@ void TabbedChatWindow::currentTabChanged(int index)
 		
 		if ( m_cliend_id_label )
 		{
-			m_cliend_id_label->setText(tmp_user_space->m_typing?tr("<font color='green'>Typing...</font>"):
+			m_cliend_id_label->setText(tmp_user_space->m_typing?tr("<font color=#00FF00>Typing...</font>"):
 				tmp_user_space->m_client_id);
 		}
 		if ( m_typing_label )
@@ -1045,7 +1045,7 @@ void TabbedChatWindow::contactTyping(const QString &identification, bool typing)
 		{
 			if ( m_cliend_id_label )
 			{
-				m_cliend_id_label->setText(typing?tr("<font color='green'>Typing...</font>"):
+				m_cliend_id_label->setText(typing?tr("<font color=#00FF00>Typing...</font>"):
 					tmp_user_space->m_client_id);
 			}
 			if ( m_typing_label )

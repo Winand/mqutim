@@ -188,7 +188,7 @@ void SeparateConference::addMessage(const QString &from,
 		quint64 tmp_position = m_text_browser->textCursor().position();
 		QString add_text;
 		add_text.append(m_mine_nick != from
-				?QString("<b><font color='blue'>"):QString("<b><font color='red'>"));
+				?QString("<b><font color=#0000FF>"):QString("<b><font color=#FF0000>"));
 		add_text.append(QString("[%1]").arg(date));
 		
 		if ( m_show_names )
@@ -514,7 +514,7 @@ void SeparateConference::addServiceMessage(const QString &message, const QString
 		QString modified_message;
 		modified_message= AbstractChatLayer::instance().findUrls(Qt::escape(message)).replace("\n", "<br>");
 		m_text_browser->moveCursor(QTextCursor::End);
-		m_text_browser->insertHtml(QString("<font size='-1' color='grey'>[%1] %2</font><br>")
+		m_text_browser->insertHtml(QString("<font size='-1' color=#808080>[%1] %2</font><br>")
 				.arg(date)
 				.arg(modified_message));
 		moveCursorToEnd();

@@ -303,8 +303,8 @@ void HistoryWindow::on_dateTreeWidget_currentItemChanged( QTreeWidgetItem* curre
 					{
 						QString history_html_2="";
 						history_html_2.append(
-								history_in?QString("<b><font color='blue'>")
-										:QString("<b><font color='red'>"));
+								history_in?QString("<b><font color=#0000FF>")
+										:QString("<b><font color=#FF0000>"));
 						history_html_2.append(history_in?from_nickname:account_nickname);
 						history_html_2.append(QString(" ( %1)</font></b><br>").arg(
 								history_date_time.time().toString()));

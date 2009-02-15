@@ -75,11 +75,17 @@ void AbstractChatLayer::createChat(const TreeModelItem &item, bool new_chat)
     qDebug("createChat:!m_tabbed_mode");
     if ( !m_separate_window_list.contains(identification) )
     {
-      SeparateChatWindow *win = new SeparateChatWindow(item.m_protocol_name,
+    qDebug("======= message ========");
+    qDebug() << "Protocol:" << item.m_protocol_name;
+    qDebug() << "From:" << item.m_item_name;
+    qDebug() << "To:" << item.m_account_name;
+      SeparateChatWindow *win = new SeparateChatWindow(item.m_protocol_name, // <- piece of bullshit
           item.m_account_name,
                                               item.m_item_name, /*m_webkit_mode,*/
-                                              m_emoticons_path, /*m_chat_form_path,*/
-          m_webkit_style_path, m_webkit_variant);
+                                              m_emoticons_path /*m_chat_form_path,*/
+                                              );
+//          m_webkit_style_path, m_webkit_variant);
+    qDebug("===== end message ======");
       m_separate_window_list.insert(identification, win);
       win->setOptions(m_remove_messages_after, m_remove_count, m_close_after_send,
           m_show_names, m_send_on_enter, m_send_typing_notifications);
@@ -88,7 +94,6 @@ void AbstractChatLayer::createChat(const TreeModelItem &item, bool new_chat)
       QIcon icon = acl.getItemStatusIcon(item);
       if ( !icon.isNull() )
         win->setWindowIcon(icon);
-
       PluginSystem::instance().chatWindowOpened(item);
       qutIM *mw = qutIM::getInstance();
       mw->addTab(win, item.m_item_name);

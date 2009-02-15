@@ -439,7 +439,7 @@ bool qutIM::eventFilter(QObject *watched, QEvent *event)
     }
     else if (event->type()==QEvent::WindowTitleChange)
     {
-      qDebug() << "Tab" << tab_index << "title changed";
+      qDebug() << "Tab" << tab_index << "title changed to" << w_receiver;
       setTabText(tab_index, w_receiver->windowTitle());
     }
   }

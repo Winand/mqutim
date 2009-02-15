@@ -69,9 +69,9 @@ SeparateChatWindow::SeparateChatWindow(const QString &protocol_name,
 		const QString &item_name,
                 /*bool webkit_mode,*/
 		const QString &emoticon_path,
-/*		const QString &chat_style,*/
+/*		const QString &chat_style,
 		const QString &webkit_style,
-		const QString &webkit_variant,
+		const QString &webkit_variant,*/
 		QWidget *parent)
     : QWidget(parent)
     , m_abstract_chat_layer(AbstractChatLayer::instance())
@@ -80,9 +80,9 @@ SeparateChatWindow::SeparateChatWindow(const QString &protocol_name,
     , m_item_name(item_name)
 /*    , m_webkit_mode(webkit_mode)*/
     , m_emoticons_path(emoticon_path)
-/*    , m_chat_form_path(chat_style)*/
+/*    , m_chat_form_path(chat_style)
     , m_webkit_style_path(webkit_style)
-    , m_webkit_variant(webkit_variant)
+    , m_webkit_variant(webkit_variant)*/
     , m_plugin_system(PluginSystem::instance())
 {
 	m_send_button = 0;
@@ -189,7 +189,7 @@ SeparateChatWindow::SeparateChatWindow(const QString &protocol_name,
 	    layout->addWidget(chat_widget);
 	    setLayout(layout);
 	}*/
-    setEmoticonsToMenu();
+//    setEmoticonsToMenu();
 	readContactInfo();
 	readOwnerInfo();
 	focusTextEdit();
@@ -213,7 +213,7 @@ SeparateChatWindow::SeparateChatWindow(const QString &protocol_name,
 	setAttribute(Qt::WA_DeleteOnClose, true);
 	connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),
 			SLOT(onCustomContextMenuRequested(const QPoint &)));
-	setIconsToButtons();
+//	setIconsToButtons();
 /*	if ( m_webkit_mode && m_web_view )
 	{
 		m_web_view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
@@ -317,7 +317,7 @@ void SeparateChatWindow::on_sendButton_clicked()
 
 void SeparateChatWindow::addMessage(const QString &message, bool in, const QString &message_date, bool history)
 {
-    qDebug()<<message;
+    qDebug() << "msg:" << message;
 /*	if (m_webkit_mode && m_web_view)
 	{
 		QString add_new_message = QString("%1")
@@ -345,7 +345,7 @@ void SeparateChatWindow::addMessage(const QString &message, bool in, const QStri
 		m_text_browser->textCursor().insertImage(":/icons/crystal_project/message.png");
 		m_text_browser->insertHtml("&nbsp;");
 		QString add_text;
-		add_text.append(in?QString("<b><font color='blue'>"):QString("<b><font color='red'>"));
+		add_text.append(in?QString("<b><font color=#0000FF>"):QString("<b><font color=#FF0000>"));
 		if ( m_show_names )
 		{
 			add_text.append(in?m_contact_name:m_own_name);
@@ -392,7 +392,7 @@ void SeparateChatWindow::addServiceMessage(const QString &message)
 	}
         else*/ if ( m_text_browser )
 	{
-		m_text_browser->append(QString("<font size='-1' color='grey'>%1</font>").arg(message));
+		m_text_browser->append(QString("<font size='-1' color=#808080>%1</font>").arg(message));
 	}
 	moveCursorToEnd();
 }
@@ -697,7 +697,7 @@ void SeparateChatWindow::contactTyping(bool typing)
 {
 	if ( m_cliend_id_label )
 	{
-		m_cliend_id_label->setText(typing?tr("<font color='green'>Typing...</font>"):
+		m_cliend_id_label->setText(typing?tr("<font color=#00FF00>Typing...</font>"):
 			m_client_id);
 	}
 	if ( m_typing_label )

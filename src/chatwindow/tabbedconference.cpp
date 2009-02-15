@@ -495,7 +495,7 @@ void TabbedConference::addMessage(const QString &identification, const QString &
 		QString add_text;
 		add_text.append(QString("<msgdiv id='%1'>").arg(tmp_conf_space->m_last_message_position));
 		add_text.append(tmp_conf_space->m_mine_nick != from
-				?QString("<b><font color='blue'>"):QString("<b><font color='red'>"));
+				?QString("<b><font color=#0000FF>"):QString("<b><font color=#FF0000>"));
 		add_text.append(QString("[%1]").arg(date));
 		
 		if ( m_show_names )
@@ -619,9 +619,9 @@ void TabbedConference::addServiceMessage(const QString &identification, const QS
 	}
         else*/ if ( m_text_browser )
         {
-		tmp_conf_space->m_chat_history.append(QString("<font size='-1' color='grey'>%1</font><br>").arg(message));
+		tmp_conf_space->m_chat_history.append(QString("<font size='-1' color=#808080>%1</font><br>").arg(message));
 		if ( conf_space_index == m_chat_tab_bar->currentIndex() )
-			m_text_browser->append(QString("<font size='-1' color='grey'>%1</font>").arg(message));
+			m_text_browser->append(QString("<font size='-1' color=#808080>%1</font>").arg(message));
 		
 	}
 	moveCursorToEnd();

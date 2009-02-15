@@ -1,0 +1,101 @@
+<ui version="4.0" >
+ <class>changeResourceClass</class>
+ <widget class="QDialog" name="changeResourceClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>240</width>
+    <height>163</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Change resource/priority</string>
+  </property>
+  <widget class="QLabel" name="label" >
+   <property name="geometry" >
+    <rect>
+     <x>9</x>
+     <y>9</y>
+     <width>181</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Resource:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="resourceEdit" >
+   <property name="geometry" >
+    <rect>
+     <x>9</x>
+     <y>36</y>
+     <width>221</width>
+     <height>24</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2" >
+   <property name="geometry" >
+    <rect>
+     <x>9</x>
+     <y>67</y>
+     <width>181</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Priority:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="priorityEdit" >
+   <property name="geometry" >
+    <rect>
+     <x>9</x>
+     <y>93</y>
+     <width>221</width>
+     <height>24</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="changeButton" >
+   <property name="geometry" >
+    <rect>
+     <x>9</x>
+     <y>126</y>
+     <width>221</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Change</string>
+   </property>
+   <property name="shortcut" >
+    <string>Return</string>
+   </property>
+   <property name="autoDefault" >
+    <bool>true</bool>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections>
+  <connection>
+   <sender>changeButton</sender>
+   <signal>clicked()</signal>
+   <receiver>changeResourceClass</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

@@ -1,0 +1,139 @@
+<ui version="4.0" >
+ <class>customStatusDialogClass</class>
+ <widget class="QDialog" name="customStatusDialogClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>270</width>
+    <height>399</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Choose your mood</string>
+  </property>
+  <property name="windowIcon" >
+   <iconset>
+    <normaloff>:/icons/crystal_project/statuses.png</normaloff>:/icons/crystal_project/statuses.png</iconset>
+  </property>
+  <widget class="QTextEdit" name="awayEdit" >
+   <property name="geometry" >
+    <rect>
+     <x>4</x>
+     <y>30</y>
+     <width>262</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="maximumSize" >
+    <size>
+     <width>16777215</width>
+     <height>60</height>
+    </size>
+   </property>
+   <property name="verticalScrollBarPolicy" >
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy" >
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="iconList" >
+   <property name="geometry" >
+    <rect>
+     <x>4</x>
+     <y>92</y>
+     <width>262</width>
+     <height>271</height>
+    </rect>
+   </property>
+   <property name="showDropIndicator" stdset="0" >
+    <bool>false</bool>
+   </property>
+   <property name="movement" >
+    <enum>QListView::Static</enum>
+   </property>
+   <property name="spacing" >
+    <number>5</number>
+   </property>
+   <property name="viewMode" >
+    <enum>QListView::IconMode</enum>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="chooseButton" >
+   <property name="geometry" >
+    <rect>
+     <x>4</x>
+     <y>366</y>
+     <width>130</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Choose</string>
+   </property>
+   <property name="icon" >
+    <iconset>
+     <normaloff>:/icons/crystal_project/apply.png</normaloff>:/icons/crystal_project/apply.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="cancelButton" >
+   <property name="geometry" >
+    <rect>
+     <x>137</x>
+     <y>366</y>
+     <width>129</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Cancel</string>
+   </property>
+   <property name="icon" >
+    <iconset>
+     <normaloff>:/icons/crystal_project/cancel.png</normaloff>:/icons/crystal_project/cancel.png</iconset>
+   </property>
+  </widget>
+  <widget class="QLabel" name="captionEdit" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>0</y>
+     <width>251</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font" >
+    <font>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text" >
+    <string/>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources>
+  <include location="../../../qutim.qrc" />
+ </resources>
+ <connections>
+  <connection>
+   <sender>cancelButton</sender>
+   <signal>clicked()</signal>
+   <receiver>customStatusDialogClass</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>170</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>194</x>
+     <y>260</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

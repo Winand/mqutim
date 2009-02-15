@@ -1,0 +1,90 @@
+<ui version="4.0" >
+ <class>AcceptAuthDialog</class>
+ <widget class="QWidget" name="AcceptAuthDialog" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>162</width>
+    <height>168</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <widget class="QTextEdit" name="authorizeText" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>161</width>
+     <height>111</height>
+    </rect>
+   </property>
+   <property name="readOnly" >
+    <bool>true</bool>
+   </property>
+   <property name="textInteractionFlags" >
+    <set>Qt::LinksAccessibleByMouse|Qt::NoTextInteraction|Qt::TextSelectableByMouse</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="authorizeButton" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>110</y>
+     <width>81</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Authorize</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="denyButton" >
+   <property name="geometry" >
+    <rect>
+     <x>80</x>
+     <y>110</y>
+     <width>81</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Deny</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ignoreButton" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>140</y>
+     <width>161</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Ignore</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>ignoreButton</sender>
+   <signal>clicked()</signal>
+   <receiver>AcceptAuthDialog</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>263</x>
+     <y>213</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>158</x>
+     <y>114</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

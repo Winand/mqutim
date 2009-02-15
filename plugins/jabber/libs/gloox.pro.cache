@@ -1,0 +1,5 @@
+CONFIG=qt libidn
+QTOPIA_DEPENDS=libraries/qtopiacore/*
+LIBS=-lgnutls -L/opt/local/lib -llibgnutls-26
+DEFINES=HAVE_GNUTLS
+INCLUDEPATH=/opt/local/include

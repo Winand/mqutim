@@ -37,7 +37,7 @@
      <item>
       <widget class="QToolButton" name="quoteButton" >
        <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
          <horstretch>1</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -132,7 +132,7 @@
      <item>
       <widget class="QPushButton" name="sendButton" >
        <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
          <horstretch>3</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>

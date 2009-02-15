@@ -109,12 +109,9 @@ private:
   bool m_lock_for_first_message;
   PluginSystem &m_plugin_system;
   
-  QHash<QString, QString> m_urls;
-  QString m_now_html;
   bool m_remove_message_after;
   quint16 m_remove_count;
   QList<quint64> m_message_positions;
-  bool m_close_after_send;
   bool m_show_names;
   bool m_send_typing_notifications;
   bool m_text_changed;

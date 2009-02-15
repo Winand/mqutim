@@ -32,20 +32,25 @@ SeparateChatWindow::SeparateChatWindow(const QString &protocol_name,
     , m_account_name(account_name)
     , m_item_name(item_name)
     , m_plugin_system(PluginSystem::instance())
+    , m_last_message_sender(true)
+    , m_lock_for_first_message(false)
+    , m_text_changed(false)
+    , m_last_message_icon_position(0)
+    , m_last_message_position(0)
 {
-	m_last_message_sender = true;
-	m_lock_for_first_message = false;
-	m_close_after_send = false;
-	m_text_changed = false;
-	m_last_message_icon_position = 0;
-	m_last_message_position = 0;
-	
   ui.setupUi(this);
   m_send_button = ui.sendButton;
   m_plain_text_edit = ui.chatInputEdit;
   m_text_browser = ui.chatLog;
   m_send_button->setEnabled(false);
   m_text_browser->setOpenExternalLinks(true);
+  
+  QSoftMenuBar::setLabel(this, Qt::Key_Back, QSoftMenuBar::NoLabel);
+  QMenu *menu = QSoftMenuBar::menuFor(this);
+  menu->clear();
+  menu->addAction(tr("Clear Chat"), this, SLOT(clearChat()));
+  menu->addSeparator();
+  menu->addAction(tr("Close Chat"), this, SLOT(deleteLater()));
   
   m_contact_name = m_item_name;
   m_own_name = m_account_name;
@@ -241,13 +246,6 @@ void SeparateChatWindow::typingNow()
 
 void SeparateChatWindow::contactTyping(bool typing)
 {
-  /*
-	if ( m_cliend_id_label )
-	{
-		ui.typingLabel->setText(typing?tr("<font color='green'>Typing...</font>"):
-			m_client_id);
-	}
-  */
   ui.typingLabel->setText(typing?QString("<img src=':/icons/typing.png'>"):"");
 }
 
@@ -292,6 +290,7 @@ void SeparateChatWindow::clearChat()
 	{
 		m_text_browser->clear();
 		m_message_positions.clear();
+    m_message_position_offset.clear();
 	}
 }
 
@@ -397,7 +396,6 @@ void SeparateChatWindow::onCustomContextMenuRequested(const QPoint &pos)
 {
 	m_abstract_chat_layer.askForContactMenu(m_protocol_name, m_account_name,
 			m_item_name, mapToGlobal(pos));
-
 }
 
 void SeparateChatWindow::setIconsToButtons()
@@ -439,7 +437,6 @@ void SeparateChatWindow::setID(const QString &id)
 {
   m_item_name = id;
   updateInfo();
-  //m_id_label->setText(id);
 }
 
 void SeparateChatWindow::updateInfo()

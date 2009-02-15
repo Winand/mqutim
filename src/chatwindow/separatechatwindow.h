@@ -43,9 +43,8 @@ public:
     		QWidget *parent = 0);
     ~SeparateChatWindow();
     
-    static bool lengthLessThan (const QString &s1, const QString &s2);
-    void addMessage(const QString &message, bool in
-    		, const QString &message_date, bool history);
+    void addMessage(const QString &message, bool in,
+                    const QDateTime &message_date, bool history);
     void addServiceMessage(const QString &message);
     void setOptions(bool remove_after, quint16 remove_count,
     		bool close_after, bool show_names, bool on_enter,
@@ -115,7 +114,6 @@ private:
   bool m_remove_message_after;
   quint16 m_remove_count;
   QList<quint64> m_message_positions;
-  quint32 m_webkit_header_offset;
   bool m_close_after_send;
   bool m_show_names;
   bool m_send_typing_notifications;
@@ -125,7 +123,6 @@ private:
   int m_last_message_icon_position;
   int m_last_message_position;
   bool m_waiting_for_activation;
-  QString m_emoticons_path;
   bool m_scroll_at_max;
   quint64 m_current_scroll_position;
   bool m_last_history;

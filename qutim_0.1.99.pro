@@ -72,8 +72,6 @@ HEADERS += src/aboutinfo.h \
     src/chatwindow/movielabel.h \
     src/chatwindow/separatechatwindow.h \
     src/chatwindow/separateconference.h \
-    src/chatwindow/tabbedchatwindow.h \
-    src/chatwindow/tabbedconference.h \
     src/contactlist/contactlisteventeater.h \
     src/contactlist/contactlistitemdelegate.h \
     src/contactlist/contactlistproxymodel.h \
@@ -156,8 +154,6 @@ SOURCES += main.cpp \
     src/chatwindow/movielabel.cpp \
     src/chatwindow/separatechatwindow.cpp \
     src/chatwindow/separateconference.cpp \
-    src/chatwindow/tabbedchatwindow.cpp \
-    src/chatwindow/tabbedconference.cpp \
     src/contactlist/contactlisteventeater.cpp \
     src/contactlist/contactlistitemdelegate.cpp \
     src/contactlist/contactlistproxymodel.cpp \

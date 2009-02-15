@@ -99,11 +99,6 @@ int SeparateChatWindow::getCursorPosition()
 	return cursor_position;
 }
 
-bool SeparateChatWindow::lengthLessThan(const QString &s1, const QString &s2)
-{
-	return s1.size() > s2.size();
-}
-
 void SeparateChatWindow::on_sendButton_clicked()
 {
 	if ( m_plain_text_edit )
@@ -117,33 +112,42 @@ void SeparateChatWindow::on_sendButton_clicked()
 		}
 		m_plain_text_edit->clear();
 		m_plain_text_edit->moveCursor(QTextCursor::Start);
-		if ( m_close_after_send )
-			close();
 		m_plain_text_edit->setFocus();
 	}
 	m_send_button->setEnabled(false);
 }
 
-void SeparateChatWindow::addMessage(const QString &message, bool in, const QString &message_date, bool history)
+void SeparateChatWindow::addMessage(const QString &message_raw, bool in, const QDateTime &message_date, bool history)
 {
   if ( m_text_browser )
 	{
 		quint64 tmp_position = m_text_browser->textCursor().position();
-		m_text_browser->textCursor().insertImage(":/icons/crystal_project/message.png");
-		m_text_browser->insertHtml("&nbsp;");
-		QString add_text;
-		add_text.append(in?QString("<b><font color='blue'>"):QString("<b><font color='red'>"));
-		if ( m_show_names )
-		{
-			add_text.append(in?m_contact_name:m_own_name);
-		}
-		add_text.append(QString(" ( %1)</font></b><br>").arg(message_date));
-		add_text.append(QString("%1<br>").arg(message));
+    
+    QString color_from = "#FF0000";
+    QString color_to = "#0000FF";
+    QString color_timestamp = "#808080";
+    int timestamp_font_size = -2;
+    
+    QString message_header_format = "&nbsp;<b><font color=\"%1\">%2</font></b><br>";
+    QString message_body_format = "<font color=\"%1\" size=\"%2\">%3</font> %4<br>";
+    QString message_timestamp_format = "h:mm";
+    
+    QString message_html;
+    message_html += message_header_format
+      .arg(in?color_from:color_to) // header font color
+      .arg(in?m_contact_name:m_own_name); // name
+    message_html += message_body_format
+      .arg(color_timestamp) // timestamp font color
+      .arg(timestamp_font_size) // timestamp font size
+      .arg(message_date.toString(message_timestamp_format)) // timestamp
+      .arg(message_raw); // message body
+    
 		m_current_scroll_position = m_text_browser->verticalScrollBar()->value();
-		m_scroll_at_max = m_text_browser->verticalScrollBar()->maximum()
-			== m_current_scroll_position; 
-		m_text_browser->insertHtml(add_text);
-		moveCursorToEnd();
+		m_scroll_at_max = m_text_browser->verticalScrollBar()->maximum() == m_current_scroll_position; 
+    moveCursorToEnd();
+    m_text_browser->textCursor().insertImage(":/icons/crystal_project/message.png");
+		m_text_browser->insertHtml(message_html);
+    moveCursorToEnd();
 		if ( m_remove_message_after )
 		{
 			if ( m_message_positions.count() >= m_remove_count )
@@ -165,7 +169,6 @@ void SeparateChatWindow::addMessage(const QString &message, bool in, const QStri
 			m_message_positions.append(m_text_browser->textCursor().position() - tmp_position);
 		}
 	}
-	checkForActiveState();
 }
 
 void SeparateChatWindow::addServiceMessage(const QString &message)
@@ -349,17 +352,14 @@ void SeparateChatWindow::messageDelievered(int position)
 
 void SeparateChatWindow::moveCursorToEnd()
 {
-  if( m_text_browser )
-	{
-		m_text_browser->moveCursor(QTextCursor::End);
-		m_text_browser->ensureCursorVisible();
-		m_text_browser->setLineWrapColumnOrWidth(m_text_browser->lineWrapColumnOrWidth());
-		int scroll_maximum = m_text_browser->verticalScrollBar()->maximum();
-		if ( m_scroll_at_max )
-			m_text_browser->verticalScrollBar()->setValue( scroll_maximum );	
-		else
-			m_text_browser->verticalScrollBar()->setValue(m_current_scroll_position);	
-	}
+  m_text_browser->moveCursor(QTextCursor::End);
+  m_text_browser->ensureCursorVisible();
+  m_text_browser->setLineWrapColumnOrWidth(m_text_browser->lineWrapColumnOrWidth());
+  int scroll_maximum = m_text_browser->verticalScrollBar()->maximum();
+  if ( m_scroll_at_max )
+    m_text_browser->verticalScrollBar()->setValue( scroll_maximum );	
+  else
+    m_text_browser->verticalScrollBar()->setValue(m_current_scroll_position);	
 }
 
 void SeparateChatWindow::windowActivatedByUser()
@@ -367,10 +367,6 @@ void SeparateChatWindow::windowActivatedByUser()
   qutIM *qutim = qutIM::getInstance();
   qutim->setCurrentWidget(this);
   m_plain_text_edit->setFocus();
-}
-
-void SeparateChatWindow::checkForActiveState()
-{
 }
 
 void SeparateChatWindow::windowFocused()
@@ -406,52 +402,6 @@ void SeparateChatWindow::onCustomContextMenuRequested(const QPoint &pos)
 
 void SeparateChatWindow::setIconsToButtons()
 {
-  /*
-    if ( m_send_button )
-    {
-    	m_send_button->setIcon(IconManager::instance().getIcon("message") );
-    }
-    if ( m_info_button )
-    {
-    	m_info_button->setIcon(IconManager::instance().getIcon("contactinfo") );
-    }
-    if ( m_history_button )
-    {
-    	m_history_button->setIcon(IconManager::instance().getIcon("history") );
-    }
-    if ( m_emoticons_button )
-    {
-    	m_emoticons_button->setIcon(IconManager::instance().getIcon("emoticon") );
-    }
-    if ( m_send_picture_button )
-    {
-    	m_send_picture_button->setIcon(IconManager::instance().getIcon("image") );
-    }
-    if ( m_send_file_button )
-    {
-    	m_send_file_button->setIcon(IconManager::instance().getIcon("save_all") );
-    }
-    if ( m_on_enter_button )
-    {
-    	m_on_enter_button->setIcon(IconManager::instance().getIcon("key_enter") );
-    }
-    if ( m_send_typing_button )
-    {
-    	m_send_typing_button->setIcon(IconManager::instance().getIcon("typing") );
-    }
-    if ( m_translate_button )
-    {
-    	m_translate_button->setIcon(IconManager::instance().getIcon("translate") );
-    }
-    if ( m_quote_button )
-    {
-    	m_quote_button->setIcon(IconManager::instance().getIcon("quote") );
-    }
-    if ( m_clear_button )
-    {
-    	m_clear_button->setIcon(IconManager::instance().getIcon("edituser") );
-    }
-    */
 }
 
 void SeparateChatWindow::newsOnLinkClicked(const QUrl &url)

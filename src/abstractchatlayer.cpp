@@ -167,7 +167,7 @@ void AbstractChatLayer::addMessage(const TreeModelItem &item, const QString &mes
     if ( m_separate_window_list.contains(identification) )
     {
       SeparateChatWindow *win = m_separate_window_list.value(identification);
-      win->addMessage(message, in, getTimeStamp(message_date), history);
+      win->addMessage(message, in, message_date, history);
       if ( !win->isActiveWindow() || win->isMinimized())
       {
         m_waiting_for_activation_list.append(item);

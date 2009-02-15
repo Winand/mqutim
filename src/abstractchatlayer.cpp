@@ -16,7 +16,6 @@
 #include "abstractchatlayer.h"
 #include "abstractlayer.h"
 #include "chatwindow/separatechatwindow.h"
-#include "chatwindow/tabbedchatwindow.h"
 #include "abstracthistorylayer.h"
 #include "abstractcontactlist.h"
 #include <QtXml>
@@ -24,7 +23,6 @@
 #include "notifications/abstractnotificationlayer.h"
 #include "chatwindow/separateconference.h"
 #include "abstractcontextlayer.h"
-#include "chatwindow/tabbedconference.h"
 #include "qutim.h"
 
 AbstractChatLayer::AbstractChatLayer():
@@ -33,7 +31,6 @@ AbstractChatLayer::AbstractChatLayer():
 	m_tabbed_mode = false;
 	m_tabbed_window_created = false;
 	m_tabbed_conference_created = false;
-//	m_webkit_mode = false;
 	m_remove_messages_after = false;
 	m_remove_count = 0;
 	m_open_on_new = false;
@@ -75,29 +72,23 @@ void AbstractChatLayer::createChat(const TreeModelItem &item, bool new_chat)
     qDebug("createChat:!m_tabbed_mode");
     if ( !m_separate_window_list.contains(identification) )
     {
-    qDebug("======= message ========");
-    qDebug() << "Protocol:" << item.m_protocol_name;
-    qDebug() << "From:" << item.m_item_name;
-    qDebug() << "To:" << item.m_account_name;
-      SeparateChatWindow *win = new SeparateChatWindow(item.m_protocol_name, // <- piece of bullshit
-          item.m_account_name,
-                                              item.m_item_name, /*m_webkit_mode,*/
-                                              m_emoticons_path /*m_chat_form_path,*/
-                                              );
-//          m_webkit_style_path, m_webkit_variant);
-    qDebug("===== end message ======");
+      qDebug("======= message ========");
+      qDebug() << "Protocol:" << item.m_protocol_name;
+      qDebug() << "From:" << item.m_item_name;
+      qDebug() << "To:" << item.m_account_name;
+      qDebug("===== end message ======");
+      qutIM *qutim = qutIM::getInstance();
+      SeparateChatWindow *win = new SeparateChatWindow(item.m_protocol_name, item.m_account_name, item.m_item_name, qutim);
       m_separate_window_list.insert(identification, win);
       win->setOptions(m_remove_messages_after, m_remove_count, m_close_after_send,
           m_show_names, m_send_on_enter, m_send_typing_notifications);
-//				restoreWindowSizeAndPosition(win);
       AbstractContactList &acl = AbstractContactList::instance();
       QIcon icon = acl.getItemStatusIcon(item);
       if ( !icon.isNull() )
         win->setWindowIcon(icon);
       PluginSystem::instance().chatWindowOpened(item);
-      qutIM *mw = qutIM::getInstance();
-      mw->addTab(win, item.m_item_name);
-      mw->setCurrentWidget(win);
+      qutim->addTab(win, item.m_item_name);
+      qutim->setCurrentWidget(win);
       QDateTime last_time = QDateTime::currentDateTime();
       foreach(UnreadedMessage unreaded_message, m_unreaded_messages_list)
       {
@@ -179,10 +170,10 @@ void AbstractChatLayer::addMessage(const TreeModelItem &item, const QString &mes
 		.arg(item.m_account_name).arg(item.m_item_name);
     if ( m_separate_window_list.contains(identification) )
     {
-        SeparateChatWindow *win = m_separate_window_list.value(identification);
-        win->addMessage(message, in, getTimeStamp(message_date), history);
-        if ( !win->isActiveWindow() || win->isMinimized())
-        {
+      SeparateChatWindow *win = m_separate_window_list.value(identification);
+      win->addMessage(message, in, message_date, history);
+      if ( !win->isActiveWindow() || win->isMinimized())
+      {
         m_waiting_for_activation_list.append(item);
         if ( !m_dont_show_tray_event && in && !unreaded_message)
         {

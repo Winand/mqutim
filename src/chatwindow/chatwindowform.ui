@@ -1,103 +1,86 @@
 <ui version="4.0" >
- <class>Form</class>
- <widget class="QWidget" name="Form" >
+ <class>ChatWindow</class>
+ <widget class="QWidget" name="ChatWindow" >
   <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>266</width>
-    <height>270</height>
+    <width>240</width>
+    <height>240</height>
    </rect>
   </property>
   <property name="contextMenuPolicy" >
    <enum>Qt::NoContextMenu</enum>
   </property>
   <property name="windowTitle" >
-   <string>Form</string>
+   <string>Chat</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout" >
+   <property name="spacing" >
+    <number>0</number>
+   </property>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout" >
+    <widget class="QTextBrowser" name="chatLog" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+       <horstretch>0</horstretch>
+       <verstretch>5</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="toolbarLayout" >
      <property name="spacing" >
-      <number>4</number>
+      <number>-1</number>
      </property>
      <item>
-      <widget class="QToolButton" name="historyButton" >
-       <property name="maximumSize" >
-        <size>
-         <width>22</width>
-         <height>22</height>
-        </size>
+      <widget class="QToolButton" name="quoteButton" >
+       <property name="sizePolicy" >
+        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+         <horstretch>1</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="text" >
         <string/>
        </property>
        <property name="icon" >
         <iconset resource="../../qutim.qrc" >
-         <normaloff>:/icons/crystal_project/history.png</normaloff>:/icons/crystal_project/history.png</iconset>
+         <normaloff>:/icons/crystal_project/quote.png</normaloff>:/icons/crystal_project/quote.png</iconset>
        </property>
        <property name="shortcut" >
-        <string>Ctrl+H</string>
+        <string>Ctrl+Q</string>
+       </property>
+       <property name="toolButtonStyle" >
+        <enum>Qt::ToolButtonIconOnly</enum>
        </property>
        <property name="autoRaise" >
         <bool>true</bool>
+       </property>
+       <property name="arrowType" >
+        <enum>Qt::NoArrow</enum>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="emoticonButton" >
-       <property name="maximumSize" >
+      <spacer name="horizontalSpacer" >
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0" >
         <size>
-         <width>22</width>
-         <height>22</height>
+         <width>40</width>
+         <height>20</height>
         </size>
        </property>
-       <property name="text" >
-        <string/>
-       </property>
-       <property name="icon" >
-        <iconset resource="../../qutim.qrc" >
-         <normaloff>:/icons/crystal_project/emoticon.png</normaloff>:/icons/crystal_project/emoticon.png</iconset>
-       </property>
-       <property name="shortcut" >
-        <string>Ctrl+M</string>
-       </property>
-       <property name="popupMode" >
-        <enum>QToolButton::InstantPopup</enum>
-       </property>
-       <property name="autoRaise" >
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QToolButton" name="infoButton" >
-       <property name="maximumSize" >
-        <size>
-         <width>22</width>
-         <height>22</height>
-        </size>
-       </property>
-       <property name="text" >
-        <string/>
-       </property>
-       <property name="icon" >
-        <iconset resource="../../qutim.qrc" >
-         <normaloff>:/icons/crystal_project/contactinfo.png</normaloff>:/icons/crystal_project/contactinfo.png</iconset>
-       </property>
-       <property name="shortcut" >
-        <string>Ctrl+I</string>
-       </property>
-       <property name="autoRaise" >
-        <bool>true</bool>
-       </property>
-      </widget>
+      </spacer>
      </item>
      <item>
       <widget class="QLabel" name="typingLabel" >
        <property name="sizePolicy" >
         <sizepolicy vsizetype="Preferred" hsizetype="Fixed" >
-         <horstretch>0</horstretch>
+         <horstretch>1</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
@@ -147,73 +130,16 @@
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="typingButton" >
-       <property name="maximumSize" >
-        <size>
-         <width>22</width>
-         <height>22</height>
-        </size>
-       </property>
-       <property name="text" >
-        <string/>
-       </property>
-       <property name="icon" >
-        <iconset resource="../../qutim.qrc" >
-         <normaloff>:/icons/crystal_project/typing.png</normaloff>:/icons/crystal_project/typing.png</iconset>
-       </property>
-       <property name="checkable" >
-        <bool>true</bool>
-       </property>
-       <property name="autoRaise" >
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QToolButton" name="quoteButton" >
-       <property name="maximumSize" >
-        <size>
-         <width>22</width>
-         <height>22</height>
-        </size>
-       </property>
-       <property name="text" >
-        <string/>
-       </property>
-       <property name="icon" >
-        <iconset resource="../../qutim.qrc" >
-         <normaloff>:/icons/crystal_project/quote.png</normaloff>:/icons/crystal_project/quote.png</iconset>
-       </property>
-       <property name="shortcut" >
-        <string>Ctrl+Q</string>
-       </property>
-       <property name="autoRaise" >
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QToolButton" name="clearChatButton" >
-       <property name="maximumSize" >
-        <size>
-         <width>22</width>
-         <height>22</height>
-        </size>
-       </property>
-       <property name="text" >
-        <string>...</string>
-       </property>
-       <property name="icon" >
-        <iconset resource="../../qutim.qrc" >
-         <normaloff>:/icons/crystal_project/edituser.png</normaloff>:/icons/crystal_project/edituser.png</iconset>
-       </property>
-       <property name="autoRaise" >
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="sendButton" >
+       <property name="sizePolicy" >
+        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+         <horstretch>3</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text" >
+        <string>Send</string>
+       </property>
        <property name="icon" >
         <iconset resource="../../qutim.qrc" >
          <normaloff>:/icons/crystal_project/message.png</normaloff>:/icons/crystal_project/message.png</iconset>
@@ -224,10 +150,16 @@
    </item>
    <item>
     <widget class="QTextEdit" name="chatInputEdit" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+       <horstretch>0</horstretch>
+       <verstretch>1</verstretch>
+      </sizepolicy>
+     </property>
      <property name="minimumSize" >
       <size>
        <width>0</width>
-       <height>22</height>
+       <height>25</height>
       </size>
      </property>
      <property name="acceptRichText" >

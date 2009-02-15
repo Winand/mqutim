@@ -74,13 +74,6 @@ SeparateConference::SeparateConference(
 	
 	setIconsToButtons();
 	setEmoticonsToMenu();
-    m_event_eater = new ChatEventEater(this);
-    connect(m_event_eater, SIGNAL(sendMessage()),
-    		this, SLOT(on_sendButton_clicked()));
-    connect(m_event_eater, SIGNAL(focusedIn()),
-    		this, SLOT(windowFocused()));
-    ui.conferenceTextEdit->installEventFilter(m_event_eater);
-    installEventFilter(m_event_eater);
 /*	if ( m_webkit_mode && m_web_view )
 	{
 		m_web_view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
@@ -294,7 +287,6 @@ void SeparateConference::on_clearButton_clicked()
 
 void SeparateConference::on_onEnterButton_clicked()
 {
-	m_event_eater->m_send_on_enter = ui.onEnterButton->isChecked();
 	ui.conferenceTextEdit->setFocus();
 }
 
@@ -456,7 +448,6 @@ void SeparateConference::setOptions(bool remove_after, quint16 remove_count,
 	m_remove_count = remove_count;
 	m_close_after_send = close_after;
 	m_show_names = show_names;
-	m_event_eater->m_send_on_enter = on_enter;
 	ui.onEnterButton->setChecked(on_enter);
 }
 

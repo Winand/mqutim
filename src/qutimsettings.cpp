@@ -46,8 +46,8 @@ qutimSettings::qutimSettings(const QString &profile_name,
   addWidget(settingsSelector);
   
 	createSettingsWidget();
-	fillProtocolComboBox();
   connect(ui.protocolBox, SIGNAL(currentIndexChanged(int)), SLOT(changeProtocolSettings(int)));
+	fillProtocolComboBox();
   
   QSoftMenuBar::setLabel(this, Qt::Key_Back, QSoftMenuBar::Back);
   QMenu *menu = QSoftMenuBar::menuFor(this);
@@ -206,21 +206,24 @@ void qutimSettings::saveAllSettings()
 
 void qutimSettings::changeProtocolSettings(int index)
 {
-  QMessageBox msgBox(QMessageBox::NoIcon, tr("Save settings"),
-  tr("Save %1 settings?").arg(m_current_account_name), QMessageBox::Yes | QMessageBox::No, this);
-  switch( QtopiaApplication::execDialog(&msgBox) )
+  if (!m_current_account_name.isEmpty())
   {
-    case QMessageBox::Yes:
-      signalForSettingsSaving(m_current_account_name);
-      break;
-  
-    case QMessageBox::No:
-      break;
-  
-    default:
-      break;
+    QMessageBox msgBox(QMessageBox::NoIcon, tr("Save settings"),
+    tr("Save %1 settings?").arg(m_current_account_name), QMessageBox::Yes | QMessageBox::No, this);
+    switch( QtopiaApplication::execDialog(&msgBox) )
+    {
+      case QMessageBox::Yes:
+        signalForSettingsSaving(m_current_account_name);
+        break;
+    
+      case QMessageBox::No:
+        break;
+    
+      default:
+        break;
+    }
+    deleteCurrentProtocolSettings();
   }
-	deleteCurrentProtocolSettings();
 	
 	m_current_account_name = ui.protocolBox->itemText(index);
 	if ( !m_current_account_name.isEmpty() )
@@ -233,7 +236,6 @@ void qutimSettings::changeProtocolSettings(int index)
 			{
 				ui.settingsTree->addTopLevelItem(settings_structure.settings_item);
 				QWidget *settings_widget = settings_structure.settings_widget;
-				connect( settings_widget, SIGNAL(settingsChanged()), this, SLOT(enableApply()) );
 				addWidget(settings_widget);
 			}
 		}

@@ -85,7 +85,6 @@ private:
 	QString checkForEmoticons(const QString &message);
 	QString invertMessage(QString &text);
 	AbstractChatLayer &m_abstract_chat_layer;
-	ChatEventEater *m_event_eater;
 	QString m_conference_name;
 	QString m_account_name;
 	QString m_protocol_name;

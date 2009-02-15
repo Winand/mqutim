@@ -16,7 +16,6 @@
 #include "abstractchatlayer.h"
 #include "abstractlayer.h"
 #include "chatwindow/separatechatwindow.h"
-#include "chatwindow/tabbedchatwindow.h"
 #include "abstracthistorylayer.h"
 #include "abstractcontactlist.h"
 #include <QtXml>
@@ -24,7 +23,6 @@
 #include "notifications/abstractnotificationlayer.h"
 #include "chatwindow/separateconference.h"
 #include "abstractcontextlayer.h"
-#include "chatwindow/tabbedconference.h"
 #include "qutim.h"
 
 AbstractChatLayer::AbstractChatLayer():
@@ -33,7 +31,6 @@ AbstractChatLayer::AbstractChatLayer():
 	m_tabbed_mode = false;
 	m_tabbed_window_created = false;
 	m_tabbed_conference_created = false;
-//	m_webkit_mode = false;
 	m_remove_messages_after = false;
 	m_remove_count = 0;
 	m_open_on_new = false;
@@ -75,15 +72,10 @@ void AbstractChatLayer::createChat(const TreeModelItem &item, bool new_chat)
     qDebug("createChat:!m_tabbed_mode");
     if ( !m_separate_window_list.contains(identification) )
     {
-      SeparateChatWindow *win = new SeparateChatWindow(item.m_protocol_name,
-          item.m_account_name,
-                                              item.m_item_name, /*m_webkit_mode,*/
-                                              m_emoticons_path, /*m_chat_form_path,*/
-          m_webkit_style_path, m_webkit_variant);
+      SeparateChatWindow *win = new SeparateChatWindow(item.m_protocol_name, item.m_account_name, item.m_item_name);
       m_separate_window_list.insert(identification, win);
       win->setOptions(m_remove_messages_after, m_remove_count, m_close_after_send,
           m_show_names, m_send_on_enter, m_send_typing_notifications);
-//				restoreWindowSizeAndPosition(win);
       AbstractContactList &acl = AbstractContactList::instance();
       QIcon icon = acl.getItemStatusIcon(item);
       if ( !icon.isNull() )

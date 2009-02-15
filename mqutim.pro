@@ -4,10 +4,14 @@
 
 qtopia_project(qtopia app)
 
-INSTALLS = plugins
-plugins.files = plugins/libicq.so \
-    plugins/libjabber.so
-plugins.path = /plugins/
+plugins_bin.files = plugins/libicq.so plugins/libjabber.so
+plugins_bin.path = /plugins/
+
+desktop.files=mqutim.desktop
+desktop.path=/apps/Applications
+desktop.hint=desktop
+
+INSTALLS += plugins_bin desktop
 
 TEMPLATE = app
 TARGET = mqutim

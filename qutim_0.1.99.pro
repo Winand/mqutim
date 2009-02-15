@@ -4,8 +4,13 @@
 
 qtopia_project(qtopia app)
 
+INSTALLS = plugins
+plugins.files = plugins/libicq.so \
+    plugins/libjabber.so
+plugins.path = /plugins/
+
 TEMPLATE = app
-TARGET = 
+TARGET = mqutim
 DEPENDPATH += . \
     src \
     include \

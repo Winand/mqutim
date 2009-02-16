@@ -26,9 +26,7 @@
 AbstractContactList::AbstractContactList()
 {
 	m_first_load=true;
-	m_do_screenshot=false;
-	m_do_screenshots=false;
-        m_has_tree_view=false;
+  m_has_tree_view=false;
 }
 
 AbstractContactList::~AbstractContactList()
@@ -44,15 +42,7 @@ AbstractContactList &AbstractContactList::instance()
 
 void AbstractContactList::setTreeView(QTreeView *TreeView)
 {	
-        m_has_tree_view = true;
-	/*QPainter *main_painter = main->paintEngine()->painter();
-	qWarning() << main_painter;//->opacity();
-	//main_painter->setOpacity(0.4);
-        qWarning() << "!!!!";
-	qutIM *main_window = qutIM::getInstance();
-	qWarning() << "!!!!";
-	main_window->setWindowOpacity(0.4);
-	qWarning() << "!!!!";*/
+  m_has_tree_view = true;
 	m_tree_view = TreeView;
 	QStringList headers;
 	headers<<"1";
@@ -74,46 +64,15 @@ void AbstractContactList::setTreeView(QTreeView *TreeView)
 	m_tree_view->setItemDelegate(m_item_delegate);
 	m_item_delegate->setTreeView(m_tree_view);
 	QObject::connect(m_item_model, SIGNAL(dataChanged(QModelIndex,QModelIndex)), m_proxy_model, SLOT(newData(QModelIndex,QModelIndex)));
-	/**
-	 * Nowadays you should set path to styles there:
-	 **/	
 
-//	m_item_delegate->setStyle("/home/osiris/testingqutim/adium/cl/terminal_contact_list_styles_18881473/Terminal");
-	//m_item_delegate->setStyle("styles/cutie");
-	//m_item_delegate->setStyle("styles/Terminal");
-
-	
-//	m_item_delegate->setStyle("styles/Overture 1928");
 	m_event_eater = new ContactListEventEater();
 	m_tree_view->installEventFilter(m_event_eater);
         m_tree_view->findChild<QObject *>("qt_scrollarea_viewport")->installEventFilter(m_event_eater);
 	QObject::connect(m_tree_view, SIGNAL(collapsed(QModelIndex)), m_event_eater, SLOT(collapsed(QModelIndex)));
 	QObject::connect(m_tree_view, SIGNAL(expanded(QModelIndex)), m_event_eater, SLOT(expanded(QModelIndex)));
-	//qutIM *main_window = qutIM::getInstance();
-	//main_window->installEventFilter(m_event_eater);
-	//QObject::connect(m_tree_view,SIGNAL(activated(QModelIndex)),m_event_eater,SLOT(itemActivated(QModelIndex)));
 	m_tree_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	//m_tree_view->expandAll();
 	
 	
-	/*QPalette pal = m_tree_view->palette();
-	pal.setBrush(QPalette::Base, Qt::transparent);		
-	pal.setBrush(QPalette::Window, Qt::transparent);
-	m_tree_view->setPalette( pal );
-	m_tree_view->setAutoFillBackground(true);*/
-	
-	//qutIM *main = AbstractLayer::instance().getParent();
-	//main->setWindowOpacity(0.4);
-	//m_tree_view->setAttribute(Qt::WA_OpaquePaintEvent);
-	//main->paintEngine()->
-	//pal = main->palette();
-	/*pal.setBrush(QPalette::Base, Qt::transparent);	
-	pal.setBrush(QPalette::Window, Qt::transparent);	*
-	main->setPalette(pal);
-	main->setAutoFillBackground(true);*/
-//	m_tree_view->setDragEnabled(true);
-	m_tree_view->setAcceptDrops(true);
-//	m_tree_view->setDropIndicatorShown(true);
 	m_item_model->loadSettings(m_profile_name);
 	m_proxy_model->loadProfile(m_profile_name);
 	m_first_load=false;
@@ -526,114 +485,14 @@ void AbstractContactList::loadProfile(const QString &profile_name)
 	m_profile_name = profile_name;
 	//loadSettings();
 }
-void AbstractContactList::doScreenShot()
-{
-        if(!m_has_tree_view)
-            return;
-	if(m_do_screenshot)
-	{
-		m_do_screenshot=false;
-		qutIM *main = (qutIM *)m_tree_view->parentWidget();
-		QPixmap background = QPixmap::grabWindow(QApplication::desktop()->winId());
-		QPoint point = main->mapToParent(m_tree_view->geometry().topLeft());
-		QSize size(background.width()-point.rx(),background.height()-point.ry());
-		QTemporaryFile *file = new QTemporaryFile();
-		background.copy(QRect(point,size)).save(file,"png",-1);
-		QString file_path = file->fileName();
-//		qDebug() << "file_path";
-//		qDebug() << file_path;
-		TreeModelItem item;
-		item.m_protocol_name = "ICQ";
-		item.m_account_name = "3485140";
-		item.m_item_name = "3485140";
-		item.m_item_type = 2;
-//		AbstractNotificationLayer::instance().systemMessage(item,file_path);
-		m_tree_view->setStyleSheet("QTreeView { background-image: url("+file_path.replace("\\","/")+"); background-attachment: fixed; border: 0px; } ");
-//		AbstractNotificationLayer::instance().systemMessage(item,"QTreeView { background-image: url("+file_path.replace("\\","/")+"); background-attachment: fixed; border: 0px; } ");
-		main->show();
-		delete m_background_file;
-		m_background_file = file;
-	}
-}
-void AbstractContactList::startDoScreenShot()
-{
-        if(!m_has_tree_view)
-            return;
-	m_do_screenshot=true;
-	qutIM *main = (qutIM *)m_tree_view->parentWidget();
-	main->hide();
-	m_event_eater->signalToChangeBackground();	
-}
-void AbstractContactList::signalToDoScreenShot()
-{
-        if(!m_has_tree_view)
-            return;
-	if(!m_do_screenshots)
-		return;
-	if(m_first_load)
-		return;
-//	qDebug() << "screenshot";
-	m_do_screenshot=false;
-	m_item_model->signalToDoScreenShot(1000);
-}
 void AbstractContactList::loadGuiSettings()
 {
-	m_tree_view->setStyleSheet("");
-  QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
-	m_tree_view->setUpdatesEnabled(false);
-	qutIM *main = (qutIM *)m_tree_view->parentWidget();
-	bool show_window = !main->isHidden();
-	settings.beginGroup("gui");
-	m_tree_view->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-	bool style_result = m_item_delegate->setThemeStyle(settings.value("listtheme","").toString());
-	if(settings.value("listtheme","").toString().endsWith(".ListTheme") && style_result)
-	{
-		m_tree_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-		m_do_screenshots=true;
-		startDoScreenShot();
-		main->setWindowOpacity(1);
-	}
-	else
-	{
-		m_do_screenshots=false;
-		m_do_screenshot=false;
-		if(show_window)
-			main->show();
-	}
-	settings.endGroup();
-	m_tree_view->setUpdatesEnabled(true);
 }
 void AbstractContactList::loadSettings()
 {
-        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
+  QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
 	m_tree_view->setUpdatesEnabled(false);
-/*	qutIM *main = (qutIM *)m_tree_view->parentWidget();
-	bool show_window = !main->isHidden();
-	main->reloadCLWindowStyle(settings);
-	settings.beginGroup("contactlist");
-	double opacity = settings.value("opacity",1).toDouble();
-	int window_style = settings.value("windowstyle",0).toInt();
-	settings.endGroup();	
-	settings.beginGroup("gui");
-	if(m_item_delegate->setThemeStyle(settings.value("listtheme","").toString()))
-	{
-		m_tree_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-		m_do_screenshots=true;
-		startDoScreenShot();
-		main->setWindowOpacity(1);
-	}
-	else
-	{
-		m_tree_view->setStyleSheet("");
-		m_tree_view->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-		main->setWindowOpacity(opacity);
-		m_do_screenshots=false;
-		opacity=1;
-		m_do_screenshot=false;
-		if(show_window)
-			main->show();
-	}
-	settings.endGroup();*/
+  
 	settings.beginGroup("contactlist");
 	double opacity = settings.value("opacity",1).toDouble();
 	m_tree_view->setAlternatingRowColors(settings.value("alternatingrc",false).toBool());
@@ -643,7 +502,7 @@ void AbstractContactList::loadSettings()
 	for(int i=2;i<12;i++)
 		show_icons.append(settings.value("showicon"+QString::number(i),true).toBool());
 	show_icons.append(settings.value("showicon12",false).toBool());
-	m_item_delegate->setSettings(show_icons, opacity);
+	m_item_delegate->setSettings(show_icons.toVector());
 	int model_type = settings.value("modeltype",0).toInt();
 	bool show_offline=settings.value("showoffline",true).toBool();
 	bool show_empty_group=settings.value("showempty",true).toBool();

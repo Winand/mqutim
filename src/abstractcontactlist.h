@@ -74,14 +74,9 @@ public:
 	void loadGuiSettings();
 	void setExpanded(const QModelIndex & index, bool expanded);
 	void saveSettings();
-	void doScreenShot();
-	void startDoScreenShot();
-	void signalToDoScreenShot();
 	void setItemVisible(const TreeModelItem &item, bool visible);
 	void setItemInvisible(const TreeModelItem &item, bool invisible);
 private:
-	bool m_do_screenshot;
-	bool m_do_screenshots;	
 	bool m_first_load;
 	QTemporaryFile *m_background_file;
 	QString m_profile_name;

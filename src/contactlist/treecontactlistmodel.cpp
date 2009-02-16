@@ -24,7 +24,6 @@ TreeContactListModel::TreeContactListModel(const QStringList &headers, QObject *
 	QString nil_group("");
 	nil_group.append(QChar(0));
 	m_nil_group=nil_group;
-	m_time_screen_shot = -2000;
 	m_root_item = new TreeItem(headers[0]);
 	m_icon_timer = new QTimer(this);
 	m_icon_timer->setInterval(500);
@@ -437,10 +436,6 @@ bool TreeContactListModel::getItemIsTyping(const TreeModelItem & Item)
 		return m_is_typing.value(item,false);		
 	return false;
 }
-void TreeContactListModel::signalToDoScreenShot(int time)
-{
-	m_time_screen_shot=time;
-}
 void TreeContactListModel::onTimerTimeout()
 {
 	m_mutex.lock();
@@ -561,21 +556,6 @@ void TreeContactListModel::onTimerTimeout()
 	}
 	m_mutex.unlock();
 	m_show_special_status=!m_show_special_status;
-	if(m_time_screen_shot>-1500)
-	{
-		m_mutex.lock();
-		if(m_time_screen_shot>0)
-		{
-			m_time_screen_shot-=m_icon_timer->interval();
-			m_mutex.unlock();
-		}
-		else
-		{
-			m_time_screen_shot=-2000;
-			m_mutex.unlock();
-			AbstractContactList::instance().startDoScreenShot();
-		}
-	}
 }
 bool TreeContactListModel::removeAccount(const TreeModelItem & Item)
 {

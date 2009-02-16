@@ -82,7 +82,6 @@ public:
 	void setItemIsTyping(const TreeModelItem & Item, bool has_content);
 	bool getItemIsTyping(const TreeModelItem & item);
 	void setItemIsOnline(const TreeModelItem & Item, bool online);
-	void signalToDoScreenShot(int time);
 	void setItemVisible(const TreeModelItem &item, bool visible);
 	void setItemInvisible(const TreeModelItem &item, bool invisible);
 public slots:

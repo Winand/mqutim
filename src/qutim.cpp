@@ -51,14 +51,6 @@ bool eventEater::eventFilter(QObject *obj, QEvent *event)
 	{
 		fChanged = true;
 	}
-	//qWarning() << event->type();
-	if(event->type() == QEvent::Resize || event->type() == QEvent::Move)
-	{
-		if(obj->objectName()=="qutIMClass")
-		{
-			AbstractContactList::instance().signalToDoScreenShot();
-		}
-        }
 	return QObject::eventFilter(obj, event);
 }
 

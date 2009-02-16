@@ -30,8 +30,6 @@ public slots:
 	void itemActivated(const QModelIndex & index);
 	void collapsed(const QModelIndex & index);
 	void expanded(const QModelIndex & index);
-	void signalToChangeBackground();
-	void doScreenShot();
 };
 
 #endif /*CONTACTLISTEVENTEATER_H_*/

@@ -77,14 +77,6 @@ bool ContactListEventEater::eventFilter(QObject *obj, QEvent *event)
 	}
 	return QObject::eventFilter(obj, event);
 }
-void ContactListEventEater::signalToChangeBackground()
-{
-	QTimer::singleShot(100,this,SLOT(doScreenShot()));
-}
-void ContactListEventEater::doScreenShot()
-{
-	AbstractContactList::instance().doScreenShot();
-}
 void ContactListEventEater::itemActivated(const QModelIndex & index)
 {
 	//AbstractContactList::instance().sendEventActivated(index);

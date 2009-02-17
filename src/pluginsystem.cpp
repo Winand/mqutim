@@ -327,18 +327,19 @@ QStringList PluginSystem::findPlugins(const QString &path)
 
 void PluginSystem::loadPlugins()
 {
-        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim", "qutimsettings");
+/*        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim", "qutimsettings");*/
 	
 	QStringList files;
-	QString place = QCoreApplication::applicationDirPath()+"/../lib/qutim/";
+/*	QString place = QCoreApplication::applicationDirPath()+"/../lib/qutim/";*/
+        QString place = QCoreApplication::applicationDirPath()+"/../lib/plugins/";
 	QStringList result = findPlugins(place);
 	files << result;
 
-	place = settings.fileName().section('/', 0, -2) + "/plugins/";
+/*	place = settings.fileName().section('/', 0, -2) + "/plugins/";
 	result = findPlugins(place);
-	files << result;
+        files << result;*/
 
-	place = QCoreApplication::applicationDirPath()+"/plugins/";
+        place = QCoreApplication::applicationDirPath()+"/plugins/";
 	result = findPlugins(place);
 	files << result;
         foreach(QString filename, files)

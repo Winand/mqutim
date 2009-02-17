@@ -5,7 +5,7 @@
 qtopia_project(qtopia app)
 
 plugins_bin.files = plugins/libicq.so plugins/libjabber.so
-plugins_bin.path = /plugins/
+plugins_bin.path = /lib/plugins/
 
 desktop.files=mqutim.desktop
 desktop.path=/apps/Applications

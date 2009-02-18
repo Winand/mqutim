@@ -5,74 +5,55 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>240</width>
-    <height>142</height>
+    <width>254</width>
+    <height>184</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>LoginForm</string>
   </property>
-  <widget class="QLineEdit" name="jidEdit" >
+  <widget class="QWidget" name="" >
    <property name="geometry" >
     <rect>
-     <x>0</x>
-     <y>30</y>
+     <x>10</x>
+     <y>10</y>
      <width>231</width>
-     <height>24</height>
+     <height>140</height>
     </rect>
    </property>
-  </widget>
-  <widget class="QLineEdit" name="passowrdEdit" >
-   <property name="geometry" >
-    <rect>
-     <x>0</x>
-     <y>80</y>
-     <width>231</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="echoMode" >
-    <enum>QLineEdit::Password</enum>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2" >
-   <property name="geometry" >
-    <rect>
-     <x>0</x>
-     <y>50</y>
-     <width>359</width>
-     <height>33</height>
-    </rect>
-   </property>
-   <property name="text" >
-    <string>Password:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label" >
-   <property name="geometry" >
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>359</width>
-     <height>33</height>
-    </rect>
-   </property>
-   <property name="text" >
-    <string>JID:</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushRegister" >
-   <property name="geometry" >
-    <rect>
-     <x>0</x>
-     <y>114</y>
-     <width>231</width>
-     <height>28</height>
-    </rect>
-   </property>
-   <property name="text" >
-    <string>Register new account</string>
-   </property>
+   <layout class="QVBoxLayout" >
+    <item>
+     <widget class="QLabel" name="label" >
+      <property name="text" >
+       <string>JID:</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="jidEdit" />
+    </item>
+    <item>
+     <widget class="QLabel" name="label_2" >
+      <property name="text" >
+       <string>Password:</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="passowrdEdit" >
+      <property name="echoMode" >
+       <enum>QLineEdit::Password</enum>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushRegister" >
+      <property name="text" >
+       <string>Register new account</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11" />

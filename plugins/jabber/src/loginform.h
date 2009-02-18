@@ -28,7 +28,7 @@
 
 using namespace gloox;
 
-class LoginForm : public QWidget, ConnectionListener
+class LoginForm : public QWidget
 {
     Q_OBJECT
 
@@ -37,19 +37,9 @@ public:
 	~LoginForm();
         QString getJid() const {return ui.jidEdit->text().toLower();}
 	QString getPass() const {return ui.passowrdEdit->text();}
-	void 	onConnect ();
-	void 	onDisconnect (ConnectionError e);
-	inline void 	onResourceBind (const std::string &resource){};
-	inline void 	onResourceBindError (const Error *error){};
-	void 	onSessionCreateError (const Error *error);
-	inline bool 	onTLSConnect (const CertInfo &info){};
-	inline void 	onStreamEvent (StreamEvent event){};
 
 private:
     Ui::LoginFormClass ui;
-    Client* r_client;
-    QString serverToRegister;
-    jConnection *r_connection;
 
 private slots:
     void btnRegisterClick();

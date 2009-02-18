@@ -1,6 +1,0 @@
-QPEDIR=/opt/toolchains/arm-iwmmxt-linux-gnu/qtopia
-exists($$QPEDIR/src/build/trace_on):message(.qmake.cache)
-PROCESSED_PRI+=qmake_cache
-PROJECT_ROOT=/opt/projects/mqutim/plugins/jabber/libs
-TREE_ROOT=/opt/projects/mqutim/plugins/jabber/libs
-include(/opt/projects/mqutim/plugins/jabber/libs/tree_config.pri)

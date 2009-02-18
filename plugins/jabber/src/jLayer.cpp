@@ -16,7 +16,7 @@
 #include "jLayer.h"
 #include "jClientIdentification.h"
 #include "gloox/jid.h"
-
+#include "loginform.h"
 #include "jAccountSettings.h"
 
 bool jLayer::init(PluginSystemInterface *plugin_system)

@@ -3,6 +3,7 @@
 jAccountSettings::jAccountSettings(const QString &profile_name, const QString &account_name, jAccount *account, QWidget *parent)
     : QWidget(parent)
 {
+	qDebug("setupUi");
 	ui.setupUi(this);
         m_account = account;
         m_profile_name = profile_name;
@@ -31,20 +32,22 @@ void jAccountSettings::loadSettings()
     ui.prioritySpinBox->setValue(settings.value("priority",5).toInt());
     ui.tlsComboBox->setCurrentIndex(settings.value("tlspolicy",1).toInt());
     ui.compressCheckBox->setChecked(settings.value("compress",true).toBool());
-    ui.manualCheckBox->setChecked(!settings.value("usedns",true).toBool());
-    ui.hostEdit->setEnabled(ui.manualCheckBox->isChecked());
-    ui.portSpinBox->setEnabled(ui.manualCheckBox->isChecked());
+//    ui.manualCheckBox->setChecked(!settings.value("usedns",true).toBool());
+//    ui.hostEdit->setEnabled(ui.manualCheckBox->isChecked());
+//    ui.portSpinBox->setEnabled(ui.manualCheckBox->isChecked());
     QString server = m_account_name.section("@",1);
     if(server=="qutim.org")
         server = "jabber.qutim.org";
-    ui.hostEdit->setText(settings.value("server",server).toString());
-    ui.portSpinBox->setValue(settings.value("port",5222).toInt());
+    if(server=="udaff.com")
+        server = "jabber.udaff.com";
+//    ui.hostEdit->setText(settings.value("server",server).toString());
+//    ui.portSpinBox->setValue(settings.value("port",5222).toInt());
     settings.endGroup();
-    settings.beginGroup("proxy");
-    ui.proxyTypeComboBox->setCurrentIndex(settings.value("type",3).toInt());
-    ui.proxyHostEdit->setText(settings.value("server","").toString());
-    ui.proxyPortSpinBox->setValue(settings.value("port",3128).toInt());
-    settings.endGroup();
+//    settings.beginGroup("proxy");
+//    ui.proxyTypeComboBox->setCurrentIndex(settings.value("type",3).toInt());
+//    ui.proxyHostEdit->setText(settings.value("server","").toString());
+//    ui.proxyPortSpinBox->setValue(settings.value("port",3128).toInt());
+//    settings.endGroup();
 }
 
 void jAccountSettings::saveSettings()
@@ -57,14 +60,9 @@ void jAccountSettings::saveSettings()
     settings.setValue("priority", ui.prioritySpinBox->value());
     settings.setValue("tlspolicy", ui.tlsComboBox->currentIndex());
     settings.setValue("compress", ui.compressCheckBox->isChecked());
-    settings.setValue("usedns", !ui.manualCheckBox->isChecked());
-    settings.setValue("server", ui.hostEdit->text());
-    settings.setValue("port", ui.portSpinBox->value());
-    settings.endGroup();
-    settings.beginGroup("proxy");
-    settings.setValue("type", ui.proxyTypeComboBox->currentIndex());
-    settings.setValue("server", ui.proxyHostEdit->text());
-    settings.setValue("port", ui.proxyPortSpinBox->value());
+//    settings.setValue("usedns", !ui.manualCheckBox->isChecked());
+//    settings.setValue("server", ui.hostEdit->text());
+//    settings.setValue("port", ui.portSpinBox->value());
     settings.endGroup();
     emit settingsSaved();
     m_account->getProtocol()->loadSettings();

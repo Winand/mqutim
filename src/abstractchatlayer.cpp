@@ -65,7 +65,7 @@ void AbstractChatLayer::loadProfile(const QString &profile_name)
 }
 void AbstractChatLayer::createChat(const TreeModelItem &item, bool new_chat)
 {
-	if ( !item.m_item_type )
+	if ( item.m_item_type==TreeModelItem::Buddy )
 	{
 		QString identification = QString("%1.%2.%3").arg(item.m_protocol_name)
 		.arg(item.m_account_name).arg(item.m_item_name);
@@ -147,7 +147,7 @@ void AbstractChatLayer::addMessage(const TreeModelItem &item, const QString &mes
 		QDateTime message_date, bool save_history, bool unreaded_message, bool history,
 		const QString &not_modified)
 {
-	if ( !item.m_item_type )
+	if ( item.m_item_type==TreeModelItem::Buddy )
 	{
 		if(save_history)
 		{
@@ -227,7 +227,7 @@ void AbstractChatLayer::sendMessageTo(const QString &protocol_name, const QStrin
 	contact_item.m_account_name = account_name;
 	contact_item.m_item_name = contact_name;
 	contact_item.m_parent_name = "";
-	contact_item.m_item_type = 0;
+	contact_item.m_item_type = TreeModelItem::Buddy;
 	
 	QString tmp_message = message;
 	
@@ -255,7 +255,7 @@ void AbstractChatLayer::sendMessageTo(const QString &protocol_name, const QStrin
 
 void AbstractChatLayer::addServiceMessage(const TreeModelItem &item, const QString &message)
 {
-	if ( !item.m_item_type )
+	if ( item.m_item_type==TreeModelItem::Buddy )
 	{
 		QString identification = QString("%1.%2.%3").arg(item.m_protocol_name)
 		.arg(item.m_account_name).arg(item.m_item_name);
@@ -277,7 +277,7 @@ void AbstractChatLayer::readAllUnreadedMessages()
 			tmp_model_item.m_protocol_name = unreaded_message.m_protocol_name;
 			tmp_model_item.m_account_name = unreaded_message.m_account_name;
 			tmp_model_item.m_item_name = unreaded_message.m_contact_name;
-			tmp_model_item.m_item_type = 0;	
+			tmp_model_item.m_item_type = TreeModelItem::Buddy;	
 			createChat(tmp_model_item);
 	//		addMessage(tmp_model_item, unreaded_message.m_message, true, 
 	//				unreaded_message.m_message_time, false, true);
@@ -368,7 +368,7 @@ void AbstractChatLayer::showContactInformation(const QString &protocol_name, con
 	contact_item.m_account_name = account_name;
 	contact_item.m_item_name = contact_name;
 	contact_item.m_parent_name = "";
-	contact_item.m_item_type = 0;
+	contact_item.m_item_type = TreeModelItem::Buddy;
 	m_plugin_system.showContactInformation(contact_item);
 }
 
@@ -380,7 +380,7 @@ void AbstractChatLayer::sendImageTo(const QString &protocol_name, const QString 
 	contact_item.m_account_name = account_name;
 	contact_item.m_item_name = item_name;
 	contact_item.m_parent_name = "";
-	contact_item.m_item_type = 0;
+	contact_item.m_item_type = TreeModelItem::Buddy;
 	m_plugin_system.sendImageTo(contact_item, image_raw);
         addImage(contact_item, image_raw, false);*/
 }
@@ -417,7 +417,7 @@ void AbstractChatLayer::sendFileTo(const QString &protocol_name, const QString &
 	contact_item.m_account_name = account_name;
 	contact_item.m_item_name = contact_name;
 	contact_item.m_parent_name = "";
-	contact_item.m_item_type = 0;
+	contact_item.m_item_type = TreeModelItem::Buddy;
         m_plugin_system.sendFileTo(contact_item, file_names);*/
 }
 
@@ -472,13 +472,13 @@ void AbstractChatLayer::sendTypingNotification(const QString &protocol_name, con
 	contact_item.m_account_name = account_name;
 	contact_item.m_item_name = contact_name;
 	contact_item.m_parent_name = "";
-	contact_item.m_item_type = 0;
+	contact_item.m_item_type = TreeModelItem::Buddy;
 	m_plugin_system.sendTypingNotification(contact_item, notification_type);
 }
 
 void AbstractChatLayer::contactTyping(const TreeModelItem &item, bool typing)
 {
-        if ( !item.m_item_type )
+        if ( item.m_item_type==TreeModelItem::Buddy )
         {
             QString identification = QString("%1.%2.%3").arg(item.m_protocol_name)
                 .arg(item.m_account_name).arg(item.m_item_name);
@@ -493,7 +493,7 @@ void AbstractChatLayer::contactTyping(const TreeModelItem &item, bool typing)
 
 void AbstractChatLayer::messageDelievered(const TreeModelItem &item, int message_position)
 {
-	if ( !item.m_item_type )
+	if ( item.m_item_type==TreeModelItem::Buddy )
 	{
 		QString identification = QString("%1.%2.%3").arg(item.m_protocol_name)
 		.arg(item.m_account_name).arg(item.m_item_name);
@@ -522,7 +522,7 @@ void AbstractChatLayer::windowActivated(const QString &protocol_name, const QStr
 	contact_item.m_account_name = account_name;
 	contact_item.m_item_name = item_name;
 	contact_item.m_parent_name = "";
-	contact_item.m_item_type = 0;
+	contact_item.m_item_type = TreeModelItem::Buddy;
 //	m_plugin_system.sendTypingNotification(contact_item, notification_type);
 	int i = 0;
 	foreach( TreeModelItem item, m_waiting_for_activation_list )
@@ -581,7 +581,7 @@ void AbstractChatLayer::restoreOpenedWindows()
 			contact_item.m_account_name = a;
 			contact_item.m_item_name = i;
 			contact_item.m_parent_name = "";
-			contact_item.m_item_type = 0;
+			contact_item.m_item_type = TreeModelItem::Buddy;
 			createChat(contact_item);
 		}
 		w_file.close();
@@ -636,7 +636,7 @@ void AbstractChatLayer::restoreUnreadedMessages()
 			contact_item.m_account_name = a;
 			contact_item.m_item_name = i;
 			contact_item.m_parent_name = "";
-			contact_item.m_item_type = 0;
+			contact_item.m_item_type = TreeModelItem::Buddy;
 			addMessage(contact_item, m, true, time);
 		}
 		u_file.close();
@@ -663,7 +663,7 @@ void AbstractChatLayer::addItemToActivationList(const QString &protocol_name, co
 	contact_item.m_account_name = account_name;
 	contact_item.m_item_name = item_name;
 	contact_item.m_parent_name = "";
-	contact_item.m_item_type = 0;
+	contact_item.m_item_type = TreeModelItem::Buddy;
 	m_waiting_for_activation_list.append(contact_item);
 	AbstractContactList::instance().setItemHasUnviewedContent(contact_item, true);
 	if ( !m_do_not_show_if_open )
@@ -675,7 +675,7 @@ void AbstractChatLayer::addItemToActivationList(const QString &protocol_name, co
 
 void AbstractChatLayer::contactChageStatusIcon(const TreeModelItem &item, const QIcon &icon)
 {
-	if ( !item.m_item_type )
+	if ( item.m_item_type==TreeModelItem::Buddy )
 	{
 		QString identification = QString("%1.%2.%3").arg(item.m_protocol_name)
 		.arg(item.m_account_name).arg(item.m_item_name);
@@ -688,7 +688,7 @@ void AbstractChatLayer::contactChageStatusIcon(const TreeModelItem &item, const 
 
 void AbstractChatLayer::contactChangeCLientIcon(const TreeModelItem &item)
 {
-	if ( !item.m_item_type )
+	if ( item.m_item_type==TreeModelItem::Buddy )
 	{
 		QString identification = QString("%1.%2.%3").arg(item.m_protocol_name)
 		.arg(item.m_account_name).arg(item.m_item_name);
@@ -757,7 +757,7 @@ void AbstractChatLayer::askForContactMenu(const QString &protocol_name,
 	contact_item.m_account_name = account_name;
 	contact_item.m_item_name = item_name;
 	contact_item.m_parent_name = "";
-	contact_item.m_item_type = 0;
+	contact_item.m_item_type = TreeModelItem::Buddy;
 	
 	AbstractContextLayer::instance().itemContextMenu(contact_item, menu_point);
 }

@@ -571,11 +571,11 @@ void PluginSystem::setStatusAfterAutoAway()
 bool PluginSystem::addItemToContactList(TreeModelItem item, QString name)
 {
         bool result = false;
-        if(item.m_item_type < 3)
+        if(item.m_item_type < TreeModelItem::ConferenceItem)
             result = m_abstract_contact_list.addItem(item, name);
-        else if(item.m_item_type == 3)
+        else if(item.m_item_type == TreeModelItem::ConferenceItem)
             result = AbstractChatLayer::instance().addConferenceItem(item.m_protocol_name, item.m_parent_name, item.m_account_name, item.m_item_name);
-        else if(item.m_item_type == 4)
+        else if(item.m_item_type == TreeModelItem::Conference)
             result = AbstractChatLayer::instance().createConference(item.m_protocol_name, item.m_item_name, item.m_account_name);
 	if(result)
 	{
@@ -594,11 +594,11 @@ bool PluginSystem::addItemToContactList(TreeModelItem item, QString name)
 bool PluginSystem::removeItemFromContactList(TreeModelItem item)
 {
         bool result = false;
-        if(item.m_item_type < 3)
+        if(item.m_item_type < TreeModelItem::ConferenceItem)
             result = m_abstract_contact_list.removeItem(item);
-        else if(item.m_item_type == 3)
+        else if(item.m_item_type == TreeModelItem::ConferenceItem)
             result = AbstractChatLayer::instance().removeConferenceItem(item.m_protocol_name, item.m_parent_name, item.m_account_name, item.m_item_name);
-        else if(item.m_item_type == 4)
+        else if(item.m_item_type == TreeModelItem::Conference)
             result = AbstractChatLayer::instance().createConference(item.m_protocol_name, item.m_item_name, item.m_account_name);
         if(result)
 	{
@@ -633,9 +633,9 @@ bool PluginSystem::moveItemInContactList(TreeModelItem old_item, TreeModelItem n
 bool PluginSystem::setContactItemName(TreeModelItem item, QString name)
 {
         bool result = false;
-        if(item.m_item_type < 3)
+        if(item.m_item_type < TreeModelItem::ConferenceItem)
             result = m_abstract_contact_list.setItemName(item, name);
-        else if(item.m_item_type == 3)
+        else if(item.m_item_type == TreeModelItem::ConferenceItem)
             result = AbstractChatLayer::instance().renameConferenceItem(item.m_protocol_name, item.m_parent_name, item.m_account_name, item.m_item_name, name);
         if(result)
 	{
@@ -654,9 +654,9 @@ bool PluginSystem::setContactItemName(TreeModelItem item, QString name)
 bool PluginSystem::setContactItemIcon(TreeModelItem item, QIcon icon, int position)
 {
         bool result = false;
-        if(item.m_item_type < 3)
+        if(item.m_item_type < TreeModelItem::ConferenceItem)
             result = m_abstract_contact_list.setItemIcon(item, icon, position);
-        else if(item.m_item_type == 3)
+        else if(item.m_item_type == TreeModelItem::ConferenceItem)
             result = AbstractChatLayer::instance().setConferenceItemIcon(item.m_protocol_name, item.m_parent_name, item.m_account_name, item.m_item_name, icon, position);
         return result;
 }
@@ -664,7 +664,7 @@ bool PluginSystem::setContactItemIcon(TreeModelItem item, QIcon icon, int positi
 bool PluginSystem::setContactItemRow(TreeModelItem item, QList<QVariant> row, int position)
 {
         bool result = false;
-        if(item.m_item_type < 3)
+        if(item.m_item_type < TreeModelItem::ConferenceItem)
             result = m_abstract_contact_list.setItemRow(item, row, position);
         return result;
 }
@@ -672,9 +672,9 @@ bool PluginSystem::setContactItemRow(TreeModelItem item, QList<QVariant> row, in
 bool PluginSystem::setContactItemStatus(TreeModelItem item, QIcon icon, QString text, int mass)
 {
         bool result = false;
-        if(item.m_item_type < 3)
+        if(item.m_item_type < TreeModelItem::ConferenceItem)
             result = m_abstract_contact_list.setItemStatus(item, icon, text, mass);
-        else if(item.m_item_type == 3)
+        else if(item.m_item_type == TreeModelItem::ConferenceItem)
             result = AbstractChatLayer::instance().setConferenceItemStatus(item.m_protocol_name, item.m_parent_name, item.m_account_name, item.m_item_name, icon, text, mass);
 	if(result)
 	{

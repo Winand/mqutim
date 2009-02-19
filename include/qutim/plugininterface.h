@@ -67,11 +67,21 @@ public:
  */
 struct TreeModelItem
 {
+  enum Type
+  {
+    Undefined = -1,
+    Buddy = 0,
+    Group = 1,
+    Account = 2,
+    
+    ConferenceItem = 3,
+    Conference = 4,
+  };
 	QString m_protocol_name; /*!< Protocol name */
 	QString m_account_name; /*!< Account name */
 	QString m_item_name; /*!< Item name */
 	QString m_parent_name; /*!< Parent item name */
-	quint8 m_item_type; /*!< Item type: 0 - buddy; 1 - group; 2 - account item */
+	Type m_item_type; /*!< Item type */
 	QString m_item_history;
 };
 /*!

@@ -81,7 +81,7 @@ SeparateChatWindow::~SeparateChatWindow()
 	item.m_protocol_name = m_protocol_name;
 	item.m_account_name = m_account_name;
 	item.m_item_name = m_item_name;
-	item.m_item_type = 0;
+	item.m_item_type = TreeModelItem::Buddy;
 	PluginSystem::instance().chatWindowClosed(item);
 }
 
@@ -385,7 +385,7 @@ void SeparateChatWindow::showHistory()
 {
 	TreeModelItem item;
 	item.m_protocol_name = m_protocol_name;
-	item.m_item_type = 0;
+	item.m_item_type = TreeModelItem::Buddy;
 	item.m_account_name = m_account_name;
 	item.m_item_name = m_item_name;
 	AbstractHistoryLayer::instance().openHistoryWindow(item);
@@ -443,7 +443,7 @@ void SeparateChatWindow::updateInfo()
 {
   TreeModelItem info_item;
   info_item.m_protocol_name = m_protocol_name;
-  info_item.m_item_type = 0;
+  info_item.m_item_type = TreeModelItem::Buddy;
   info_item.m_account_name = m_account_name;
   
   info_item.m_item_name = m_item_name;

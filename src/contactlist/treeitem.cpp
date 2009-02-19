@@ -79,11 +79,11 @@ QVariant TreeItem::data(int role) const
 	case Qt::UserRole:
 		return m_item_type;
 	case Qt::UserRole+1:
-		if(m_item_type==1)
+		if(m_item_type==TreeModelItem::Group)
 			return m_parent_item->getChildPosition(m_structure.m_item_name);
 		return m_item_mass;
 	case Qt::UserRole+2:
-                return reinterpret_cast<qptrdiff>(&m_item_bottom_rows);
+    return reinterpret_cast<qptrdiff>(&m_item_bottom_rows);
 	case Qt::UserRole+3:
 		return m_item_status;
 	case Qt::UserRole+4:
@@ -91,7 +91,7 @@ QVariant TreeItem::data(int role) const
 	case Qt::UserRole+5:
 		return m_is_always_visible || m_is_visible;
 	case Qt::ToolTipRole:{
-		if(m_item_type!=0)
+		if(m_item_type!=TreeModelItem::Buddy)
 			return QVariant();
 		QString tooltip =  PluginSystem::instance().getItemToolTip(m_structure);
 		if(tooltip.isNull())

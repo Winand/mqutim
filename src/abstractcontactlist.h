@@ -29,7 +29,7 @@ using namespace qutim_sdk_0_2;
 
 class AbstractContactList
 {
-public:
+public:  
 	static AbstractContactList &instance();
 	AbstractContactList();
 	virtual ~AbstractContactList();

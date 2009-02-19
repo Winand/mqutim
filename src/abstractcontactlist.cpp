@@ -85,19 +85,19 @@ bool AbstractContactList::addItem(const TreeModelItem & Item, QString name)
             return false;
 	//qWarning() << "addItem		" << Item.m_item_type << Item.m_protocol_name << Item.m_account_name << Item.m_parent_name << Item.m_item_name; 
 	if(name.isEmpty())
-		name=Item.m_item_type==2?Item.m_account_name:Item.m_item_name;
+		name=Item.m_item_type==TreeModelItem::Account?Item.m_account_name:Item.m_item_name;
 	bool result=false;
 	m_tree_view->setUpdatesEnabled(false);
 	QModelIndex parent_index = m_proxy_model->mapFromSource(m_item_model->findIndex(Item)).parent();
 	switch(Item.m_item_type)
 	{
-	case 0: // buddy item
+	case TreeModelItem::Buddy: 
 		result = m_item_model->addBuddy(Item, name);
 		break;
-	case 1: // group item
+	case TreeModelItem::Group: 
 		result = m_item_model->addGroup(Item, name);
 		break;
-	case 2: // account item
+	case TreeModelItem::Account: 
 		result = m_item_model->addAccount(Item, name);
 		break;
 	}
@@ -122,13 +122,13 @@ bool AbstractContactList::removeItem(const TreeModelItem & Item)
 	m_tree_view->setUpdatesEnabled(false);
 	switch(Item.m_item_type)
 	{
-	case 0: // buddy item
+	case TreeModelItem::Buddy: 
 		result = m_item_model->removeBuddy(Item);
 		break;
-	case 1: // group item
+	case TreeModelItem::Group: 
 		result = m_item_model->removeGroup(Item);
 		break;
-	case 2: // account item
+	case TreeModelItem::Account: 
 		result = m_item_model->removeAccount(Item);
 		break;
 	}
@@ -145,7 +145,7 @@ bool AbstractContactList::moveItem(const TreeModelItem & OldItem, const TreeMode
 {
         if(!m_has_tree_view)
             return false;
-	if(OldItem.m_item_type!=0)
+	if(OldItem.m_item_type!=TreeModelItem::Buddy)
 		return false;
 	TreeItem *item = m_item_model->findItem(OldItem);
 	if(item==0)
@@ -231,7 +231,7 @@ void AbstractContactList::sendEventActivated(const QModelIndex & index)
 	if(!source_index.isValid())
 		return;
 	TreeModelItem item = static_cast<TreeItem*>(source_index.internalPointer())->getStructure();
-	if(item.m_item_type==0)
+	if(item.m_item_type==TreeModelItem::Buddy)
 		itemActivated(item);
 }
 void AbstractContactList::sendEventActivated(const QPoint &pos)
@@ -454,7 +454,7 @@ void AbstractContactList::selectedItemDeleted()
 		if(!source_index.isValid())
 			return;
 		TreeModelItem item = static_cast<TreeItem*>(source_index.internalPointer())->getStructure();
-		if(item.m_item_type==0||item.m_item_type==1)
+		if(item.m_item_type==TreeModelItem::Buddy||item.m_item_type==TreeModelItem::Group)
 		{
 			PluginSystem::instance().deleteItemSignalFromCL(item);
 			
@@ -472,7 +472,7 @@ void AbstractContactList::selectedItemRenamed()
 		if(!source_index.isValid())
 			return;
 		TreeModelItem item = static_cast<TreeItem*>(source_index.internalPointer())->getStructure();
-		if(item.m_item_type==0||item.m_item_type==1)
+		if(item.m_item_type==TreeModelItem::Buddy||item.m_item_type==TreeModelItem::Group)
 		{
 			//TODO: Say plugin to show rename window for item
 			m_tree_view->edit(index);

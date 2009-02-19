@@ -119,7 +119,7 @@ void HistoryWindow::fillAccountComboBox()
 		item.m_protocol_name = protocol;
 		item.m_account_name = account_name;
 		item.m_item_name = account_name;
-		item.m_item_type = 0;
+		item.m_item_type = TreeModelItem::Buddy;
 		QStringList account_info = ps.getAdditionalInfoAboutContact(item);
 		QString account_nickname = account_name;
 		if ( account_info.count() > 0 )
@@ -150,7 +150,7 @@ void HistoryWindow::fillContactComboBox(int index)
 			item.m_protocol_name = protocol;
 			item.m_account_name = account_name;
 			item.m_item_name = contact_name;
-			item.m_item_type = 0;
+			item.m_item_type = TreeModelItem::Buddy;
 			QStringList contact_info = 
 				PluginSystem::instance().getAdditionalInfoAboutContact(item);
 			QString contact_nickname = contact_name;

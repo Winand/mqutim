@@ -228,7 +228,9 @@ bool TreeContactListModel::setHeaderData(int section, Qt::Orientation orientatio
 
 TreeItem *TreeContactListModel::findItem(const TreeModelItem & Item)
 {
-	if(Item.m_item_type!=0 && Item.m_item_type!=1 && Item.m_item_type!=2)
+	if(Item.m_item_type!=TreeModelItem::Buddy && 
+      Item.m_item_type!=TreeModelItem::Group && 
+      Item.m_item_type!=TreeModelItem::Account)
 		return 0;
 	QHash<QString, TreeItem *> *protocol = m_item_list.value(Item.m_protocol_name);
 	if(!protocol)
@@ -236,9 +238,9 @@ TreeItem *TreeContactListModel::findItem(const TreeModelItem & Item)
 	TreeItem *parent = protocol->value(Item.m_account_name);
 	if(!parent)
 		return 0;
-	if(Item.m_item_type==2)
+	if(Item.m_item_type==TreeModelItem::Account)
 		return parent;
-	else if(Item.m_item_type==0)
+	else if(Item.m_item_type==TreeModelItem::Buddy)
 		parent = parent->find(Item.m_parent_name);
 	if(!parent)
 		return 0;
@@ -249,7 +251,7 @@ TreeItem *TreeContactListModel::findItem(const TreeModelItem & Item)
 }
 TreeItem *TreeContactListModel::findItemNoParent(const TreeModelItem & Item)
 {
-	if(Item.m_item_type!=0 && Item.m_item_type!=2)
+	if(Item.m_item_type!=TreeModelItem::Buddy && Item.m_item_type!=TreeModelItem::Account)
 		return 0;
 	QHash<QString, TreeItem *> *protocol = m_item_list.value(Item.m_protocol_name);
 	if(!protocol)
@@ -257,9 +259,9 @@ TreeItem *TreeContactListModel::findItemNoParent(const TreeModelItem & Item)
 	TreeItem *parent = protocol->value(Item.m_account_name);
 	if(!parent)
 		return 0;
-	if(Item.m_item_type==2)
+	if(Item.m_item_type==TreeModelItem::Account)
 		return parent;
-	else if(Item.m_item_type==0)
+	else if(Item.m_item_type==TreeModelItem::Buddy)
 	{
 		int num = parent->childCount();
 		for(int i=0;i<num;i++)
@@ -308,7 +310,7 @@ bool TreeContactListModel::addAccount(const TreeModelItem & Item, QString name)
 	emit itemInserted(createIndex(0,0,findItem(Item)));
 	TreeModelItem double_item = Item;
 	double_item.m_item_name="";
-	double_item.m_item_type=1;
+	double_item.m_item_type=TreeModelItem::Group;
 	addGroup(double_item, "");
 	return true;
 }
@@ -638,7 +640,7 @@ bool TreeContactListModel::setItemName(const TreeModelItem & Item, QString name)
 bool TreeContactListModel::setItemIcon(const TreeModelItem & Item, QIcon icon, int position)
 {
 	TreeItem *item = findItem(Item);
-	if(item==0 || (position==0 && Item.m_item_type==0))
+	if(item==0 || (position==0 && Item.m_item_type==TreeModelItem::Buddy))
 		return false;
 	item->setImage(icon,position);
 	QModelIndex index = createIndex(0,0,item);
@@ -658,20 +660,20 @@ bool TreeContactListModel::setItemRow(const TreeModelItem & Item, QList<QVariant
 bool TreeContactListModel::setItemStatus(const TreeModelItem & Item, QIcon icon, QString status, int mass)
 {
 	TreeItem *item = findItem(Item);
-	if(item==0 || Item.m_item_type!=0)
+	if(item==0 || Item.m_item_type!=TreeModelItem::Buddy)
 		return false;
 	bool new_item = item->data(Qt::UserRole+3).toString().isEmpty();
 	int old_mass = item->data(Qt::UserRole+1).toInt();
 	item->setStatus(status, icon, mass);
 	QModelIndex index = createIndex(0,0,item);
-	if(Item.m_item_type==0)
+	if(Item.m_item_type==TreeModelItem::Buddy)
 	{
 		if(old_mass==1000 && mass<1000)
 			item->parent()->m_visible++;
 		else if(old_mass<1000 && mass==1000)
 			item->parent()->m_visible--;
 	}
-	if(!new_item && Item.m_item_type==0)
+	if(!new_item && Item.m_item_type==TreeModelItem::Buddy)
 	{
 		if(m_block_status.value(item->parent()->parent(),0)<1)
 		{
@@ -713,7 +715,7 @@ bool TreeContactListModel::setItemStatus(const TreeModelItem & Item, QIcon icon,
 void TreeContactListModel::setItemIsOnline(const TreeModelItem & Item, bool online)
 {
 	TreeItem *item = findItem(Item);
-	if(item==0 || Item.m_item_type!=2)
+	if(item==0 || Item.m_item_type!=TreeModelItem::Account)
 		return;
 	if(item->getOnline()!=online)
 	{
@@ -726,7 +728,7 @@ void TreeContactListModel::setItemIsOnline(const TreeModelItem & Item, bool onli
 void TreeContactListModel::setItemVisible(const TreeModelItem &Item, bool visible)
 {
 	TreeItem *item = findItem(Item);
-	if(item==0 || Item.m_item_type==2)
+	if(item==0 || Item.m_item_type==TreeModelItem::Account)
 		return;
 	item->setAlwaysVisible(visible);
 	QModelIndex index = createIndex(0,0,item);
@@ -736,7 +738,7 @@ void TreeContactListModel::setItemVisible(const TreeModelItem &Item, bool visibl
 void TreeContactListModel::setItemInvisible(const TreeModelItem &Item, bool invisible)
 {
 	TreeItem *item = findItem(Item);
-	if(item==0 || Item.m_item_type==2)
+	if(item==0 || Item.m_item_type==TreeModelItem::Account)
 		return;
 	item->setAlwaysInvisible(invisible);
 	QModelIndex index = createIndex(0,0,item);

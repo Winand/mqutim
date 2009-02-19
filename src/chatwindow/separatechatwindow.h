@@ -68,17 +68,20 @@ public:
 	void addSeparator();
 	int getCursorPosition();
   void setID(const QString &id);
+  
+  bool eventFilter(QObject *obj, QEvent *evt);
 
 protected:
-	bool event(QEvent *event);  
+  bool event(QEvent *event);  
+  void keyPressEvent(QKeyEvent *ev);
 
 private slots:
-	void on_sendButton_clicked();
+	void sendMessage();
 	void on_chatInputEdit_textChanged();
 	void typingNow();
 	void clearChat();
   void showHistory();
-	void on_quoteButton_clicked();
+	void quoteText();
 	void windowFocused();
 	void onCustomContextMenuRequested(const QPoint & pos);
 	void newsOnLinkClicked(const QUrl &url);
@@ -101,9 +104,8 @@ private:
   QString m_contact_name;
   QString m_own_name;
   
-	QPushButton *m_send_button;
-	QTextEdit *m_plain_text_edit;
-	QTextBrowser *m_text_browser;
+	QTextEdit *m_edit;
+	QTextBrowser *m_log;
   
   bool m_last_message_sender;
   bool m_lock_for_first_message;

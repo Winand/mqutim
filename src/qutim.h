@@ -69,12 +69,18 @@ public:
 	virtual ~qutIM();
 
 	static qutIM *getInstance();
+  
+  void hideTabBar();
+  void showTabBar();
+  
 	bool isShouldRun() { return bShouldRun; }
 	void reloadGeneralSettings();
+  
 	void updateTrayIcon(const QIcon &);
 	void animateNewMessageInTray();
 	void stopNewMessageAnimation();
 	void showBallon(const QString &title, const QString &message, int time);
+  
 	void reloadStyleLanguage();
 	void addActionToList(QAction *);
   
@@ -98,55 +104,57 @@ private slots:
 	void on_soundOnOffButton_clicked();
 //	void on_toolButton_clicked();
 protected:
-  void tabInserted(int index);
+  void tabInserted(int index); // monitor new tabs
+  void tabRemoved(int index);
+  
 	void keyPressEvent(QKeyEvent *event);
 private:
 	static qutIM		*fInstance;
 	static QMutex		fInstanceGuard;
 
-    Ui::qutIMClass ui;
-    QWidget *contactListContainer;
-    
-    QList<QAction *> m_plugin_actions;
-    QAction *quitAction;
-    QAction *settingsAction;
-    QAction *m_pluginSettingsAction;//!< This action connected with qutimPluginSettingsMenu();
-    QAction *switchUserAction;
-    QAction *m_gui_settings_action;
-    QMenu *mainMenu;
-    QMenu *trayMenu;
+  Ui::qutIMClass ui;
+  QWidget *contactListContainer;
+  
+  QList<QAction *> m_plugin_actions;
+  QAction *quitAction;
+  QAction *settingsAction;
+  QAction *m_pluginSettingsAction;//!< This action connected with qutimPluginSettingsMenu();
+  QAction *switchUserAction;
+  QAction *m_gui_settings_action;
+  QMenu *mainMenu;
+  QMenu *trayMenu;
 
-    bool bShouldRun;
-    bool createMenuAccounts;
-    bool letMeQuit;
-    bool unreadMessages;
-    bool m_auto_away;
-    bool msgIcon;
-    quint32 m_auto_away_minutes;
+  bool bShouldRun;
+  bool createMenuAccounts;
+  bool letMeQuit;
+  bool unreadMessages;
+  bool m_auto_away;
+  bool msgIcon;
+  quint32 m_auto_away_minutes;
 
-    IconManager& m_iconManager;//!< use it to get icons from file or program
-    
-    eventEater *eventObject;
-    aboutInfo *infoWindow;
-    bool aboutWindowOpen;
-    QTranslator applicationTranslator;
+  IconManager& m_iconManager;//!< use it to get icons from file or program
+  
+  eventEater *eventObject;
+  aboutInfo *infoWindow;
+  bool aboutWindowOpen;
+  QTranslator applicationTranslator;
 
-    QIcon tempIcon;
-	// Idle detector
+  QIcon tempIcon;
+// Idle detector
 	Idle fIdleDetector;
 //    void createTrayIcon();
-    void createActions();
-    void createMainMenu();
-    void saveMainSettings();
-    void loadMainSettings();
+  void createActions();
+  void createMainMenu();
+  void saveMainSettings();
+  void loadMainSettings();
 
-    void initIcons();//!< It loads all icons by icon manager.
-    
-    AbstractLayer &m_abstract_layer;
-    AbstractContactList &m_contact_list;
-    QString m_profile_name;
-    bool m_switch_user;
-    PluginSettings *m_plugin_settings;
+  void initIcons();//!< It loads all icons by icon manager.
+  
+  AbstractLayer &m_abstract_layer;
+  AbstractContactList &m_contact_list;
+  QString m_profile_name;
+  bool m_switch_user;
+  PluginSettings *m_plugin_settings;
 signals:
 	void updateTranslation();
 

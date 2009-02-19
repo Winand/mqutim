@@ -55,6 +55,9 @@
           <height>22</height>
          </size>
         </property>
+        <property name="focusPolicy" >
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="text" >
          <string/>
         </property>
@@ -78,6 +81,9 @@
           <height>22</height>
          </size>
         </property>
+        <property name="focusPolicy" >
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="text" >
          <string/>
         </property>
@@ -100,6 +106,9 @@
           <width>22</width>
           <height>22</height>
          </size>
+        </property>
+        <property name="focusPolicy" >
+         <enum>Qt::NoFocus</enum>
         </property>
         <property name="text" >
          <string/>
@@ -177,16 +186,19 @@
    <item>
     <widget class="QTreeView" name="contactListView" >
      <property name="focusPolicy" >
-      <enum>Qt::NoFocus</enum>
+      <enum>Qt::StrongFocus</enum>
      </property>
      <property name="frameShape" >
-      <enum>QFrame::StyledPanel</enum>
+      <enum>QFrame::NoFrame</enum>
      </property>
      <property name="frameShadow" >
       <enum>QFrame::Plain</enum>
      </property>
      <property name="verticalScrollMode" >
       <enum>QAbstractItemView::ScrollPerPixel</enum>
+     </property>
+     <property name="animated" >
+      <bool>false</bool>
      </property>
     </widget>
    </item>

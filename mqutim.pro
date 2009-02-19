@@ -26,15 +26,13 @@ DEPENDPATH += . \
     src/history \
     src/idle \
     src/notifications \
-    src/sound \
-    src/themeengine
+    src/sound 
 INCLUDEPATH += . \
     src \
     src/contactlist \
     include \
     src/idle \
     src/ex \
-    src/themeengine \
     src/chatwindow \
     src/history \
     src/notifications \
@@ -100,10 +98,7 @@ HEADERS += src/aboutinfo.h \
     src/notifications/notificationslayersettings.h \
     src/notifications/popuptextbrowser.h \
     src/notifications/popupwindow.h \
-    src/sound/soundlayersettings.h \
-    src/themeengine/abstractthemeengine.h \
-    src/themeengine/qskinobject.h \
-    src/themeengine/qskinwidgetresizehandler.h
+    src/sound/soundlayersettings.h 
 FORMS += src/aboutinfo.ui \
     src/accountmanagement.ui \
     src/console.ui \
@@ -185,8 +180,5 @@ SOURCES += main.cpp \
     src/notifications/notificationslayersettings.cpp \
     src/notifications/popuptextbrowser.cpp \
     src/notifications/popupwindow.cpp \
-    src/sound/soundlayersettings.cpp \
-    src/themeengine/abstractthemeengine.cpp \
-    src/themeengine/qskinobject.cpp \
-    src/themeengine/qskinwidgetresizehandler.cpp
+    src/sound/soundlayersettings.cpp
 RESOURCES += qutim.qrc

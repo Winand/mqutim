@@ -29,13 +29,13 @@
 #include "contactseparator.h"
 
 #include "qutim.h"
+#include "ui_qutim.h"
 
 #include "abstractlayer.h"
 #include "abstractchatlayer.h"
 #include "guisettingswindow.h"
 #include "notifications/abstractnotificationlayer.h"
 #include "abstractsoundlayer.h"
-#include "themeengine/abstractthemeengine.h"
 #include "abstractcontextlayer.h"
 
 bool eventEater::eventFilter(QObject *obj, QEvent *event)
@@ -449,4 +449,24 @@ void qutIM::tabInserted(int index)
     if (!w->windowTitle().isEmpty())
       setTabText(index, w->windowTitle());
   }
+  if (count()==1)
+    hideTabBar();
+  else
+    showTabBar();
+}
+
+void qutIM::tabRemoved(int index)
+{
+  if (count()==1)
+    hideTabBar();
+}
+
+void qutIM::hideTabBar()
+{
+  tabBar()->hide();
+}
+
+void qutIM::showTabBar()
+{
+  tabBar()->show();
 }

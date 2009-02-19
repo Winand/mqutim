@@ -27,7 +27,6 @@
 #include "notifications/abstractnotificationlayer.h"
 #include "abstracthistorylayer.h"
 #include "abstractsoundlayer.h"
-#include "themeengine/abstractthemeengine.h"
 #include "globalsettings/abstractglobalsettings.h"
 
 
@@ -108,7 +107,6 @@ void AbstractLayer::loadCurrentProfile()
 	acll.loadProfile(m_current_profile);
         asndl.playSound(NotifyStartup);
 	m_icon_manager.loadProfile(m_current_profile);
-	AbstractThemeEngine::instance().loadProfile(m_current_profile);
 	AbstractGlobalSettings::instance().setProfileName(m_current_profile);
 }
 

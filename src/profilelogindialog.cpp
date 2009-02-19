@@ -14,17 +14,15 @@
 */
 
 #include "profilelogindialog.h"
+#include <QKeyEvent>
+#include <QSoftMenuBar>
 
 ProfileLoginDialog::ProfileLoginDialog(QWidget *parent)
     : QDialog(parent)
 {
 	ui.setupUi(this);
-//	move(desktopCenter());
-//	setFixedSize(size());
+  ui.nameGroup->setFocusProxy(ui.nameComboBox);
 	setWindowTitle(tr("Log in"));
-//	setWindowIcon(QIcon(":/icons/qutim.png"));
-	ui.signButton->setIcon(QIcon(":/icons/crystal_project/signin.png"));
-	ui.cancelButton->setIcon(QIcon(":/icons/crystal_project/cancel.png"));
 	ui.deleteButton->setIcon(QIcon(":/icons/crystal_project/delete_user.png"));
 	m_new_registered_profile = false;
 	loadData();
@@ -35,18 +33,15 @@ ProfileLoginDialog::~ProfileLoginDialog()
 
 }
 
-QPoint ProfileLoginDialog::desktopCenter()
-{
-	QDesktopWidget desktop;
-	return QPoint(desktop.width() / 2 - size().width() / 2, desktop.height() / 2 - size().height() / 2);
-}
-
 void ProfileLoginDialog::enableOrDisableSignIn()
 {
-	ui.signButton->setEnabled( !ui.nameComboBox->currentText().isEmpty() && !ui.passwordEdit->text().isEmpty() );
+  if (!ui.nameComboBox->currentText().isEmpty() && !ui.passwordEdit->text().isEmpty())
+    QSoftMenuBar::setLabel(this, Qt::Key_Back, QString::null, tr("Sign in"));
+  else
+    QSoftMenuBar::setLabel(this, Qt::Key_Back, QSoftMenuBar::NoLabel);
 }
 
-void ProfileLoginDialog::on_signButton_clicked()
+void ProfileLoginDialog::signIn()
 {
 	saveData();
 	m_current_profile = ui.nameComboBox->currentText();
@@ -55,7 +50,7 @@ void ProfileLoginDialog::on_signButton_clicked()
 
 void ProfileLoginDialog::saveData()
 {
-        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim", "qutimsettings");
+  QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim", "qutimsettings");
 	settings.setValue("general/showstart", ui.showDialogBox->isChecked());
 	
 	//Save new profile or existed profile's changed options
@@ -81,7 +76,7 @@ void ProfileLoginDialog::saveData()
 
 void ProfileLoginDialog::saveProfileSettings(const QString &profile_name)
 {
-        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+profile_name, "profilesettings");
+  QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+profile_name, "profilesettings");
 	settings.setValue("main/name",profile_name);
 	settings.setValue("main/password",ui.passwordEdit->text());
 	settings.setValue("main/savepass", ui.savePasswordBox->isChecked());
@@ -90,7 +85,7 @@ void ProfileLoginDialog::saveProfileSettings(const QString &profile_name)
 void ProfileLoginDialog::loadData()
 {
 	//loading profiles
-        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim", "qutimsettings");
+  QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim", "qutimsettings");
 	ui.nameComboBox->addItems(settings.value("profiles/list").toStringList());
 	ui.nameComboBox->setCurrentIndex(settings.value("profiles/last", 0).toInt());
 	ui.showDialogBox->setChecked(settings.value("general/showstart", false).toBool());
@@ -102,7 +97,7 @@ void ProfileLoginDialog::loadProfileSettings(const QString &profile_name)
 {
 	if(ui.nameComboBox->currentText() != "")
 	{
-                QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+profile_name, "profilesettings");
+    QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+profile_name, "profilesettings");
 		if(profile_name == settings.value("main/name").toString() )
 		{
 			ui.savePasswordBox->setChecked(settings.value("main/savepass", true).toBool());
@@ -125,7 +120,7 @@ void ProfileLoginDialog::on_nameComboBox_editTextChanged(const QString &profile_
 {
 	enableOrDisableSignIn(); 
 	
-        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim", "qutimsettings");
+  QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim", "qutimsettings");
 	QStringList accountList = settings.value("profiles/list").toStringList();
 	if ( accountList.contains(profile_name) )
 		loadProfileSettings(profile_name);
@@ -198,4 +193,15 @@ void ProfileLoginDialog::removeProfileDir(const QString &path)
 	} else {
 		QFile::remove(path);
 	}
+}
+
+void ProfileLoginDialog::keyPressEvent(QKeyEvent *ev)
+{
+  if (ev->key()==Qt::Key_Back)
+  {
+    if (!ui.nameComboBox->currentText().isEmpty() && !ui.passwordEdit->text().isEmpty())
+      signIn();
+    return;
+  }
+  QDialog::keyPressEvent(ev);
 }

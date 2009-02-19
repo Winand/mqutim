@@ -17,7 +17,6 @@
 #define PROFILELOGINDIALOG_H
 
 #include <QtGui/QDialog>
-#include <QDesktopWidget>
 #include <QSettings>
 #include <QDir>
 #include <QMessageBox>
@@ -32,25 +31,27 @@ public:
     ~ProfileLoginDialog();
     bool isNewProfile() const { return m_new_registered_profile; }
     QString getProfileName() const { return m_current_profile; }
+    
+protected:
+  void keyPressEvent(QKeyEvent *ev);  
 
 private slots:
 	void on_passwordEdit_textChanged(const QString &) { enableOrDisableSignIn(); }
 	void on_nameComboBox_editTextChanged(const QString &);
-	void on_signButton_clicked();
+	void signIn();
 	void on_deleteButton_clicked();
 private:
 	void saveData();
 	void loadData();
 	void saveProfileSettings(const QString &);
 	void loadProfileSettings(const QString &);
-	QPoint desktopCenter();
 	void enableOrDisableSignIn();
 	void removeProfile(const QString &);
 	void removeProfileDir(const QString &);
 	
-    Ui::ProfileLoginDialogClass ui;
-    bool m_new_registered_profile;
-    QString m_current_profile;
+  Ui::ProfileLoginDialogClass ui;
+  bool m_new_registered_profile;
+  QString m_current_profile;
 };
 
 #endif // PROFILELOGINDIALOG_H

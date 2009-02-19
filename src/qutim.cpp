@@ -24,8 +24,6 @@
 #include <QtopiaApplication>
 
 #include "aboutinfo.h"
-//#include "qutimsettings.h"
-#include "logindialog.h"
 #include "contactseparator.h"
 
 #include "qutim.h"

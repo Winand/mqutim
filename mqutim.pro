@@ -55,7 +55,6 @@ HEADERS += src/aboutinfo.h \
     src/contactseparator.h \
     src/guisettingswindow.h \
     src/iconmanager.h \
-    src/logindialog.h \
     src/mainsettings.h \
     src/pluginsettings.h \
     src/pluginsystem.h \
@@ -103,7 +102,6 @@ FORMS += src/aboutinfo.ui \
     src/accountmanagement.ui \
     src/console.ui \
     src/guisettingswindow.ui \
-    src/logindialog.ui \
     src/mainsettings.ui \
     src/pluginsettings.ui \
     src/profilelogindialog.ui \
@@ -137,7 +135,6 @@ SOURCES += main.cpp \
     src/contactseparator.cpp \
     src/guisettingswindow.cpp \
     src/iconmanager.cpp \
-    src/logindialog.cpp \
     src/mainsettings.cpp \
     src/pluginsettings.cpp \
     src/pluginsystem.cpp \

@@ -1166,7 +1166,7 @@ void treeBuddyItem::setContactStatus(const QIcon &status_icon, const QString &st
 	contact_item.m_account_name = parentUin;
 	contact_item.m_item_name = buddyUin;
 	contact_item.m_parent_name = groupID?QString::number(groupID):"";
-	contact_item.m_item_type = 0;
+	contact_item.m_item_type = TreeModelItem::Buddy;
 	m_icq_plugin_system.setContactItemStatus(contact_item, status_icon,
 			status_name, mass);
 	setLastOnl();
@@ -1179,7 +1179,7 @@ void treeBuddyItem::setContactXStatus(const QIcon &xstatus_icon)
 	contact_item.m_account_name = parentUin;
 	contact_item.m_item_name = buddyUin;
 	contact_item.m_parent_name = groupID?QString::number(groupID):"";
-	contact_item.m_item_type = 0;
+	contact_item.m_item_type = TreeModelItem::Buddy;
 	if ( m_show_xstatus_icon )
 		m_icq_plugin_system.setContactItemIcon(contact_item, xstatus_icon, 4);
 	else
@@ -1193,7 +1193,7 @@ void treeBuddyItem::setCustomIcon(const QIcon &icon, int position)
 	contact_item.m_account_name = parentUin;
 	contact_item.m_item_name = buddyUin;
 	contact_item.m_parent_name = groupID?QString::number(groupID):"";
-	contact_item.m_item_type = 0;
+	contact_item.m_item_type = TreeModelItem::Buddy;
 	m_icq_plugin_system.setContactItemIcon(contact_item, icon, position);
 }
 
@@ -1230,7 +1230,7 @@ void treeBuddyItem::setTextToRow(const QString &text, int position)
 		contact_item.m_account_name = parentUin;
 		contact_item.m_item_name = buddyUin;
 		contact_item.m_parent_name = groupID?QString::number(groupID):"";
-		contact_item.m_item_type = 0;
+		contact_item.m_item_type = TreeModelItem::Buddy;
 		QList<QVariant> text_list;
 		text_list.append(text);
 		m_icq_plugin_system.setContactItemRow(contact_item, text_list, position);
@@ -1245,7 +1245,7 @@ void treeBuddyItem::clearRow(int position)
 	contact_item.m_account_name = parentUin;
 	contact_item.m_item_name = buddyUin;
 	contact_item.m_parent_name = groupID?QString::number(groupID):"";
-	contact_item.m_item_type = 0;
+	contact_item.m_item_type = TreeModelItem::Buddy;
 	QList<QVariant> list;
 	m_icq_plugin_system.setContactItemRow(contact_item, list, position);
 }
@@ -1265,7 +1265,7 @@ void treeBuddyItem::setName(const QString &n)
 	contact_item.m_account_name = parentUin;
 	contact_item.m_item_name = buddyUin;
 	contact_item.m_parent_name = groupID?QString::number(groupID):"";
-	contact_item.m_item_type = 0; 
+	contact_item.m_item_type = TreeModelItem::Buddy; 
 	buddyName = n;
 	m_icq_plugin_system.setContactItemName(contact_item, buddyName);
 }

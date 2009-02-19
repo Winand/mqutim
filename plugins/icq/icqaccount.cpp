@@ -730,7 +730,7 @@ void icqAccount::systemMessage(const QString &message)
 	contact_item.m_protocol_name = "ICQ";
 	contact_item.m_account_name = icqUin;
 	contact_item.m_item_name = icqUin;
-	contact_item.m_item_type = 2;
+	contact_item.m_item_type = TreeModelItem::Account;
 	IcqPluginSystem::instance().systemNotifiacation(contact_item, message);
 }
 
@@ -740,7 +740,7 @@ void icqAccount::userMessage(const QString &fromUin, const QString &from, const 
 	contact_item.m_protocol_name = "ICQ";
 	contact_item.m_account_name = icqUin;
 	contact_item.m_item_name = fromUin;
-	contact_item.m_item_type = 0;
+	contact_item.m_item_type = TreeModelItem::Account;
 	if ( type == readNotification )
 	{
 		IcqPluginSystem::instance().customNotifiacation(contact_item, tr("is reading your away message"));

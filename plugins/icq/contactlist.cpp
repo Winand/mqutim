@@ -100,7 +100,7 @@ contactListTree::contactListTree(QTcpSocket *s, icqBuffer *buff,
 	root_item.m_protocol_name = "ICQ";
 	root_item.m_account_name = icqUin;
 	root_item.m_item_name = icqUin;
-	root_item.m_item_type = 2;
+	root_item.m_item_type = TreeModelItem::Account;
 	m_icq_plugin_system.addItemToContactList(root_item, icqUin);
 
 	loadSettings();
@@ -501,7 +501,7 @@ void contactListTree::removeContactList()
 	root_item.m_protocol_name = "ICQ";
 	root_item.m_account_name = icqUin;
 	root_item.m_item_name = icqUin;
-	root_item.m_item_type = 2;
+	root_item.m_item_type = TreeModelItem::Account;
 	m_icq_plugin_system.removeItemFromContactList(root_item);
 }
 
@@ -1567,7 +1567,7 @@ void contactListTree::goingOnline(bool iAmOnlineSignal)
 	TreeModelItem item;
 	item.m_protocol_name = "ICQ";
 	item.m_account_name = icqUin;
-	item.m_item_type = 2;
+	item.m_item_type = TreeModelItem::Account;
 	m_icq_plugin_system.setAccountIsOnline(item, iAmOnlineSignal);
 	if ( iAmOnline = iAmOnlineSignal )
 	{
@@ -4891,7 +4891,7 @@ void contactListTree::sendMessageActionTriggered()
 	contact_item.m_item_name = currentContextBuddy->getUin();
 	int group_id = currentContextBuddy->groupID;
 	contact_item.m_parent_name = group_id?QString::number(group_id):"";
-	contact_item.m_item_type = 0;
+	contact_item.m_item_type = TreeModelItem::Buddy;
 	m_icq_plugin_system.createChat(contact_item);
 }
 
@@ -6364,7 +6364,7 @@ void contactListTree::addGroupToCL(quint16 group_id, const QString &group_name)
 	group_item.m_account_name = icqUin;
 	group_item.m_item_name = group_id?QString::number(group_id):"";
 	group_item.m_parent_name = icqUin;
-	group_item.m_item_type = 1;
+	group_item.m_item_type = TreeModelItem::Group;
 	m_icq_plugin_system.addItemToContactList(group_item, group_name);
 }
 
@@ -6376,7 +6376,7 @@ void contactListTree::renameGroupInCL(const QString &new_name,
 	group_item.m_account_name = icqUin;
 	group_item.m_item_name = group_id?QString::number(group_id):"";
 	group_item.m_parent_name = icqUin;
-	group_item.m_item_type = 1;
+	group_item.m_item_type = TreeModelItem::Group;
 	m_icq_plugin_system.setContactItemName(group_item, new_name);
 }
 
@@ -6387,7 +6387,7 @@ void contactListTree::addContactToCL(quint16 group_id, const QString &contact_ui
 	contact_item.m_account_name = icqUin;
 	contact_item.m_item_name = contact_uin;
 	contact_item.m_parent_name = group_id?QString::number(group_id):"";
-	contact_item.m_item_type = 0;
+	contact_item.m_item_type = TreeModelItem::Buddy;
 	m_icq_plugin_system.addItemToContactList(contact_item, contact_name);
 	if ( group_id )
 	{
@@ -6414,7 +6414,7 @@ void contactListTree::renameContactInCL(quint16 group_id,
 	contact_item.m_account_name = icqUin;
 	contact_item.m_item_name = contact_uin;
 	contact_item.m_parent_name = group_id?QString::number(group_id):"";
-	contact_item.m_item_type = 0;
+	contact_item.m_item_type = TreeModelItem::Buddy;
 	m_icq_plugin_system.setContactItemName(contact_item, contact_name);
 }
 
@@ -6426,13 +6426,13 @@ void contactListTree::moveContactFromGroupToGroup(quint16 old_group_id,
 	old_item.m_account_name = icqUin;
 	old_item.m_item_name = contact_uin;
 	old_item.m_parent_name = old_group_id?QString::number(old_group_id):"";
-	old_item.m_item_type = 0;
+	old_item.m_item_type = TreeModelItem::Buddy;
 	TreeModelItem new_item;
 	new_item.m_protocol_name = "ICQ";
 	new_item.m_account_name = icqUin;
 	new_item.m_item_name = contact_uin;
 	new_item.m_parent_name = new_group_id?QString::number(new_group_id):"";
-	new_item.m_item_type = 0;
+	new_item.m_item_type = TreeModelItem::Buddy;
 	m_icq_plugin_system.moveItemInContactList(old_item, new_item);
 }
 
@@ -6443,7 +6443,7 @@ void contactListTree::removeGroupFromCl(quint16 group_id)
 	group_item.m_account_name = icqUin;
 	group_item.m_item_name = group_id?QString::number(group_id):"";
 	group_item.m_parent_name = icqUin;
-	group_item.m_item_type = 1;
+	group_item.m_item_type = TreeModelItem::Group;
 	m_icq_plugin_system.removeItemFromContactList(group_item);
 }
 
@@ -6454,7 +6454,7 @@ void contactListTree::removeContactFromCl(quint16 group_id, const QString &conta
 	contact_item.m_account_name = icqUin;
 	contact_item.m_item_name = contact_uin;
 	contact_item.m_parent_name = group_id?QString::number(group_id):"";
-	contact_item.m_item_type = 0;
+	contact_item.m_item_type = TreeModelItem::Buddy;
 	m_icq_plugin_system.removeItemFromContactList(contact_item);
 }
 
@@ -6523,7 +6523,7 @@ void contactListTree::addMessageFromContact(const QString &contact_uin,
 	contact_item.m_account_name = icqUin;
 	contact_item.m_item_name = contact_uin;
 	contact_item.m_parent_name = group_id?QString::number(group_id):"";
-	contact_item.m_item_type = 0;
+	contact_item.m_item_type = TreeModelItem::Buddy;
 	m_icq_plugin_system.addMessageFromContact(contact_item, message, message_date);
 }
 
@@ -6545,7 +6545,7 @@ void contactListTree::addServiceMessage(const QString &contact_uin, quint16 grou
 	contact_item.m_account_name = icqUin;
 	contact_item.m_item_name = contact_uin;
 	contact_item.m_parent_name = group_id?QString::number(group_id):"";
-	contact_item.m_item_type = 0;
+	contact_item.m_item_type = TreeModelItem::Buddy;
 	m_icq_plugin_system.addServiceMessage(contact_item, message);
 }
 
@@ -6556,7 +6556,7 @@ void contactListTree::createChat(const QString &uin, quint16 group_id)
 	contact_item.m_account_name = icqUin;
 	contact_item.m_item_name = uin;
 	contact_item.m_parent_name = group_id?QString::number(group_id):"";
-	contact_item.m_item_type = 0;
+	contact_item.m_item_type = TreeModelItem::Buddy;
 	m_icq_plugin_system.createChat(contact_item);
 }
 
@@ -6611,7 +6611,7 @@ void contactListTree::addImage(const QString &contact_uin, quint16 group_id,
 	contact_item.m_account_name = icqUin;
 	contact_item.m_item_name = contact_uin;
 	contact_item.m_parent_name = group_id?QString::number(group_id):"";
-	contact_item.m_item_type = 0;
+	contact_item.m_item_type = TreeModelItem::Buddy;
 	m_icq_plugin_system.addImage(contact_item,image_raw);
 }
 
@@ -6628,7 +6628,7 @@ void contactListTree::contactTyping(const QString &contact_uin,
 	contact_item.m_account_name = icqUin;
 	contact_item.m_item_name = contact_uin;
 	contact_item.m_parent_name = group_id?QString::number(group_id):"";
-	contact_item.m_item_type = 0;
+	contact_item.m_item_type = TreeModelItem::Buddy;
 	m_icq_plugin_system.contactTyping(contact_item, typing);
 }
 
@@ -6640,7 +6640,7 @@ void contactListTree::messageDelievered(const QString &contact_uin,
 	contact_item.m_account_name = icqUin;
 	contact_item.m_item_name = contact_uin;
 	contact_item.m_parent_name = group_id?QString::number(group_id):"";
-	contact_item.m_item_type = 0;
+	contact_item.m_item_type = TreeModelItem::Buddy;
 	m_icq_plugin_system.messageDelievered(contact_item, position);
 }
 
@@ -6655,7 +6655,7 @@ bool contactListTree::checkMessageForValidation(const QString &contact_uin, cons
 	contact_item.m_account_name = icqUin;
 	contact_item.m_item_name = contact_uin;
 	contact_item.m_parent_name = "";
-	contact_item.m_item_type = 0;
+	contact_item.m_item_type = TreeModelItem::Buddy;
 	
 	return m_icq_plugin_system.checkForMessageValidation(contact_item, message,
 			message_type, privacy == 5 ? true : false);
@@ -6687,7 +6687,7 @@ void contactListTree::notifyAboutBirthday(const QString &contact_uin, quint16 gr
 	contact_item.m_account_name = icqUin;
 	contact_item.m_item_name = contact_uin;
 	contact_item.m_parent_name = group_id?QString::number(group_id):"";
-	contact_item.m_item_type = 0;
+	contact_item.m_item_type = TreeModelItem::Buddy;
 	m_icq_plugin_system.notifyAboutBirthDay(contact_item);
 }
 

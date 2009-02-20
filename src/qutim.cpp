@@ -86,6 +86,7 @@ qutIM::qutIM(QWidget *parent, Qt::WFlags f ) :
   contactListContainer = new QWidget(this);
 	ui.setupUi(contactListContainer);
   ui.contactListView->header()->hide();
+  contactListContainer->setFocusProxy(ui.contactListView);
   addTab(contactListContainer, QString::null);
   setCurrentWidget(contactListContainer);
   QSoftMenuBar::setLabel(this, Qt::Key_Back, QSoftMenuBar::NoLabel);

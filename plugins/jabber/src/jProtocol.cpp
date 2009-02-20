@@ -259,7 +259,7 @@ void jProtocol::onConnect()
 	TreeModelItem item;
 	item.m_protocol_name = "Jabber";
 	item.m_account_name = m_account_name;
-	item.m_item_type = 2;
+	item.m_item_type = TreeModelItem::Account;
 	m_jabber_account->getPluginSystem().setAccountIsOnline(item, true);
 	emit setRealStatus(m_jabber_account->getPresence());
 	m_jids_auto_vcard.append(m_account_name);
@@ -281,7 +281,7 @@ void jProtocol::onDisconnect(ConnectionError e)
 	TreeModelItem item;
 	item.m_protocol_name = "Jabber";
 	item.m_account_name = m_account_name;
-	item.m_item_type = 2;
+	item.m_item_type = TreeModelItem::Account;
 	if(e != ConnUserDisconnected && e != ConnNotConnected)
 	{
 		QString error_tr;
@@ -575,7 +575,7 @@ void jProtocol::handlePresence (const Presence &presence)
 					contact.m_account_name = m_account_name;
 					contact.m_item_name = jid;
 					contact.m_parent_name = buddy->getGroup();
-					contact.m_item_type = 0;
+					contact.m_item_type = TreeModelItem::Buddy;
 					emit setClientCustomIcon(contact, icon, 5);
 				}
 			}
@@ -619,7 +619,7 @@ void jProtocol::handleSubscription (const Subscription &s10n)
         TreeModelItem contact;
         contact.m_protocol_name = "Jabber";
         contact.m_account_name = m_account_name;
-        contact.m_item_type = 0;
+        contact.m_item_type = TreeModelItem::Buddy;
         contact.m_parent_name = buddy->getGroup();
         contact.m_item_name = jid;
         emit addMessageFrom(contact, QDateTime::currentDateTime(), text);
@@ -713,7 +713,7 @@ void jProtocol::addMessageFrom(const JID &from, const Message &stanza)
 			contact.m_protocol_name = "Jabber";
 			contact.m_account_name = m_account_name;
 			contact.m_item_name = pair.first;
-			contact.m_item_type = 0;
+			contact.m_item_type = TreeModelItem::Buddy;
                         emit messageDelievered(contact, pair.second);
                 }
 	}
@@ -727,7 +727,7 @@ void jProtocol::addMessageFrom(const JID &from, const Message &stanza)
 		contact.m_account_name = m_account_name;
 		contact.m_parent_name = "";
                 contact.m_item_name = full;
-		contact.m_item_type = 0;
+		contact.m_item_type = TreeModelItem::Buddy;
 
 		bool composing = state==ChatStateComposing;
 		if(composing)
@@ -773,7 +773,7 @@ void jProtocol::addMessageFrom(const JID &from, const Message &stanza)
 		TreeModelItem contact;
 		contact.m_protocol_name = "Jabber";
 		contact.m_account_name = m_account_name;
-		contact.m_item_type = 0;
+		contact.m_item_type = TreeModelItem::Buddy;
                 contact.m_item_name = jid;
 
                 QString from_string = full;
@@ -922,12 +922,12 @@ bool jProtocol::handleIq (const IQ &iq)
 
                         if(m_gmail_notify_type==0)
                         {
-                            item.m_item_type = 0;
+                            item.m_item_type = TreeModelItem::Buddy;
                             emit addMessageFrom(item, QDateTime::currentDateTime(), message);
                         }
                         else if(m_gmail_notify_type==1)
                         {
-                            item.m_item_type = 0;
+                            item.m_item_type = TreeModelItem::Buddy;
                             jPluginSystem::instance().customNotifiacation(item,message);
                         }
 		}

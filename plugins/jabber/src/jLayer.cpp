@@ -18,6 +18,7 @@
 #include "gloox/jid.h"
 #include "loginform.h"
 #include "jAccountSettings.h"
+#include <QtopiaApplication>
 
 bool jLayer::init(PluginSystemInterface *plugin_system)
 {
@@ -76,7 +77,7 @@ void jLayer::setProfileName(const QString &profile_name)
 {
 	m_profile_name = profile_name;
 	jClientIdentification::instance().init(profile_name);
-        jPluginSystem::instance().init();
+  jPluginSystem::instance().init();
 }
 
 void jLayer::removeAccount(const QString &account_name)
@@ -96,10 +97,10 @@ void jLayer::removeAccount(const QString &account_name)
 }
 void jLayer::editAccount(const QString &account_name)
 {
-        if(!m_jabber_list.contains(account_name))
-            return;
-        jAccountSettings *acc_setings = new jAccountSettings(m_profile_name, account_name, m_jabber_list.value(account_name));
-        acc_setings->show();
+  if(!m_jabber_list.contains(account_name))
+      return;
+  jAccountSettings *acc_settings = new jAccountSettings(m_profile_name, account_name, m_jabber_list.value(account_name));
+  QtopiaApplication::showDialog(acc_settings);
 
 	QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "jabbersettings");
 	QStringList accounts = settings.value("accounts/list").toStringList();
@@ -185,7 +186,7 @@ QList<SettingsStructure> jLayer::getSettingsList()
 //	tmp_struc.settings_widget = m_general_icq_settings;
 //	settings_list.append(tmp_struc);
 
-//!	foreach(jAccount *account, m_jabber_list)
+//	foreach(jAccount *account, m_jabber_list)
 //	{
 //		QObject::connect(m_general_icq_settings, SIGNAL(settingsSaved()),
 //				account, SLOT(generalSettingsChanged()));

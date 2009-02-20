@@ -6,27 +6,27 @@
 #include "ui_jAccountSettings.h"
 #include "jAccount.h"
 
-class jAccountSettings : public QWidget
+class jAccountSettings : public QDialog
 {
     Q_OBJECT
 
 public:
     jAccountSettings(const QString &profile_name, const QString &account_name, jAccount *account, QWidget *parent = 0);
     ~jAccountSettings();
+    
 signals:
-        void settingsSaved();
-
-private slots:
-        void okButtonClicked();
-        void applyButtonClicked();
+    void settingsSaved();
+        
+  protected:
+    void keyPressEvent(QKeyEvent *ev);
 
 private:
-        void loadSettings();
-        void saveSettings();
-        Ui::jAccountSettingsClass ui;
-        QString m_profile_name;
-        QString m_account_name;
-        jAccount *m_account;
+    void loadSettings();
+    void saveSettings();
+    Ui::jAccountSettingsClass ui;
+    QString m_profile_name;
+    QString m_account_name;
+    jAccount *m_account;
 };
 
 #endif // JACCOUNTSETTINGS_H

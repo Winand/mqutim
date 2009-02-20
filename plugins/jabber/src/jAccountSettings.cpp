@@ -1,16 +1,18 @@
 #include "jAccountSettings.h"
+#include <QSoftMenuBar>
 
 jAccountSettings::jAccountSettings(const QString &profile_name, const QString &account_name, jAccount *account, QWidget *parent)
-    : QWidget(parent)
+    : QDialog(parent)
 {
 	qDebug("setupUi");
 	ui.setupUi(this);
-        m_account = account;
-        m_profile_name = profile_name;
-        m_account_name = account_name;
-        loadSettings();
-        setAttribute(Qt::WA_QuitOnClose, false);
-        setAttribute(Qt::WA_DeleteOnClose, true);
+  m_account = account;
+  m_profile_name = profile_name;
+  m_account_name = account_name;
+  loadSettings();
+  setAttribute(Qt::WA_QuitOnClose, false);
+  setAttribute(Qt::WA_DeleteOnClose, true);
+  QSoftMenuBar::setLabel(this, Qt::Key_Back, QSoftMenuBar::Ok);
 //	m_priority = settings.value("priority", 5).toInt();
 //	QString password = settings.value("password","").toString();
 //	m_my_nick = settings.value("nickname",m_account_name).toString();
@@ -68,14 +70,14 @@ void jAccountSettings::saveSettings()
     m_account->getProtocol()->loadSettings();
 }
 
-void jAccountSettings::applyButtonClicked()
+void jAccountSettings::keyPressEvent(QKeyEvent *ev)
 {
-        saveSettings();
-}
-
-void jAccountSettings::okButtonClicked()
-{
-        saveSettings();
-	close();
+  if (ev->key()==Qt::Key_Back)
+  {
+    saveSettings();
+    close();
+    return;
+  }
+  QWidget::keyPressEvent(ev);
 }
 

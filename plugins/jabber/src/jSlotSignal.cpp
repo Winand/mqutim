@@ -178,7 +178,7 @@ void jSlotSignal::systemNotification(const QString &account_name, const QString 
 	contact.m_protocol_name = "Jabber";
 	contact.m_account_name = account_name;
 	contact.m_item_name = account_name;
-	contact.m_item_type = 2;
+	contact.m_item_type = TreeModelItem::Account;
 	m_jabber_account->getPluginSystem().systemNotifiacation(contact, message);
 }
 

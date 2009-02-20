@@ -19,6 +19,7 @@
 #include "../iconmanager.h"
 #include <QScrollBar>
 #include <QtXml>
+#include <QSoftMenuBar>
 
 SeparateConference::SeparateConference(
 		const QString &protocol_name,
@@ -40,68 +41,41 @@ SeparateConference::SeparateConference(
     , m_webkit_variant(style_variant)
 {
 	ui.setupUi(this);
+	conferenceTextEdit = ui.t_Edit;
+	m_text_browser = ui.t_Browser;
 	setAttribute(Qt::WA_QuitOnClose, false);
 	setAttribute(Qt::WA_DeleteOnClose, true);
 	m_last_message_position = 0;
-	
-/*	if ( m_webkit_mode )
-	{
-		QFrame *frame = new QFrame(this);
-	    QGridLayout *layout = new QGridLayout(frame);
-	    m_web_view = new QWebView(this);
-	    layout->addWidget(m_web_view);
-	    frame->setLayout(layout);
-	    layout->setMargin(0);
-	    frame->setFrameShape(QFrame::StyledPanel);
-	    frame->setFrameShadow(QFrame::Sunken);
-	    ui.chatSplitter->insertWidget(0, frame);
-		m_style_output = new ChatWindowStyleOutput(m_webkit_style_path,
-					m_webkit_variant);
-		m_now_html = m_style_output->makeSkeleton("", 
-					"", 
-					"",
-					"",
-					"",
-					QDateTime::currentDateTime().toString());
-		m_webkit_header_offset = m_now_html.size();
-		m_web_view->setHtml(m_now_html);
-	}
-        else*/
-	{
-		m_text_browser = new QTextBrowser(this);
-            ui.vboxLayout->insertWidget(0, m_text_browser);
-	}
-	
-	setIconsToButtons();
-	setEmoticonsToMenu();
-/*	if ( m_webkit_mode && m_web_view )
-	{
-		m_web_view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
-		connect(m_web_view, SIGNAL(linkClicked(const QUrl &)),
-				this, SLOT(newsOnLinkClicked(const QUrl &)));
-    		m_web_view->installEventFilter(m_event_eater);
-	}
-        else*/ if ( m_text_browser )
-    {
-    	m_text_browser->setOpenExternalLinks(true);
-    }
+        if ( m_text_browser )
+	    {
+    		m_text_browser->setOpenExternalLinks(true);
+	    }
 	m_already_hred = false;
 
-	m_contact_list = new ConferenceContactList(protocol_name,conference_name,account_name,ui.conferenceList);
-	m_item_delegate = new ContactListItemDelegate();
-	m_item_delegate->setTreeView(ui.conferenceList);
-	ui.conferenceList->setItemDelegate(m_item_delegate);
-	ui.conferenceList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	ui.conferenceList->setSelectionMode(QAbstractItemView::SingleSelection);
-	ui.conferenceList->setSelectionBehavior(QAbstractItemView::SelectItems);
-	m_cl_event_eater = new ConferenceContactListEventEater();
-        m_cl_event_eater->m_contact_list = m_contact_list;
-        ui.conferenceList->findChild<QObject *>("qt_scrollarea_viewport")->installEventFilter(m_cl_event_eater);
-        ui.conferenceList->installEventFilter(m_cl_event_eater);
-	m_contact_list->nowActive();
+	QSoftMenuBar::setLabel(this, Qt::Key_Back, QSoftMenuBar::NoLabel);
+	QSoftMenuBar::setLabel(m_text_browser, Qt::Key_Back, QSoftMenuBar::NoLabel);
+	QSoftMenuBar::setLabel(conferenceTextEdit, Qt::Key_Back, QString::null, tr("Send"));
+	QMenu *menu = QSoftMenuBar::menuFor(this);
+	menu->clear();
+	menu->addAction(tr("Clear Chat"), this, SLOT(on_clearButton_clicked()));
+	menu->addSeparator();
+	menu->addAction(tr("Close Chat"), this, SLOT(deleteLater()));
 
-	m_scroll_at_max = true;
-	m_current_scroll_position = 0;
+//	m_contact_list = new ConferenceContactList(protocol_name,conference_name,account_name,ui.conferenceList);
+//	m_item_delegate = new ContactListItemDelegate();
+//	m_item_delegate->setTreeView(ui.conferenceList);
+//	ui.conferenceList->setItemDelegate(m_item_delegate);
+//	ui.conferenceList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//	ui.conferenceList->setSelectionMode(QAbstractItemView::SingleSelection);
+//	ui.conferenceList->setSelectionBehavior(QAbstractItemView::SelectItems);
+//	m_cl_event_eater = new ConferenceContactListEventEater();
+//        m_cl_event_eater->m_contact_list = m_contact_list;
+//        ui.conferenceList->findChild<QObject *>("qt_scrollarea_viewport")->installEventFilter(m_cl_event_eater);
+//        ui.conferenceList->installEventFilter(m_cl_event_eater);
+//	m_contact_list->nowActive();
+
+//	m_scroll_at_max = true;
+//	m_current_scroll_position = 0;
 /*	QList<int> sizes;
         sizes.append(400);
 	sizes.append(20);
@@ -111,15 +85,16 @@ SeparateConference::SeparateConference(
 	sizes.append(100);
         ui.listSplitter->setSizes(sizes);*/
 	m_last_history=true;
-	ui.conferenceTextEdit->installEventFilter(this);
+	ui.t_Edit->installEventFilter(this);
 	m_tab_compl = new TabCompletion(this);
-	m_tab_compl->setTextEdit(ui.conferenceTextEdit);
+	m_tab_compl->setTextEdit(ui.t_Edit);
 	m_tab_compl->setContactList(m_contact_list);
+	qDebug() << "ui done...";
 }
 
 bool SeparateConference::eventFilter(QObject *obj, QEvent *event)
 {
-	if (obj == ui.conferenceTextEdit && event->type() == QEvent::KeyPress)
+	if (obj == ui.t_Edit && event->type() == QEvent::KeyPress)
 	{
 		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);		
 		if ( keyEvent->key() == Qt::Key_Tab ) 
@@ -153,30 +128,7 @@ void SeparateConference::addMessage(const QString &from,
 {
 	if ( !history )
 		checkForActive(message);
-	
-/*	if (m_webkit_mode && m_web_view)
-	{
-		QString add_new_message = QString("%1")
-					.arg(checkForEmoticons(message));
-		bool same_from = (m_last_sender == from);
-		QString newMessage;
-		if(add_new_message.startsWith("/me "))
-			newMessage = m_style_output->makeAction(from, 
-					add_new_message.section(" ",1), from == m_mine_nick, date, 
-                                        "", true,
-					from, m_protocol_name);
-		else
-			newMessage = m_style_output->makeMessage(from, 
-					add_new_message, from == m_mine_nick, date, 
-                                        "", true,
-					from, m_protocol_name, 
-					same_from && m_last_history == history,history);
-		m_last_sender = add_new_message.startsWith("/me ")?"":from;
-		QString js_message = QString("append%2Message(\"%1\");").arg(newMessage.replace("\"","\\\"").replace("\n","\\n")).arg(m_last_history==history&&same_from&&!add_new_message.startsWith("/me ")?"Next":"");
-		m_web_view->page()->mainFrame()->evaluateJavaScript(js_message);
-		m_last_history = history;
-	}
-        else*/ if( m_text_browser )
+	if( m_text_browser )
 	{	
 		quint64 tmp_position = m_text_browser->textCursor().position();
 		QString add_text;
@@ -218,11 +170,7 @@ void SeparateConference::addMessage(const QString &from,
 
 void SeparateConference::moveCursorToEnd()
 {
-/*	if (m_webkit_mode && m_web_view)
-	{
-
-	}
-        else*/ if( m_text_browser )
+	if( m_text_browser )
 	{
 		m_text_browser->moveCursor(QTextCursor::End);
 		m_text_browser->ensureCursorVisible();
@@ -235,70 +183,27 @@ void SeparateConference::moveCursorToEnd()
 	}
 }
 
-void SeparateConference::on_sendButton_clicked()
-{
-	m_abstract_chat_layer.sendMessageToConference(m_protocol_name,
-			m_conference_name, m_account_name,
-			ui.conferenceTextEdit->toPlainText());
-	ui.conferenceTextEdit->clear();
-	if ( m_close_after_send )
-		close();
-	ui.conferenceTextEdit->moveCursor(QTextCursor::Start);
-	ui.conferenceTextEdit->setFocus();
-}
-
-void SeparateConference::setIconsToButtons()
-{
-	ui.sendButton->setIcon(IconManager::instance().getIcon("message"));
-	ui.historyButton->setIcon(IconManager::instance().getIcon("history"));
-	ui.emoticonButton->setIcon(IconManager::instance().getIcon("emoticon"));
-	ui.translitButton->setIcon(IconManager::instance().getIcon("translate"));
-	ui.onEnterButton->setIcon(IconManager::instance().getIcon("key_enter"));
-	ui.quoteButton->setIcon(IconManager::instance().getIcon("quote"));
-	ui.clearButton->setIcon(IconManager::instance().getIcon("clear"));
-}
-
-void SeparateConference::on_historyButton_clicked()
-{
-	
-}
-
 void SeparateConference::on_clearButton_clicked()
 {
-/*	if (m_webkit_mode && m_web_view)
-	{
-		m_now_html = m_style_output->makeSkeleton("", 
-				"", 
-				"",
-				"",
-				"",
-				QDateTime::currentDateTime().toString());
-		m_web_view->setHtml(m_now_html);
-		m_message_positions.clear();
-		m_last_sender.clear();
-	}
-        else*/ if ( m_text_browser )
+    if ( m_text_browser )
 	{
 		m_text_browser->clear();
 		m_message_positions.clear();
 	}
 	focusTextEdit();
 }
-
+/*
 void SeparateConference::on_onEnterButton_clicked()
 {
 	ui.conferenceTextEdit->setFocus();
 }
-
+*/
+/*
 void SeparateConference::on_quoteButton_clicked()
 {
 	QString selected_text;
 
-/*		if (m_webkit_mode && m_web_view)
-		{
-			selected_text = m_web_view->selectedText();
-		}
-                else*/ if ( m_text_browser )
+	if ( m_text_browser )
 		{
 			selected_text = m_text_browser->textCursor().selectedText();
 		}
@@ -339,7 +244,7 @@ void SeparateConference::on_translitButton_clicked()
 		ui.conferenceTextEdit->insertPlainText(txt);
 	focusTextEdit();
 }
-
+*/
 QString SeparateConference::invertMessage(QString &text)
 {
 	QString tableR=tr("qwertyuiop[]asdfghjkl;'zxcvbnm,./QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>?");
@@ -377,9 +282,9 @@ QString SeparateConference::invertMessage(QString &text)
 
 void SeparateConference::focusTextEdit()
 {
-    	ui.conferenceTextEdit->setFocus();
+    	ui.t_Edit->setFocus();
 }
-
+/*
 void SeparateConference::setEmoticonsToMenu()
 {
 	m_emotic_menu = new QMenu(ui.emoticonButton);
@@ -392,7 +297,8 @@ void SeparateConference::setEmoticonsToMenu()
 	connect(m_emoticon_widget, SIGNAL(insertSmile(const QString &)), this,
 			SLOT(insertEmoticon(const QString &)));
 }
-
+*/
+/*
 void SeparateConference::setEmoticonPath(const QString &path)
 {
 	m_emoticon_list.clear();
@@ -435,12 +341,14 @@ void SeparateConference::setEmoticonPath(const QString &path)
 		m_emoticon_widget->setEmoticons(m_emoticon_list, dirPath);
 	}
 }
-
+*/
+/*
 void SeparateConference::insertEmoticon(const QString &emoticon_text)
 {
 		ui.conferenceTextEdit->insertPlainText(" " + emoticon_text + " ");
 }
-
+*/
+/*
 void SeparateConference::setOptions(bool remove_after, quint16 remove_count,
 		bool close_after, bool show_names, bool on_enter)
 {
@@ -448,14 +356,15 @@ void SeparateConference::setOptions(bool remove_after, quint16 remove_count,
 	m_remove_count = remove_count;
 	m_close_after_send = close_after;
 	m_show_names = show_names;
-	ui.onEnterButton->setChecked(on_enter);
+//	ui.onEnterButton->setChecked(on_enter);
 }
-
+*/
+/*
 void SeparateConference::setConferenceTopic(const QString &topic)
 {
 	ui.topicLineEdit->setText(topic);
 }
-	
+*/	
 QString SeparateConference::checkForEmoticons(const QString &message)
 {
 	QString new_message = message;
@@ -490,14 +399,7 @@ void SeparateConference::newsOnLinkClicked(const QUrl &url)
 
 void SeparateConference::addServiceMessage(const QString &message, const QString &date)
 {
-/*	if (m_webkit_mode && m_web_view)
-	{
-		QString newMessage = m_style_output->makeStatus(message, date);
-		QString js_message = QString("appendMessage(\"%1\");").arg(newMessage.replace("\"","\\\"").replace("\n","\\n"));
-		m_web_view->page()->mainFrame()->evaluateJavaScript(js_message);
-		m_last_sender="";
-	}
-        else*/ if ( m_text_browser )
+    if ( m_text_browser )
 	{
 		m_current_scroll_position = m_text_browser->verticalScrollBar()->value();
 		m_scroll_at_max = m_text_browser->verticalScrollBar()->maximum()
@@ -515,7 +417,7 @@ void SeparateConference::addServiceMessage(const QString &message, const QString
 
 void SeparateConference::windowFocused()
 {
-	ui.conferenceTextEdit->setFocus();
+	ui.t_Edit->setFocus();
 	setWindowTitle(m_conference_name);
 	m_already_hred = false;
 }
@@ -524,17 +426,7 @@ void SeparateConference::checkForActive(const QString &message)
 {
 	if ( (!isActiveWindow() || isMinimized()) && !m_already_hred )
 	{
-/*		if (m_webkit_mode && m_web_view)
-		{
-			QString js_message = "separator = document.getElementById(\"separator\");"
-			"if(separator)"
-			"	separator.parentNode.removeChild(separator);";
-			m_web_view->page()->mainFrame()->evaluateJavaScript(js_message);
-			js_message = "appendMessage(\"<hr id=\\\"separator\\\"><div id=\\\"insert\\\"></div>\");";
-			m_web_view->page()->mainFrame()->evaluateJavaScript(js_message);
-			m_last_sender="";
-		}
-                else*/ if ( m_text_browser )
+	if ( m_text_browser )
 		{
                         m_text_browser->append("<hr><br>");
 			moveCursorToEnd();
@@ -584,20 +476,28 @@ void SeparateConference::setConferenceItemRole(const QString &nickname, const QI
 	ui.chatSplitter->restoreState(state);
 	ui.listSplitter->restoreState(state2);
 }*/
-
+/*
 void SeparateConference::on_topicButton_clicked()
 {
 	AbstractChatLayer::instance().showConferenceTopicSettings(m_protocol_name, m_account_name, m_conference_name);
 }
-
+*/
+/*
 void SeparateConference::on_configButton_clicked()
 {
 	PluginSystem::instance().showConferenceMenu(m_protocol_name, m_account_name, m_conference_name,
 			mapToGlobal(ui.configButton->pos()));
 }
-
+*/
 void SeparateConference::showEvent(QShowEvent * event)
 {
 	//windowActivatedByUser();
 	windowFocused();
+}
+
+void SeparateConference::keyPressEvent(QKeyEvent *ev)
+{
+  if (ev->key()==Qt::Key_Back)
+    return;
+  QWidget::keyPressEvent(ev);
 }

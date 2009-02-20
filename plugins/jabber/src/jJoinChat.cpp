@@ -25,7 +25,7 @@ jJoinChat::jJoinChat(jAccount *jabber_account, const QString &room, const QStrin
 	ui.conferenceNameLineEdit->setEnabled(false);
 	ui.saveButton->setVisible(false);
 	ui.conferenceLineEdit->setCompleter(0);
-	ui.exampleLabel->setText("<font color='#808080'>(room@conference.server.url)</font>");
+//	ui.exampleLabel->setText("<font color='#808080'>(room@conference.server.url)</font>");
 	move(desktopCenter());
 	setAttribute(Qt::WA_QuitOnClose, false);
 	setAttribute(Qt::WA_DeleteOnClose, true);

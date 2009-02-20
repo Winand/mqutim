@@ -779,8 +779,8 @@ bool AbstractChatLayer::createConference(const QString &protocol_name,
         m_webkit_style_path,
         m_webkit_variant);
     m_separate_conference_list.insert(identification, conf);
-    conf->setOptions(m_remove_messages_after, m_remove_count, m_close_after_send,
-        m_show_names, m_send_on_enter);
+//    conf->setOptions(m_remove_messages_after, m_remove_count, m_close_after_send,
+//        m_show_names, m_send_on_enter);
     conf->setWindowTitle(conference_name);
     conf->setWindowIcon(QIcon(IconManager::instance().getIcon("chat")));
     qutIM *mw = qutIM::getInstance();
@@ -852,7 +852,7 @@ void AbstractChatLayer::setConferenceTopic(const QString &protocol_name, const Q
 	.arg(account_name);
   if ( m_separate_conference_list.contains(identification) )
   {
-    m_separate_conference_list.value(identification)->setConferenceTopic(topic);
+//    m_separate_conference_list.value(identification)->setConferenceTopic(topic);
   }
 }
 

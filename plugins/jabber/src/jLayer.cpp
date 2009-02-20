@@ -435,7 +435,7 @@ void jLayer::conferenceItemActivated(const QString &conference_name, const QStri
 	item.m_protocol_name = "Jabber";
 	item.m_account_name = account_name;
 	item.m_item_name = conference_name+"/"+nickname;
-	item.m_item_type = 0;
+	item.m_item_type = TreeModelItem::Buddy;
 	m_plugin_system->createChat(item);
 }
 

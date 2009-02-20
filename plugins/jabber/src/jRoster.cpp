@@ -74,7 +74,7 @@ jRoster::~jRoster()
 	contact.m_protocol_name = "Jabber";
 	contact.m_account_name = m_account_name;
 	contact.m_item_name = m_account_name;
-	contact.m_item_type = 2;
+	contact.m_item_type = TreeModelItem::Account;
 
         emit removeItemFromContactList(contact);
 
@@ -89,7 +89,7 @@ void jRoster::constr()
 	contact.m_account_name = m_account_name;
         contact.m_parent_name = m_account_name;
         contact.m_item_name = m_account_name;
-	contact.m_item_type = 2;
+	contact.m_item_type = TreeModelItem::Account;
 
 	emit addItemToContactList(contact, m_account_name);
 	m_my_connections = new jBuddy(m_account_name, "My connections", m_path_to_avatars);
@@ -185,7 +185,7 @@ void jRoster::addGroup(const QString &group_name, bool /*use_qsettings*/)
 	contact.m_account_name = m_account_name;
 	contact.m_item_name = group_name;
 	contact.m_parent_name = m_account_name;
-	contact.m_item_type = 1;
+	contact.m_item_type = TreeModelItem::Undefined;
 
 	emit addItemToContactList(contact, group_name);
 	if (group_name != "My connections")
@@ -262,7 +262,7 @@ void jRoster::moveContact(const QString &item_name, const QString &parent_name)
 		contact.m_account_name = m_account_name;
 		contact.m_item_name = item_name;
 		contact.m_parent_name = parent_name;
-		contact.m_item_type = 0;
+		contact.m_item_type = TreeModelItem::Buddy;
 		if(nil)
 			emit setContactItemStatus(contact, jAccount::getStatusName(Presence::Unavailable), jAccount::getStatusMass(Presence::Unavailable));
 		QStringList resources = buddy->getResources();
@@ -311,7 +311,7 @@ void jRoster::addItem(const QString &item_name, const QString &contact_name, con
 	contact.m_item_name = item_name;
 	contact.m_parent_name = parent_name;
 	contact.m_item_history = history_name;
-	contact.m_item_type = 0;
+	contact.m_item_type = TreeModelItem::Buddy;
 
 	emit addItemToContactList(contact, contact_name);
 	if(invisible)
@@ -326,7 +326,7 @@ void jRoster::delItem(const QString &item_name, const QString &parent_name)
 	contact.m_account_name = m_account_name;
 	contact.m_item_name = item_name;
 	contact.m_parent_name = parent_name;
-	contact.m_item_type = 0;
+	contact.m_item_type = TreeModelItem::Buddy;
 
 	emit setContactItemStatus(contact, "offline", 1000);
 	emit removeItemFromContactList(contact);
@@ -339,7 +339,7 @@ void jRoster::moveItem(const QString &item_name, const QString &parent_name, con
 	contact.m_account_name = m_account_name;
 	contact.m_parent_name = parent_name;
 	contact.m_item_name = item_name;
-	contact.m_item_type = 0;
+	contact.m_item_type = TreeModelItem::Buddy;
 	TreeModelItem new_contact = contact;
 	new_contact.m_parent_name = new_parent_name;
 	emit moveItemInContactList(contact, new_contact);
@@ -352,7 +352,7 @@ void jRoster::renameItem(const QString &item_name, const QString &contact_name, 
 	contact.m_account_name = m_account_name;
 	contact.m_parent_name = parent_name;
 	contact.m_item_name = item_name;
-	contact.m_item_type = 0;
+	contact.m_item_type = TreeModelItem::Buddy;
 	emit setContactItemName(contact,contact_name);
 }
 
@@ -404,7 +404,7 @@ void jRoster::delResource(const QString &jid, const QString &resource)
             contact.m_account_name = m_account_name;
             contact.m_item_name = jid;
             contact.m_parent_name = contact_buddy->getGroup();
-            contact.m_item_type = 0;
+            contact.m_item_type = TreeModelItem::Buddy;
             Presence::PresenceType presence = contact_buddy->getMaxPriorityStatus();
             emit setContactItemStatus(contact, jAccount::getStatusName(presence), jAccount::getStatusMass(presence));
             jBuddy::ResourceInfo *info = contact_buddy->getResourceInfo(contact_buddy->getMaxPriorityResource());
@@ -431,7 +431,7 @@ void jRoster::changeItemStatus(const QString &item_name, Presence::PresenceType 
 	contact.m_account_name = m_account_name;
 	contact.m_item_name = item_name;
 	contact.m_parent_name = (jid != m_account_name) ? buddy->getGroup() : "My connections";
-	contact.m_item_type = 0;
+	contact.m_item_type = TreeModelItem::Buddy;
 	emit setContactItemStatus(contact, jAccount::getStatusName(presence), jAccount::getStatusMass(presence));
 }
 
@@ -442,7 +442,7 @@ void jRoster::setInvisible(const QString &item_name, const QString &parent_name,
 	contact.m_account_name = m_account_name;
 	contact.m_item_name = item_name;
 	contact.m_parent_name = parent_name;
-	contact.m_item_type = item_type;
+//	contact.m_item_type = item_type; // FixMe
 
 	emit setItemInvisible(contact, true);
 }
@@ -494,7 +494,7 @@ void jRoster::setClient(const QString & jid, const QString & resource, const QSt
 		contact.m_parent_name = "My connections";
 	else
 		contact.m_parent_name = o_contact->getGroup();
-	contact.m_item_type = 0;
+	contact.m_item_type = TreeModelItem::Buddy;
 
 
 	emit clientVersion(contact, name);
@@ -552,7 +552,7 @@ void jRoster::setAvatar(const QString &jid, const QString &hash)
 		item.m_account_name = m_account_name;
 		item.m_parent_name = buddy->getGroup();
 		item.m_item_name = jid;
-		item.m_item_type = 0;
+		item.m_item_type = TreeModelItem::Buddy;
 		buddy->setAvatarHash(hash);
 		emit setItemIcon(item,m_jabber_account->getPathToAvatars()+"/"+hash,1);
 		QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/jabber."+m_account_name, "contactlist");
@@ -571,7 +571,7 @@ void jRoster::setStatusRow(const QString &jid)
 	contact.m_account_name = m_account_name;
 	contact.m_item_name = jid;
 	contact.m_parent_name = buddy->getGroup();
-	contact.m_item_type = 0;
+	contact.m_item_type = TreeModelItem::Buddy;
 	jBuddy::ResourceInfo *info = buddy->getResourceInfo(buddy->getMaxPriorityResource());
 	QString status = info->m_status_message;
 	if(status.isEmpty())
@@ -593,7 +593,7 @@ void jRoster::customNotification(const QString &item_name, const QString &messag
 	if(buddy)
 		contact.m_parent_name = buddy->getGroup();
 	contact.m_item_name = item_name;
-	contact.m_item_type = 0;
+	contact.m_item_type = TreeModelItem::Buddy;
 	emit s_customNotification(contact,message);
 }
 
@@ -707,7 +707,7 @@ void jRoster::chatWindowOpened(const QString &item_name)
 	contact.m_account_name = m_account_name;
 	contact.m_item_name = item_name;
 	contact.m_parent_name = buddy->getGroup();
-	contact.m_item_type = 0;
+	contact.m_item_type = TreeModelItem::Buddy;
 	jBuddy::ResourceInfo *info = buddy->getResourceInfo(resource);
 	QString status = info->m_status_message;
 	status.replace("<br/>", " | ");
@@ -744,7 +744,7 @@ void jRoster::chatWindowAboutToBeOpened(const QString &item_name)
 		contact.m_item_name = item_name;
 		contact.m_parent_name = buddy->getGroup();
 		contact.m_item_history = bare;
-                contact.m_item_type = 0;
+                contact.m_item_type = TreeModelItem::Buddy;
 
 		if (bare != m_account_name)
 			addItem(item_name, buddy->getName(), buddy->getGroup(), bare, info->m_presence, true);
@@ -936,7 +936,7 @@ void jRoster::onSendMessage()
 			item.m_protocol_name = "Jabber";
 			item.m_account_name = m_account_name;
                         item.m_item_name = jProtocol::getBare(m_menu_name) + "/" + action->data().toString();
-			item.m_item_type = 0;
+			item.m_item_type = TreeModelItem::Buddy;
 			jPluginSystem::instance().createChat(item);
 			return;
 		}
@@ -989,7 +989,7 @@ void jRoster::updateIcon(const QString &jid, const QString &name)
 	item.m_account_name = m_account_name;
 	item.m_item_name = jid;
 	item.m_parent_name = buddy->getGroup();
-	item.m_item_type = 0;
+	item.m_item_type = TreeModelItem::Buddy;
 
 	const jBuddy::SimpleInfo &info = buddy->getSimpleInfo(name);
 	switch(info.m_position)

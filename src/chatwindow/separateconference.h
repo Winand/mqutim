@@ -22,6 +22,11 @@
 #include "separatechatwindow.h"
 #include "conferencecontactlist.h"
 #include "conferencetabcompletion.h"
+#include <QPushButton>
+#include <QToolButton>
+#include <QTextEdit>
+#include <QTextBrowser>
+#include <QSoftMenuBar>
 
 class AbstractChatLayer;
 
@@ -49,7 +54,6 @@ public:
     {
     	m_mine_nick = nick;
     }
-	void setConferenceTopic(const QString &topic);
 	void addConferenceItem(const QString &nickname);
 	void removeConferenceItem(const QString &nickname);
 	void renameConferenceItem(const QString &nickname, const QString &new_nickname);
@@ -61,24 +65,14 @@ public:
 
 protected:
 	void showEvent(QShowEvent * event);
+	void keyPressEvent(QKeyEvent *ev);
+
 private slots:
-	void on_sendButton_clicked();
-	void on_historyButton_clicked();
-	void on_translitButton_clicked();
-	void on_onEnterButton_clicked();
-	void on_quoteButton_clicked();
 	void on_clearButton_clicked();
-	void insertEmoticon(const QString &emoticon_text);
-//	void scrollWebViewToEnd();
 	void newsOnLinkClicked(const QUrl &url);
 	void windowFocused();
-	void on_topicButton_clicked();
-	void on_configButton_clicked();
 private:
 	void moveCursorToEnd();
-	void setIconsToButtons();
-	void setEmoticonsToMenu();
-	void setEmoticonPath(const QString &path);
 	void focusTextEdit();
 	void checkForActive(const QString &message);
 	bool eventFilter(QObject *obj, QEvent *ev);
@@ -100,11 +94,10 @@ private:
 	QList<quint64> m_message_positions;
 	bool m_close_after_send;
 	bool m_show_names;
-//	bool m_webkit_mode;
 	QString m_webkit_style_path;
 	QString m_webkit_variant;
 	QTextBrowser *m_text_browser;
-//	QWebView *m_web_view;
+	QTextEdit *conferenceTextEdit;
 	ChatWindowStyleOutput *m_style_output;
 	QString m_now_html;
 	quint32 m_webkit_header_offset;

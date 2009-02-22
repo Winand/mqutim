@@ -30,7 +30,6 @@ public:
     passwordDialog(QWidget *parent = 0);
     ~passwordDialog();
 
-	void rellocateDialogToCenter(QWidget *widget);
     QString getPass() { return password; }
     bool getSavePass() { return savePassword; }
     void setTitle(const QString&);
@@ -39,7 +38,6 @@ private slots:
 	void okEnable(const QString &);
 	void savePass(int flag) { savePassword = flag; }
 
-	
 private:
     Ui::passwordDialogClass ui;
     void resetSettings();

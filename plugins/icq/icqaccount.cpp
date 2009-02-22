@@ -14,12 +14,12 @@
 */
 
 #include <QtGui>
+#include <QtopiaApplication>
 
 #include "oscarprotocol.h"
 #include "customstatusdialog.h"
 #include "contactlist.h"
 #include "icqaccount.h"
-/*#include "filetransfer.h"*/
 
 
 icqAccount::icqAccount(QString string, const QString &profile_name, QObject *parent)
@@ -58,9 +58,6 @@ icqAccount::icqAccount(QString string, const QString &profile_name, QObject *par
 						this, SLOT(updateStatusMenu(bool)));
 	connect(this, SIGNAL(updateTranslation()),
 		thisIcqProtocol, SIGNAL(updateTranslation()));
-//	connect(this, SIGNAL(soundSettingsChanged()),
-//		getProtocol()->getContactListClass(),
-//		SIGNAL(soundSettingsUpdated()));
 
 
 	createIcons();
@@ -76,50 +73,31 @@ icqAccount::icqAccount(QString string, const QString &profile_name, QObject *par
 	configPath = settings.fileName().section('/', 0, -2);
 	
 	createMenuAccount();
-//	plugins = new pluginSystem(icqUin, this);
-//	thisIcqProtocol->getContactListClass()->plugins = plugins;
 
-//	createContacts();
 		m_restore_xstatus_num = -10;
 		m_restore_status = restoreAccount;
 }
 
 icqAccount::~icqAccount()
 {
-//	delete thisIcqProtocol;
 	delete accountLineButton;
-	delete privacyStatus;
-	delete m_account_additional_menu;
-	delete statusMenu;
-//	delete m_account_menu;
+  delete protoMenu;
+  delete statusMenu;
+  delete privacyStatus;
 }
 
 void icqAccount::createAccountButton(QHBoxLayout *boxLayout)
 {
 	accountLineButton = new accountButton;
-#if defined(Q_OS_MAC)
-	boxLayout->addWidget(accountLineButton, 0, Qt::AlignLeft);
-#else
 	boxLayout->addWidget(accountLineButton, 0, Qt::AlignRight);
-#endif
-//	boxLayout->addWidget(accountLineButton, 0, index);
-        accountLineButton->setWhatsThis(icqUin);
+  accountLineButton->setWhatsThis(icqUin);
 	accountLineButton->setIcon(currentIcon);
 	accountLineButton->setPopupMode(QToolButton::InstantPopup);
-	accountLineButton->setMenu(statusMenu);
+	accountLineButton->setMenu(protoMenu);
 }
-
-//void icqAccount::createMenuAccount(QMenu *menu, QAction *before)
-//{
-//	accountAction = menu->insertMenu(before, statusMenu);
-//	menuExist = true;
-//}
 
 void icqAccount::createMenuAccount()
 {
-//	m_account_menu = new QMenu(icqUin);
-//	m_account_menu->setIcon(currentIcon);
-//	m_account_menu->addMenu(statusMenu);
 	menuExist = true;
 }
 
@@ -136,85 +114,66 @@ void icqAccount::removeAccountButton()
 
 void icqAccount::createIcons()
 {
-	/*onlineIcon = new QIcon(statusIconClass::getInstance()->getOnlineIcon());
-	offlineIcon = new QIcon(statusIconClass::getInstance()->getOfflineIcon());
-	ffcIcon = new QIcon(statusIconClass::getInstance()->getFreeForChatIcon());
-	awayIcon = new QIcon(statusIconClass::getInstance()->getAwayIcon());
-	naIcon = new QIcon(statusIconClass::getInstance()->getNotAvailableIcon());
-	occupiedIcon = new QIcon(statusIconClass::getInstance()->getOccupiedIcon());
-	dndIcon = new QIcon(statusIconClass::getInstance()->getDoNotDisturbIcon());
-	invisibleIcon = new QIcon(statusIconClass::getInstance()->getInvisibleIcon());
-	connectingIcon = new QIcon(statusIconClass::getInstance()->getConnectingIcon());
-	currentIcon = new QIcon(statusIconClass::getInstance()->getOfflineIcon());
-
-	currentIconPath = statusIconClass::getInstance()->getIconFactory()->getOfflinePath();
-
-	lunchIcon = new QIcon(statusIconClass::getInstance()->getLunchIcon());
-	evilIcon = new QIcon(statusIconClass::getInstance()->getEvilIcon());
-	depressionIcon = new QIcon(statusIconClass::getInstance()->getDepressionIcon());
-	atHomeIcon = new QIcon(statusIconClass::getInstance()->getAtHomeIcon());
-	atWorkIcon = new QIcon(statusIconClass::getInstance()->getAtWorkIcon());
-	*/
 	currentIcon = m_icq_plugin_system.getStatusIcon("offline", "icq");
 	currentIconPath = m_icq_plugin_system.getStatusIconFileName("offline", "icq");
 }
 void icqAccount::createStatusMenu()
 {
+  QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
+  QSettings account_settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+icqUin, "accountsettings");
+  showCustomStatus = settings.value("statuses/customstat",true).toBool();
+  
+  onlineAction = new QAction(m_icq_plugin_system.getStatusIcon("online", "icq"), tr("Online"), this);
+  connect(onlineAction, SIGNAL(triggered()), this, SLOT(setStatus()));
+  statusMenuActions.push_back(onlineAction);
 
-        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
-        QSettings account_settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+icqUin, "accountsettings");
-	showCustomStatus = settings.value("statuses/customstat",true).toBool();
-	onlineAction = new QAction(m_icq_plugin_system.getStatusIcon("online", "icq"), tr("Online"), this);
-		connect(onlineAction, SIGNAL(triggered()), this, SLOT(setStatus()));
-		statusMenuActions.push_back(onlineAction);
+  offlineAction = new QAction(m_icq_plugin_system.getStatusIcon("offline", "icq"), tr("Offline"), this);
+  connect(offlineAction, SIGNAL(triggered()), this, SLOT(setStatus()));
+  statusMenuActions.push_back(offlineAction);
 
-		offlineAction = new QAction(m_icq_plugin_system.getStatusIcon("offline", "icq"), tr("Offline"), this);
-		connect(offlineAction, SIGNAL(triggered()), this, SLOT(setStatus()));
-		statusMenuActions.push_back(offlineAction);
+  ffcAction = new QAction(m_icq_plugin_system.getStatusIcon("ffc", "icq"), tr("Free for chat"), this);
+  connect(ffcAction, SIGNAL(triggered()), this, SLOT(setStatus()));
+  statusMenuActions.push_back(ffcAction);
 
-		ffcAction = new QAction(m_icq_plugin_system.getStatusIcon("ffc", "icq"), tr("Free for chat"), this);
-		connect(ffcAction, SIGNAL(triggered()), this, SLOT(setStatus()));
-		statusMenuActions.push_back(ffcAction);
+  awayAction = new QAction(m_icq_plugin_system.getStatusIcon("away", "icq"), tr("Away"), this);
+  connect(awayAction, SIGNAL(triggered()), this, SLOT(setStatus()));
+  statusMenuActions.push_back(awayAction);
 
-		awayAction = new QAction(m_icq_plugin_system.getStatusIcon("away", "icq"), tr("Away"), this);
-		connect(awayAction, SIGNAL(triggered()), this, SLOT(setStatus()));
-		statusMenuActions.push_back(awayAction);
+  naAction = new QAction(m_icq_plugin_system.getStatusIcon("na", "icq"), tr("NA"), this);
+  connect(naAction, SIGNAL(triggered()), this, SLOT(setStatus()));
+  statusMenuActions.push_back(naAction);
 
-		naAction = new QAction(m_icq_plugin_system.getStatusIcon("na", "icq"), tr("NA"), this);
-		connect(naAction, SIGNAL(triggered()), this, SLOT(setStatus()));
-		statusMenuActions.push_back(naAction);
+  occupiedAction = new QAction(m_icq_plugin_system.getStatusIcon("occupied", "icq"), tr("Occupied"), this);
+  connect(occupiedAction, SIGNAL(triggered()), this, SLOT(setStatus()));
+  statusMenuActions.push_back(occupiedAction);
 
-		occupiedAction = new QAction(m_icq_plugin_system.getStatusIcon("occupied", "icq"), tr("Occupied"), this);
-		connect(occupiedAction, SIGNAL(triggered()), this, SLOT(setStatus()));
-		statusMenuActions.push_back(occupiedAction);
+  dndAction = new QAction(m_icq_plugin_system.getStatusIcon("dnd", "icq"), tr("DND"), this);
+  connect(dndAction, SIGNAL(triggered()), this, SLOT(setStatus()));
+  statusMenuActions.push_back(dndAction);
 
-		dndAction = new QAction(m_icq_plugin_system.getStatusIcon("dnd", "icq"), tr("DND"), this);
-		connect(dndAction, SIGNAL(triggered()), this, SLOT(setStatus()));
-		statusMenuActions.push_back(dndAction);
+  invisibleAction = new QAction(m_icq_plugin_system.getStatusIcon("invisible", "icq"), tr("Invisible"), this);
+  connect(invisibleAction, SIGNAL(triggered()), this, SLOT(setStatus()));
+  statusMenuActions.push_back(invisibleAction);
 
-		invisibleAction = new QAction(m_icq_plugin_system.getStatusIcon("invisible", "icq"), tr("Invisible"), this);
-		connect(invisibleAction, SIGNAL(triggered()), this, SLOT(setStatus()));
-		statusMenuActions.push_back(invisibleAction);
+  lunchAction = new QAction(m_icq_plugin_system.getStatusIcon("lunch", "icq"), tr("Lunch"), this);
+  connect(lunchAction, SIGNAL(triggered()), this, SLOT(setStatus()));
+  statusMenuActions.push_back(lunchAction);
 
-		lunchAction = new QAction(m_icq_plugin_system.getStatusIcon("lunch", "icq"), tr("Lunch"), this);
-		connect(lunchAction, SIGNAL(triggered()), this, SLOT(setStatus()));
-		statusMenuActions.push_back(lunchAction);
+  evilAction = new QAction(m_icq_plugin_system.getStatusIcon("evil", "icq"), tr("Evil"), this);
+  connect(evilAction, SIGNAL(triggered()), this, SLOT(setStatus()));
+  statusMenuActions.push_back(evilAction);
 
-		evilAction = new QAction(m_icq_plugin_system.getStatusIcon("evil", "icq"), tr("Evil"), this);
-		connect(evilAction, SIGNAL(triggered()), this, SLOT(setStatus()));
-		statusMenuActions.push_back(evilAction);
+  depressionAction = new QAction(m_icq_plugin_system.getStatusIcon("depression", "icq"), tr("Depression"), this);
+  connect(depressionAction, SIGNAL(triggered()), this, SLOT(setStatus()));
+  statusMenuActions.push_back(depressionAction);
 
-		depressionAction = new QAction(m_icq_plugin_system.getStatusIcon("depression", "icq"), tr("Depression"), this);
-		connect(depressionAction, SIGNAL(triggered()), this, SLOT(setStatus()));
-		statusMenuActions.push_back(depressionAction);
+  atHomeAction = new QAction(m_icq_plugin_system.getStatusIcon("athome", "icq"), tr("At Home"), this);
+  connect(atHomeAction, SIGNAL(triggered()), this, SLOT(setStatus()));
+  statusMenuActions.push_back(atHomeAction);
 
-		atHomeAction = new QAction(m_icq_plugin_system.getStatusIcon("athome", "icq"), tr("At Home"), this);
-		connect(atHomeAction, SIGNAL(triggered()), this, SLOT(setStatus()));
-		statusMenuActions.push_back(atHomeAction);
-
-		atWorkAction = new QAction(m_icq_plugin_system.getStatusIcon("atwork", "icq"), tr("At Work"), this);
-		connect(atWorkAction, SIGNAL(triggered()), this, SLOT(setStatus()));
-		statusMenuActions.push_back(atWorkAction);
+  atWorkAction = new QAction(m_icq_plugin_system.getStatusIcon("atwork", "icq"), tr("At Work"), this);
+  connect(atWorkAction, SIGNAL(triggered()), this, SLOT(setStatus()));
+  statusMenuActions.push_back(atWorkAction);
 
 	// Set all of status actions as unchecked
 	QVectorIterator<QAction *> iterator(statusMenuActions);
@@ -225,8 +184,10 @@ void icqAccount::createStatusMenu()
 
 	customStatus = new QAction(tr("Custom status"), this);
 	connect(customStatus, SIGNAL(triggered()), this, SLOT(customStatusTriggered()));
-
-	statusMenu = new QMenu;
+  
+  protoMenu = new QMenu(tr("ICQ"));
+	statusMenu = new QMenu(tr("Status"));
+  
 	privacyStatus = new QMenu(tr("Privacy status"));
 	privacyStatus->setIcon(IcqPluginSystem::instance().getIcon("privacy"));
 
@@ -263,36 +224,35 @@ void icqAccount::createStatusMenu()
 	privacyStatus->addAction(visibleForContact);
 	privacyStatus->addAction(invisibleForAll);
 
-
-
-	statusMenu->setTitle(icqUin);
-	statusMenu->setIcon(currentIcon);
+	protoMenu->setTitle(icqUin);
+	protoMenu->setIcon(currentIcon);
+  
 	statusMenu->addAction(onlineAction);
 	statusMenu->addAction(ffcAction);
 	statusMenu->addAction(awayAction);
-
 	statusMenu->addAction(lunchAction);
 	statusMenu->addAction(evilAction);
 	statusMenu->addAction(depressionAction);
 	statusMenu->addAction(atHomeAction);
 	statusMenu->addAction(atWorkAction);
-
 	statusMenu->addAction(naAction);
 	statusMenu->addAction(occupiedAction);
 	statusMenu->addAction(dndAction);
 	statusMenu->addAction(invisibleAction);
-	statusMenu->addSeparator();
-	statusMenu->addAction(customStatus);
-	statusMenu->addSeparator();
-	statusMenu->addMenu(privacyStatus);
+  
+  protoMenu->addMenu(statusMenu);
+	protoMenu->addAction(customStatus);
+  
+	protoMenu->addSeparator();
+  
+	protoMenu->addMenu(privacyStatus);
+  
 	m_account_additional_menu = new QMenu(tr("Additional"));
-	statusMenu->addMenu(m_account_additional_menu);
+	protoMenu->addMenu(m_account_additional_menu);
 	thisIcqProtocol->getContactListClass()->initializaMenus(m_account_additional_menu);
-	statusMenu->addAction(offlineAction);
+	protoMenu->addAction(offlineAction);
 
 	updateStatusMenu(showCustomStatus);
-
-
 
 	quint32 privacy = account_settings.value("statuses/privacy", 4).toUInt();
 
@@ -316,9 +276,6 @@ void icqAccount::createStatusMenu()
 	default:
 		visibleForContact->setChecked(true);
 	}
-
-
-	
 }
 
 
@@ -629,7 +586,7 @@ void icqAccount::updateIconStatus()
 	accountLineButton->setIcon(currentIcon);
 //	if ( menuExist )
 //		accountAction->setIcon(currentIcon);
-	statusMenu->setIcon(currentIcon);
+	protoMenu->setIcon(currentIcon);
 	if ( statusTrayMenuExist)
 		chooseStatus->setIcon(currentIcon);
 
@@ -903,19 +860,15 @@ bool icqAccount::checkClientIdentification(unsigned index, unsigned pVersion, co
 
 void icqAccount::customStatusTriggered()
 {
-        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+icqUin, "accountsettings");
+  QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+icqUin, "accountsettings");
 	settings.beginGroup("xstatus");
 	customStatusDialog dialog (icqUin, m_profile_name);
-	QPoint point = accountLineButton->mapToGlobal(QPoint(0,0));
-	dialog.move(point.x() - dialog.width(), point.y() - dialog.height());
 	dialog.setStatuses(settings.value("index", 0).toInt(), statusIconClass::getInstance()->xstatusList);
 
 	settings.endGroup();
 
-
-	if ( dialog.exec() )
+	if ( QtopiaApplication::execDialog(&dialog) )
 	{
-
 		currentXstatus = dialog.status;
 		if ( currentXstatus )
 		{
@@ -942,7 +895,7 @@ void icqAccount::customStatusTriggered()
 		{
 			setStatusIcon(getStatus());
 		}
-		}
+  }
 }
 
 void icqAccount::onUpdateTranslation()

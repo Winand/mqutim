@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>255</width>
-    <height>185</height>
+    <width>214</width>
+    <height>107</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -14,44 +14,46 @@
   </property>
   <layout class="QGridLayout" name="gridLayout" >
    <item row="0" column="0" >
-    <layout class="QVBoxLayout" name="verticalLayout" >
-     <item>
-      <widget class="QLabel" name="label" >
-       <property name="text" >
-        <string>UIN:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="uinEdit" />
-     </item>
-     <item>
-      <widget class="QLabel" name="label_2" >
-       <property name="text" >
-        <string>Password:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="passwordEdit" >
-       <property name="echoMode" >
-        <enum>QLineEdit::Password</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="passwordBox" >
-       <property name="text" >
-        <string>Save password</string>
-       </property>
-       <property name="checked" >
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    <widget class="QLabel" name="uinLabel" >
+     <property name="text" >
+      <string>UIN</string>
+     </property>
+     <property name="buddy" >
+      <cstring>uinEdit</cstring>
+     </property>
+    </widget>
    </item>
-   <item row="1" column="0" >
+   <item row="2" column="0" >
+    <widget class="QLabel" name="passwordLabel" >
+     <property name="text" >
+      <string>Password</string>
+     </property>
+     <property name="buddy" >
+      <cstring>passwordEdit</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="2" >
+    <widget class="QCheckBox" name="passwordBox" >
+     <property name="text" >
+      <string>Save password</string>
+     </property>
+     <property name="checked" >
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" >
+    <widget class="QLineEdit" name="uinEdit" />
+   </item>
+   <item row="2" column="1" >
+    <widget class="QLineEdit" name="passwordEdit" >
+     <property name="echoMode" >
+      <enum>QLineEdit::Password</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0" >
     <spacer name="verticalSpacer" >
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
@@ -59,7 +61,7 @@
      <property name="sizeHint" stdset="0" >
       <size>
        <width>20</width>
-       <height>33</height>
+       <height>40</height>
       </size>
      </property>
     </spacer>
@@ -67,6 +69,11 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
+ <tabstops>
+  <tabstop>uinEdit</tabstop>
+  <tabstop>passwordEdit</tabstop>
+  <tabstop>passwordBox</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

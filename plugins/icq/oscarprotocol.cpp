@@ -15,6 +15,7 @@
 
 //#include <QtGui/QWidget>
 #include <QTcpSocket>
+#include <QtopiaApplication>
 
 #include "flap.h"
 #include "connection.h"
@@ -418,12 +419,13 @@ void oscarProtocol::clearSocket()
 
 bool oscarProtocol::checkPassword()
 {	
-        QSettings account_settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+icqUin, "accountsettings");
-        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
+  QSettings account_settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+icqUin, "accountsettings");
+  QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
+  static const char crypter[] = {0x10,0x67, 0x56, 0x78, 0x85, 0x14, 0x87, 0x11, 0x45,0x45,0x45,0x45,0x45,0x45 };
+  
 	md5Connection = settings.value("connection/md5", true).toBool();
 	if ( account_settings.value("main/savepass", false).toBool() )
 	{
-		const char crypter[] = {0x10,0x67, 0x56, 0x78, 0x85, 0x14, 0x87, 0x11, 0x45,0x45,0x45,0x45,0x45,0x45 };
 		QByteArray tmpPass = account_settings.value("main/password").toByteArray();
 		QByteArray roastedPass;
 		for ( int i = 0; i < tmpPass.length(); i++ )
@@ -435,13 +437,11 @@ bool oscarProtocol::checkPassword()
 
 		passwordDialog dialog;
 		dialog.setTitle(icqUin);
-		dialog.rellocateDialogToCenter(NULL);
-		if ( dialog.exec() )
+		if ( QtopiaApplication::execDialog(&dialog) )
 		{
 			password = contactListClass->convertPassToCodePage(dialog.getPass());
 			if ( dialog.getSavePass() )
 			{
-				const char crypter[] = {0x10,0x67, 0x56, 0x78, 0x85, 0x14, 0x87, 0x11, 0x45,0x45,0x45,0x45,0x45,0x45 };
 				QByteArray roastedPass;
 				for ( int i = 0; i < password.length(); i++ )
 					roastedPass[i] = password.at(i) ^ crypter[i];

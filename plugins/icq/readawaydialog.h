@@ -17,10 +17,10 @@
 #ifndef READAWAYDIALOG_H
 #define READAWAYDIALOG_H
 
-#include <QtGui>
+#include <QDialog>
 #include "ui_readawaydialog.h"
 
-class readAwayDialog : public QWidget
+class readAwayDialog : public QDialog
 {
     Q_OBJECT
 
@@ -32,8 +32,6 @@ public:
 
 private:
     Ui::readAwayDialogClass ui;
-    QPoint desktopCenter();
-
 };
 
 #endif // READAWAYDIALOG_H

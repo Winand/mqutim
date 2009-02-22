@@ -13,9 +13,13 @@
  ***************************************************************************
 */
 
+#include <QKeyEvent>
+#include <QSoftMenuBar>
+#include <QtopiaItemDelegate>
 
 #include "customstatusdialog.h"
 #include "icqpluginsystem.h"
+
 
 customStatusDialog::customStatusDialog(const QString &u, const QString &profile_name, QWidget *parent)
 	: QDialog(parent)
@@ -23,10 +27,10 @@ customStatusDialog::customStatusDialog(const QString &u, const QString &profile_
 	, m_profile_name(profile_name)
 {
 	ui.setupUi(this);
-	setFixedSize(size());
-	setAttribute(Qt::WA_QuitOnClose, false);
+  ui.iconList->setItemDelegate(new QtopiaItemDelegate(ui.iconList));
 	connect(ui.iconList, SIGNAL(itemDoubleClicked(QListWidgetItem *)),
-		ui.chooseButton, SIGNAL(clicked()));
+		this, SLOT(commitStatus()));
+  QSoftMenuBar::setLabel(this, Qt::Key_Back, QSoftMenuBar::Ok);
 }
 
 customStatusDialog::~customStatusDialog()
@@ -43,15 +47,14 @@ void customStatusDialog::setStatuses(int index, const QList<QString> &list)
 		QListWidgetItem *tmp= new QListWidgetItem(ui.iconList);
 		itemList.append(tmp);
 		tmp->setIcon(QIcon(path));
-                tmp->setWhatsThis(getToolTip(list.indexOf(path)));
-
+    tmp->setWhatsThis(getToolTip(list.indexOf(path)));
 	}
 	statusIndex = index;
 
-        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+mineUin, "accountsettings");
+  QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+mineUin, "accountsettings");
 	QString cap = settings.value("xstatus"+ QString::number(statusIndex - 1) +"/caption", "").toString();
 	if ( cap.isEmpty())
-                ui.captionEdit->setText(ui.iconList->item(statusIndex)->whatsThis());
+    ui.captionEdit->setText(ui.iconList->item(statusIndex)->whatsThis());
 	else
 		setCaption(cap);
 	setMessage(settings.value("xstatus"+ QString::number(statusIndex - 1) +"/message", "").toString());
@@ -60,9 +63,9 @@ void customStatusDialog::setStatuses(int index, const QList<QString> &list)
 	if ( !index )
 	{
 		ui.captionEdit->clear();
-		ui.awayEdit->clear();
+		ui.textEdit->clear();
 		ui.captionEdit->setEnabled(false);
-		ui.awayEdit->setEnabled(false);
+		ui.textEdit->setEnabled(false);
 	}
 	ui.birthBox->setChecked(settings.value("xstatus/birth", false).toBool());
 }
@@ -154,45 +157,37 @@ void customStatusDialog::on_iconList_currentItemChanged ( QListWidgetItem * curr
 {
 
 	statusIndex = ui.iconList->row(current);
-        if ( current->whatsThis().isEmpty() )
+  if ( current->whatsThis().isEmpty() )
 	{
 		ui.captionEdit->clear();
-		ui.awayEdit->clear();
+		ui.textEdit->clear();
 		ui.captionEdit->setEnabled(false);
-		ui.awayEdit->setEnabled(false);
+		ui.textEdit->setEnabled(false);
 	}
 	else
 	{
-//		ui.captionEdit->setText(current->toolTip());
 		ui.captionEdit->setEnabled(true);
-		ui.awayEdit->setEnabled(true);
+		ui.textEdit->setEnabled(true);
                 QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+mineUin, "accountsettings");
 		QString cap = settings.value("xstatus"+ QString::number(statusIndex -1 ) +"/caption", "").toString();
 
-		if ( cap.isEmpty())
-                        ui.captionEdit->setText(current->whatsThis());
+		if (cap.isEmpty())
+      ui.captionEdit->setText(current->whatsThis());
 		else
 			setCaption(cap);
 
-
 		setMessage(settings.value("xstatus"+ QString::number(statusIndex - 1) +"/message", "").toString());
-
-
 	}
-
-
-
-
 }
 
-void customStatusDialog::on_chooseButton_clicked()
+void customStatusDialog::commitStatus()
 {
 	status = statusIndex;
 
 	statusCaption = ui.captionEdit->text();
-	statusMessage = ui.awayEdit->toPlainText();
+	statusMessage = ui.textEdit->toPlainText();
 
-        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+mineUin, "accountsettings");
+  QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+mineUin, "accountsettings");
 	settings.setValue("xstatus/index", status);
 	settings.setValue("xstatus"+ QString::number(statusIndex - 1) + "/caption", statusCaption);
 	settings.setValue("xstatus"+ QString::number(statusIndex - 1) + "/message", statusMessage);
@@ -203,12 +198,24 @@ void customStatusDialog::on_chooseButton_clicked()
 	accept();
 }
 
-void customStatusDialog::on_awayEdit_textChanged()
+void customStatusDialog::on_textEdit_textChanged()
 {
-	QString xstat = ui.awayEdit->toPlainText();
+  /*
+	QString xstat = ui.textEdit->toPlainText();
 	if (xstat.length() > 6500){
 		ui.chooseButton->setEnabled(false);
 	} else {
 		ui.chooseButton->setEnabled(true);
 	}
+  */
+}
+
+void customStatusDialog::keyPressEvent(QKeyEvent *ev)
+{
+  if (ev->key()==Qt::Key_Back)
+  {
+    commitStatus();
+    return;
+  }
+  QDialog::keyPressEvent(ev);
 }

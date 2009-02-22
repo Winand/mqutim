@@ -148,7 +148,8 @@ private:
 	bool currentTrayStatus;
 	bool statusTrayMenuExist;
 	bool autoConnect;
-
+  
+  QMenu *protoMenu;
 	QMenu *statusMenu;
 	QMenu *privacyStatus;
 

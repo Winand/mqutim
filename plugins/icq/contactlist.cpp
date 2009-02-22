@@ -16,6 +16,9 @@
 //#include <QtGui>
 #include <QTcpSocket>
 #include <QNetworkProxy>
+
+#include <QtopiaApplication>
+
 //#include "treegroupitem.h"
 #include "treebuddyitem.h"
 #include "icqmessage.h"
@@ -42,10 +45,6 @@
 #include "tlv.h"
 #include "contactlist.h"
 #include "notewidget.h"
-
-#if defined(_MSC_VER)
-#pragma warning (disable:4138)
-#endif
 
 contactListTree::contactListTree(QTcpSocket *s, icqBuffer *buff, 
 		                         const QString &uin, const QString &profile_name, quint16 &flap,  quint32 &snac, quint16 &meta, QObject *parent)
@@ -1061,162 +1060,6 @@ void contactListTree::doubleClickedBuddy(treeBuddyItem *buddy)
 		openAuthReqFromBuddy(buddy);
 		return;
 	}
-
-
-//	if ( messageList.contains(buddy->getUin()) )
-//		readMessageFrom(buddy);
-//	else
-//		{
-//		if ( !chatWindowList.contains(buddy->getUin()))
-//			{
-//				chatWindow *winChat = new chatWindow(m_iconManager, m_profile_name);
-//				winChat->setUin(icqUin);
-//				winChat->setContactUin(buddy->getUin());
-//				connect( winChat, SIGNAL(destroyed ( QObject *)),
-//						this, SLOT(deleteChatWindow(QObject *)));
-//				connect( winChat, SIGNAL(sendMessage(const messageFormat &)),
-//						this, SLOT(sendMessage(const messageFormat &)));
-//				connect( winChat, SIGNAL(windowFocused(const QString &)),
-//										this, SLOT(activateWindow(const QString &)));
-//				winChat->setWindowTitle(buddy->getName());
-////				winChat->setWindowIcon((statusIconClass::getInstance()->*(buddy->statusIconMethod))());
-//				winChat->setAttribute(Qt::WA_QuitOnClose, false);
-//				winChat->setAttribute(Qt::WA_DeleteOnClose, true);
-//				chatWindowList.insert(buddy->getUin(), winChat);
-//				winChat->contactName = buddy->getName();
-//				initializeWindow(winChat);
-//				if ( tabMode ) {
-//					generalChatWindow->addChatWindow(winChat);
-//					generalChatWindow->raise();
-//					generalChatWindow->activateWindow();
-//					generalChatWindow->setFocus(Qt::OtherFocusReason);
-//					if ( generalChatWindow->isMinimized() )
-//						generalChatWindow->setWindowState(generalChatWindow->windowState() & ~Qt::WindowMinimized | Qt::WindowActive);
-//				} else {
-//					winChat->show();
-//					winChat->raise();
-//					winChat->activateWindow();
-//					winChat->setFocus(Qt::OtherFocusReason);
-//				}
-//
-//
-//			} else {
-//				chatWindow *w = chatWindowList.value(buddy->getUin());
-////				if ( !w->isActiveWindow() )
-////					{
-////						if ( w->isMinimized() )
-////							w->showNormal();
-////						w->activateWindow();
-////						if ( tabMode )
-////							generalChatWindow->showWindow(w);
-////					}
-//
-//				if ( !w->isActiveWindow() )
-//				{
-//					if ( w->isMinimized() )
-//						 w->setWindowState(w->windowState() & ~Qt::WindowMinimized | Qt::WindowActive);
-//
-//				    w->raise();
-//				    w->activateWindow();
-//				    w->setFocus(Qt::OtherFocusReason);
-//
-//					if ( tabMode ) {
-//				    	generalChatWindow->showWindow(w);
-//						generalChatWindow->raise();
-//						generalChatWindow->activateWindow();
-//						generalChatWindow->setFocus(Qt::OtherFocusReason);
-//					}
-//				 }
-//			}
-//		}
-}
-
-void contactListTree::readMessageFrom(treeBuddyItem *buddy)
-{
-//	buddy->messageIcon = false;
-//	bool addMessageToWindow = true;
-//	if ( !chatWindowList.contains(buddy->getUin()))
-//	{
-//		chatWindow *winChat = new chatWindow(m_iconManager, m_profile_name);
-//		winChat->setUin(icqUin);
-//		winChat->setContactUin(buddy->getUin());
-//		connect( winChat, SIGNAL(destroyed ( QObject *)),
-//				this, SLOT(deleteChatWindow(QObject *)));
-//		connect( winChat, SIGNAL(sendMessage(const messageFormat &)),
-//				this, SLOT(sendMessage(const messageFormat &)));
-//		connect( winChat, SIGNAL(windowFocused(const QString &)),
-//				this, SLOT(activateWindow(const QString &)));
-//		winChat->setWindowIcon((statusIconClass::getInstance()->*(buddy->statusIconMethod))());
-//		winChat->setWindowTitle(buddy->getName());
-//		winChat->setAttribute(Qt::WA_QuitOnClose, false);
-//		winChat->setAttribute(Qt::WA_DeleteOnClose, true);
-//		chatWindowList.insert(buddy->getUin(), winChat);
-//		winChat->contactName = buddy->getName();
-//		initializeWindow(winChat);
-//		if ( tabMode ) {
-//			generalChatWindow->addChatWindow(winChat);
-//			generalChatWindow->raise();
-//			generalChatWindow->activateWindow();
-//			generalChatWindow->setFocus(Qt::OtherFocusReason);
-//			if ( generalChatWindow->isMinimized() )
-//					generalChatWindow->setWindowState(generalChatWindow->windowState() & ~Qt::WindowMinimized | Qt::WindowActive);
-//		} else {
-//			winChat->show();
-//			winChat->raise();
-//			winChat->activateWindow();
-//			winChat->setFocus(Qt::OtherFocusReason);
-//		}
-//	} else {
-//			addMessageToWindow = false;
-//
-//	}
-//
-//	if ( showRecent )
-//		addMessageToWindow = false;
-//	chatWindow *w = chatWindowList.value(buddy->getUin());
-//
-//	if ( !w->isActiveWindow() )
-//	{
-//		if ( w->isMinimized() )
-//			 w->setWindowState(w->windowState() & ~Qt::WindowMinimized | Qt::WindowActive);
-//
-//	    w->raise();
-//	    w->activateWindow();
-//	    w->setFocus(Qt::OtherFocusReason);
-//
-//		if ( tabMode ) {
-//	    	generalChatWindow->showWindow(w);
-//			generalChatWindow->raise();
-//			generalChatWindow->activateWindow();
-//			generalChatWindow->setFocus(Qt::OtherFocusReason);
-//		}
-//	 }
-//
-//
-//
-//	foreach(messageFormat *mesg, buddy->messageList)
-//	{
-//		if (addMessageToWindow )
-//			w->setMessage(mesg->from,mesg->message, mesg->date);
-//	}
-//	buddy->messageList.clear();
-//	buddy->setMessageIcon(false);
-//	messageList.remove(buddy->getUin());
-//	if ( messageList.empty() )
-//		emit readAllMessages();
-}
-
-void contactListTree::deleteChatWindow(QObject *obj)
-{
-//	chatWindow *tempWindow = (chatWindow *)(obj);
-//	QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
-//	settings.setValue("chatwindow/size", tempWindow->size());
-//	chatWindowList.remove(chatWindowList.key(tempWindow));
-}
-
-void contactListTree::deleteHistoryWindow(QObject *obj)
-{
-
 }
 
 void contactListTree::sendMessage(const messageFormat &msg)
@@ -1264,9 +1107,6 @@ void contactListTree::getOfflineMessage()
 	msg->fromUin = QString::number(senderUin, 10);
 	bool messageFromList;
 
-
-
-
 	bool ok;
 		QDateTime offlineDateTime;
 		quint16 year = (quint8)socket->read(1).toHex().toUShort(&ok, 16);
@@ -1313,44 +1153,6 @@ void contactListTree::getOfflineMessage()
 			}
 		}
 
-
-//		if ( !buddyList.contains(msg->fromUin) && getOnlyFromContactList)
-//			{
-//				if ( notifyAboutBlocked)
-//					notifyBlockedMessage(msg->fromUin, msg->message);
-//
-//				if ( saveServiceHistory )
-//					saveBlocked(msg->fromUin, msg->message, msg->date);
-//
-//				return;
-//			}
-//
-//			if (!buddyList.contains(msg->fromUin) && blockAuth && messageType == 0x06)
-//			{
-//				return;
-//			}
-//
-//
-//			if (!buddyList.contains(msg->fromUin) && blockUrlMessage )
-//			{
-//				if ( checkMessageForUrl(msg->message) || messageType == 0x04)
-//				{
-//					if ( notifyAboutBlocked && messageType != 0x04 )
-//								notifyBlockedMessage(msg->fromUin, msg->message);
-//					return;
-//				}
-//			}
-//
-//			if (!buddyList.contains(msg->fromUin) && enableAntiSpamBot )
-//			{
-//				if (turnOnAntiSpamBot(msg->fromUin, msg->message, msg->date))
-//					return;
-//			}
-
-
-
-
-
 		if ( buddyList.contains(msg->fromUin) )
 		{
 			treeBuddyItem *buddy = buddyList.value(msg->fromUin);
@@ -1358,9 +1160,9 @@ void contactListTree::getOfflineMessage()
 
 			messageFromList = true;
 
-
-
-		} else {
+		} 
+    else 
+    {
                 QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+account_name, "contactlist");
 
 					treeGroupItem *group = groupList.value(0);
@@ -1400,57 +1202,8 @@ void contactListTree::getOfflineMessage()
 		addMessageFromContact(msg->fromUin,
 			buddyList.contains(msg->fromUin)?buddyList.value(msg->fromUin)->groupID : 0
 			, msg->message, offlineDateTime);
-		
-//		if ( chatWindowList.contains(msg->fromUin))
-//			{
-//			chatWindow *w = chatWindowList.value(msg->fromUin);
-//			w->setMessage(msg->from,msg->message,offlineDateTime);
-//			if ( !disableButtonBlinking )
-//				qApp->alert(w, 0);
-//
-//				if ( !w->isActiveWindow() )
-//				{
-//					if ( messageList.contains(msg->fromUin))
-//					{
-//						messageList.value(msg->fromUin)->messageList.append(msg);
-//					} else {
-//						messageList.insert(msg->fromUin, buddyList.value(msg->fromUin));
-//						messageList.value(msg->fromUin)->messageList.append(msg);
-//					}
-//					newMessages = true;
-//					QTimer::singleShot(1000,this, SLOT(setMessageIconToContact()));
-//					if ( !disableTrayBlinking )
-//						emit getNewMessage();
-//					if ( ! dontShowEvents )
-//						emit userMessage(msg->fromUin, msg->from, msg->message, messageNotification, true);
-//				}
-//
-//			} else {
-//				if ( messageList.contains(msg->fromUin))
-//				{
-//					messageList.value(msg->fromUin)->messageList.append(msg);
-//				} else {
-//					messageList.insert(msg->fromUin, buddyList.value(msg->fromUin));
-//					messageList.value(msg->fromUin)->messageList.append(msg);
-//				}
-//				emit userMessage(msg->fromUin, msg->from, msg->message, messageNotification, true);
-//				if ( !disableTrayBlinking )
-//					emit getNewMessage();
-//			}
-//
-//			if ( !newMessages )
-//			{
-//				newMessages = true;
-//				QTimer::singleShot(1000,this, SLOT(setMessageIconToContact()));
-//			}
 
 	}
-//	if ( openNew )
-//			doubleClickedBuddy(buddyList.value(msg->fromUin));
-
-
-
-//	msg->message = newMessage.msg;
 }
 
 void contactListTree::updateSorting()
@@ -1751,28 +1504,6 @@ void contactListTree::msgSettingsChanged()
 	codec = QTextCodec::codecForName(codepage.toLocal8Bit());
 	settings.beginGroup("messaging");
 	bool tbMd = settings.value("tab", true).toBool();
-//	if ( tabMode != tbMd )
-//	{
-//		if ( tabMode = tbMd )
-//		{
-//			generalChatWindow = new tabChatWindow(m_iconManager, this);
-//			generalChatWindow->setAttribute(Qt::WA_QuitOnClose, false);
-//			foreach(chatWindow *c, chatWindowList)
-//			{
-//				generalChatWindow->addChatWindow(c);
-//			}
-//		}
-//		else
-//		{
-//			generalChatWindow->detachChildren();
-//			generalChatWindow->deleteChatWindows = false;
-//			delete generalChatWindow;
-//			foreach(chatWindow *c, chatWindowList)
-//			{
-//				c->show();
-//			}
-//		}
-//	}
 
 	bool shNms = settings.value("chatnames", true).toBool();
 	quint8 tmstmp = settings.value("timestamp", 1).toInt();
@@ -1809,110 +1540,10 @@ void contactListTree::msgSettingsChanged()
 
 void contactListTree::updateChatBuddyStatus(const QString &buddy, const QIcon &icon)
 {
-//	if ( chatWindowList.contains(buddy) )
-//	{
-//		if ( tabMode )
-//		{
-//			generalChatWindow->updateStatusIcon(chatWindowList.value(buddy),icon);
-//		} else {
-//			chatWindowList.value(buddy)->setWindowIcon(icon);
-//		}
-//	}
 }
 
 void contactListTree::initializeWindow(chatWindow *w)
 {
-//	QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
-//	QSettings contacts(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+account_name, "contactlist");
-//	connect(w , SIGNAL(sendTypingNotification(const QString &, quint16)),
-//			this, SLOT(sendTypingNotifications(const QString &, quint16)));
-//	connect(w , SIGNAL(showHistory(const QString &)),
-//			this, SLOT(showHistory(const QString &)));
-//	connect(w , SIGNAL(openInfoWindow(const QString &)),
-//				this, SLOT(openInfoWindow(const QString &)));
-//	connect(w , SIGNAL(sendImage(const QString &,const QString &)),
-//				this, SLOT(sendImage(const QString &,const QString &)));
-//	connect(w , SIGNAL(sendFile(const QString &)),
-//				this, SLOT(sendFileFromWindow(const QString &)));
-//	connect(w , SIGNAL(sendFontSignal(const QFont&, const QColor &, const QColor &)),
-//				this, SLOT(getChangeFontSignal(const QFont &, const QColor &, const QColor &)));
-//
-//	QVariant fontCol = settings.value("chatwindow/fontcolor");
-//	QColor fontColor;
-//	if ( fontCol.canConvert<QColor>())
-//		fontColor = fontCol.value<QColor>();
-//
-//	QVariant backCol = settings.value("chatwindow/backcolor");
-//	QColor backColor;
-//	if ( backCol.canConvert<QColor>())
-//		backColor = backCol.value<QColor>();
-//	else
-//		backColor.setRgb(255,255,255);
-//
-//	QVariant chatFontVar = settings.value("chatwindow/font");
-//	QFont chatFont;
-//	if ( chatFontVar.canConvert<QFont>())
-//		chatFont = chatFontVar.value<QFont>();
-//
-//
-//	/*Temp hack by Garfeild  17.07.2008
-//	*First time fill background of messageEdit by black colour,
-//	*second time by user's or white.
-//	*/
-//	QColor tempColor;
-//	tempColor.setRgb(0,0,0);
-//	w->setWindowFont(chatFont, fontColor, tempColor);
-//	w->setWindowFont(chatFont, fontColor, backColor);
-//
-//	QString uin = w->chatWith;
-//
-//	if ( buddyList.contains(uin) )
-//	{
-//		treeBuddyItem *buddy = buddyList.value(uin);
-//		QByteArray iconhash = buddy->getAvatarHash().toHex();
-//		if ( !iconhash.isEmpty())
-//			w->setAvatars(iconPath + iconhash);
-//
-//		w->setContactName(buddy->getName());
-//		w->setContactClient(buddy->clientId);
-////		qDebug()<<contacts.value(uin + "/note","").toString();
-//		w->setContactNote(contacts.value(uin + "/note","").toString());
-//	}
-//
-//	QByteArray iconhash = settings.value("main/iconhash").toByteArray();
-//	if ( !iconhash.isEmpty())
-//		w->setOwnerAvatar(iconPath + iconhash);
-//
-//	w->accountNickName = accountNickname;
-//	w->setOnline(iAmOnline);
-//	w->restoreState();
-//	w->showNames = showNames;
-//	w->timestamp = timestamp;
-//	w->setOnEnter(sendOnEnter);
-//	w->closeOnSend = closeOnSend;
-//	w->setTyping(sendTyping);
-//	w->lightVersion =lightChatView;
-//	w->resize(settings.value("chatwindow/size", QSize(400,300)).toSize());
-//	if ( tabMode )
-//	{
-//		if ( !generalChatWindow->count() )
-//		generalChatWindow->resize(settings.value("chatwindow/size", QSize(400,300)).toSize());
-//	}
-//
-//	w->setEmoticonPath(emoticonXMLPath);
-//
-//	if ( showRecent )
-//	{
-//		if ( messageList.contains(w->chatWith) )
-//		{
-//			if ( recentCount >= messageList.value(w->chatWith)->messageList.count() )
-//				historyObject->setRecentMessages(w, recentCount);
-//			else
-//				historyObject->setRecentMessages(w, messageList.value(w->chatWith)->messageList.count() );
-//		}
-//		else
-//			historyObject->setRecentMessages(w, recentCount);
-//	}
 }
 
 void contactListTree::activateWindow(const QString &uin)
@@ -2158,32 +1789,10 @@ void contactListTree::getTypingNotification(quint16 length)
 			{
 				notifList<<uin;
 				contactTyping(uin, buddyList.value(uin)->groupID, true);
-//				if ( chatWindowList.contains(uin) )
-//				{
-//
-//					chatWindow *w = chatWindowList.value(uin);
-//					if ( !dontShowEvents )
-//					{
-//						if ( !w->isActiveWindow() && typingNot)
-////							emit userMessage(tr("%1 is typing").arg(buddyList.value(uin)->getName()));
-//						emit userMessage(uin, buddyList.value(uin)->getName(), "", typingNotification, true);
-//					}
-//
-//					w->typingIcon(true);
-//
-//				} else
-//				{
-//					if ( typingNot )
-//						emit userMessage(uin, buddyList.value(uin)->getName(), "", typingNotification, true);
-//				}
 			}
 		} else if ( notifType == 0x0000)
 		{
 			contactTyping(uin, buddyList.value(uin)->groupID, false);
-//			if ( chatWindowList.contains(uin) )
-//			{
-//				chatWindowList.value(uin)->typingIcon(false);
-//			}
 		}
 	}
 	} else {
@@ -2207,8 +1816,6 @@ void contactListTree::statusSettingsChanged()
 	bool autoAw = settings.value("autoaway", true).toBool();
 	quint32 awMin = settings.value("awaymin", 10).toUInt();
 	m_notify_about_reading_status = settings.value("notify", true).toBool();
-
-//	bool shXStat = 	settings.value("xstatus", true).toBool();
 	
 	if ( wbAware != webAware )
 	{
@@ -2223,19 +1830,6 @@ void contactListTree::statusSettingsChanged()
 		emit restartAutoAway(autoAway, awayMin);
 	}
 
-//	if ( shXStat != showXStatuses)
-//	{
-//		showXStatuses = shXStat;
-//		if ( showXStatuses)
-//		{
-//			foreach(treeBuddyItem *buddy, buddyList)
-//				buddy->checkForXStatus();
-//		} else
-//		{
-//			foreach(treeBuddyItem *buddy, buddyList)
-//				buddy->waitingForAuth(buddy->authorizeMe);
-//		}
-//	}
 	emit updateStatusMenu(settings.value("customstat", true).toBool());
 	settings.endGroup();
 }
@@ -2330,92 +1924,7 @@ void contactListTree::appExiting()
 
 void contactListTree::loadUnreadedMessages()
 {
-//	QList<messageFormat> msgList;
-//	historyObject->loadUnreaded(&msgList);
-//
-//	foreach(messageFormat msg, msgList)
-//	{
-//
-//		if ( buddyList.contains(msg.fromUin) )
-//		{
-//			treeBuddyItem *buddy = buddyList.value(msg.fromUin);
-//			msg.from = buddy->getName();
-//		} else {
-//
-//			QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+account_name, "contactlist");
-//
-//			treeGroupItem *group = groupList.value(0);
-//			msg.from = msg.fromUin;
-//			treeBuddyItem *buddy = new treeBuddyItem(icqUin, m_profile_name);
-//
-//			initializeBuddy(buddy);
-//			buddy->underline = !dontUnderlineNotAutho;
-//			buddy->groupID = 0;
-//			buddy->groupName = group->name;
-//			group->userCount++;
-//			group->updateText();
-//			buddyList.insert(msg.fromUin, buddy);
-//			buddy->setBuddyUin(msg.fromUin);
-//			buddy->setName(msg.fromUin);
-//			buddy->updateBuddyText();
-//			updateNil();
-//			requestUinInformation(buddy->getUin());
-//			settings.beginGroup(buddy->getUin());
-//			settings.setValue("name", buddy->getUin());
-//			settings.setValue("groupid", 0);
-//			settings.setValue("nickname", buddy->getName());
-//			settings.endGroup();
-//			addContactToCL("",buddy->getUin(), buddy->getName());
-//			QStringList contacts = settings.value("list/contacts").toStringList();
-//			contacts<<buddy->getUin();
-//			settings.setValue("list/contacts", contacts);
-//
-//		}
-//
-//		if ( chatWindowList.contains(msg.fromUin))
-//		{
-//			chatWindow *w = chatWindowList.value(msg.fromUin);
-//			w->setMessage(msg.from,msg.message, msg.date);
-//			if ( !disableButtonBlinking )
-//				qApp->alert(w, 0);
-//			if ( tabMode )
-//				generalChatWindow->setMessageTab(w);
-//			if ( !w->isActiveWindow() )
-//			{
-//				if ( messageList.contains(msg.fromUin))
-//				{
-//					messageList.value(msg.fromUin)->messageList.append(new messageFormat(msg));
-//				} else {
-//					messageList.insert(msg.fromUin, buddyList.value(msg.fromUin));
-//					messageList.value(msg.fromUin)->messageList.append(new messageFormat(msg));
-//				}
-//				newMessages = true;
-//				QTimer::singleShot(1000,this, SLOT(setMessageIconToContact()));
-//				if ( !messageList.isEmpty() && !disableTrayBlinking)
-//					QTimer::singleShot(500, this, SIGNAL(getNewMessage()));
-//			}
-//
-//		} else {
-//			if ( messageList.contains(msg.fromUin))
-//			{
-//				messageList.value(msg.fromUin)->messageList.append(new messageFormat(msg));
-//			} else {
-//				messageList.insert(msg.fromUin, buddyList.value(msg.fromUin));
-//				messageList.value(msg.fromUin)->messageList.append(new messageFormat(msg));
-//			}
-//			if ( !messageList.isEmpty() && !disableTrayBlinking)
-//				QTimer::singleShot(500, this, SIGNAL(getNewMessage()));
-//		}
-//		if ( !newMessages )
-//		{
-//			newMessages = true;
-//			QTimer::singleShot(1000,this, SLOT(setMessageIconToContact()));
-//		}
-//
-//		if ( openNew )
-//			doubleClickedBuddy(buddyList.value(msg.fromUin));
-//
-//	}
+
 }
 
 void contactListTree::showHistory(const QString &uin)
@@ -2498,11 +2007,6 @@ void contactListTree::askForAvatars(const QByteArray &hash, const QString &uin)
 
 				avatartList.insert(uin, hash);
 			}
-
-//			emit incSnacSeq();
-//				buddyPicture pic;
-//				pic.sendHash(tcpSocket, uin, hash, *flapSeq, *snacSeq);
-//				emit incFlapSeq();
 
 		} else {
                         QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+account_name, "contactlist");
@@ -2921,8 +2425,6 @@ void contactListTree::openInfoWindow(const QString &uin, const QString &nick, co
 	}
 
 	infoWin->show();
-
-
 }
 
 void contactListTree::infoUserWindowClosed(QObject *obj)
@@ -3225,7 +2727,7 @@ void contactListTree::addUserToList(const QString &uin, const QString &nick, boo
 			addDialog.setContactData(nick, groups);
 
 
-			if ( addDialog.exec() )
+			if ( QtopiaApplication::execDialog(&addDialog) )
 			{
 
 
@@ -3414,48 +2916,6 @@ void contactListTree::sendUserAddReq(const QString &uin, QString nick, bool auth
 
 void contactListTree::getModifyItemFromServer(quint16 length)
 {
-//	socket->read(8);
-//	length -= 8;
-//
-//	quint16 itemLength = byteArrayToInt16(socket->read(2));
-//	length -= 2;
-//
-//	QString itemName = QString::fromUtf8(socket->read(itemLength));
-//
-//	length -= itemLength;
-//
-//	quint16 groupId = byteArrayToInt16(socket->read(2));
-//	length -= 2;
-//
-//	quint16 itemId= byteArrayToInt16(socket->read(2));
-//	length -= 2;
-//
-//	quint16 itemType = byteArrayToInt16(socket->read(2));
-//	length -= 2;
-//
-//	quint16 tlvLength = byteArrayToInt16(socket->read(2));
-//	length -= 2;
-//
-//	tlv nameTlv;
-//	bool namePresent = false;
-//
-//	for(;tlvLength > 0;)
-//	{
-//		tlv tmpTlv;
-//		tmpTlv.readData(socket);
-//		length -= tmpTlv.getLength();
-//		tlvLength -= tmpTlv.getLength();
-//
-//		if ( tmpTlv.getTlvType() == 0x0131)
-//		{
-//			nameTlv = tmpTlv;
-//			namePresent = true;
-//		}
-//	}
-//
-//	if ( length )
-//		socket->read(length);
-
 	socket->read(8);
 
 	length -= 8;
@@ -3675,18 +3135,7 @@ void contactListTree::youWereAdded(quint16 length)
 	{
 		return;
 	}
-	
-//	if (!buddyList.contains(uin) && blockAuth)
-//	{
-//		if ( notifyAboutBlocked)
-//			notifyBlockedMessage(uin, addedMsg);
-//
-//		if ( saveServiceHistory )
-//			saveBlocked(uin, addedMsg, QDateTime::currentDateTime());
-//
-//
-//		return;
-//	}
+
 
 	messageFormat *msg = new messageFormat;
 	msg->fromUin = uin;
@@ -3738,51 +3187,6 @@ void contactListTree::youWereAdded(quint16 length)
 	addMessageFromContact(msg->fromUin,
 			buddyList.contains(msg->fromUin)?buddyList.value(msg->fromUin)->groupID : 0
 			, msg->message, msg->date);
-//	if ( chatWindowList.contains(msg->fromUin))
-//	{
-//		chatWindow *w = chatWindowList.value(msg->fromUin);
-//		w->setMessage(msg->from,msg->message, msg->date);
-//		if ( !disableButtonBlinking)
-//			qApp->alert(w, 0);
-//		if ( tabMode )
-//			generalChatWindow->setMessageTab(w);
-//		if ( !w->isActiveWindow() )
-//		{
-//			if ( messageList.contains(msg->fromUin))
-//			{
-//				messageList.value(msg->fromUin)->messageList.append(msg);
-//			} else {
-//				messageList.insert(msg->fromUin, buddyList.value(msg->fromUin));
-//				messageList.value(msg->fromUin)->messageList.append(msg);
-//			}
-//			newMessages = true;
-//			QTimer::singleShot(1000,this, SLOT(setMessageIconToContact()));
-//			if ( !disableTrayBlinking )
-//				emit getNewMessage();
-//			if ( ! dontShowEvents )
-//				emit userMessage(msg->fromUin, msg->from, msg->message, messageNotification, true);
-//		}
-//
-//	} else {
-//		if ( messageList.contains(msg->fromUin))
-//		{
-//			messageList.value(msg->fromUin)->messageList.append(msg);
-//		} else {
-//			messageList.insert(msg->fromUin, buddyList.value(msg->fromUin));
-//			messageList.value(msg->fromUin)->messageList.append(msg);
-//		}
-//		emit userMessage(msg->fromUin, msg->from, msg->message, messageNotification, true);
-//		if ( !disableTrayBlinking )
-//			emit getNewMessage();
-//	}
-//	if ( !newMessages )
-//	{
-//		newMessages = true;
-//		QTimer::singleShot(1000,this, SLOT(setMessageIconToContact()));
-//	}
-//
-//	if ( openNew )
-//		doubleClickedBuddy(buddyList.value(msg->fromUin));
 }
 
 void contactListTree::sendMultipleWindow()
@@ -3893,7 +3297,6 @@ void contactListTree::deleteFromPrivacyList(const QString &uin, int type)
 	packet2.append(convertToByteArray((quint16)uin.length()));
 	packet2.append(uin);
 
-//	packet2.append(convertToByteArray((quint16)object.groupId));
 	packet2.append(convertToByteArray((quint16)0));
 	packet2.append(convertToByteArray((quint16)object.itemId));
 	packet2.append(convertToByteArray((quint16)objectType));
@@ -4202,7 +3605,7 @@ void contactListTree::openChangePasswordDialog()
 {
 	passwordChangeDialog dialog(icqUin, m_profile_name);
 
-	if ( dialog.exec() )
+	if ( QtopiaApplication::execDialog(&dialog) )
 	{
 		emit incSnacSeq();
 		emit incMetaSeq();
@@ -4329,7 +3732,7 @@ void contactListTree::createNewGroup()
 
 	dialog.setWindowTitle(tr("Create group"));
 
-	if ( dialog.exec() )
+	if ( QtopiaApplication::execDialog(&dialog) )
 	{
 		quint16 groupId = rand() % 0x03e6;
 		for ( ;groupList.contains(groupId);)
@@ -4407,7 +3810,7 @@ void contactListTree::renameSelectedGroup()
 
 		dialog.setWindowTitle(tr("Rename group"));
 
-		if ( dialog.exec() )
+		if ( QtopiaApplication::execDialog(&dialog) )
 		{
 
 			quint16 groupId = groupList.key(currentContextGroup);
@@ -4486,7 +3889,7 @@ void contactListTree::deleteSelectedGroup()
 {
 	QMessageBox msgBox(QMessageBox::NoIcon, tr("Delete group"),
 	tr("Delete group \"%1\"?").arg(currentContextGroup->name), QMessageBox::Yes | QMessageBox::No);
-	switch( msgBox.exec() )
+	switch( QtopiaApplication::execDialog(&msgBox) )
 	{
 		case QMessageBox::Yes:
 			break;
@@ -4884,7 +4287,6 @@ void contactListTree::showBuddyMenu(const QList<QAction*> &action_list,
 
 void contactListTree::sendMessageActionTriggered()
 {
-//	doubleClickedBuddy(currentContextBuddy);
 	TreeModelItem contact_item;
 	contact_item.m_protocol_name = "ICQ";
 	contact_item.m_account_name = icqUin;
@@ -4934,16 +4336,12 @@ void contactListTree::readAwayActionTriggered()
 	message.requestAutoreply(tcpSocket, currentContextBuddy->getUin(),*flapSeq, *snacSeq);
 	emit incFlapSeq();
 
-
-
-
 	readAwayDialog *dialog = new readAwayDialog;
 	dialog->setWindowTitle(tr("%1 away message").arg(currentContextBuddy->getName()));
-	dialog->setAttribute(Qt::WA_QuitOnClose, false);
 	dialog->setAttribute(Qt::WA_DeleteOnClose, true);
 		connect( dialog, SIGNAL(destroyed ( QObject *)),
 				this, SLOT(deleteAwayWindow(QObject *)));
-	dialog->show();
+	QtopiaApplication::showDialog(dialog);
 	awayMessageList.insert(message.msgCookie, dialog);
 }
 
@@ -4993,7 +4391,7 @@ void contactListTree::renameContactActionTriggered()
 
 			dialog.setWindowTitle(tr("Rename contact"));
 
-			if ( dialog.exec() )
+			if ( QtopiaApplication::execDialog(&dialog) )
 			{
 
 				QString contactName = dialog.name;
@@ -5067,7 +4465,7 @@ void contactListTree::deleteContactActionTriggered()
 
 	if ( !movingBuddy)
 	{
-		if ( !dialog.exec() )
+		if ( !QtopiaApplication::execDialog(&dialog) )
 		 return;
 	}
 		QString contactName = currentContextBuddy->getName();
@@ -5107,11 +4505,6 @@ void contactListTree::deleteContactActionTriggered()
 						}
 
 
-//						if ( chatWindowList.contains(uin) )
-//						{
-//							chatWindowList.value(uin)->close();
-//							chatWindowList.remove(uin);
-//						}
 						quint16 groupCount;
 						QString groupName;
 						treeGroupItem *group = groupList.value(buddy->groupID);
@@ -5220,7 +4613,7 @@ void contactListTree::moveContactActionTriggered()
 			groups<<group->name;
 	}
 	addDialog.setMoveData(groups);
-	if ( addDialog.exec() )
+	if ( QtopiaApplication::execDialog(&addDialog) )
 	{
 		QString uin = currentContextBuddy->getUin();
 		QString name = currentContextBuddy->getName();
@@ -5271,11 +4664,6 @@ void contactListTree::removeContact(const QString &uin)
 		}
 
 
-//		if ( chatWindowList.contains(uin) )
-//		{
-//			chatWindowList.value(uin)->close();
-//			chatWindowList.remove(uin);
-//		}
 		quint16 groupCount;
 		QString groupName;
 			treeGroupItem *group = groupList.value(buddy->groupID);
@@ -5597,7 +4985,7 @@ void contactListTree::requestAuthorizationActionTriggered()
 {
 	requestAuthDialog dialog;
 
-	if ( dialog.exec() )
+	if ( QtopiaApplication::execDialog(&dialog) )
 	{
 		QString uin = currentContextBuddy->getUin();
 		QString msg = dialog.getMessage();
@@ -5691,7 +5079,6 @@ void contactListTree::getAuthorizationRequest(quint16 length)
 		{
 			buddy->waitingForAuth(true);
 			buddy->authMessage = msg;
-//			emit userMessage(buddy->getUin(), buddy->getName(), msg, customMessage, true);
 			addMessageFromContact(buddy->getUin(),buddy->groupID, msg, 
 					QDateTime::currentDateTime());
 		}
@@ -5744,7 +5131,6 @@ void contactListTree::getAuthorizationRequest(quint16 length)
 
 			buddy->waitingForAuth(true);
 			buddy->authMessage = msg;
-//			emit userMessage(buddy->getUin(), buddy->getName(), msg, customMessage, true);
 			addMessageFromContact(buddy->getUin(),buddy->groupID, msg, 
 					QDateTime::currentDateTime());
 	}
@@ -5766,7 +5152,7 @@ void contactListTree::openAuthReqFromBuddy(treeBuddyItem *buddy)
 	buddy->waitingForAuth(false);
 
 	connect(dialog, SIGNAL(sendAuthReqAnswer(bool, const QString &)), this, SLOT(sendAuthReqAnswer(bool, const QString &)));
-	dialog->show();
+	QtopiaApplication::showDialog(dialog);
 }
 
 void contactListTree::authorizationAcceptedAnswer(quint16 length)
@@ -5981,20 +5367,6 @@ void contactListTree::sendAcceptMessage(const QByteArray &part)
 
 void contactListTree::sendImage(const QString &uin, const QString &path)
 {
-
-//	if ( buddyList.contains(uin) && QFile::exists(path))
-//	{
-//		emit incSnacSeq();
-//
-//		icqMessage message(codepage);
-//
-//		message.sendImage(tcpSocket, uin, path,*flapSeq, *snacSeq);
-//		emit incFlapSeq();
-//
-////	if ( saveHistory )
-////		historyObject->saveHistoryMessage(msg.fromUin,
-////				accountNickname, QDateTime::currentDateTime() , false, msg.message);
-//	}
 }
 
 void contactListTree::readXstatusTriggered()
@@ -6014,7 +5386,7 @@ void contactListTree::readXstatusTriggered()
 	dialog->setAttribute(Qt::WA_DeleteOnClose, true);
 		connect( dialog, SIGNAL(destroyed ( QObject *)),
 				this, SLOT(deleteAwayWindow(QObject *)));
-	dialog->show();
+	QtopiaApplication::showDialog(dialog);
 	awayMessageList.insert(message.msgCookie, dialog);
 }
 
@@ -6208,40 +5580,10 @@ void contactListTree::onUpdateTranslation()
 
 void contactListTree::onReloadGeneralSettings()
 {
-//	QHashIterator<QString, treeBuddyItem *> iterator(buddyList);
-//
-//	while(iterator.hasNext())
-//	{
-//		treeBuddyItem *buddy = NULL;
-//		iterator.next();
-//
-//		buddy = iterator.value();
-//		buddy->setIcon(0, (statusIconClass::getInstance()->*(buddy->statusIconMethod))());
-//	}
 }
 
 void contactListTree::sendFileFromWindow(const QString &uin)
 {
-/*	if ( buddyList.contains(uin))
-	{
-		if ( buddyList.value(uin)->fileTransferSupport)
-		{
-			if ( !buddyList.value(uin)->isOffline)
-                        {
-                                QFileDialog dialog(0,QObject::tr("Open File"),"",QObject::tr("All files (*)"));
-                                dialog.setFileMode(QFileDialog::ExistingFiles);
-                                dialog.setAttribute(Qt::WA_QuitOnClose, false);
-                                QStringList file_names;
-                                if ( !dialog.exec() )
-                                        return;
-                                file_names = dialog.selectedFiles();
-                                fileTransferObject->sendFileTriggered(uin, file_names);
-                        }
-		}
-		else
-			emit sendSystemMessage(tr("Contact does not support file transfer"));
-
-        }*/
 }
 
 void contactListTree::deleteFromIgnoreActionTriggered()
@@ -6310,15 +5652,6 @@ void contactListTree::deleteNoteWindow(QObject *obj)
 
 void contactListTree::getChangeFontSignal(const QFont &f, const QColor &fc, const QColor &c)
 {
-//	QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
-//	settings.setValue("chatwindow/fontcolor", fc);
-//	settings.setValue("chatwindow/backcolor", c);
-//	settings.setValue("chatwindow/font", f);
-//
-//	foreach(chatWindow *w, chatWindowList)
-//	{
-//		w->setWindowFont(f,fc,c);
-//	}
 }
 
 void contactListTree::getMessageAck(quint16 length)
@@ -6590,19 +5923,6 @@ QStringList contactListTree::getAdditionalInfoAboutContact(const QString &item_n
 	return tmp_list;
 }
 
-/*void contactListTree::sendImageTo(const QString &contact_uin, const QByteArray &image_raw)
-{
-	if ( buddyList.contains(contact_uin) && !image_raw.isEmpty() )
-	{
-
-		emit incSnacSeq();
-		icqMessage message(codepage);
-		message.sendImage(tcpSocket, contact_uin, image_raw,*flapSeq, *snacSeq);
-		emit incFlapSeq();
-
-	}
-}*/
-
 void contactListTree::addImage(const QString &contact_uin, quint16 group_id,
 		const QByteArray &image_raw)
 {
@@ -6614,11 +5934,6 @@ void contactListTree::addImage(const QString &contact_uin, quint16 group_id,
 	contact_item.m_item_type = TreeModelItem::Buddy;
 	m_icq_plugin_system.addImage(contact_item,image_raw);
 }
-
-/*void contactListTree::sendFileTo(const QString &contact_uin, const QStringList &file_names)
-{
-        fileTransferObject->sendFileTriggered(contact_uin, file_names);
-}*/
 
 void contactListTree::contactTyping(const QString &contact_uin,
 		quint16 group_id, bool typing)
@@ -6732,6 +6047,7 @@ const QString contactListTree::getItemToolTip(const QString &contact_name)
 	{
 		return buddyList.value(contact_name)->createToolTip();
 	}
+  return QString::null;
 }
 
 void contactListTree::clearPrivacyLists()

@@ -28,33 +28,11 @@ passwordDialog::passwordDialog(QWidget *parent)
 	
 	connect( ui.saveBox, SIGNAL(stateChanged(int)),
 				this, SLOT(savePass(int)));
-	
 }
 
 passwordDialog::~passwordDialog()
 {
-
 }
-
-void passwordDialog::rellocateDialogToCenter(QWidget *widget)
-{
-	QDesktopWidget desktop;
-	// Get current screen num
-	int curScreen = desktop.screenNumber(widget);
-	// Get available geometry of the screen
-	QRect screenGeom = desktop.availableGeometry(curScreen);
-	// Let's calculate point to move dialog
-	QPoint moveTo(screenGeom.left(), screenGeom.top());
-	
-	moveTo.setX(moveTo.x() + screenGeom.width() / 2);
-	moveTo.setY(moveTo.y() + screenGeom.height() / 2);
-	
-	moveTo.setX(moveTo.x() - this->size().width() / 2);
-	moveTo.setY(moveTo.y() - this->size().height() / 2);
-	
-	this->move(moveTo);
-}
-
 
 void passwordDialog::okEnable(const QString &text)
 {

@@ -17,11 +17,6 @@
 #ifndef CONTACTLIST_H_
 #define CONTACTLIST_H_
 
-//#include <QObject>
-//#include <QHash>
-//#include <QStringList>
-//#include <QColor>
-
 #include "statusiconsclass.h"
 #include "clientidentify.h"
 #include "modifyitem.h"
@@ -29,12 +24,6 @@
 #include "quticqglobals.h"
 #include "icqpluginsystem.h"
 #include "treegroupitem.h"
-
-//enum CLWindowStyle
-//{
-//	CLRegularWindow = 0,
-//	CLBorderLessWindow
-//};
 
 // Qt standard classes
 class QTcpSocket;
@@ -66,7 +55,6 @@ class noteWidget;
 
 struct listFont
 {
-
 	QString fontFamily;
 	int fontSize;
 	QColor fontColor;

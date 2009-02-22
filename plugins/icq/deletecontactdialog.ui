@@ -13,7 +13,8 @@
    <string>deleteContactDialog</string>
   </property>
   <property name="windowIcon" >
-   <iconset resource="../../../qutim.qrc" >:/icons/crystal_project/deleteuser.png</iconset>
+   <iconset resource="../../qutim.qrc" >
+    <normaloff>:/icons/crystal_project/deleteuser.png</normaloff>:/icons/crystal_project/deleteuser.png</iconset>
   </property>
   <layout class="QGridLayout" >
    <item row="0" column="0" colspan="3" >
@@ -35,7 +36,7 @@
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="sizeHint" >
+     <property name="sizeHint" stdset="0" >
       <size>
        <width>40</width>
        <height>20</height>
@@ -61,6 +62,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <resources>
+  <include location="../../qutim.qrc" />
   <include location="../../../qutim.qrc" />
  </resources>
  <connections>

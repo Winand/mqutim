@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>417</width>
-    <height>358</height>
+    <width>203</width>
+    <height>201</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -19,19 +19,11 @@
       <number>0</number>
      </property>
      <widget class="QWidget" name="tab" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>395</width>
-        <height>308</height>
-       </rect>
-      </property>
       <attribute name="title" >
        <string>Visible list</string>
       </attribute>
       <attribute name="icon" >
-       <iconset resource="../../../qutim.qrc" >
+       <iconset resource="../../qutim.qrc" >
         <normaloff>:/icons/crystal_project/visible.png</normaloff>:/icons/crystal_project/visible.png</iconset>
       </attribute>
       <layout class="QGridLayout" >
@@ -77,19 +69,11 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tab_2" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>395</width>
-        <height>308</height>
-       </rect>
-      </property>
       <attribute name="title" >
        <string>Invisible list</string>
       </attribute>
       <attribute name="icon" >
-       <iconset resource="../../../qutim.qrc" >
+       <iconset resource="../../qutim.qrc" >
         <normaloff>:/icons/crystal_project/privacy.png</normaloff>:/icons/crystal_project/privacy.png</iconset>
       </attribute>
       <layout class="QGridLayout" >
@@ -135,19 +119,11 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tab_3" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>395</width>
-        <height>308</height>
-       </rect>
-      </property>
       <attribute name="title" >
        <string>Ignore list</string>
       </attribute>
       <attribute name="icon" >
-       <iconset resource="../../../qutim.qrc" >
+       <iconset>
         <normaloff>:/icons/ignorelist.png</normaloff>:/icons/ignorelist.png</iconset>
       </attribute>
       <layout class="QGridLayout" >
@@ -198,7 +174,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <resources>
-  <include location="../../../qutim.qrc" />
+  <include location="../../qutim.qrc" />
  </resources>
  <connections/>
 </ui>

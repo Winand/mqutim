@@ -23,28 +23,29 @@
 
 class customStatusDialog : public QDialog
 {
-    Q_OBJECT
-
+  Q_OBJECT
 public:
-    customStatusDialog(const QString &, const QString &profile_name,QWidget *parent = 0);
-    ~customStatusDialog();
-    void setStatuses(int, const QList<QString> &);
-    int status;
-    QString statusCaption;
-    QString statusMessage;
-    void setCaption(const QString &t){ui.captionEdit->setText(t);}
-    void setMessage(const QString &t){ui.awayEdit->setPlainText(t);}
+  customStatusDialog(const QString &, const QString &profile_name,QWidget *parent = 0);
+  ~customStatusDialog();
+  void setStatuses(int, const QList<QString> &);
+  int status;
+  QString statusCaption;
+  QString statusMessage;
+  void setCaption(const QString &t){ui.captionEdit->setText(t);}
+  void setMessage(const QString &t){ui.textEdit->setPlainText(t);}
 private slots:
-	void on_iconList_currentItemChanged ( QListWidgetItem * current, QListWidgetItem * previous );
-    void on_chooseButton_clicked();
-    void on_awayEdit_textChanged();
+  void on_iconList_currentItemChanged ( QListWidgetItem * current, QListWidgetItem * previous );
+  void commitStatus();
+  void on_textEdit_textChanged();
+protected:
+  void keyPressEvent(QKeyEvent *ev);
 private:
-    Ui::customStatusDialogClass ui;
-    QList<QListWidgetItem *> itemList;
-    QString getToolTip(int) const;
-    int statusIndex;
-    QString mineUin;
-    QString m_profile_name;
+  Ui::customStatusDialogClass ui;
+  QList<QListWidgetItem *> itemList;
+  QString getToolTip(int) const;
+  int statusIndex;
+  QString mineUin;
+  QString m_profile_name;
 };
 
 #endif // CUSTOMSTATUSDIALOG_H

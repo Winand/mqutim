@@ -5,15 +5,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>211</width>
-    <height>183</height>
+    <width>269</width>
+    <height>232</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>noteWidget</string>
   </property>
   <property name="windowIcon" >
-   <iconset resource="../../../qutim.qrc" >
+   <iconset resource="../../qutim.qrc" >
     <normaloff>:/icons/crystal_project/note.png</normaloff>:/icons/crystal_project/note.png</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout" >
@@ -44,7 +44,7 @@
         <string>OK</string>
        </property>
        <property name="icon" >
-        <iconset resource="../../../qutim.qrc" >
+        <iconset resource="../../qutim.qrc" >
          <normaloff>:/icons/crystal_project/apply.png</normaloff>:/icons/crystal_project/apply.png</iconset>
        </property>
       </widget>
@@ -55,7 +55,7 @@
         <string>Cancel</string>
        </property>
        <property name="icon" >
-        <iconset resource="../../../qutim.qrc" >
+        <iconset resource="../../qutim.qrc" >
          <normaloff>:/icons/crystal_project/cancel.png</normaloff>:/icons/crystal_project/cancel.png</iconset>
        </property>
       </widget>
@@ -79,7 +79,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <resources>
-  <include location="../../../qutim.qrc" />
+  <include location="../../qutim.qrc" />
  </resources>
  <connections>
   <connection>

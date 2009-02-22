@@ -17,22 +17,13 @@
 #include "readawaydialog.h"
 
 readAwayDialog::readAwayDialog(QWidget *parent)
-    : QWidget(parent)
+    : QDialog(parent)
 {
 	ui.setupUi(this);
-	setFixedSize(size());
-	move(desktopCenter());
 }
 
 readAwayDialog::~readAwayDialog()
 {
-
-}
-
-QPoint readAwayDialog::desktopCenter()
-{
-	QDesktopWidget desktop;
-	return QPoint(desktop.width() / 2 - size().width() / 2, desktop.height() / 2 - size().height() / 2);
 }
 
 void readAwayDialog::addMessage(QString &t)

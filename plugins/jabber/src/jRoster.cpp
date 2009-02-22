@@ -185,7 +185,7 @@ void jRoster::addGroup(const QString &group_name, bool /*use_qsettings*/)
 	contact.m_account_name = m_account_name;
 	contact.m_item_name = group_name;
 	contact.m_parent_name = m_account_name;
-	contact.m_item_type = TreeModelItem::Undefined;
+	contact.m_item_type = TreeModelItem::Group;
 
 	emit addItemToContactList(contact, group_name);
 	if (group_name != "My connections")

@@ -107,7 +107,7 @@ Qt::ItemFlags TreeContactListModel::flags(const QModelIndex &index) const
 {
 	if (!index.isValid())
 		return Qt::ItemIsEnabled;
-	if(index.data(Qt::UserRole).toInt()<2)
+	if(index.data(AbstractContactList::ContactTypeRole).toInt()<2)
 		return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
 	return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
@@ -297,8 +297,9 @@ bool TreeContactListModel::addAccount(const TreeModelItem & Item, QString name)
         TreeItem *item = m_root_item->child(m_root_item->childCount()-1);
         item->setStructure(Item);
         item->setData(name,Qt::DisplayRole);
-        item->setData(QVariant(Item.m_item_type),Qt::UserRole);
-        item->setData(0, Qt::UserRole+1);
+        item->setData(QIcon(),AbstractContactList::ContactStatusIconRole);
+        item->setData(QVariant(Item.m_item_type),AbstractContactList::ContactTypeRole);
+        item->setData(0, AbstractContactList::ContactMassRole);
 	protocol->insert(Item.m_account_name, item);
         QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
 	settings.beginGroup("contactlist");
@@ -328,12 +329,13 @@ bool TreeContactListModel::addGroup(const TreeModelItem & Item, QString name)
 	insertRows(parent->childCount(),1,createIndex(0,0,parent));
 	TreeItem *item = parent->child(parent->childCount()-1);
 	item->setData(name,Qt::DisplayRole);
-	item->setData(QVariant(Item.m_item_type),Qt::UserRole);
+  item->setData(QIcon(),AbstractContactList::ContactStatusIconRole);
+	item->setData(QVariant(Item.m_item_type),AbstractContactList::ContactTypeRole);
 	item->setStructure(Item);
 	int mass=0;
 	if(Item.m_item_name=="")
 		mass=1;
-	item->setData(0, Qt::UserRole+1);
+	item->setData(0, AbstractContactList::ContactMassRole);
 	parent->setHash(Item.m_item_name, item);
         QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
 	settings.beginGroup("contactlist");
@@ -363,8 +365,8 @@ bool TreeContactListModel::addBuddy(const TreeModelItem & Item, QString name)
 	insertRows(parent->childCount(),1,createIndex(0,0,parent));
 	TreeItem *item = parent->child(parent->childCount()-1);
 	item->setData(name,Qt::DisplayRole);
-	item->setData(QVariant(Item.m_item_type),Qt::UserRole);
-	item->setData(1000, Qt::UserRole+1);
+	item->setData(QVariant(Item.m_item_type),AbstractContactList::ContactTypeRole);
+	item->setData(1000, AbstractContactList::ContactMassRole);
 	item->setStructure(Item);
 	parent->setHash(Item.m_item_name, item);
 //	emit itemInserted(createIndex(0,0,findItem(Item)));
@@ -394,7 +396,7 @@ void TreeContactListModel::setItemHasUnviewedContent(const TreeModelItem & Item,
 			m_has_unviewed_content.insert(item,true);
 		else
 		{
-			item->setData(item->getImage(0),Qt::UserRole+4);
+			item->setData(item->getImage(0),AbstractContactList::ContactStatusIconRole);
 			QModelIndex index = createIndex(0,0,item);
 			emit dataChanged(index,index);
 			m_has_unviewed_content.insert(item,false);
@@ -423,7 +425,7 @@ void TreeContactListModel::setItemIsTyping(const TreeModelItem & Item, bool has_
 			m_is_typing.insert(item,true);
 		else
 		{
-			item->setData(item->getImage(0),Qt::UserRole+4);
+			item->setData(item->getImage(0),AbstractContactList::ContactStatusIconRole);
 			QModelIndex index = createIndex(0,0,item);
 			emit dataChanged(index,index);
 			m_is_typing.insert(item,false);
@@ -451,18 +453,18 @@ void TreeContactListModel::onTimerTimeout()
 			bool special =  m_has_unviewed_content.value(key,false);
 			QIcon icon(":/icons/crystal_project/message.png");
 			if(m_show_special_status && special)
-				key->setData(icon,Qt::UserRole+4);
+				key->setData(icon,AbstractContactList::ContactStatusIconRole);
 			else
 			{
 				QPixmap pixmap(icon.actualSize(QSize(65535,65535)));
 				pixmap.fill(Qt::transparent);
 				icon = QIcon(pixmap);
-				key->setData(icon,Qt::UserRole+4);
+				key->setData(icon,AbstractContactList::ContactStatusIconRole);
 			}
 			QModelIndex index = createIndex(0,0,key);
 			if(!special)
 			{
-				key->setData(key->getImage(0),Qt::UserRole+4);
+				key->setData(key->getImage(0),AbstractContactList::ContactStatusIconRole);
 				m_has_unviewed_content.remove(key);
 				bool should_check = key->getContent()==1;
 				key->setContent(1,false);
@@ -484,18 +486,18 @@ void TreeContactListModel::onTimerTimeout()
 			bool special =  m_is_typing.value(key,false);
 			QIcon icon(":/icons/typing.png");
 			if(m_show_special_status && special)
-				key->setData(icon,Qt::UserRole+4);
+				key->setData(icon,AbstractContactList::ContactStatusIconRole);
 			else
 			{
 				QPixmap pixmap(icon.actualSize(QSize(65535,65535)));
 				pixmap.fill(Qt::transparent);
 				icon = QIcon(pixmap);
-				key->setData(icon,Qt::UserRole+4);
+				key->setData(icon,AbstractContactList::ContactStatusIconRole);
 			}
 			QModelIndex index = createIndex(0,0,key);
 			if(!special)
 			{
-				key->setData(key->getImage(0),Qt::UserRole+4);
+				key->setData(key->getImage(0),AbstractContactList::ContactStatusIconRole);
 				m_is_typing.remove(key);
 				bool should_check = key->getContent()==2;
 				key->setContent(2,false);
@@ -521,10 +523,10 @@ void TreeContactListModel::onTimerTimeout()
 				if(m_show_special_status && special>0)
 				{
 					icon = QIcon(icon.pixmap(QSize(65535,65535),QIcon::Disabled));
-					key->setData(icon,Qt::UserRole+4);
+					key->setData(icon,AbstractContactList::ContactStatusIconRole);
 				}
 				else
-					key->setData(icon,Qt::UserRole+4);
+					key->setData(icon,AbstractContactList::ContactStatusIconRole);
 				QModelIndex index = createIndex(0,0,key);
 				emit dataChanged(index,index);
 			}
@@ -620,7 +622,7 @@ bool TreeContactListModel::removeBuddy(const TreeModelItem & Item)
 bool TreeContactListModel::moveBuddy(const TreeModelItem & oldItem, const TreeModelItem & newItem)
 {
 	TreeItem *old_item = findItem(oldItem);
-	QString status = old_item->data(Qt::UserRole+3).toString();
+	QString status = old_item->data(AbstractContactList::ContactStatusRole).toString();
 
 	return true;
 }
@@ -662,8 +664,8 @@ bool TreeContactListModel::setItemStatus(const TreeModelItem & Item, QIcon icon,
 	TreeItem *item = findItem(Item);
 	if(item==0 || Item.m_item_type!=TreeModelItem::Buddy)
 		return false;
-	bool new_item = item->data(Qt::UserRole+3).toString().isEmpty();
-	int old_mass = item->data(Qt::UserRole+1).toInt();
+	bool new_item = item->data(AbstractContactList::ContactStatusRole).toString().isEmpty();
+	int old_mass = item->data(AbstractContactList::ContactMassRole).toInt();
 	item->setStatus(status, icon, mass);
 	QModelIndex index = createIndex(0,0,item);
 	if(Item.m_item_type==TreeModelItem::Buddy)

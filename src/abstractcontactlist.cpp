@@ -55,19 +55,21 @@ void AbstractContactList::setTreeView(QTreeView *TreeView)
 	QObject::connect(m_item_model, SIGNAL(itemStatusChanged(QModelIndex,QIcon,QString,int)), m_proxy_model, SLOT(setStatus(QModelIndex,QIcon,QString,int)));
 	m_tree_view->setModel(m_proxy_model);
 	m_proxy_model->setModel(m_item_model);
-	m_tree_view->setIndentation(0);
+	m_tree_view->setIndentation((m_tree_view->indentation()*2)/5);
+  m_tree_view->setRootIsDecorated(false);
 //	m_tree_view->setExpandsOnDoubleClick(true);
 	m_proxy_model->setTreeView(m_tree_view);
 	//m_tree_view->setAlternatingRowColors(true);
-//	m_tree_view->setHeaderHidden(true);
-	m_item_delegate = new ContactListItemDelegate();
+  
+	//m_item_delegate = new ContactListItemDelegate(m_tree_view);
+  m_item_delegate = new QtopiaCLItemDelegate(m_tree_view);
 	m_tree_view->setItemDelegate(m_item_delegate);
-	m_item_delegate->setTreeView(m_tree_view);
+	//m_item_delegate->setTreeView(m_tree_view);
 	QObject::connect(m_item_model, SIGNAL(dataChanged(QModelIndex,QModelIndex)), m_proxy_model, SLOT(newData(QModelIndex,QModelIndex)));
 
 	m_event_eater = new ContactListEventEater();
 	m_tree_view->installEventFilter(m_event_eater);
-        m_tree_view->findChild<QObject *>("qt_scrollarea_viewport")->installEventFilter(m_event_eater);
+  m_tree_view->findChild<QObject *>("qt_scrollarea_viewport")->installEventFilter(m_event_eater);
 	QObject::connect(m_tree_view, SIGNAL(collapsed(QModelIndex)), m_event_eater, SLOT(collapsed(QModelIndex)));
 	QObject::connect(m_tree_view, SIGNAL(expanded(QModelIndex)), m_event_eater, SLOT(expanded(QModelIndex)));
 	m_tree_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -81,8 +83,8 @@ void AbstractContactList::setTreeView(QTreeView *TreeView)
 }
 bool AbstractContactList::addItem(const TreeModelItem & Item, QString name)
 {
-        if(!m_has_tree_view)
-            return false;
+  if(!m_has_tree_view)
+      return false;
 	//qWarning() << "addItem		" << Item.m_item_type << Item.m_protocol_name << Item.m_account_name << Item.m_parent_name << Item.m_item_name; 
 	if(name.isEmpty())
 		name=Item.m_item_type==TreeModelItem::Account?Item.m_account_name:Item.m_item_name;
@@ -151,10 +153,10 @@ bool AbstractContactList::moveItem(const TreeModelItem & OldItem, const TreeMode
 	if(item==0)
 		return false;
 	QVariant display = item->data(Qt::DisplayRole);
-        QList<QVariant> decoration = *reinterpret_cast<QList<QVariant> *>(item->data(Qt::DecorationRole).value<qptrdiff>());
-	int mass = item->data(Qt::UserRole+1).toInt();
-        QList<QVariant> rows = *reinterpret_cast<QList<QVariant> *>(item->data(Qt::UserRole+2).value<qptrdiff>());
-	QString status = item->data(Qt::UserRole+3).toString();
+  QList<QVariant> decoration = *reinterpret_cast<QList<QVariant> *>(item->data(ContactIconsRole).value<qptrdiff>());
+	int mass = item->data(ContactMassRole).toInt();
+  QList<QVariant> rows = *reinterpret_cast<QList<QVariant> *>(item->data(ContactTextRole).value<qptrdiff>());
+	QString status = item->data(ContactStatusRole).toString();
 	bool always_visible = item->getAlwaysVisible();
 	bool always_invisible = item->getAlwaysInvisible();
 	if(removeItem(OldItem))
@@ -163,7 +165,7 @@ bool AbstractContactList::moveItem(const TreeModelItem & OldItem, const TreeMode
 		{
 			m_tree_view->setUpdatesEnabled(false);
 			item = m_item_model->findItem(NewItem);
-			item->setData(decoration,Qt::DecorationRole);
+			item->setData(decoration,ContactIconsRole);
 			for (int i = 0; i < rows.size(); i++)
 				setItemRow(NewItem,rows[i].toList(),i);
 			setItemVisible(NewItem,always_visible);
@@ -180,8 +182,8 @@ bool AbstractContactList::moveItem(const TreeModelItem & OldItem, const TreeMode
 
 bool AbstractContactList::setItemName(const TreeModelItem & Item, QString name)
 {
-        if(!m_has_tree_view)
-            return false;
+  if(!m_has_tree_view)
+      return false;
 	m_tree_view->setUpdatesEnabled(false);
 	//qWarning() << "setItemName		" << Item.m_item_type << Item.m_protocol_name << Item.m_account_name << Item.m_parent_name << Item.m_item_name;
 	bool result = m_item_model->setItemName(Item, name);
@@ -191,8 +193,8 @@ bool AbstractContactList::setItemName(const TreeModelItem & Item, QString name)
 
 bool AbstractContactList::setItemIcon(const TreeModelItem & Item, QIcon icon, int position)
 {
-        if(!m_has_tree_view)
-            return false;
+  if(!m_has_tree_view)
+      return false;
 	//m_tree_view->setUpdatesEnabled(false);
 	//qWarning() << "setItemIcon		" << Item.m_item_type << Item.m_protocol_name << Item.m_account_name << Item.m_parent_name << Item.m_item_name << position;
 	bool result = m_item_model->setItemIcon(Item, icon, position);
@@ -213,8 +215,8 @@ bool AbstractContactList::setItemRow(const TreeModelItem & Item, QList<QVariant>
 }
 bool AbstractContactList::setItemStatus(const TreeModelItem & Item, QIcon icon, QString text, int mass)
 {
-        if(!m_has_tree_view)
-            return false;
+  if(!m_has_tree_view)
+      return false;
 	AbstractChatLayer &acl = AbstractChatLayer::instance();
 	acl.contactChageStatusIcon(Item,icon);
 	m_tree_view->setUpdatesEnabled(false);
@@ -247,8 +249,8 @@ void AbstractContactList::sendEventActivated(const QPoint &pos)
 }
 void AbstractContactList::sendEventClicked(const QModelIndex & index, const QPoint &point)
 {
-        if(!m_has_tree_view)
-            return;
+  if(!m_has_tree_view)
+      return;
 	QModelIndex source_index = static_cast<ProxyModelItem*>(index.internalPointer())->getSourceIndex();
 	if(!source_index.isValid())
 		return;
@@ -257,8 +259,8 @@ void AbstractContactList::sendEventClicked(const QModelIndex & index, const QPoi
 }
 void AbstractContactList::sendEventHelp(const QModelIndex & /*index*/, const QPoint &/*point*/)
 {
-        if(!m_has_tree_view)
-            return;
+  if(!m_has_tree_view)
+      return;
 //	QModelIndex source_index = static_cast<ProxyModelItem*>(index.internalPointer())->getSourceIndex();
 //	if(!source_index.isValid())
 //		return;
@@ -277,8 +279,8 @@ void AbstractContactList::sendEventHelp(const QModelIndex & /*index*/, const QPo
 }
 void AbstractContactList::itemActivated(const TreeModelItem & item)
 {
-        if(!m_has_tree_view)
-            return;
+  if(!m_has_tree_view)
+      return;
 //	PluginSystem &ps = PluginSystem::instance();
 //	ps.itemActivated(item);
 	AbstractChatLayer &acl = AbstractChatLayer::instance();
@@ -287,31 +289,31 @@ void AbstractContactList::itemActivated(const TreeModelItem & item)
 }
 void AbstractContactList::contactMenu(const TreeModelItem & item, QPoint point)
 {
-        if(!m_has_tree_view)
-            return;
+  if(!m_has_tree_view)
+      return;
 	AbstractContextLayer::instance().itemContextMenu(item, point);
 }
 void AbstractContactList::itemMoved(const TreeModelItem & OldItem, const TreeModelItem & NewItem)
 {
-        if(!m_has_tree_view)
-            return;
+  if(!m_has_tree_view)
+      return;
 	PluginSystem::instance().moveItemSignalFromCL(OldItem, NewItem);
 }
 void AbstractContactList::setAccountIsOnline(const TreeModelItem &Item, bool online)
 {
-        if(!m_has_tree_view)
-            return;
+  if(!m_has_tree_view)
+      return;
 	m_item_model->setItemIsOnline(Item,online);
 }
 QString AbstractContactList::getItemStatus(const TreeModelItem &Item)
 {
-        if(!m_has_tree_view)
-            return "";
+  if(!m_has_tree_view)
+      return "";
 	TreeItem *item = m_item_model->findItemNoParent(Item);
 	if(item==0)
                 return "";
 	else
-		return item->data(Qt::UserRole+3).toString();	
+		return item->data(ContactStatusRole).toString();	
 }
 void AbstractContactList::setItemHasUnviewedContent(const TreeModelItem & Item, bool has_content)
 {
@@ -502,7 +504,7 @@ void AbstractContactList::loadSettings()
 	for(int i=2;i<12;i++)
 		show_icons.append(settings.value("showicon"+QString::number(i),true).toBool());
 	show_icons.append(settings.value("showicon12",false).toBool());
-	m_item_delegate->setSettings(show_icons.toVector());
+	//m_item_delegate->setSettings(show_icons.toVector());
 	int model_type = settings.value("modeltype",0).toInt();
 	bool show_offline=settings.value("showoffline",true).toBool();
 	bool show_empty_group=settings.value("showempty",true).toBool();

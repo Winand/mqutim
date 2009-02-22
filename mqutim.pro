@@ -81,6 +81,7 @@ HEADERS += src/aboutinfo.h \
     src/chatwindow/separateconference.h \
     src/contactlist/contactlisteventeater.h \
     src/contactlist/contactlistitemdelegate.h \
+    src/contactlist/contactlistitemdelegate_qtopia.h \
     src/contactlist/contactlistproxymodel.h \
     src/contactlist/contactlistsettings.h \
     src/contactlist/proxymodelitem.h \
@@ -158,6 +159,7 @@ SOURCES += main.cpp \
     src/chatwindow/separateconference.cpp \
     src/contactlist/contactlisteventeater.cpp \
     src/contactlist/contactlistitemdelegate.cpp \
+    src/contactlist/contactlistitemdelegate_qtopia.cpp \
     src/contactlist/contactlistproxymodel.cpp \
     src/contactlist/contactlistsettings.cpp \
     src/contactlist/proxymodelitem.cpp \

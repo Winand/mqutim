@@ -14,19 +14,20 @@
 *****************************************************************************/
 
 #include "proxymodelitem.h"
+#include "abstractcontactlist.h"
 #include <QDebug>
 
 ProxyModelItem::ProxyModelItem(const QModelIndex &source, QHash<TreeItem *, QModelIndex> *source_list, ProxyModelItem *parent)
 {
 	if(source.isValid())
 	{
-		m_item_type=0;
-		m_item_mass=static_cast<TreeItem*>(m_source_index[0].internalPointer())->data(Qt::UserRole+1).toInt();
+		m_item_type=TreeModelItem::Buddy;
+		m_item_mass=static_cast<TreeItem*>(m_source_index[0].internalPointer())->data(AbstractContactList::ContactTypeRole).toInt();
 		m_item_name=static_cast<TreeItem*>(m_source_index[0].internalPointer())->data(Qt::DisplayRole).toString();
 	}
 	else
 	{
-		m_item_type=-1;
+		m_item_type=TreeModelItem::Undefined;
 		m_item_mass=0;
 		m_item_name="";
 	}
@@ -61,13 +62,13 @@ ProxyModelItem *ProxyModelItem::clone()
 	item->m_online_children=m_online_children;
 	switch(m_item_type)
 	{
-	case -1:
+	case TreeModelItem::Undefined:
 		item->setSourceIndex(QModelIndex());
 		break;
-	case 0:
+	case TreeModelItem::Buddy:
 		item->setSourceIndex(m_source_index.at(0));
 		break;
-	case 1:
+	case TreeModelItem::Group:
 		for(int i=0;i<m_source_index.size();i++)
 			item->appendSourceIndex(m_source_index.at(i));
 		break;
@@ -115,19 +116,21 @@ QVariant ProxyModelItem::data(int role) const
 		return m_item_edit;
 	case Qt::FontRole:
 		return m_font;
-	case Qt::UserRole+10:
+	case AbstractContactList::ContactColorRole:
 		return m_color;
 	}
-	if(m_item_type==0||m_item_type==1)
+	if(m_item_type==TreeModelItem::Buddy||m_item_type==TreeModelItem::Group)
 	{
 		TreeItem *item = static_cast<TreeItem*>(m_source_index[0].internalPointer());//getSourceItem();
 		switch(role)
 		{
 		case Qt::DisplayRole:{
-			int type = m_item_type==1?1:item->data(Qt::UserRole).toInt(); 
+			int type = m_item_type==TreeModelItem::Group?
+        TreeModelItem::Group :
+        item->data(AbstractContactList::ContactTypeRole).toInt(); 
 			QString ans=m_item_name;
 			//qWarning() << m_item_name << " " << m_item_name.isEmpty() << m_item_type;
-			if(type==1)
+			if(type==TreeModelItem::Group)
 			{
 				if(item->getName().isEmpty())// && m_item_name.isEmpty())
 					ans=QObject::tr("Not in list");
@@ -142,7 +145,7 @@ QVariant ProxyModelItem::data(int role) const
 				ans+=" ("+QString().setNum(online)+"/"+QString().setNum(num)+")";
 			}
 			return ans;}
-		case Qt::UserRole+1:
+		case AbstractContactList::ContactMassRole:
 			return m_item_mass;
 		default:
 			return item->data(role);
@@ -153,15 +156,15 @@ QVariant ProxyModelItem::data(int role) const
 		{
 		case Qt::DisplayRole:
 			return m_item_name;
-		case Qt::UserRole:
+		case AbstractContactList::ContactTypeRole:
 			return m_item_type;
-		case Qt::UserRole+1:
+		case AbstractContactList::ContactMassRole:
 			return m_item_mass;
-		case Qt::DecorationRole:
-                        return reinterpret_cast<qptrdiff>(&m_decoration);
-		case Qt::UserRole+2:
-                        return reinterpret_cast<qptrdiff>(&m_rows);
-		case Qt::UserRole+4:
+		case AbstractContactList::ContactIconsRole:
+      return reinterpret_cast<qptrdiff>(&m_decoration);
+		case AbstractContactList::ContactTextRole:
+      return reinterpret_cast<qptrdiff>(&m_rows);
+		case AbstractContactList::ContactStatusIconRole:
 			return QVariant();
 		default:
 			return QVariant();
@@ -177,7 +180,7 @@ bool ProxyModelItem::setData(const QVariant &value, int role)
 	case Qt::FontRole:
 		m_font = value;
 		break;
-	case Qt::UserRole+10:
+	case AbstractContactList::ContactColorRole:
 		m_color = value;
 		break;
 	default:
@@ -254,14 +257,14 @@ void ProxyModelItem::setSourceIndex(const QModelIndex &source)
 {
 	m_source_index.clear();
 	if(source.isValid())
-		m_item_type=0;
+		m_item_type=TreeModelItem::Buddy;
 	else
-		m_item_type=-1;
+		m_item_type=TreeModelItem::Undefined;
 	m_source_index.append(source);	
 }
 void ProxyModelItem::appendSourceIndex(const QModelIndex &source)
 {
-	m_item_type=1;
+	m_item_type=TreeModelItem::Group;
 	if(!m_source_index[0].isValid())
 	{
 		m_source_index[0]=source;

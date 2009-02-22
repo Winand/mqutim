@@ -45,10 +45,6 @@ public:
 	int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
 	Qt::ItemFlags flags(const QModelIndex &index) const;
-	Qt::DropActions supportedDropActions() const;
-	bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
-	QStringList mimeTypes() const;
-	QMimeData *mimeData(const QModelIndexList &indexes) const;
 	bool insertColumns(int position, int columns,
 						const QModelIndex &parent = QModelIndex());
 	bool removeColumns(int position, int columns,

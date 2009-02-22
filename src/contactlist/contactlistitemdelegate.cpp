@@ -50,13 +50,13 @@ void ContactListItemDelegate::paint(QPainter *painter, const QStyleOptionViewIte
 
   QBrush selected = option.palette.brush(cg, QPalette::Highlight);
 
-  int type = index.data(Qt::UserRole).toInt();
+  int type = index.data(AbstractContactList::ContactTypeRole).toInt();
   QFont font=option.font;
   QVariant var_font = index.data(Qt::FontRole);
   if (var_font.type() == QVariant::Font)
     font=qvariant_cast<QFont>(var_font);
   QColor font_color=painter->pen().color();
-  QVariant var_color = index.data(Qt::UserRole+10);
+  QVariant var_color = index.data(AbstractContactList::ContactColorRole);
   if (var_color.type() == QVariant::Color)
     font_color=qvariant_cast<QColor>(var_color);
   QFont status_font = font;;
@@ -71,7 +71,7 @@ void ContactListItemDelegate::paint(QPainter *painter, const QStyleOptionViewIte
   QPoint point = option.rect.topLeft();
   
   int height=0;
-  QList<QVariant> &list = *reinterpret_cast<QList<QVariant> *>(index.data(Qt::DecorationRole).value<qptrdiff>());
+  QList<QVariant> &list = *reinterpret_cast<QList<QVariant> *>(index.data(AbstractContactList::ContactIconsRole).value<qptrdiff>());
   switch (type)
   {
   case 1:
@@ -85,7 +85,7 @@ void ContactListItemDelegate::paint(QPainter *painter, const QStyleOptionViewIte
   }
   if (m_show_icons[0])
   {
-    QVariant icon_variant = index.data(Qt::UserRole+4);
+    QVariant icon_variant = index.data(AbstractContactList::ContactStatusIconRole);
     if (icon_variant.isValid()&&icon_variant.type()==QVariant::Icon || type==1)
     {
       QIcon icon = qvariant_cast<QIcon>(type==1?list[0]:icon_variant);
@@ -137,7 +137,7 @@ void ContactListItemDelegate::paint(QPainter *painter, const QStyleOptionViewIte
   painter->setFont(font);
   painter->setPen(font_color);
   painter->drawText(QRect(point,QSize(item_size.width(),font_metrics.height())),font_metrics.elidedText(text,Qt::ElideRight,item_size.width()));
-  QList<QVariant> &row_list = *reinterpret_cast<QList<QVariant> *>(index.data(Qt::UserRole+2).value<qptrdiff>());
+  QList<QVariant> &row_list = *reinterpret_cast<QList<QVariant> *>(index.data(AbstractContactList::ContactTextRole).value<qptrdiff>());
   painter->setFont(status_font);
   painter->setPen(status_color);
   font_metrics = QFontMetrics(status_font);
@@ -165,7 +165,7 @@ void ContactListItemDelegate::paint(QPainter *painter, const QStyleOptionViewIte
 
 QSize ContactListItemDelegate::sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const
 {
-  int type = index.data(Qt::UserRole).toInt();
+  int type = index.data(AbstractContactList::ContactTypeRole).toInt();
   QVariant value = index.data(Qt::SizeHintRole);
   if (value.isValid())
     return qvariant_cast<QSize>(value);
@@ -175,7 +175,7 @@ QSize ContactListItemDelegate::sizeHint ( const QStyleOptionViewItem & option, c
     opt.font=qvariant_cast<QFont>(font);
 
   int height=size(opt, index, index.data(Qt::DisplayRole)).height();
-  QList<QVariant> &list = *reinterpret_cast<QList<QVariant> *>(index.data(Qt::DecorationRole).value<qptrdiff>());
+  QList<QVariant> &list = *reinterpret_cast<QList<QVariant> *>(index.data(AbstractContactList::ContactIconsRole).value<qptrdiff>());
   int icons_height = 0;
   for (int i=0;i<13;i++)
     if (m_show_icons[i])
@@ -185,7 +185,7 @@ QSize ContactListItemDelegate::sizeHint ( const QStyleOptionViewItem & option, c
         height = icons_height;
     }
   //height+=m_margin*2;
-  QList<QVariant> &row_list = *reinterpret_cast<QList<QVariant> *>(index.data(Qt::UserRole+2).value<qptrdiff>());
+  QList<QVariant> &row_list = *reinterpret_cast<QList<QVariant> *>(index.data(AbstractContactList::ContactTextRole).value<qptrdiff>());
   foreach(const QVariant &list, row_list)
   {
     int h = size(option, index, list).height();

@@ -71,24 +71,24 @@ QVariant TreeItem::data(int role) const
 {
 	switch(role)
 	{
-	case Qt::DecorationRole:
-                return reinterpret_cast<qptrdiff>(&m_item_icons);
+	case AbstractContactList::ContactIconsRole:
+    return reinterpret_cast<qptrdiff>(&m_item_icons);
 	case Qt::DisplayRole:
 	case Qt::EditRole:
 		return m_item_display;
-	case Qt::UserRole:
+	case AbstractContactList::ContactTypeRole:
 		return m_item_type;
-	case Qt::UserRole+1:
+	case AbstractContactList::ContactMassRole:
 		if(m_item_type==TreeModelItem::Group)
 			return m_parent_item->getChildPosition(m_structure.m_item_name);
 		return m_item_mass;
-	case Qt::UserRole+2:
+	case AbstractContactList::ContactTextRole:
     return reinterpret_cast<qptrdiff>(&m_item_bottom_rows);
-	case Qt::UserRole+3:
+	case AbstractContactList::ContactStatusRole:
 		return m_item_status;
-	case Qt::UserRole+4:
+	case AbstractContactList::ContactStatusIconRole:
 		return m_current_status_icon;
-	case Qt::UserRole+5:
+	case AbstractContactList::ContactVisibilityRole:
 		return m_is_always_visible || m_is_visible;
 	case Qt::ToolTipRole:{
 		if(m_item_type!=TreeModelItem::Buddy)
@@ -141,22 +141,20 @@ bool TreeItem::setData(const QVariant &value, int role)
 {
 	switch(role)
 	{
-	case Qt::DecorationRole:
-                m_item_icons = value.toList();
+	case AbstractContactList::ContactIconsRole:
+    m_item_icons = value.toList();
 		return true;
-	case Qt::UserRole:
+	case AbstractContactList::ContactTypeRole:
 		m_item_type = value;
 		return true;
 	case Qt::DisplayRole:
+  case Qt::EditRole:
 		m_item_display = value;
 		return true;
-	case Qt::UserRole+1:
+	case AbstractContactList::ContactMassRole:
 		m_item_mass = value.toInt();
 		return true;
-	case Qt::EditRole:
-		m_item_display = value;
-		return true;
-	case Qt::UserRole+4:
+	case AbstractContactList::ContactStatusIconRole:
 		m_current_status_icon = value;
 	default:
 		return false;

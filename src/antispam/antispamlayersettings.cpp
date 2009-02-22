@@ -18,7 +18,7 @@
 
 AntiSpamLayerSettings::AntiSpamLayerSettings(const QString &profile_name,
 		QWidget *parent)
-    : QWidget(parent),
+    : QScrollArea(parent),
     m_profile_name(profile_name)
 {
 	ui.setupUi(this);

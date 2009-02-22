@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>268</width>
-    <height>261</height>
+    <height>372</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -22,41 +22,8 @@
    <iconset resource="../qutim.qrc" >
     <normaloff>:/icons/qutim.png</normaloff>:/icons/qutim.png</iconset>
   </property>
-  <layout class="QGridLayout" name="gridLayout" >
-   <item row="3" column="0" >
-    <spacer name="horizontalSpacer" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0" >
-      <size>
-       <width>0</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="3" column="1" >
-    <widget class="QPushButton" name="pushButton" >
-     <property name="text" >
-      <string>Close</string>
-     </property>
-     <property name="icon" >
-      <iconset resource="../qutim.qrc" >
-       <normaloff>:/icons/crystal_project/cancel.png</normaloff>:/icons/crystal_project/cancel.png</iconset>
-     </property>
-     <property name="shortcut" >
-      <string>Return</string>
-     </property>
-     <property name="autoDefault" >
-      <bool>true</bool>
-     </property>
-     <property name="default" >
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="2" >
+  <layout class="QVBoxLayout" name="verticalLayout" >
+   <item>
     <widget class="QLabel" name="label" >
      <property name="minimumSize" >
       <size>
@@ -73,10 +40,10 @@ p, li { white-space: pre-wrap; }
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="2" >
+   <item>
     <widget class="QTabWidget" name="tabWidget" >
      <property name="currentIndex" >
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="About" >
       <property name="sizePolicy" >
@@ -575,14 +542,29 @@ p, li { white-space: pre-wrap; }
      </widget>
     </widget>
    </item>
+   <item>
+    <widget class="QPushButton" name="pushButton" >
+     <property name="text" >
+      <string>Close</string>
+     </property>
+     <property name="icon" >
+      <iconset resource="../qutim.qrc" >
+       <normaloff>:/icons/crystal_project/cancel.png</normaloff>:/icons/crystal_project/cancel.png</iconset>
+     </property>
+     <property name="shortcut" >
+      <string>Return</string>
+     </property>
+     <property name="autoDefault" >
+      <bool>true</bool>
+     </property>
+     <property name="default" >
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
   </layout>
-  <zorder>pushButton</zorder>
-  <zorder>label</zorder>
-  <zorder>tabWidget</zorder>
-  <zorder>label_2</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11" />
- <includes/>
  <resources>
   <include location="../qutim.qrc" />
  </resources>

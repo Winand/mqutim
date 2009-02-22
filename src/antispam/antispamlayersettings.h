@@ -19,7 +19,7 @@
 #include <QtGui/QWidget>
 #include "ui_antispamlayersettings.h"
 
-class AntiSpamLayerSettings : public QWidget
+class AntiSpamLayerSettings : public QScrollArea
 {
     Q_OBJECT
 

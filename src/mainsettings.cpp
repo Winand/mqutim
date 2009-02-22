@@ -27,8 +27,10 @@ mainSettings::mainSettings(const QString &profile_name,
 	updateAccountComboBox();
 	connect(ui.loginDialogBox, SIGNAL(stateChanged(int)),
 					this, SLOT(widgetStateChanged()));
-	connect(ui.autoAwayBox, SIGNAL(stateChanged(int)),
+	connect(ui.autoAwayBox, SIGNAL(toggled(bool)),
 								this, SLOT(widgetStateChanged()));
+  connect(ui.autoAwayBox, SIGNAL(toggled(bool)),
+                ui.awayMinBox, SLOT(setEnabled(bool)));
 	connect(ui.awayMinBox, SIGNAL(valueChanged(int)),
 								this, SLOT(widgetStateChanged()));
 	connect(ui.accountComboBox, SIGNAL(currentIndexChanged(int)),
@@ -48,6 +50,7 @@ void mainSettings::loadSettings()
 	profile_settings.beginGroup("general");
 //	ui.sizePosBox->setChecked(profile_settings.value("savesizpos", true).toBool());
 	ui.autoAwayBox->setChecked(profile_settings.value("autoaway", true).toBool());
+  ui.awayMinBox->setEnabled(ui.autoAwayBox->isChecked());
 	ui.awayMinBox->setValue(profile_settings.value("awaymin", 10).toUInt());
 	m_current_account_icon = profile_settings.value("currentaccount", "").toString();
 	profile_settings.endGroup();

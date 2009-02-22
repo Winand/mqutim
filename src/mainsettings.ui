@@ -5,18 +5,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>221</width>
-    <height>115</height>
+    <width>254</width>
+    <height>173</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>mainSettings</string>
   </property>
-  <layout class="QFormLayout" name="formLayout" >
-   <item row="0" column="0" >
+  <layout class="QVBoxLayout" name="verticalLayout_2" >
+   <item>
     <widget class="QCheckBox" name="loginDialogBox" >
      <property name="sizePolicy" >
-      <sizepolicy vsizetype="Fixed" hsizetype="Maximum" >
+      <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -26,66 +26,94 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0" >
-    <widget class="QCheckBox" name="autoAwayBox" >
-     <property name="text" >
-      <string>Auto-away after:</string>
+   <item>
+    <widget class="QGroupBox" name="autoAwayBox" >
+     <property name="title" >
+      <string>Auto-away after</string>
      </property>
-    </widget>
-   </item>
-   <item row="1" column="1" >
-    <widget class="QSpinBox" name="awayMinBox" >
-     <property name="enabled" >
+     <property name="flat" >
       <bool>false</bool>
      </property>
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="suffix" >
-      <string> min</string>
-     </property>
-     <property name="minimum" >
-      <number>2</number>
-     </property>
-     <property name="maximum" >
-      <number>60</number>
-     </property>
-     <property name="value" >
-      <number>10</number>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" >
-    <widget class="QLabel" name="label" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text" >
-      <string>Show status from:</string>
-     </property>
-     <property name="scaledContents" >
+     <property name="checkable" >
       <bool>true</bool>
      </property>
-     <property name="buddy" >
-      <cstring>accountComboBox</cstring>
+     <property name="checked" >
+      <bool>false</bool>
      </property>
+     <layout class="QVBoxLayout" name="verticalLayout" >
+      <item>
+       <widget class="QSpinBox" name="awayMinBox" >
+        <property name="enabled" >
+         <bool>false</bool>
+        </property>
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="suffix" >
+         <string> min</string>
+        </property>
+        <property name="minimum" >
+         <number>2</number>
+        </property>
+        <property name="maximum" >
+         <number>60</number>
+        </property>
+        <property name="value" >
+         <number>10</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
-   <item row="2" column="1" >
-    <widget class="QComboBox" name="accountComboBox" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout" >
+     <item>
+      <widget class="QLabel" name="showStatusLabel" >
+       <property name="sizePolicy" >
+        <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text" >
+        <string>Show status from:</string>
+       </property>
+       <property name="scaledContents" >
+        <bool>true</bool>
+       </property>
+       <property name="buddy" >
+        <cstring>accountComboBox</cstring>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="accountComboBox" >
+       <property name="sizePolicy" >
+        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer" >
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
      </property>
-    </widget>
+     <property name="sizeHint" stdset="0" >
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>

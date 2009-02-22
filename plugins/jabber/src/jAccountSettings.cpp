@@ -42,6 +42,7 @@ void jAccountSettings::loadSettings()
         server = "jabber.qutim.org";
     if(server=="udaff.com")
         server = "jabber.udaff.com";
+    qDebug() << "Using " << server << "server";
 //    ui.hostEdit->setText(settings.value("server",server).toString());
 //    ui.portSpinBox->setValue(settings.value("port",5222).toInt());
     settings.endGroup();
@@ -63,7 +64,7 @@ void jAccountSettings::saveSettings()
     settings.setValue("tlspolicy", ui.tlsComboBox->currentIndex());
     settings.setValue("compress", ui.compressCheckBox->isChecked());
 //    settings.setValue("usedns", !ui.manualCheckBox->isChecked());
-//    settings.setValue("server", ui.hostEdit->text());
+//    settings.setValue("server", server);
 //    settings.setValue("port", ui.portSpinBox->value());
     settings.endGroup();
     emit settingsSaved();

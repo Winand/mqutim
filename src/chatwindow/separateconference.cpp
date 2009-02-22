@@ -120,7 +120,7 @@ SeparateConference::~SeparateConference()
 			m_account_name);
 /*	m_abstract_chat_layer.saveConferenceSizeAndPosition(pos(), size(),
                         ui.chatSplitter->saveState(), ui.listSplitter->saveState());*/
-	delete m_item_delegate;
+	//delete m_item_delegate;
 }
 
 void SeparateConference::addMessage(const QString &from,

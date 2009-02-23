@@ -163,7 +163,7 @@ void jConference::createConferenceRoom(const QString &host, const QString &room,
                 if(!contacts)
                     return;
                 QStringList nicknames = contacts->keys();
-                foreach(QString nick, nicknames)
+                foreach(const QString &nick, nicknames)
                 {
                     MucContact contact = contacts->take(nick);
                     emit removeConferenceItem("Jabber", conference, m_account_name, nick);
@@ -685,7 +685,7 @@ void jConference::sendPresence(const QString &conference)
 void jConference::sendPresenceToAll()
 {
 	QStringList rooms = m_room_list.keys();
-	foreach(QString room, rooms)
+	foreach(const QString &room, rooms)
 		sendPresence(room);
 }
 

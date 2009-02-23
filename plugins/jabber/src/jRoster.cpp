@@ -141,7 +141,7 @@ void jRoster::loadRosterFromSettings()
 	m_groups= groups;*/
 	m_groups << "";
 	QSettings jabber_settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "jabbersettings");
-	foreach(QString contact,contacts)
+	foreach(const QString &contact,contacts)
 	{
 		settings.beginGroup(contact);
 		QString group = settings.value("group", "General").toString();
@@ -238,7 +238,7 @@ void jRoster::renameContact(const QString &item_name, const QString &contact_nam
 		QString group = buddy->getGroup();
 		renameItem(item_name,contact_name,group);
 		QStringList resources = buddy->getResources();
-		foreach(QString resource, resources)
+		foreach(const QString &resource, resources)
 			renameItem(item_name+"/"+resource,contact_name,group);
 		QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/jabber."+m_account_name, "contactlist");
 		settings.setValue(item_name+"/nickname",contact_name);
@@ -266,7 +266,7 @@ void jRoster::moveContact(const QString &item_name, const QString &parent_name)
 		if(nil)
 			emit setContactItemStatus(contact, jAccount::getStatusName(Presence::Unavailable), jAccount::getStatusMass(Presence::Unavailable));
 		QStringList resources = buddy->getResources();
-		foreach(QString resource, resources)
+		foreach(const QString &resource, resources)
 		{
 			moveItem(item_name+"/"+resource,group,parent_name);
 			contact.m_item_name = item_name+"/"+resource;
@@ -289,7 +289,7 @@ void jRoster::removeContact(const QString &item_name)
 	{
 		delItem(item_name, group);
 		QStringList resources = buddy->getResources();
-		foreach(QString resource, resources)
+		foreach(const QString &resource, resources)
 			delItem(item_name+"/"+resource,group);
 
 		delete m_roster[item_name];
@@ -508,17 +508,17 @@ void jRoster::setClient(const QString & jid, const QString & resource, const QSt
 void jRoster::setOffline()
 {
 	QStringList resources = m_my_connections->getResources();
-	foreach(QString resource, resources)
+	foreach(const QString &resource, resources)
 		delMyConnect(resource);
 	QStringList contacts = m_roster.keys();
-	foreach(QString jid, contacts)
+	foreach(const QString &jid, contacts)
 	{
 		jBuddy *contact = m_roster[jid];
 		if(contact->getCountResources()>0)
 		{
 			changeItemStatus(jid, Presence::Unavailable);
 			resources = contact->getResources();
-			foreach(QString resource, resources)
+			foreach(const QString &resource, resources)
 				delResource(jid,resource);
 		}
 	}
@@ -629,7 +629,7 @@ void jRoster::itemContextMenu(const QList<QAction*> &action_list, const QString 
 				m_menu_label->setText("<b>"+ buddy->getName() +"</b>");
 			resources_menu = menu.addMenu(m_plugin_system.getIcon("message"),tr("Send message to:"));
 			QStringList resources = buddy->getResources();
-			foreach(QString resource, resources)
+			foreach(const QString &resource, resources)
 			{
 				Presence::PresenceType presence = buddy->getResourceInfo(resource)->m_presence;
 				if(presence!=Presence::Unavailable && !resource.isEmpty())

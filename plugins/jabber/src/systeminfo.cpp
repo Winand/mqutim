@@ -46,8 +46,8 @@ static QString lsbRelease(const QStringList& args)
 {
 	QStringList path = QString(qgetenv("PATH")).split(':');
 	QString found;
-	
-	foreach(QString dirname, path) {
+
+	foreach(const QString &dirname, path) {
 		QDir dir(dirname);
 		QFileInfo cand(dir.filePath("lsb_release"));
 		if (cand.isExecutable()) {
@@ -78,9 +78,9 @@ static QString lsbRelease(const QStringList& args)
 
 
 static QString unixHeuristicDetect() {
-	
+
 	QString ret;
-	
+
 	struct utsname u;
 	uname(&u);
 	ret.sprintf("%s", u.sysname);
@@ -180,7 +180,7 @@ SystemInfo::SystemInfo() : QObject(QCoreApplication::instance())
 	timezone_offset_ = 0;
 	timezone_str_ = "N/A";
 	os_str_ = "Unknown";
-	
+
 	// Detect
 #if defined(Q_WS_X11) || defined(Q_WS_MAC)
 	time_t x;
@@ -256,13 +256,13 @@ SystemInfo::SystemInfo() : QObject(QCoreApplication::instance())
 
 		if ( osvi.dwMajorVersion <= 4 )
 			os_str_.append(" NT");
-		
+
 		if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 0 )
 			os_str_.append(" 2000");
 
 
 		if( bOsVersionInfoEx )  // Use information from GetVersionEx.
-		{ 
+		{
 		// Check workstation's type
 			if ( osvi.wProductType == VER_NT_WORKSTATION )
 			{
@@ -315,7 +315,7 @@ SystemInfo::SystemInfo() : QObject(QCoreApplication::instance())
 
 		if ( osvi.dwMajorVersion <= 4 )
 			os_str_.append(QString(" %1.%2").arg(osvi.dwMajorVersion).arg(osvi.dwMinorVersion));
-			
+
 		break;}
 
 	// Check for family Windows 95.
@@ -326,17 +326,17 @@ SystemInfo::SystemInfo() : QObject(QCoreApplication::instance())
 			 os_str_.append(" 95");
 			 if ( osvi.szCSDVersion[1] == 'C' || osvi.szCSDVersion[1] == 'B' )
 				 os_str_.append(" OSR2" );
-		} 
+		}
 		else if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 10)
 		{
 			 os_str_.append(" 98");
 			 if ( osvi.szCSDVersion[1] == 'A' )
 				 os_str_.append(" SE" );
-		} 
+		}
 		else if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 90)
 		{
 			 os_str_.append(" Millennium Edition");
-		} 
+		}
 		else
 			os_str_.append(" 9x/Me");
 		break;
@@ -346,7 +346,7 @@ SystemInfo::SystemInfo() : QObject(QCoreApplication::instance())
 
 SystemInfo* SystemInfo::instance()
 {
-	if (!instance_) 
+	if (!instance_)
 		instance_ = new SystemInfo();
 	return instance_;
 }

@@ -44,19 +44,19 @@ void ActivityDialog::setActivity(const QString &general, const QString &specific
 {
 	ui.textEdit->clear();
 	ui.captionEdit->clear();
-		
+
 	QStringList list = jPluginSystem::instance().getGeneralActivityTr().keys();
 	list.removeAll("unknown");
 	qSort(list);
 	QListWidgetItem *none = new QListWidgetItem(ui.generalList);
 	none->setIcon(jPluginSystem::instance().getIcon("icq_xstatus"));
 	none->setData(Qt::UserRole+1,"");
-	foreach(QString general_name, list)
+	foreach(const QString &general_name, list)
 	{
 		QListWidgetItem *tmp= new QListWidgetItem(ui.generalList);
 		QIcon icon = getIcon(general_name);
 		/*if(icon.actualSize(QSize(16,16)).width()<0)
-			icon = getIcon("unknown");*/	
+			icon = getIcon("unknown");*/
 		tmp->setIcon(icon);
 //		tmp->setToolTip(jPluginSystem::instance().getGeneralActivityTr().value(general_name));
 		tmp->setData(Qt::UserRole+1,general_name);
@@ -73,7 +73,7 @@ void ActivityDialog::onGeneralListCurrentItemChanged ( QListWidgetItem * current
 	if(current)
 		m_general = current->data(Qt::UserRole+1).toString();
 	ui.specificList->clear();
-	
+
 //	if ( !current || current->toolTip().isEmpty() )
 //	{
 //		ui.captionEdit->clear();
@@ -88,7 +88,7 @@ void ActivityDialog::onGeneralListCurrentItemChanged ( QListWidgetItem * current
 
 //		ui.captionEdit->setText(current->toolTip());//jPluginSystem::instance().getGeneralActivityTr().value(current->data(Qt::UserRole+1).toString()));
 		ui.textEdit->setText(settings.value("activity/"+current->data(Qt::UserRole+1).toString()+"/text", "").toString());
-		
+
 		QStringList list = jPluginSystem::instance().getSpecificActivityTr(general_name).keys();
 		list.removeAll("undefined");
 		qSort(list);
@@ -96,9 +96,9 @@ void ActivityDialog::onGeneralListCurrentItemChanged ( QListWidgetItem * current
 		none->setIcon(getIcon(current->data(Qt::UserRole+1).toString()));
 //		none->setToolTip(current->toolTip());
 		none->setData(Qt::UserRole+1,general_name);
-		none->setData(Qt::UserRole+2,"");	
+		none->setData(Qt::UserRole+2,"");
 		bool selected = false;
-		foreach(QString specific_name, list)
+		foreach(const QString &specific_name, list)
 		{
 			QListWidgetItem *tmp= new QListWidgetItem(ui.specificList);
 			QIcon icon = getIcon(general_name,specific_name);
@@ -113,18 +113,18 @@ void ActivityDialog::onGeneralListCurrentItemChanged ( QListWidgetItem * current
 				tmp->setSelected(true);
 				on_specificList_currentItemChanged(tmp, 0);
 				/*
-				
+
 				QSettings settings(QSettings::defaultFormat(), QSettings::UserScope, "qutim/qutim."+m_profile_name+"/jabber."+m_account_name, "accountsettings");
 				ui.captionEdit->setText(tmp->toolTip());
 				m_text = settings.value("activity/"+general_name+(specific.isEmpty()?"":("/"+specific))+"/text", "").toString();
 				ui.textEdit->setText(status_message);*/
 				selected = true;
-			}			
+			}
 		}
 		if(!selected)
 		{
 			none->setSelected(true);
-			on_specificList_currentItemChanged(none, 0);		
+			on_specificList_currentItemChanged(none, 0);
 		}
 //	}
 }
@@ -147,7 +147,7 @@ void ActivityDialog::on_specificList_currentItemChanged ( QListWidgetItem * curr
 		QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/jabber."+m_account_name, "accountsettings");
 		m_text = settings.value("activity/"+general_name+(specific_name.isEmpty()?"":("/"+specific_name))+"/text", "").toString();
 //		ui.captionEdit->setText(current->toolTip());
-		ui.textEdit->setText(m_text);		
+		ui.textEdit->setText(m_text);
 //	}
 }
 

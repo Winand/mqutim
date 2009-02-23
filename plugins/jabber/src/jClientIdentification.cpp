@@ -5,7 +5,7 @@
 
 jClientIdentification::jClientIdentification()
 {
-	
+
 }
 
 jClientIdentification::~jClientIdentification()
@@ -35,7 +35,7 @@ void jClientIdentification::init(const QString profile_name)
 	m_client_nodes.clear();
 	QFile file(m_hash_path);
 	if (file.open(QIODevice::ReadOnly | QIODevice::Text))
-	{    
+	{
 		QTextStream in(&file);
 		in.setAutoDetectUnicode(false);
 		in.setCodec("UTF-8");
@@ -58,7 +58,7 @@ void jClientIdentification::init(const QString profile_name)
 				if(ifBase64(node_ver.second))
 					m_clients_info[node_ver].m_os = in.readLine();
 				m_client_nodes.insert(node_ver.first,m_clients_info[node_ver].m_name);
-				
+
 			}
 			else if(line=="[client disco]")
 			{
@@ -96,12 +96,12 @@ void jClientIdentification::setClient(void *info_v, const JID& jid, Client *jCli
 		return;
 	QPair<QString,QString> node_ver(info->m_caps_node,info->m_caps_ver);
 	bool get_version=true, get_disco=true;
-	
+
 	if(m_clients_info.contains(node_ver))
 	{
 		get_version = m_clients_info[node_ver].m_name.isNull() || m_clients_info[node_ver].m_name.isEmpty();
 		if(!get_version)
-		{ 
+		{
 			info->m_client_name = m_clients_info[node_ver].m_name;
 			info->m_client_version = m_clients_info[node_ver].m_version;
 			info->m_client_os = m_clients_info[node_ver].m_os;
@@ -149,7 +149,7 @@ void jClientIdentification::newInfo(const VersionExtension *version, void *info_
 	{
 		info->m_client_name = version->name();
 		info->m_client_version = version->version();
-		info->m_client_os = version->os();		
+		info->m_client_os = version->os();
 		return;
 	}
 	info->m_client_name = version->name();
@@ -167,7 +167,7 @@ void jClientIdentification::newInfo(const VersionExtension *version, void *info_
 		m_clients_info[node_ver].m_os = version->os();
 	QFile file(m_hash_path);
 	if (file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
-	{    
+	{
 		QTextStream out(&file);
 		out.setAutoDetectUnicode(false);
 		out.setCodec("UTF-8");
@@ -219,14 +219,14 @@ void jClientIdentification::newInfo(const Disco::Info &disco_info, void *info_v)
 	m_clients_info[node_ver].m_features = info->m_features;
 	QFile file(m_hash_path);
 	if (file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
-	{    
+	{
 		QTextStream out(&file);
 		out.setAutoDetectUnicode(false);
 		out.setCodec("UTF-8");
 		out << "[client disco]\n";
 		out << info->m_caps_node << "#" << info->m_caps_ver << "\n\n";
 		out << "[client disco/features/begin]\n";
-		foreach(QString feature, info->m_features)
+		foreach(const QString &feature, info->m_features)
 			out << feature << "\n";
 		out << "[client disco/features/end]\n\n";
 	}

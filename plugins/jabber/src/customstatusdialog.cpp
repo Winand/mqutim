@@ -41,19 +41,19 @@ void CustomStatusDialog::setStatuses(const QString &current)
 	current_mood = current;
 	setCaption("");
 	setMessage("");
-		
+
 	QStringList list = jPluginSystem::instance().getMoodTr().keys();
 	list.removeAll("undefined");
 	qSort(list);
 	QListWidgetItem *none = new QListWidgetItem(ui.iconList);
 	none->setIcon(jPluginSystem::instance().getIcon("icq_xstatus"));
 	none->setData(Qt::UserRole+1,"");
-	foreach(QString mood_name, list)
+	foreach(const QString &mood_name, list)
 	{
 		QListWidgetItem *tmp= new QListWidgetItem(ui.iconList);
 		QIcon icon = getIcon(mood_name);
 		if(icon.actualSize(QSize(16,16)).width()<0)
-			icon = getIcon("unknown");	
+			icon = getIcon("unknown");
 		tmp->setIcon(icon);
 //		tmp->setToolTip(jPluginSystem::instance().getMoodTr().value(mood_name));
 		tmp->setData(Qt::UserRole+1,mood_name);

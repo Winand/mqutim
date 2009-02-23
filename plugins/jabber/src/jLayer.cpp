@@ -144,7 +144,7 @@ void jLayer::addAccountButtonsToLayout(QHBoxLayout *account_button_layout)
 	m_account_buttons_layout = account_button_layout;
 	QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "jabbersettings");
 	QStringList accountList = settings.value("accounts/list").toStringList();
-	foreach(QString account_from_list, accountList)
+	foreach(const QString &account_from_list, accountList)
 	{
                 addAccount(account_from_list.toLower());
 	}
@@ -208,7 +208,7 @@ QList<AccountStructure> jLayer::getAccountList()
 	QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "jabbersettings");
 	QList<AccountStructure> accounts_list;
 	QStringList accounts = settings.value("accounts/list").toStringList();
-	foreach(QString account_name, accounts)
+	foreach(const QString &account_name, accounts)
 	{
 		AccountStructure info_account;
 		info_account.protocol_icon = *m_protocol_icon;
@@ -222,7 +222,7 @@ QList<AccountStructure> jLayer::getAccountList()
 QList<AccountStructure> jLayer::getAccountStatuses()
 {
 	QList<AccountStructure> accounts_list;
-	foreach(QString account_name, m_jabber_list.keys())
+	foreach(const QString &account_name, m_jabber_list.keys())
 	{
 		jAccount *jabber_account = m_jabber_list.value(account_name);
 		if (jabber_account)
@@ -482,7 +482,7 @@ void jLayer::getMessageFromPlugins(const QList<void *> &event)
 	}
 	else
 	{
-		foreach(QString account_name, accounts)
+		foreach(const QString &account_name, accounts)
 			if(m_jabber_list.contains(account_name))
 				m_jabber_list.value(account_name)->getProtocol()->getMessageFromPlugins(event);
 	}

@@ -14,8 +14,9 @@
 *****************************************************************************/
 
 #include "treecontactlistmodel.h"
-#include "src/abstractsoundlayer.h"
-#include "src/notifications/abstractnotificationlayer.h"
+#include "abstractsoundlayer.h"
+#include "abstractnotificationlayer.h"
+#include "abstractchatlayer.h"
 #include <QtGui>
 
 TreeContactListModel::TreeContactListModel(const QStringList &headers, QObject *parent)

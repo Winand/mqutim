@@ -26,20 +26,8 @@ NotificationsLayerSettings::NotificationsLayerSettings(const QString &profile_na
 	loadSettings();
 	connect(ui.popupBox, SIGNAL(toggled(bool)),
 				this, SLOT(widgetStateChanged()));
-	connect(ui.widthSpinBox, SIGNAL(valueChanged(int)),
-				this, SLOT(widgetStateChanged()));
-	connect(ui.heightSpinBox, SIGNAL(valueChanged(int)),
-				this, SLOT(widgetStateChanged()));
-	connect(ui.timeSpinBox, SIGNAL(valueChanged(int)),
-				this, SLOT(widgetStateChanged()));
-	connect(ui.positionComboBox, SIGNAL(currentIndexChanged(int)),
-				this, SLOT(widgetStateChanged()));
-	connect(ui.styleComboBox, SIGNAL(currentIndexChanged(int)),
-				this, SLOT(widgetStateChanged()));
-	connect(ui.trayBalloonBox, SIGNAL(stateChanged(int)),
-				this, SLOT(widgetStateChanged()));
-	connect(ui.balloonSecBox, SIGNAL(valueChanged(int)),
-				this, SLOT(widgetStateChanged()));
+  connect(ui.popupBox, SIGNAL(toggled(bool)),
+        ui.notifyBox, SLOT(setEnabled(bool)));
 	connect(ui.signOnCheckBox, SIGNAL(stateChanged(int)),
 				this, SLOT(widgetStateChanged()));
 	connect(ui.signOffCheckBox, SIGNAL(stateChanged(int)),
@@ -62,13 +50,6 @@ void NotificationsLayerSettings::loadSettings()
         QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
 	settings.beginGroup("notifications");
 	ui.popupBox->setChecked(settings.value("popup", true).toBool());
-	ui.widthSpinBox->setValue(settings.value("pwidth", 300).toInt());
-	ui.heightSpinBox->setValue(settings.value("pheight", 100).toInt());
-	ui.timeSpinBox->setValue(settings.value("ptime", 6).toInt());
-	ui.positionComboBox->setCurrentIndex(settings.value("pposition", 3).toInt());
-	ui.styleComboBox->setCurrentIndex(settings.value("pstyle", 1).toInt());
-	ui.trayBalloonBox->setChecked(settings.value("balloon", false).toBool());
-	ui.balloonSecBox->setValue(settings.value("bsecs", 5).toInt());
 	ui.signOnCheckBox->setChecked(settings.value("signon", true).toBool());
 	ui.signOffCheckBox->setChecked(settings.value("signoff", true).toBool());
 	ui.typingCheckBox->setChecked(settings.value("typing", true).toBool());
@@ -82,13 +63,6 @@ void NotificationsLayerSettings::saveSettings()
         QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
 	settings.beginGroup("notifications");
 	settings.setValue("popup", ui.popupBox->isChecked());
-	settings.setValue("pwidth", ui.widthSpinBox->value());
-	settings.setValue("pheight", ui.heightSpinBox->value());
-	settings.setValue("ptime", ui.timeSpinBox->value());
-	settings.setValue("pposition", ui.positionComboBox->currentIndex());
-	settings.setValue("pstyle", ui.styleComboBox->currentIndex());
-	settings.setValue("balloon", ui.trayBalloonBox->isChecked());
-	settings.setValue("bsecs", ui.balloonSecBox->value());
 	settings.setValue("signon", ui.signOnCheckBox->isChecked());
 	settings.setValue("signoff", ui.signOffCheckBox->isChecked());
 	settings.setValue("typing", ui.typingCheckBox->isChecked());

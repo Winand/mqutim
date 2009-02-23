@@ -94,8 +94,6 @@ HEADERS += src/aboutinfo.h \
     src/idle/idle.h \
     src/notifications/abstractnotificationlayer.h \
     src/notifications/notificationslayersettings.h \
-    src/notifications/popuptextbrowser.h \
-    src/notifications/popupwindow.h \
     src/sound/soundlayersettings.h
 FORMS += src/aboutinfo.ui \
     src/accountmanagement.ui \
@@ -116,7 +114,6 @@ FORMS += src/aboutinfo.ui \
     src/history/historysettings.ui \
     src/history/historywindow.ui \
     src/notifications/notificationslayersettings.ui \
-    src/notifications/popupwindow.ui \
     src/sound/soundlayersettings.ui
 SOURCES += main.cpp \
     src/aboutinfo.cpp \
@@ -171,7 +168,5 @@ SOURCES += main.cpp \
     src/idle/idle_x11.cpp \
     src/notifications/abstractnotificationlayer.cpp \
     src/notifications/notificationslayersettings.cpp \
-    src/notifications/popuptextbrowser.cpp \
-    src/notifications/popupwindow.cpp \
     src/sound/soundlayersettings.cpp
 RESOURCES += qutim.qrc

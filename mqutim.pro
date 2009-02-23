@@ -85,6 +85,7 @@ HEADERS += src/aboutinfo.h \
     src/contactlist/proxymodelitem.h \
     src/contactlist/treecontactlistmodel.h \
     src/contactlist/treeitem.h \
+    src/contactlist/contactlistview.h \
     src/ex/exsystrayicon.h \
     src/globalsettings/abstractglobalsettings.h \
     src/globalsettings/globalproxysettings.h \
@@ -156,6 +157,7 @@ SOURCES += main.cpp \
     src/contactlist/proxymodelitem.cpp \
     src/contactlist/treecontactlistmodel.cpp \
     src/contactlist/treeitem.cpp \
+    src/contactlist/contactlistview.cpp \
     src/ex/exsystrayicon.cpp \
     src/globalsettings/abstractglobalsettings.cpp \
     src/globalsettings/globalproxysettings.cpp \

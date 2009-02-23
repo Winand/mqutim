@@ -84,7 +84,7 @@ qutIM::qutIM(QWidget *parent, Qt::WFlags f ) :
 
   contactListContainer = new QWidget(this);
 	ui.setupUi(contactListContainer);
-  ui.contactListView->header()->hide();
+//  ui.contactListView->header()->hide();
   contactListContainer->setFocusProxy(ui.contactListView);
   addTab(contactListContainer, QString::null);
   setCurrentWidget(contactListContainer);
@@ -92,7 +92,6 @@ qutIM::qutIM(QWidget *parent, Qt::WFlags f ) :
 
 	createActions();
 	createMainMenu();
-//	ui.contactListView->setFocusProxy(this);
 	eventObject = new eventEater(this);
 	qApp->installEventFilter(eventObject);
 	letMeQuit = false;

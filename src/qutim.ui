@@ -187,7 +187,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QTreeView" name="contactListView" >
+    <widget class="ContactListView" name="contactListView" >
      <property name="focusPolicy" >
       <enum>Qt::ClickFocus</enum>
      </property>
@@ -208,6 +208,13 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
+ <customwidgets>
+  <customwidget>
+   <class>ContactListView</class>
+   <extends>QTreeView</extends>
+   <header>contactlistview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../qutim.qrc" />
  </resources>

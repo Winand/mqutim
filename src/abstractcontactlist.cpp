@@ -16,11 +16,12 @@
 #include "abstractcontactlist.h"
 #include "pluginsystem.h"
 #include "abstractchatlayer.h"
-#include "src/qutim.h"
+#include "qutim.h"
 #include "abstractlayer.h"
-#include "notifications/abstractnotificationlayer.h"
+#include "abstractnotificationlayer.h"
 #include "abstractcontextlayer.h"
 #include "abstracthistorylayer.h"
+#include "contactlistitemdelegate_qtopia.h"
 
 
 AbstractContactList::AbstractContactList()
@@ -41,7 +42,7 @@ AbstractContactList &AbstractContactList::instance()
 }
 
 void AbstractContactList::setTreeView(QTreeView *TreeView)
-{	
+{
   m_has_tree_view = true;
 	m_tree_view = TreeView;
 	QStringList headers;
@@ -55,16 +56,8 @@ void AbstractContactList::setTreeView(QTreeView *TreeView)
 	QObject::connect(m_item_model, SIGNAL(itemStatusChanged(QModelIndex,QIcon,QString,int)), m_proxy_model, SLOT(setStatus(QModelIndex,QIcon,QString,int)));
 	m_tree_view->setModel(m_proxy_model);
 	m_proxy_model->setModel(m_item_model);
-	m_tree_view->setIndentation((m_tree_view->indentation()*2)/5);
-  m_tree_view->setRootIsDecorated(false);
-//	m_tree_view->setExpandsOnDoubleClick(true);
 	m_proxy_model->setTreeView(m_tree_view);
-	//m_tree_view->setAlternatingRowColors(true);
-  
-	//m_item_delegate = new ContactListItemDelegate(m_tree_view);
-  m_item_delegate = new QtopiaCLItemDelegate(m_tree_view);
-	m_tree_view->setItemDelegate(m_item_delegate);
-	//m_item_delegate->setTreeView(m_tree_view);
+
 	QObject::connect(m_item_model, SIGNAL(dataChanged(QModelIndex,QModelIndex)), m_proxy_model, SLOT(newData(QModelIndex,QModelIndex)));
 
 	m_event_eater = new ContactListEventEater();
@@ -73,19 +66,19 @@ void AbstractContactList::setTreeView(QTreeView *TreeView)
 	QObject::connect(m_tree_view, SIGNAL(collapsed(QModelIndex)), m_event_eater, SLOT(collapsed(QModelIndex)));
 	QObject::connect(m_tree_view, SIGNAL(expanded(QModelIndex)), m_event_eater, SLOT(expanded(QModelIndex)));
 	m_tree_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	
-	
+
+
 	m_item_model->loadSettings(m_profile_name);
 	m_proxy_model->loadProfile(m_profile_name);
 	m_first_load=false;
 	loadGuiSettings();
-	loadSettings();	
+	loadSettings();
 }
 bool AbstractContactList::addItem(const TreeModelItem & Item, QString name)
 {
   if(!m_has_tree_view)
       return false;
-	//qWarning() << "addItem		" << Item.m_item_type << Item.m_protocol_name << Item.m_account_name << Item.m_parent_name << Item.m_item_name; 
+	//qWarning() << "addItem		" << Item.m_item_type << Item.m_protocol_name << Item.m_account_name << Item.m_parent_name << Item.m_item_name;
 	if(name.isEmpty())
 		name=Item.m_item_type==TreeModelItem::Account?Item.m_account_name:Item.m_item_name;
 	bool result=false;
@@ -93,13 +86,13 @@ bool AbstractContactList::addItem(const TreeModelItem & Item, QString name)
 	QModelIndex parent_index = m_proxy_model->mapFromSource(m_item_model->findIndex(Item)).parent();
 	switch(Item.m_item_type)
 	{
-	case TreeModelItem::Buddy: 
+	case TreeModelItem::Buddy:
 		result = m_item_model->addBuddy(Item, name);
 		break;
-	case TreeModelItem::Group: 
+	case TreeModelItem::Group:
 		result = m_item_model->addGroup(Item, name);
 		break;
-	case TreeModelItem::Account: 
+	case TreeModelItem::Account:
 		result = m_item_model->addAccount(Item, name);
 		break;
 	}
@@ -124,13 +117,13 @@ bool AbstractContactList::removeItem(const TreeModelItem & Item)
 	m_tree_view->setUpdatesEnabled(false);
 	switch(Item.m_item_type)
 	{
-	case TreeModelItem::Buddy: 
+	case TreeModelItem::Buddy:
 		result = m_item_model->removeBuddy(Item);
 		break;
-	case TreeModelItem::Group: 
+	case TreeModelItem::Group:
 		result = m_item_model->removeGroup(Item);
 		break;
-	case TreeModelItem::Account: 
+	case TreeModelItem::Account:
 		result = m_item_model->removeAccount(Item);
 		break;
 	}
@@ -275,7 +268,7 @@ void AbstractContactList::sendEventHelp(const QModelIndex & /*index*/, const QPo
 //		m_tree_view->setToolTip("-----");
 //		m_tree_view->setToolTip("Hello, world? o_o");
 //		QToolTip::showText(point,"Hello!");//,m_tree_view);
-//	}	
+//	}
 }
 void AbstractContactList::itemActivated(const TreeModelItem & item)
 {
@@ -313,7 +306,7 @@ QString AbstractContactList::getItemStatus(const TreeModelItem &Item)
 	if(item==0)
                 return "";
 	else
-		return item->data(ContactStatusRole).toString();	
+		return item->data(ContactStatusRole).toString();
 }
 void AbstractContactList::setItemHasUnviewedContent(const TreeModelItem & Item, bool has_content)
 {
@@ -459,9 +452,9 @@ void AbstractContactList::selectedItemDeleted()
 		if(item.m_item_type==TreeModelItem::Buddy||item.m_item_type==TreeModelItem::Group)
 		{
 			PluginSystem::instance().deleteItemSignalFromCL(item);
-			
+
 		}
-	}	
+	}
 }
 void AbstractContactList::selectedItemRenamed()
 {
@@ -480,7 +473,7 @@ void AbstractContactList::selectedItemRenamed()
 			m_tree_view->edit(index);
 			qWarning() << (index.flags()&Qt::ItemIsEditable) << m_tree_view->editTriggers();
 		}
-	}		
+	}
 }
 void AbstractContactList::loadProfile(const QString &profile_name)
 {
@@ -494,17 +487,16 @@ void AbstractContactList::loadSettings()
 {
   QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
 	m_tree_view->setUpdatesEnabled(false);
-  
+
 	settings.beginGroup("contactlist");
 	double opacity = settings.value("opacity",1).toDouble();
 	m_tree_view->setAlternatingRowColors(settings.value("alternatingrc",false).toBool());
 	QList<bool> show_icons;
-	show_icons.append(settings.value("showicon0",true).toBool());	
+	show_icons.append(settings.value("showicon0",true).toBool());
 	show_icons.append(settings.value("showicon1",false).toBool());
 	for(int i=2;i<12;i++)
 		show_icons.append(settings.value("showicon"+QString::number(i),true).toBool());
 	show_icons.append(settings.value("showicon12",false).toBool());
-	//m_item_delegate->setSettings(show_icons.toVector());
 	int model_type = settings.value("modeltype",0).toInt();
 	bool show_offline=settings.value("showoffline",true).toBool();
 	bool show_empty_group=settings.value("showempty",true).toBool();

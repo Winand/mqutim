@@ -24,16 +24,14 @@
 
 #include "src/contactlist/contactlistproxymodel.h"
 #include "src/contactlist/treecontactlistmodel.h"
-#include "src/contactlist/contactlistitemdelegate.h"
-#include "src/contactlist/contactlistitemdelegate_qtopia.h"
 #include "src/contactlist/contactlisteventeater.h"
 
 using namespace qutim_sdk_0_2;
 
 class AbstractContactList
 {
-public:  
-  
+public:
+
   enum CLItemRole
   {
     ContactTypeRole = Qtopia::UserRole,
@@ -45,7 +43,7 @@ public:
     ContactIconsRole = Qtopia::UserRole+6,
     ContactColorRole = Qtopia::UserRole+10,
   };
-  
+
 	static AbstractContactList &instance();
 	AbstractContactList();
 	virtual ~AbstractContactList();
@@ -100,9 +98,7 @@ private:
 	TreeContactListModel *m_item_model;
 	ContactListEventEater *m_event_eater;
 	ContactListProxyModel *m_proxy_model;
-	QtopiaCLItemDelegate *m_item_delegate;
-  //ContactListItemDelegate *m_item_delegate;
-        bool m_has_tree_view;
+  bool m_has_tree_view;
 };
 
 #endif /*ABSTRACTCONTACTLIST_H_*/

@@ -24,8 +24,6 @@
 
 class SeparateChatWindow;
 class SeparateConference;
-class TabbedChatWindow;
-class TabbedConference;
 struct UnreadedMessage
 {
 	QString m_protocol_name;
@@ -44,8 +42,6 @@ public:
 	void createChat(const TreeModelItem &item, bool new_chat = false);
 	void removeSeparateWindowFromList(const QString &identification);
 	void removeSeparateConferenceFromList(const QString &identification);
-	void removeTabbedWindow();
-	void removeTabbedConference();
 	void addMessage(const TreeModelItem &item, const QString &message, bool in,
 			QDateTime message_date, bool save_history=true,
 			bool unreaded_message = false, bool history=false, const QString &not_modified = "");
@@ -151,13 +147,8 @@ private:
 	QString m_tmp_image_path;
 	AbstractChatLayer();
 	~AbstractChatLayer();
-	bool m_tabbed_mode;
 	QHash<QString, SeparateChatWindow*> m_separate_window_list;
 	QHash<QString, SeparateConference*> m_separate_conference_list;
-	bool m_tabbed_window_created;
-	bool m_tabbed_conference_created;
-	TabbedChatWindow *m_tabbed_window;
-	TabbedConference *m_tabbed_conference;
 	PluginSystem &m_plugin_system;
 //	bool m_webkit_mode;
 	QList<UnreadedMessage> m_unreaded_messages_list;

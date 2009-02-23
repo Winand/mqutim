@@ -4,7 +4,7 @@
 
 qtopia_project(qtopia app)
 
-plugins_bin.files = plugins/libicq.so 
+plugins_bin.files = plugins/libicq.so
 plugins_bin.files += plugins/libjabber.so
 plugins_bin.path = /lib/plugins/
 
@@ -27,7 +27,7 @@ DEPENDPATH += . \
     src/history \
     src/idle \
     src/notifications \
-    src/sound 
+    src/sound
 INCLUDEPATH += . \
     src \
     src/contactlist \
@@ -54,7 +54,6 @@ HEADERS += src/aboutinfo.h \
     src/addaccountwizard.h \
     src/console.h \
     src/contactseparator.h \
-    src/guisettingswindow.h \
     src/iconmanager.h \
     src/mainsettings.h \
     src/pluginsettings.h \
@@ -71,8 +70,6 @@ HEADERS += src/aboutinfo.h \
     src/antispam/antispamlayersettings.h \
     src/chatwindow/chatemoticonmenu.h \
     src/chatwindow/chatwindowsettings.h \
-    src/chatwindow/chatwindowstyle.h \
-    src/chatwindow/chatwindowstyleoutput.h \
     src/chatwindow/conferencecontactlist.h \
     src/chatwindow/conferenceitem.h \
     src/chatwindow/conferenceitemmodel.h \
@@ -99,11 +96,10 @@ HEADERS += src/aboutinfo.h \
     src/notifications/notificationslayersettings.h \
     src/notifications/popuptextbrowser.h \
     src/notifications/popupwindow.h \
-    src/sound/soundlayersettings.h 
+    src/sound/soundlayersettings.h
 FORMS += src/aboutinfo.ui \
     src/accountmanagement.ui \
     src/console.ui \
-    src/guisettingswindow.ui \
     src/mainsettings.ui \
     src/pluginsettings.ui \
     src/profilelogindialog.ui \
@@ -135,7 +131,6 @@ SOURCES += main.cpp \
     src/addaccountwizard.cpp \
     src/console.cpp \
     src/contactseparator.cpp \
-    src/guisettingswindow.cpp \
     src/iconmanager.cpp \
     src/mainsettings.cpp \
     src/pluginsettings.cpp \
@@ -149,8 +144,6 @@ SOURCES += main.cpp \
     src/antispam/antispamlayersettings.cpp \
     src/chatwindow/chatemoticonmenu.cpp \
     src/chatwindow/chatwindowsettings.cpp \
-    src/chatwindow/chatwindowstyle.cpp \
-    src/chatwindow/chatwindowstyleoutput.cpp \
     src/chatwindow/conferencecontactlist.cpp \
     src/chatwindow/conferenceitem.cpp \
     src/chatwindow/conferenceitemmodel.cpp \

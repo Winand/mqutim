@@ -39,10 +39,10 @@ HistoryWindow::HistoryWindow(const QString &protocol_name,
         item.m_item_name = item_name;
         m_item_name = AbstractHistoryLayer::instance().getContactHistoryName(item);
 	ui.setupUi(this);
-	
-	ui.historyLog->setHtml("<p align='center'><span style='font-size:36pt;'>" 
+
+	ui.historyLog->setHtml("<p align='center'><span style='font-size:36pt;'>"
 			+ tr("No History") + "</span></p>");
-	
+
 	codec = QTextCodec::codecForName("UTF-8");
 	moveToDesktopCenter();
 	setAttribute(Qt::WA_QuitOnClose, false);
@@ -56,20 +56,20 @@ HistoryWindow::HistoryWindow(const QString &protocol_name,
 	m_history_path = QFileInfo(settings.fileName()).absolutePath()+"/history/";
 	setIcons();
 	fillAccountComboBox();
-	
+
 	connect(ui.accountComboBox, SIGNAL(currentIndexChanged(int)),
 			this, SLOT(fillContactComboBox(int)));
-	
+
 	int account_index = ui.accountComboBox->findData(
 			protocol_name + "." + toHex(account_name));
 	if ( !account_index )
 		fillContactComboBox(0);
 	else
 		ui.accountComboBox->setCurrentIndex(account_index);
-	
+
 	connect(ui.fromComboBox, SIGNAL(currentIndexChanged(int)),
 			this, SLOT(fillDateTreeWidget(int)));
-	
+
         int from_index = ui.fromComboBox->findData(m_item_name);
 	if ( !from_index )
 		fillDateTreeWidget(0);
@@ -101,11 +101,11 @@ void HistoryWindow::setIcons()
 void HistoryWindow::fillAccountComboBox()
 {
 	QDir history_dir(m_history_path);
-	QStringList accounts = history_dir.entryList(QDir::AllDirs | 
+	QStringList accounts = history_dir.entryList(QDir::AllDirs |
 			QDir::NoDotAndDotDot);
 	PluginSystem &ps = PluginSystem::instance();
 	PluginInfoList protocols = ps.getPluginsByType("protocol");
-	foreach(QString account, accounts)
+	foreach(const QString &account, accounts)
 	{
 		QString protocol = account.section(".",0,0);
 		QString account_name = fromHex(account.section(".",1,1));
@@ -141,7 +141,7 @@ void HistoryWindow::fillContactComboBox(int index)
 		QDir account_history_dir(m_history_path + "/" + item_data);
 		QStringList log_list = account_history_dir.entryList(QDir::Files | QDir::NoDotAndDotDot);
 		ui.fromComboBox->clear();
-		foreach(QString contact, log_list)
+		foreach(const QString &contact, log_list)
 		{
 			QString contact_name = fromHex(contact.section(".",0,0));
 			if ( ui.fromComboBox->findData(contact_name) != -1 )
@@ -151,7 +151,7 @@ void HistoryWindow::fillContactComboBox(int index)
 			item.m_account_name = account_name;
 			item.m_item_name = contact_name;
 			item.m_item_type = TreeModelItem::Buddy;
-			QStringList contact_info = 
+			QStringList contact_info =
 				PluginSystem::instance().getAdditionalInfoAboutContact(item);
 			QString contact_nickname = contact_name;
 			if ( contact_info.count() > 0 )
@@ -182,7 +182,7 @@ void HistoryWindow::fillDateTreeWidget(int index, const QString &search_word)
 		ui.dateTreeWidget->clear();
 		IconManager &im = IconManager::instance();
 		QTreeWidgetItem *last_item = 0;
-		foreach(QString history_file, from_files)
+		foreach(const QString &history_file, from_files)
 		{
 			QFile file(account_history_dir.absoluteFilePath(history_file));
 			if (file.open(QIODevice::ReadOnly))
@@ -199,11 +199,11 @@ void HistoryWindow::fillDateTreeWidget(int index, const QString &search_word)
 						history_type >>
 						history_in >>
 						history_message;
-					if ( ( search_word.isEmpty() 
-							&& !days_list.contains(history_date_time) ) 
-							|| 
-							( !search_word.isEmpty() 
-							&& !days_list.contains(history_date_time) 
+					if ( ( search_word.isEmpty()
+							&& !days_list.contains(history_date_time) )
+							||
+							( !search_word.isEmpty()
+							&& !days_list.contains(history_date_time)
 							&& ( history_message.indexOf(search_word, Qt::CaseInsensitive) != -1 ) ))
 					{
 						days_list.append(history_date_time);
@@ -223,7 +223,7 @@ void HistoryWindow::fillDateTreeWidget(int index, const QString &search_word)
 					}
 					else
 					{
-						QList<QTreeWidgetItem *> items_list = 
+						QList<QTreeWidgetItem *> items_list =
 							ui.dateTreeWidget->findItems(QString::number(year), Qt::MatchExactly);
 						if ( items_list.count() )
 							year_item = items_list.at(0);
@@ -246,7 +246,7 @@ void HistoryWindow::fillDateTreeWidget(int index, const QString &search_word)
 						{
 							day = tmp_day;
 							QTreeWidgetItem *day_item = new QTreeWidgetItem(month_item);
-							day_item->setText(0, QString::number(day) + 
+							day_item->setText(0, QString::number(day) +
 									history_date.time().toString("(hh:mm)"));
 							day_item->setIcon(0, im.getIcon("day"));
 							day_item->setData(0, Qt::UserRole, history_date);
@@ -277,7 +277,7 @@ void HistoryWindow::on_dateTreeWidget_currentItemChanged( QTreeWidgetItem* curre
 			int from_index = ui.fromComboBox->currentIndex();
 			if ( account_index < 0 || from_index < 0)
 				return;
-			QDir account_history_dir(m_history_path + "/" + 
+			QDir account_history_dir(m_history_path + "/" +
 					ui.accountComboBox->itemData(account_index).toString());
 			QFile file(account_history_dir.absoluteFilePath(
 					toHex(ui.fromComboBox->itemData(from_index).toString()) +
@@ -315,7 +315,7 @@ void HistoryWindow::on_dateTreeWidget_currentItemChanged( QTreeWidgetItem* curre
 						else
 						{
 							history_html_2.append("<font style=background-color:white>"
-									+history_message.replace(search_word, 
+									+history_message.replace(search_word,
 											"<font style=background-color:yellow>"
 											+search_word+"</font>", Qt::CaseInsensitive)+"</font><br>");
 						}
@@ -326,7 +326,7 @@ void HistoryWindow::on_dateTreeWidget_currentItemChanged( QTreeWidgetItem* curre
 				ui.historyLog->moveCursor(QTextCursor::End);
 				ui.historyLog->ensureCursorVisible();
 				ui.historyLog->setLineWrapColumnOrWidth(ui.historyLog->lineWrapColumnOrWidth());
-				ui.historyLog->verticalScrollBar()->setValue( ui.historyLog->verticalScrollBar()->maximum() );	
+				ui.historyLog->verticalScrollBar()->setValue( ui.historyLog->verticalScrollBar()->maximum() );
 			}
 		}
 	}

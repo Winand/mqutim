@@ -87,7 +87,7 @@ QString TabCompletion::longestCommonPrefix(QStringList list) {
 	int len = candidate.length();
 	while (len > 0) {
 		bool found = true;
-		foreach(QString str, list) {
+		foreach(const QString &str, list) {
 			if (str.left(len).toLower() != candidate) {
 				found = false;
 				break;
@@ -252,7 +252,7 @@ QStringList TabCompletion::possibleCompletions() {
 
 	QString postAdd = atStart_ ? nickSep + " " : "";
 
-	foreach(QString nick, nicks) {
+	foreach(const QString &nick, nicks) {
 		if (nick.left(toComplete_.length()).toLower() == toComplete_.toLower()) {
 			suggestedNicks << nick + postAdd;
 		}

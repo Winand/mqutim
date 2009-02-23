@@ -26,9 +26,6 @@ SeparateConference::SeparateConference(
 		const QString &conference_name,
 		const QString &account_name,
 		const QString &emoticon_path,
-                /*bool webkit_mode,*/
-		const QString &style_path,
-		const QString &style_variant,
 		QWidget *parent)
     : QWidget(parent)
     , m_abstract_chat_layer(AbstractChatLayer::instance())
@@ -36,9 +33,6 @@ SeparateConference::SeparateConference(
     , m_account_name(account_name)
     , m_protocol_name(protocol_name)
     , m_emoticons_path(emoticon_path)
-/*    , m_webkit_mode(webkit_mode)*/
-    , m_webkit_style_path(style_path)
-    , m_webkit_variant(style_variant)
 {
 	ui.setupUi(this);
 	conferenceTextEdit = ui.t_Edit;
@@ -96,8 +90,8 @@ bool SeparateConference::eventFilter(QObject *obj, QEvent *event)
 {
 	if (obj == ui.t_Edit && event->type() == QEvent::KeyPress)
 	{
-		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);		
-		if ( keyEvent->key() == Qt::Key_Tab ) 
+		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+		if ( keyEvent->key() == Qt::Key_Tab )
 		{
 			m_tab_compl->tryComplete();
 			return true;
@@ -129,13 +123,13 @@ void SeparateConference::addMessage(const QString &from,
 	if ( !history )
 		checkForActive(message);
 	if( m_text_browser )
-	{	
+	{
 		quint64 tmp_position = m_text_browser->textCursor().position();
 		QString add_text;
 		add_text.append(m_mine_nick != from
 				?QString("<b><font color=#0000FF>"):QString("<b><font color=#FF0000>"));
 		add_text.append(QString("[%1]").arg(date));
-		
+
 		if ( m_show_names )
 		{
 			add_text.append(QString(" %1").arg(Qt::escape(from)));
@@ -144,7 +138,7 @@ void SeparateConference::addMessage(const QString &from,
 		add_text.append(QString("%1<br>").arg(checkForEmoticons(message)));
 		m_current_scroll_position = m_text_browser->verticalScrollBar()->value();
 		m_scroll_at_max = m_text_browser->verticalScrollBar()->maximum()
-			== m_current_scroll_position; 
+			== m_current_scroll_position;
 		m_text_browser->moveCursor(QTextCursor::End);
 		m_text_browser->insertHtml(add_text);
 		moveCursorToEnd();
@@ -177,9 +171,9 @@ void SeparateConference::moveCursorToEnd()
 		m_text_browser->setLineWrapColumnOrWidth(m_text_browser->lineWrapColumnOrWidth());
 		int scroll_maximum = m_text_browser->verticalScrollBar()->maximum();
 		if ( m_scroll_at_max )
-			m_text_browser->verticalScrollBar()->setValue( scroll_maximum );	
+			m_text_browser->verticalScrollBar()->setValue( scroll_maximum );
 		else
-			m_text_browser->verticalScrollBar()->setValue(m_current_scroll_position);		
+			m_text_browser->verticalScrollBar()->setValue(m_current_scroll_position);
 	}
 }
 
@@ -223,7 +217,7 @@ void SeparateConference::on_quoteButton_clicked()
 				ui.conferenceTextEdit->moveCursor(QTextCursor::End);
 				ui.conferenceTextEdit->ensureCursorVisible();
 				ui.conferenceTextEdit->setFocus();
-			}		
+			}
 		focusTextEdit();
 }
 
@@ -235,8 +229,8 @@ void SeparateConference::on_translitButton_clicked()
 			QString sel_text = ui.conferenceTextEdit->textCursor().selectedText();
 			sel_text = invertMessage(sel_text);
 			txt.replace(ui.conferenceTextEdit->textCursor().selectionStart(), sel_text.length(), sel_text);
-		} 
-		else 
+		}
+		else
 		{
 			txt = invertMessage(txt);
 		}
@@ -364,11 +358,11 @@ void SeparateConference::setConferenceTopic(const QString &topic)
 {
 	ui.topicLineEdit->setText(topic);
 }
-*/	
+*/
 QString SeparateConference::checkForEmoticons(const QString &message)
 {
 	QString new_message = message;
-	foreach(QString emoticon_text, m_urls.keys())
+	foreach(const QString &emoticon_text, m_urls.keys())
 	{
 #if defined(Q_OS_WIN32)
 		new_message.replace(emoticon_text, "<img src='file:///" + m_urls.value(emoticon_text) + "'>");
@@ -403,7 +397,7 @@ void SeparateConference::addServiceMessage(const QString &message, const QString
 	{
 		m_current_scroll_position = m_text_browser->verticalScrollBar()->value();
 		m_scroll_at_max = m_text_browser->verticalScrollBar()->maximum()
-			== m_current_scroll_position; 
+			== m_current_scroll_position;
 		QString modified_message;
 		modified_message= AbstractChatLayer::instance().findUrls(Qt::escape(message)).replace("\n", "<br>");
 		m_text_browser->moveCursor(QTextCursor::End);

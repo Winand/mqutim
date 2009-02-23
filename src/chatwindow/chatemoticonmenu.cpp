@@ -35,15 +35,15 @@ void ChatEmoticonMenu::setEmoticons(const QHash<QString, QString> &list, const Q
 	emotPath = path;
 	clearList();
 	int sq  = std::ceil(std::sqrt((float)list.count()));
-	
 
-	
+
+
 	int i = 0, j = 0;
-	
+
 	QStringList emotList = list.keys();
 	emotList.sort();
-	
-	foreach(QString name, emotList)
+
+	foreach(const QString &name, emotList)
 	{
 		movieLabel *l = new movieLabel;
 //		QMovie *movie = new QMovie(path + "/" + list.key(name));
@@ -56,9 +56,9 @@ void ChatEmoticonMenu::setEmoticons(const QHash<QString, QString> &list, const Q
                 l->setWhatsThis(list.value(name));
 		connect(l, SIGNAL(sendMovieTip(const QString &)), this, SIGNAL(insertSmile(const QString &)));
 		m_grid_layout->addWidget(l,i,j);
-		
 
-		
+
+
 		if ( j < sq )
 			j++;
 		else
@@ -68,7 +68,7 @@ void ChatEmoticonMenu::setEmoticons(const QHash<QString, QString> &list, const Q
 		}
 		movie->stop();
 	}
-	
+
 
 }
 
@@ -76,11 +76,11 @@ void ChatEmoticonMenu::clearList()
 {
 //	foreach(movieLabel *l, labelList)
 //		delete l;
-	
-	
+
+
 	qDeleteAll(labelList);
 	labelList.clear();
-		
+
 //	foreach(QMovie *m, movieList)
 //		delete m;
 	qDeleteAll(movieList);

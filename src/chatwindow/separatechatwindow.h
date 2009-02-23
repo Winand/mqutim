@@ -26,7 +26,6 @@
 #include <QWidgetAction>
 #include <QSplitter>
 #include "../abstractchatlayer.h"
-#include "chatwindowstyleoutput.h"
 #include "../pluginsystem.h"
 #include "chatemoticonmenu.h"
 #include <QTextCursor>
@@ -42,7 +41,7 @@ public:
     		const QString &item_name,
     		QWidget *parent = 0);
     ~SeparateChatWindow();
-    
+
     void addMessage(const QString &message, bool in,
                     const QDateTime &message_date, bool history);
     void addServiceMessage(const QString &message);
@@ -68,11 +67,11 @@ public:
 	void addSeparator();
 	int getCursorPosition();
   void setID(const QString &id);
-  
+
   bool eventFilter(QObject *obj, QEvent *evt);
 
 protected:
-  bool event(QEvent *event);  
+  bool event(QEvent *event);
   void keyPressEvent(QKeyEvent *ev);
 
 private slots:
@@ -93,24 +92,24 @@ private:
 	void moveCursorToEnd();
   void checkForActiveState();
   void updateInfo();
-  
+
 	AbstractChatLayer &m_abstract_chat_layer;
-  
+
 	QString m_protocol_name;
 	QString m_account_name;
 	QString m_item_name;
 	QString m_client_id;
-  
+
   QString m_contact_name;
   QString m_own_name;
-  
+
 	QTextEdit *m_edit;
 	QTextBrowser *m_log;
-  
+
   bool m_last_message_sender;
   bool m_lock_for_first_message;
   PluginSystem &m_plugin_system;
-  
+
   bool m_remove_message_after;
   quint16 m_remove_count;
   QList<quint64> m_message_positions;

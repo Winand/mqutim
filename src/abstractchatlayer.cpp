@@ -28,9 +28,6 @@
 AbstractChatLayer::AbstractChatLayer():
 	m_plugin_system(PluginSystem::instance())
 {
-	m_tabbed_mode = false;
-	m_tabbed_window_created = false;
-	m_tabbed_conference_created = false;
 	m_remove_messages_after = false;
 	m_remove_count = 0;
 	m_open_on_new = false;
@@ -110,7 +107,7 @@ void AbstractChatLayer::createChat(const TreeModelItem &item, bool new_chat)
       win->windowActivatedByUser();
     }
 		AbstractContactList &acl = AbstractContactList::instance();
-		if ( acl.getItemHasUnviewedContent(item) || 
+		if ( acl.getItemHasUnviewedContent(item) ||
 				!acl.itemExists(item))
 		{
 			readUnreaded(item);
@@ -128,21 +125,6 @@ void AbstractChatLayer::removeSeparateConferenceFromList(const QString &identifi
 	m_separate_conference_list.remove(identification);
 }
 
-void AbstractChatLayer::removeTabbedWindow()
-{
-	if ( m_remember_tabs_on_closing )
-	{
-		saveOpenedChatWindows();
-	}
-	m_tabbed_window_created = false;
-}
-
-void AbstractChatLayer::removeTabbedConference()
-{
-	m_tabbed_conference_created = false;
-	m_tabbed_conference = 0;
-}
-
 void AbstractChatLayer::addMessage(const TreeModelItem &item, const QString &message, bool in,
 		QDateTime message_date, bool save_history, bool unreaded_message, bool history,
 		const QString &not_modified)
@@ -156,11 +138,11 @@ void AbstractChatLayer::addMessage(const TreeModelItem &item, const QString &mes
 			history_item.m_time = message_date;
 			history_item.m_user = item;
 			history_item.m_in = in;
-			history_item.m_type = 1; 
+			history_item.m_type = 1;
 			AbstractHistoryLayer &ahl = AbstractHistoryLayer::instance();
 			ahl.saveHistoryMessage(history_item);
 		}
-		
+
 		if ( m_open_on_new )
 		{
 			createChat(item, true);
@@ -194,7 +176,7 @@ void AbstractChatLayer::addMessage(const TreeModelItem &item, const QString &mes
     }
     else
       can_not_read_it_now = true;
-		
+
 		if ( can_not_read_it_now && in && !unreaded_message)
 		{
 			UnreadedMessage new_unreaded_message;
@@ -228,9 +210,9 @@ void AbstractChatLayer::sendMessageTo(const QString &protocol_name, const QStrin
 	contact_item.m_item_name = contact_name;
 	contact_item.m_parent_name = "";
 	contact_item.m_item_type = TreeModelItem::Buddy;
-	
+
 	QString tmp_message = message;
-	
+
 	m_plugin_system.sendMessageBeforeShowing(contact_item, tmp_message);
 	m_plugin_system.sendMessageToContact(contact_item, tmp_message, message_icon_position);
 	QString identification = QString("%1.%2.%3").arg(protocol_name)
@@ -277,9 +259,9 @@ void AbstractChatLayer::readAllUnreadedMessages()
 			tmp_model_item.m_protocol_name = unreaded_message.m_protocol_name;
 			tmp_model_item.m_account_name = unreaded_message.m_account_name;
 			tmp_model_item.m_item_name = unreaded_message.m_contact_name;
-			tmp_model_item.m_item_type = TreeModelItem::Buddy;	
+			tmp_model_item.m_item_type = TreeModelItem::Buddy;
 			createChat(tmp_model_item);
-	//		addMessage(tmp_model_item, unreaded_message.m_message, true, 
+	//		addMessage(tmp_model_item, unreaded_message.m_message, true,
 	//				unreaded_message.m_message_time, false, true);
 		}
 		foreach(TreeModelItem item, m_waiting_for_activation_list)
@@ -291,7 +273,7 @@ void AbstractChatLayer::readAllUnreadedMessages()
 		m_unreaded_messages_list.clear();
 		m_unreaded_contacts.clear();
 		AbstractLayer::instance().stopTrayNewMessageAnimation();
-	} 
+	}
 	else
 	{
 		if ( m_unreaded_messages_list.count() > 0 && m_unreaded_contacts.count() > 0)
@@ -308,7 +290,7 @@ void AbstractChatLayer::readAllUnreadedMessages()
 			createChat(item);
 			AbstractContactList::instance().setItemHasUnviewedContent(item, false);
 			if ( !m_waiting_for_activation_list.count() &&
-					!m_unreaded_messages_list.count() && 
+					!m_unreaded_messages_list.count() &&
 					!m_unreaded_contacts.count() )
 			{
 				AbstractLayer::instance().stopTrayNewMessageAnimation();
@@ -327,14 +309,14 @@ void AbstractChatLayer::readUnreaded(const TreeModelItem &item)
 				item.m_item_name == unreaded_message.m_contact_name)
 		{
 			AbstractContactList::instance().setItemHasUnviewedContent(item , false);
-			addMessage(item, unreaded_message.m_message, true, 
+			addMessage(item, unreaded_message.m_message, true,
 					unreaded_message.m_message_time, false, true);
 			m_unreaded_messages_list.removeAt(index);
 			index--;
 		}
 		index++;
 	}
-	
+
 	index = 0;
 	foreach(TreeModelItem act_item, m_waiting_for_activation_list)
 	{
@@ -347,13 +329,13 @@ void AbstractChatLayer::readUnreaded(const TreeModelItem &item)
 		}
 		index++;
 	}
-	
+
 	QString identification = QString("%1.%2.%3").arg(item.m_protocol_name)
 	.arg(item.m_account_name).arg(item.m_item_name);
 	m_unreaded_contacts.remove(identification);
-	
+
 	if ( !m_waiting_for_activation_list.count() &&
-			!m_unreaded_messages_list.count() && 
+			!m_unreaded_messages_list.count() &&
 			!m_unreaded_contacts.count() )
 	{
 		AbstractLayer &al = AbstractLayer::instance();
@@ -397,7 +379,7 @@ void AbstractChatLayer::addImage(const TreeModelItem &item, const QByteArray &im
 		{
 			pic.write(image_raw);
 			pic.close();
-		} 
+		}
 	}
 	addMessage(item,QString("<img src='%1'>").arg(path_to_new_picture),in, QDateTime::currentDateTime());
 }
@@ -443,8 +425,6 @@ void AbstractChatLayer::loadSettings()
 	settings.beginGroup("gui");
 	m_emoticons_path = settings.value("emoticons","").toString();
 	m_chat_form_path = settings.value("chat","").toString();
-	m_webkit_style_path = settings.value("wstyle","").toString();
-	m_webkit_variant = settings.value("wvariant","").toString();
 
 	settings.endGroup();
 }
@@ -527,7 +507,7 @@ void AbstractChatLayer::windowActivated(const QString &protocol_name, const QStr
 	int i = 0;
 	foreach( TreeModelItem item, m_waiting_for_activation_list )
 	{
-		if ( item.m_protocol_name == protocol_name 
+		if ( item.m_protocol_name == protocol_name
 				&& item.m_account_name == account_name
 				&& item.m_item_name == item_name )
 		{
@@ -650,8 +630,6 @@ void AbstractChatLayer::reloadContent()
 	settings.beginGroup("gui");
 	m_emoticons_path = settings.value("emoticons","").toString();
 	m_chat_form_path = settings.value("chat","").toString();
-	m_webkit_style_path = settings.value("wstyle","").toString();
-	m_webkit_variant = settings.value("wvariant","").toString();
 	settings.endGroup();
 }
 
@@ -728,7 +706,7 @@ QString AbstractChatLayer::findUrls(const QString &sourceHTML)
         if ((pos == 0) || ((pos != 0) && (html[pos - 1] != ':')))
         {
            html.replace(pos, mailAddrCount, mailAddr);
-        }      
+        }
         pos += mailAddr.count();
      }
      return html;
@@ -758,7 +736,7 @@ void AbstractChatLayer::askForContactMenu(const QString &protocol_name,
 	contact_item.m_item_name = item_name;
 	contact_item.m_parent_name = "";
 	contact_item.m_item_type = TreeModelItem::Buddy;
-	
+
 	AbstractContextLayer::instance().itemContextMenu(contact_item, menu_point);
 }
 
@@ -774,10 +752,7 @@ bool AbstractChatLayer::createConference(const QString &protocol_name,
     SeparateConference *conf = new SeparateConference(protocol_name,
         conference_name,
         account_name,
-        m_emoticons_path,
-                                      /*m_webkit_mode,*/
-        m_webkit_style_path,
-        m_webkit_variant);
+        m_emoticons_path);
     m_separate_conference_list.insert(identification, conf);
 //    conf->setOptions(m_remove_messages_after, m_remove_count, m_close_after_send,
 //        m_show_names, m_send_on_enter);
@@ -889,7 +864,7 @@ bool AbstractChatLayer::removeConferenceItem(const QString &protocol_name, const
 	QString identification = QString("%1.%2.%3")
 	.arg(protocol_name)
 	.arg(conference_name)
-	.arg(account_name);	
+	.arg(account_name);
   if ( m_separate_conference_list.contains(identification) )
   {
     m_separate_conference_list.value(identification)->removeConferenceItem(nickname);
@@ -902,7 +877,7 @@ bool AbstractChatLayer::renameConferenceItem(const QString &protocol_name, const
 	QString identification = QString("%1.%2.%3")
 	.arg(protocol_name)
 	.arg(conference_name)
-	.arg(account_name);	
+	.arg(account_name);
   if ( m_separate_conference_list.contains(identification) )
   {
     m_separate_conference_list.value(identification)->renameConferenceItem(nickname, new_nickname);
@@ -915,7 +890,7 @@ bool AbstractChatLayer::setConferenceItemStatus(const QString &protocol_name, co
 	QString identification = QString("%1.%2.%3")
 	.arg(protocol_name)
 	.arg(conference_name)
-	.arg(account_name);	
+	.arg(account_name);
   if ( m_separate_conference_list.contains(identification) )
   {
     m_separate_conference_list.value(identification)->setConferenceItemStatus(nickname,icon,status,mass);
@@ -929,10 +904,10 @@ bool AbstractChatLayer::setConferenceItemIcon(const QString &protocol_name, cons
 	QString identification = QString("%1.%2.%3")
 		.arg(protocol_name)
 		.arg(conference_name)
-		.arg(account_name);	
+		.arg(account_name);
 		if ( m_separate_conference_list.contains(identification) )
 		{
-			m_separate_conference_list.value(identification)->setConferenceItemIcon(nickname, icon, position);	
+			m_separate_conference_list.value(identification)->setConferenceItemIcon(nickname, icon, position);
 		}
   return true;
 }
@@ -942,7 +917,7 @@ bool AbstractChatLayer::setConferenceItemRole(const QString &protocol_name, cons
 	QString identification = QString("%1.%2.%3")
 	.arg(protocol_name)
 	.arg(conference_name)
-	.arg(account_name);	
+	.arg(account_name);
   if ( m_separate_conference_list.contains(identification) )
   {
     m_separate_conference_list.value(identification)->setConferenceItemRole(nickname,icon,role,mass);
@@ -984,7 +959,7 @@ QStringList AbstractChatLayer::getConferenceItemsList(const QString &protocol_na
 	QString identification = QString("%1.%2.%3")
 	.arg(protocol_name)
 	.arg(conference_name)
-	.arg(account_name);	
+	.arg(account_name);
   if ( m_separate_conference_list.contains(identification) )
   {
     return m_separate_conference_list.value(identification)->getItemsList();

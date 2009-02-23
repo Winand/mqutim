@@ -31,7 +31,6 @@
 
 #include "abstractlayer.h"
 #include "abstractchatlayer.h"
-#include "guisettingswindow.h"
 #include "notifications/abstractnotificationlayer.h"
 #include "abstractsoundlayer.h"
 #include "abstractcontextlayer.h"
@@ -75,14 +74,14 @@ qutIM::qutIM(QWidget *parent, Qt::WFlags f ) :
 		QApplication::quit();
 		return;
         }
-	
+
 //	m_abstract_layer->loadCurrentProfile();
 	m_profile_name = m_abstract_layer.getCurrentProfile();
 	reloadStyleLanguage();
 	quitAction = NULL;
 	msgIcon = false;
 	m_plugin_settings = 0;
-  
+
   contactListContainer = new QWidget(this);
 	ui.setupUi(contactListContainer);
   ui.contactListView->header()->hide();
@@ -90,7 +89,7 @@ qutIM::qutIM(QWidget *parent, Qt::WFlags f ) :
   addTab(contactListContainer, QString::null);
   setCurrentWidget(contactListContainer);
   QSoftMenuBar::setLabel(this, Qt::Key_Back, QSoftMenuBar::NoLabel);
-  
+
 	createActions();
 	createMainMenu();
 //	ui.contactListView->setFocusProxy(this);
@@ -141,8 +140,6 @@ void qutIM::createActions()
 			tr("&Quit"), this);
 	settingsAction = new QAction(m_iconManager.getIcon("settings"),
 			tr("&Settings..."), this);
-	m_gui_settings_action = new QAction(m_iconManager.getIcon("gui"),
-			tr("&User interface settings..."), this);
 	m_pluginSettingsAction = new QAction(m_iconManager.getIcon("additional"),
 			tr("Plug-in settings..."), this);
 	switchUserAction = new QAction(m_iconManager.getIcon("switch_user"),
@@ -151,7 +148,6 @@ void qutIM::createActions()
 	connect(settingsAction        , SIGNAL(triggered()), this, SLOT(qutimSettingsMenu()));
 	connect(m_pluginSettingsAction, SIGNAL(triggered()), this, SLOT(qutimPluginSettingsMenu()));
 	connect(switchUserAction      , SIGNAL(triggered()), this, SLOT(switchUser()));
-	connect(m_gui_settings_action , SIGNAL(triggered()), this, SLOT(openGuiSettings()));
 }
 
 void qutIM::appQuit()
@@ -168,10 +164,10 @@ void qutIM::loadMainSettings()
 	createMenuAccounts = settings.value("general/accountmenu", true).toBool();
 
 	m_abstract_layer.setCurrentAccountIconName(settings.value("general/currentaccount", "").toString());
-	
+
 	m_auto_away = settings.value("general/autoaway", true).toBool();
 	m_auto_away_minutes = settings.value("general/awaymin", 10).toUInt();
-	
+
 	if(!settings.value("contactlist/showoffline",true).toBool())
 	{
 		ui.showHideButton->setIcon(m_iconManager.getIcon("hideoffline"));
@@ -227,14 +223,14 @@ void qutIM::reloadGeneralSettings()
 		m_abstract_layer.addAccountMenusToTrayMenu(createMenuAccounts);
 	}
 	bool visible_now = isVisible();
-	
+
 	Qt::WindowFlags flags = windowFlags();
 	if ( settings.value("general/ontop", false).toBool())
 		flags |= Qt::WindowStaysOnTopHint;
 	else
 	    flags &= ~Qt::WindowStaysOnTopHint;
 	setWindowFlags(flags);
-	
+
 	setVisible(visible_now);
 	m_abstract_layer.setCurrentAccountIconName(settings.value("general/currentaccount", "").toString());
 	m_auto_away = settings.value("general/autoaway", true).toBool();
@@ -283,7 +279,6 @@ void qutIM::createMainMenu()
 	}
 	mainMenu->addAction(settingsAction);
 	//mainMenu->addAction(m_pluginSettingsAction);
-	//mainMenu->addAction(m_gui_settings_action);
 	mainMenu->addAction(switchUserAction);
 	mainMenu->addSeparator();
 	mainMenu->addAction(quitAction);
@@ -323,7 +318,7 @@ void qutIM::onSecondsIdle(int seconds)
 	// Autoaway is disabled, do not touch anything
 	if (!m_auto_away)
 		return ;
-	
+
 	// if activity is detected
 	if (seconds == 0)
 	{
@@ -335,20 +330,6 @@ void qutIM::onSecondsIdle(int seconds)
 	{
 		m_abstract_layer.setAutoAway();
 	}
-}
-
-void qutIM::openGuiSettings()
-{
-	GuiSetttingsWindow *gui_window = new GuiSetttingsWindow(m_profile_name);
-	m_gui_settings_action->setEnabled(false);
-	gui_window->show();
-	connect(gui_window, SIGNAL(destroyed(QObject *)), this, 
-			SLOT(guiSettingsDeleted(QObject *)));
-}
-
-void qutIM::guiSettingsDeleted(QObject *)
-{
-	m_gui_settings_action->setEnabled(true);
 }
 
 void qutIM::on_showHideGroupsButton_clicked()
@@ -376,7 +357,7 @@ void qutIM::on_soundOnOffButton_clicked()
 	settings.beginGroup("sounds");
 	bool enable = settings.value("enable",true).toBool();
 	settings.setValue("enable",!enable);
-	settings.endGroup();	
+	settings.endGroup();
 	AbstractSoundLayer::instance().loadSettings();
 }
 
@@ -422,7 +403,7 @@ bool qutIM::eventFilter(QObject *watched, QEvent *event)
     int tab_index = indexOf(w_receiver);
     if (tab_index<0)
       return false; // not a tab
-      
+
     if (event->type()==QEvent::WindowIconChange)
     {
       qDebug() << "Tab" << tab_index << "icon changed";

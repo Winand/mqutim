@@ -3,7 +3,7 @@
 
     Copyright (c) 2008 by m0rph <m0rph.mailbox@gmail.com>
 							Rustam Chakin <qutim.develop@gmail.com>
-							
+
  ***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -320,7 +320,7 @@ QStringList PluginSystem::findPlugins(const QString &path)
 			result << filename;
 		else
 			qDebug() << loader.errorString();
-	}       
+	}
 	return result;
 }
 
@@ -328,7 +328,7 @@ QStringList PluginSystem::findPlugins(const QString &path)
 void PluginSystem::loadPlugins()
 {
 /*        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim", "qutimsettings");*/
-	
+
 	QStringList files;
 /*	QString place = QCoreApplication::applicationDirPath()+"/../lib/qutim/";*/
         QString place = QCoreApplication::applicationDirPath()+"/../lib/plugins/";
@@ -342,8 +342,8 @@ void PluginSystem::loadPlugins()
         place = QCoreApplication::applicationDirPath()+"/plugins/";
 	result = findPlugins(place);
 	files << result;
-        foreach(QString filename, files)
-                loadPlugin(filename);
+  foreach(const QString &filename, files)
+          loadPlugin(filename);
 }
 
 
@@ -363,7 +363,7 @@ PluginInfoList PluginSystem::getPluginsByType(const QString &type)
 				info.type = plugin->type();
 				if(plugin->icon())
 					info.icon = *plugin->icon();
-	
+
 				temp.append(info);
 			}
 		}
@@ -380,7 +380,7 @@ PluginInfoList PluginSystem::getPluginsByType(const QString &type)
 			temp.append(info);
 		}
 	}
-	
+
 	return temp;
 }
 
@@ -717,7 +717,7 @@ bool PluginSystem::setStatusMessage(QString &status_message, bool &dshow)
 
 void PluginSystem::sendMessageToContact(const TreeModelItem &item, QString &message, int message_icon_position)
 {
-		
+
 	TreeModelItem tmp_item = item;
 	foreach(SimplePluginInterface *plugin, m_registered_events_plugins.values(SendingMessageAfterShowing))
 	{
@@ -830,7 +830,7 @@ void PluginSystem::sendTypingNotification(const TreeModelItem &item, int notific
 		ProtocolInterface *protocol = m_protocols.value(item.m_protocol_name);
 		if(!protocol)
 			return;
-		return protocol->sendTypingNotification(item.m_account_name, item.m_item_name, item.m_item_type, notification_type);	
+		return protocol->sendTypingNotification(item.m_account_name, item.m_item_name, item.m_item_type, notification_type);
 }
 
 void PluginSystem::contactTyping(const TreeModelItem &item, bool typing)
@@ -899,15 +899,15 @@ QString PluginSystem::getIconFileName(const QString & icon_name)
 }
 QIcon PluginSystem::getIcon(const QString & icon_name)
 {
-	return IconManager::instance().getIcon(icon_name);	
+	return IconManager::instance().getIcon(icon_name);
 }
 QString PluginSystem::getStatusIconFileName(const QString & icon_name, const QString & default_path)
 {
-	return IconManager::instance().getStatusIconFileName(icon_name, default_path);	
+	return IconManager::instance().getStatusIconFileName(icon_name, default_path);
 }
 QIcon PluginSystem::getStatusIcon(const QString & icon_name, const QString & default_path)
 {
-	return IconManager::instance().getStatusIcon(icon_name, default_path);	
+	return IconManager::instance().getStatusIcon(icon_name, default_path);
 }
 
 void PluginSystem::moveItemSignalFromCL(const TreeModelItem &old_item, const TreeModelItem &new_item)
@@ -916,7 +916,7 @@ void PluginSystem::moveItemSignalFromCL(const TreeModelItem &old_item, const Tre
 		if(!protocol)
 			return;
 
-		protocol->moveItemSignalFromCL(old_item, new_item);	
+		protocol->moveItemSignalFromCL(old_item, new_item);
 }
 
 QString PluginSystem::getItemToolTip(const TreeModelItem &item)
@@ -925,7 +925,7 @@ QString PluginSystem::getItemToolTip(const TreeModelItem &item)
 		if(!protocol)
 			return item.m_item_name;
 
-		return protocol->getItemToolTip(item.m_account_name, item.m_item_name);	
+		return protocol->getItemToolTip(item.m_account_name, item.m_item_name);
 }
 
 void PluginSystem::deleteItemSignalFromCL(const TreeModelItem& item)
@@ -1068,19 +1068,19 @@ void PluginSystem::removeConferenceItem(const QString &protocol_name, const QStr
 		const QString &account_name, const QString &nickname)
 {
 	AbstractChatLayer &acl = AbstractChatLayer::instance();
-	acl.removeConferenceItem(protocol_name, conference_name, account_name, nickname);	
+	acl.removeConferenceItem(protocol_name, conference_name, account_name, nickname);
 }
 void PluginSystem::renameConferenceItem(const QString &protocol_name, const QString &conference_name, const QString &account_name,
 		const QString &nickname, const QString &new_nickname)
 {
 	AbstractChatLayer &acl = AbstractChatLayer::instance();
-	acl.renameConferenceItem(protocol_name, conference_name, account_name, nickname, new_nickname);	
+	acl.renameConferenceItem(protocol_name, conference_name, account_name, nickname, new_nickname);
 }
 void PluginSystem::setConferenceItemStatus(const QString &protocol_name, const QString &conference_name, const QString &account_name,
 		const QString &nickname, const QIcon &icon, const QString &status, int mass)
 {
 	AbstractChatLayer &acl = AbstractChatLayer::instance();
-	acl.setConferenceItemStatus(protocol_name, conference_name, account_name, nickname, icon, status, mass);	
+	acl.setConferenceItemStatus(protocol_name, conference_name, account_name, nickname, icon, status, mass);
 }
 void PluginSystem::setConferenceItemIcon(const QString &protocol_name, const QString &conference_name, const QString &account_name, const QString &nickname,
 		const QIcon &icon, int position)
@@ -1092,7 +1092,7 @@ void PluginSystem::setConferenceItemRole(const QString &protocol_name, const QSt
 		const QString &nickname, const QIcon &icon, const QString &role, int mass)
 {
 	AbstractChatLayer &acl = AbstractChatLayer::instance();
-	acl.setConferenceItemRole(protocol_name, conference_name, account_name, nickname, icon, role, mass);	
+	acl.setConferenceItemRole(protocol_name, conference_name, account_name, nickname, icon, role, mass);
 }
 QStringList PluginSystem::getConferenceItemsList(const QString &protocol_name,
 		const QString &conference_name, const QString &account_name)
@@ -1119,14 +1119,14 @@ void PluginSystem::conferenceItemActivated(const QString &protocol_name, const Q
 	protocol->conferenceItemActivated(conference_name, account_name, nickname);
 }
 
-void PluginSystem::conferenceItemContextMenu(const QList<QAction*> &action_list, const QString &protocol_name, 
+void PluginSystem::conferenceItemContextMenu(const QList<QAction*> &action_list, const QString &protocol_name,
 		const QString &conference_name, const QString &account_name, const QString &nickname, const QPoint &menu_point)
 {
 	ProtocolInterface *protocol = m_protocols.value(protocol_name);
 	if(!protocol)
 		return;
 
-	protocol->conferenceItemContextMenu(action_list, conference_name, account_name, nickname, menu_point);	
+	protocol->conferenceItemContextMenu(action_list, conference_name, account_name, nickname, menu_point);
 }
 
 QString PluginSystem::getConferenceItemToolTip(const QString &protocol_name, const QString &conference_name,
@@ -1136,7 +1136,7 @@ QString PluginSystem::getConferenceItemToolTip(const QString &protocol_name, con
 	if(!protocol)
 		return nickname;
 
-	return protocol->getConferenceItemToolTip(conference_name, account_name, nickname);	
+	return protocol->getConferenceItemToolTip(conference_name, account_name, nickname);
 }
 
 void PluginSystem::showConferenceContactInformation(const QString &protocol_name,
@@ -1146,7 +1146,7 @@ void PluginSystem::showConferenceContactInformation(const QString &protocol_name
 	if(!protocol)
 		return;
 
-	protocol->showConferenceContactInformation(conference_name, account_name, nickname);	
+	protocol->showConferenceContactInformation(conference_name, account_name, nickname);
 }
 
 void PluginSystem::removePluginsSettingsWidget()
@@ -1235,7 +1235,7 @@ void PluginSystem::redirectEventToProtocol(const QStringList &protocol_name, con
                         protocol->getMessageFromPlugins(event);
 		}
 	} else {
-		foreach(QString protocol_n, protocol_name)
+		foreach(const QString &protocol_n, protocol_name)
 		{
 			ProtocolInterface *protocol = m_protocols.value(protocol_n);
                         if(protocol)
@@ -1271,7 +1271,7 @@ void PluginSystem::pointersAreInitialized()
 }
 
 void PluginSystem::playSoundByPlugin(QString path)
-{	
+{
 	foreach(SimplePluginInterface *plugin, m_registered_events_plugins.values(SoundAction))
 	{
 		PluginEvent event;

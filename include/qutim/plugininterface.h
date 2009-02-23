@@ -3,7 +3,7 @@
  *
  * @author m0rph
  * Copyright (c) 2008 by m0rph «m0rph.mailbox@gmail.com»
- * encoding: UTF-8 
+ * encoding: UTF-8
  *
  ***************************************************************************
  *                                                                         *
@@ -55,6 +55,7 @@ enum LayerType
 class LayerInterface
 {
 public:
+    virtual ~LayerInterface() {};
     virtual bool init(PluginSystemInterface *plugin_system) = 0;
     virtual void setProfileName(const QString &profile_name) = 0;
     virtual void cleanup() = 0;
@@ -73,7 +74,7 @@ struct TreeModelItem
     Buddy = 0,
     Group = 1,
     Account = 2,
-    
+
     ConferenceItem = 3,
     Conference = 4,
   };
@@ -104,7 +105,7 @@ struct HistoryItem
  * @attention this structure is an unknown stuff, created by m0rph, noone can tell, what the hell it is
  */
 
-enum EventType { 
+enum EventType {
 	ContactContextAction = 0,
 	ItemAddedAction,
 	ItemRemovedAction,
@@ -154,7 +155,7 @@ struct PluginEvent {
 /*!
  * @brief sound engine used for sounds
  */
-enum SoundEngineSystem { 
+enum SoundEngineSystem {
 	NoSound = 0,
 	LibPhonon,
 	LibSound,
@@ -171,7 +172,7 @@ const char* const XmlEventNames[] = { "c_online",
 
 /*!
  * Abstract interface of plugin system, visible to plug-ins
- * These functions can be called by plugin. Visible kernel functions. 
+ * These functions can be called by plugin. Visible kernel functions.
  */
 class PluginSystemInterface
 {
@@ -179,7 +180,7 @@ public:
 	virtual ~PluginSystemInterface() {}
 	/*!
 	 * @brief register handler for an event
-	 * 
+	 *
 	 * @attention this function is an unknown stuff, created by m0rph, noone can tell, what the hell it is
 	 * @param event_id - ID of an event
 	 * @param plugin - some other shit
@@ -231,13 +232,13 @@ public:
 	 * @return boolean result of the attempt, TRUE if all is ok
 	 * @see TreeModelItem
 	 */
-	virtual bool removeItemFromContactList(TreeModelItem Item) = 0; 
+	virtual bool removeItemFromContactList(TreeModelItem Item) = 0;
 	/*!
 	 * @brief move an item in contact-list
 	 *
 	 * Move item in the CL, e.g. change the group
 	 * It's just an visualisation, server-side move should be done by the protocol!
-	 * 
+	 *
 	 * @param OldItem - item's old "status"
 	 * @param OldItem - item's new "status"
 	 * @return boolean result of the attempt, TRUE if all is ok
@@ -247,7 +248,7 @@ public:
 
 	/*!
 	 * @brief set the name for the item in contact-list
-	 * 
+	 *
 	 * Sets the name for the item (contact, group, somewhat) in the CL
 	 *
 	 * @param Item - item, to be changed
@@ -270,7 +271,7 @@ public:
 	 * @return boolean result of the attempt, TRUE if all is ok
 	 * @see TreeModelItem
 	 */
-	virtual bool setContactItemIcon(TreeModelItem Item, QIcon icon, int position) = 0; 
+	virtual bool setContactItemIcon(TreeModelItem Item, QIcon icon, int position) = 0;
 	/*!
 	 * @brief set an row for contact-list item
 	 *
@@ -282,7 +283,7 @@ public:
 	 * @return boolean result of the attempt, TRUE if all is ok
 	 * @see TreeModelItem
 	 */
-	virtual bool setContactItemRow(TreeModelItem Item, QList<QVariant> row, int position) = 0; 
+	virtual bool setContactItemRow(TreeModelItem Item, QList<QVariant> row, int position) = 0;
 	/*!
 	 * @brief set contact-list item status
 	 *
@@ -357,7 +358,7 @@ public:
 	virtual void messageDelievered(const TreeModelItem &item, int message_position) = 0;
 	/*!
 	 * @brief check the message through the anti-spam
-	 * 
+	 *
 	 * @param item - contact who sent the message
 	 * @param message - the message to be checked
 	 * @param message_type - type of the message, 0 - if simple message, 1 - if authorisation request
@@ -537,7 +538,7 @@ public:
 
 /*!
  * Abstract plug-in interface, all plug-ins must be inherited from this
- * All the following functions must be realized in plug-in, mention it. 
+ * All the following functions must be realized in plug-in, mention it.
  */
 class PluginInterface
 {
@@ -546,7 +547,7 @@ public:
 
 	/*!
 	 * @brief initialization of the plug-in
-	 * 
+	 *
 	 * @param plugin_system - plugin system realization
 	 * @return boolean result of initialization, TRUE if all is ok
 	 * @see PluginSystemInterface
@@ -564,7 +565,7 @@ public:
 
 	/*!
 	 * @brief the name of the plugin
-	 * 
+	 *
 	 * @return QString - plugin name
 	 */
 	virtual QString name() = 0;
@@ -623,7 +624,7 @@ public:
 	 * @return QWidget, representing plugin settings window
 	 */
 	virtual QWidget *settingsWidget() = 0;
-	
+
 	virtual void removeSettingsWidget() = 0;
 	virtual void saveSettings() = 0;
 };

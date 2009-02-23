@@ -20,7 +20,7 @@
 #include <QDateTime>
 #include <QSoftMenuBar>
 
-SeparateChatWindow::SeparateChatWindow(const QString &protocol_name, 
+SeparateChatWindow::SeparateChatWindow(const QString &protocol_name,
                                        const QString &account_name, const QString &item_name,
                                        QWidget *parent)
     : QWidget(parent)
@@ -40,7 +40,7 @@ SeparateChatWindow::SeparateChatWindow(const QString &protocol_name,
   m_log = ui.chatLog;
   m_log->setOpenExternalLinks(true);
   m_edit->installEventFilter(this);
-  
+
   QSoftMenuBar::setLabel(this, Qt::Key_Back, QSoftMenuBar::NoLabel);
   QSoftMenuBar::setLabel(m_log, Qt::Key_Back, QSoftMenuBar::NoLabel);
   QSoftMenuBar::setLabel(m_edit, Qt::Key_Back, QString::null, tr("Send"));
@@ -49,15 +49,15 @@ SeparateChatWindow::SeparateChatWindow(const QString &protocol_name,
   menu->addAction(tr("Clear Chat"), this, SLOT(clearChat()));
   menu->addSeparator();
   menu->addAction(tr("Close Chat"), this, SLOT(deleteLater()));
-  
+
   m_contact_name = m_item_name;
   m_own_name = m_account_name;
-  
+
   updateInfo();
-    
+
 	setWindowTitle(QString("%1").arg(m_contact_name));
 	m_edit->setFocus();
-  
+
 	connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),
 			SLOT(onCustomContextMenuRequested(const QPoint &)));
 	//setIconsToButtons();
@@ -74,7 +74,7 @@ SeparateChatWindow::~SeparateChatWindow()
 			m_account_name, m_item_name, 0);
 	m_abstract_chat_layer.removeSeparateWindowFromList(QString("%1.%2.%3").arg(m_protocol_name)
 					.arg(m_account_name).arg(m_item_name));
-          
+
 	TreeModelItem item;
 	item.m_protocol_name = m_protocol_name;
 	item.m_account_name = m_account_name;
@@ -103,7 +103,7 @@ void SeparateChatWindow::sendMessage()
 {
   if (m_edit->toPlainText().trimmed().isEmpty())
     return; // Empty message
-    
+
   int cursor_position = getCursorPosition();
   m_abstract_chat_layer.sendMessageTo(m_protocol_name, m_account_name,
       m_item_name, m_edit->toPlainText(),
@@ -118,16 +118,16 @@ void SeparateChatWindow::addMessage(const QString &message_raw, bool in, const Q
   if ( m_log )
 	{
 		quint64 tmp_position = m_log->textCursor().position();
-    
+
     QString color_from = "#FF0000";
     QString color_to = "#0000FF";
     QString color_timestamp = "#808080";
     int timestamp_font_size = -2;
-    
+
     QString message_header_format = "&nbsp;<b><font color=\"%1\">%2</font></b><br>";
     QString message_body_format = "<font color=\"%1\" size=\"%2\">%3</font> %4<br>";
     QString message_timestamp_format = "h:mm";
-    
+
     QString message_html;
     message_html += message_header_format
       .arg(in?color_from:color_to) // header font color
@@ -137,9 +137,9 @@ void SeparateChatWindow::addMessage(const QString &message_raw, bool in, const Q
       .arg(timestamp_font_size) // timestamp font size
       .arg(message_date.toString(message_timestamp_format)) // timestamp
       .arg(message_raw); // message body
-    
+
 		m_current_scroll_position = m_log->verticalScrollBar()->value();
-		m_scroll_at_max = m_log->verticalScrollBar()->maximum() == m_current_scroll_position; 
+		m_scroll_at_max = m_log->verticalScrollBar()->maximum() == m_current_scroll_position;
     moveCursorToEnd();
     m_log->textCursor().insertImage(":/icons/crystal_project/message.png");
 		m_log->insertHtml(message_html);
@@ -252,12 +252,12 @@ void SeparateChatWindow::quoteText()
     selected_text.replace(QChar(0xFDD1), " ");
     // Prepend text with ">" tag
     QStringList list = selected_text.split(QChar(0x2028));
-    foreach (QString mes, list)
-      m_edit->insertPlainText(mes.prepend("> ") + "\n");
+    foreach (const QString &mes, list)
+      m_edit->insertPlainText("> " + mes + "\n");
     m_edit->moveCursor(QTextCursor::End);
     m_edit->ensureCursorVisible();
     m_edit->setFocus();
-  }		
+  }
 	m_edit->setFocus();
 }
 
@@ -269,7 +269,7 @@ void SeparateChatWindow::messageDelievered(int position)
       cursor.setPosition(m_message_position_offset.value(position), QTextCursor::MoveAnchor);
       cursor.deleteChar();
       m_log->setTextCursor(cursor);
-      m_log->textCursor().insertImage(":/icons/crystal_project/message_accept.png");	
+      m_log->textCursor().insertImage(":/icons/crystal_project/message_accept.png");
   }
   else
   {
@@ -289,9 +289,9 @@ void SeparateChatWindow::moveCursorToEnd()
   m_log->setLineWrapColumnOrWidth(m_log->lineWrapColumnOrWidth());
   int scroll_maximum = m_log->verticalScrollBar()->maximum();
   if ( m_scroll_at_max )
-    m_log->verticalScrollBar()->setValue( scroll_maximum );	
+    m_log->verticalScrollBar()->setValue( scroll_maximum );
   else
-    m_log->verticalScrollBar()->setValue(m_current_scroll_position);	
+    m_log->verticalScrollBar()->setValue(m_current_scroll_position);
 }
 
 void SeparateChatWindow::windowActivatedByUser()
@@ -369,12 +369,12 @@ void SeparateChatWindow::updateInfo()
   info_item.m_protocol_name = m_protocol_name;
   info_item.m_item_type = TreeModelItem::Buddy;
   info_item.m_account_name = m_account_name;
-  
+
   info_item.m_item_name = m_item_name;
   QStringList contact_info = m_plugin_system.getAdditionalInfoAboutContact(info_item);
   if (contact_info.size()>0)
     m_contact_name = contact_info.at(0);
-  
+
   info_item.m_item_name = m_account_name;
   QStringList own_info = m_plugin_system.getAdditionalInfoAboutContact(info_item);
   if (own_info.size()>0)

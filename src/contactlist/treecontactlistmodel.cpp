@@ -54,11 +54,11 @@ void TreeContactListModel::saveSettings()
         QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
 	settings.beginGroup("contactlist");
 	QList<QString> protocols = m_item_list.keys();
-	foreach(QString protocol, protocols)
+	foreach(const QString &protocol, protocols)
 	{
 		QHash<QString, TreeItem *> *v_protocol = m_item_list.value(protocol);
 		QList<QString> accounts = v_protocol->keys();
-		foreach(QString account, accounts)
+		foreach(const QString &account, accounts)
 		{
 			settings.beginGroup(protocol+"."+account);
 			TreeItem *v_account = v_protocol->value(account);
@@ -116,7 +116,7 @@ TreeItem *TreeContactListModel::getItem(const QModelIndex &index) const
 {
 	if (index.isValid()){
 		TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
-		if (item) 
+		if (item)
 			return item;
 	}
 	return m_root_item;
@@ -228,8 +228,8 @@ bool TreeContactListModel::setHeaderData(int section, Qt::Orientation orientatio
 
 TreeItem *TreeContactListModel::findItem(const TreeModelItem & Item)
 {
-	if(Item.m_item_type!=TreeModelItem::Buddy && 
-      Item.m_item_type!=TreeModelItem::Group && 
+	if(Item.m_item_type!=TreeModelItem::Buddy &&
+      Item.m_item_type!=TreeModelItem::Group &&
       Item.m_item_type!=TreeModelItem::Account)
 		return 0;
 	QHash<QString, TreeItem *> *protocol = m_item_list.value(Item.m_protocol_name);
@@ -370,7 +370,7 @@ bool TreeContactListModel::addBuddy(const TreeModelItem & Item, QString name)
 	item->setStructure(Item);
 	parent->setHash(Item.m_item_name, item);
 //	emit itemInserted(createIndex(0,0,findItem(Item)));
-	return true;		
+	return true;
 }
 void TreeContactListModel::reinsertAllItems(TreeItem *item)
 {
@@ -408,7 +408,7 @@ bool TreeContactListModel::getItemHasUnviewedContent(const TreeModelItem & Item)
 {
 	TreeItem *item = findItemNoParent(Item);
 	if(item)
-		return m_has_unviewed_content.value(item,false);	
+		return m_has_unviewed_content.value(item,false);
 	return false;
 }
 void TreeContactListModel::setItemIsTyping(const TreeModelItem & Item, bool has_content)
@@ -431,13 +431,13 @@ void TreeContactListModel::setItemIsTyping(const TreeModelItem & Item, bool has_
 			m_is_typing.insert(item,false);
 		}
 		m_mutex.unlock();
-	}	
+	}
 }
 bool TreeContactListModel::getItemIsTyping(const TreeModelItem & Item)
 {
 	TreeItem *item = findItem(Item);
 	if(item)
-		return m_is_typing.value(item,false);		
+		return m_is_typing.value(item,false);
 	return false;
 }
 void TreeContactListModel::onTimerTimeout()
@@ -514,7 +514,7 @@ void TreeContactListModel::onTimerTimeout()
 	{
 		if(!key)
 			m_changed_status.remove(key);
-		else 
+		else
 		{
 			int special =  m_changed_status.value(key,-1);
 			if(!m_has_unviewed_content.value(key,false) && !m_is_typing.value(key,false))
@@ -701,7 +701,7 @@ bool TreeContactListModel::setItemStatus(const TreeModelItem & Item, QIcon icon,
                                 asl.playSound(NotifyStatusChange);
 			}
 			m_mutex.lock();
-			m_changed_status.insert(item,5000);			
+			m_changed_status.insert(item,5000);
 			bool should_check = !item->hasContent();
 			item->setContent(4,true);
 			if(should_check)

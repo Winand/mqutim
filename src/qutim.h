@@ -69,21 +69,21 @@ public:
 	virtual ~qutIM();
 
 	static qutIM *getInstance();
-  
+
   void hideTabBar();
   void showTabBar();
-  
+
 	bool isShouldRun() { return bShouldRun; }
 	void reloadGeneralSettings();
-  
+
 	void updateTrayIcon(const QIcon &);
 	void animateNewMessageInTray();
 	void stopNewMessageAnimation();
 	void showBallon(const QString &title, const QString &message, int time);
-  
+
 	void reloadStyleLanguage();
 	void addActionToList(QAction *);
-  
+
   bool eventFilter (QObject *watched, QEvent *event); // Intercept some events to provide pseudo-wm
                                                       // capabilities for tabs
 private slots:
@@ -93,8 +93,6 @@ private slots:
 	void pluginSettingsDeleted(QObject *);
 	void destroySettings();
 	void switchUser();
-	void openGuiSettings();
-	void guiSettingsDeleted(QObject *);
 	void checkEventChanging();
 	void updateTrayToolTip();
 	void infoWindowDestroyed(QObject *);
@@ -106,7 +104,7 @@ private slots:
 protected:
   void tabInserted(int index); // monitor new tabs
   void tabRemoved(int index);
-  
+
 	void keyPressEvent(QKeyEvent *event);
 private:
 	static qutIM		*fInstance;
@@ -114,7 +112,7 @@ private:
 
   Ui::qutIMClass ui;
   QWidget *contactListContainer;
-  
+
   QList<QAction *> m_plugin_actions;
   QAction *quitAction;
   QAction *settingsAction;
@@ -133,7 +131,7 @@ private:
   quint32 m_auto_away_minutes;
 
   IconManager& m_iconManager;//!< use it to get icons from file or program
-  
+
   eventEater *eventObject;
   aboutInfo *infoWindow;
   bool aboutWindowOpen;
@@ -149,7 +147,7 @@ private:
   void loadMainSettings();
 
   void initIcons();//!< It loads all icons by icon manager.
-  
+
   AbstractLayer &m_abstract_layer;
   AbstractContactList &m_contact_list;
   QString m_profile_name;

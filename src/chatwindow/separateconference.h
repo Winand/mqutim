@@ -40,9 +40,6 @@ public:
     		const QString &conference_name,
     		const QString &account_name,
     		const QString &emoticon_path,
-                /*bool webkit_mode,*/
-    		const QString &style_path,
-    		const QString &style_variant,
     		QWidget *parent = 0);
     ~SeparateConference();
     void addMessage(const QString &from,
@@ -94,13 +91,9 @@ private:
 	QList<quint64> m_message_positions;
 	bool m_close_after_send;
 	bool m_show_names;
-	QString m_webkit_style_path;
-	QString m_webkit_variant;
 	QTextBrowser *m_text_browser;
 	QTextEdit *conferenceTextEdit;
-	ChatWindowStyleOutput *m_style_output;
 	QString m_now_html;
-	quint32 m_webkit_header_offset;
 	QString m_mine_nick;
 	QString m_last_sender;
 	int m_last_message_position;

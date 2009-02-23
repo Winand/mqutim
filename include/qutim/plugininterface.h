@@ -71,6 +71,7 @@ struct TreeModelItem
   enum Type
   {
     Undefined = -1,
+    Separator = Undefined,
     Buddy = 0,
     Group = 1,
     Account = 2,

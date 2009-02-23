@@ -38,9 +38,8 @@ TreeItem::TreeItem(const QVariant &display, TreeItem *parent)
 	m_is_visible=true;
 	m_is_always_visible=false;
 	m_is_always_invisible=false;
-	m_current_status_icon = IconManager::instance().getIcon("clients/qutim");
 	m_item_icons[0] = m_current_status_icon;
-        m_content = 0;
+  m_content = 0;
 }
 
 TreeItem::~TreeItem()
@@ -167,6 +166,8 @@ void TreeItem::setStructure(const TreeModelItem &structure)
 void TreeItem::setExpanded(bool expanded)
 {
 	m_is_expanded = expanded;
+  if (m_item_type==TreeModelItem::Group)
+    m_current_status_icon = IconManager::instance().getIcon(expanded?"expanded":"collapsed");
 }
 const TreeModelItem &TreeItem::getStructure()
 {

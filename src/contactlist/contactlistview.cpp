@@ -7,7 +7,7 @@ ContactListView::ContactListView(QWidget *parent)
   : QTreeView(parent)
 {
   header()->hide();
-  setIndentation((indentation()*2)/5);
+  setIndentation(0);
   setRootIsDecorated(false);
   setItemDelegate(new QtopiaCLItemDelegate(this));
 }

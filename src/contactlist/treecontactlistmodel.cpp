@@ -298,7 +298,6 @@ bool TreeContactListModel::addAccount(const TreeModelItem & Item, QString name)
         TreeItem *item = m_root_item->child(m_root_item->childCount()-1);
         item->setStructure(Item);
         item->setData(name,Qt::DisplayRole);
-        item->setData(QIcon(),AbstractContactList::ContactStatusIconRole);
         item->setData(QVariant(Item.m_item_type),AbstractContactList::ContactTypeRole);
         item->setData(0, AbstractContactList::ContactMassRole);
 	protocol->insert(Item.m_account_name, item);
@@ -330,7 +329,6 @@ bool TreeContactListModel::addGroup(const TreeModelItem & Item, QString name)
 	insertRows(parent->childCount(),1,createIndex(0,0,parent));
 	TreeItem *item = parent->child(parent->childCount()-1);
 	item->setData(name,Qt::DisplayRole);
-  item->setData(QIcon(),AbstractContactList::ContactStatusIconRole);
 	item->setData(QVariant(Item.m_item_type),AbstractContactList::ContactTypeRole);
 	item->setStructure(Item);
 	int mass=0;

@@ -22,11 +22,11 @@
 #include <QSoftMenuBar>
 
 SeparateConference::SeparateConference(
-		const QString &protocol_name,
-		const QString &conference_name,
-		const QString &account_name,
-		const QString &emoticon_path,
-		QWidget *parent)
+  const QString &protocol_name,
+  const QString &conference_name,
+  const QString &account_name,
+  const QString &emoticon_path,
+  QWidget *parent)
     : QWidget(parent)
     , m_abstract_chat_layer(AbstractChatLayer::instance())
     , m_conference_name(conference_name)
@@ -34,26 +34,26 @@ SeparateConference::SeparateConference(
     , m_protocol_name(protocol_name)
     , m_emoticons_path(emoticon_path)
 {
-	ui.setupUi(this);
-	conferenceTextEdit = ui.t_Edit;
-	m_text_browser = ui.t_Browser;
-	setAttribute(Qt::WA_QuitOnClose, false);
-	setAttribute(Qt::WA_DeleteOnClose, true);
-	m_last_message_position = 0;
-        if ( m_text_browser )
-	    {
-    		m_text_browser->setOpenExternalLinks(true);
-	    }
-	m_already_hred = false;
+  ui.setupUi(this);
+  conferenceTextEdit = ui.t_Edit;
+  m_text_browser = ui.t_Browser;
+  setAttribute(Qt::WA_QuitOnClose, false);
+  setAttribute(Qt::WA_DeleteOnClose, true);
+  m_last_message_position = 0;
+  if ( m_text_browser )
+  {
+    m_text_browser->setOpenExternalLinks(true);
+  }
+  m_already_hred = false;
 
-	QSoftMenuBar::setLabel(this, Qt::Key_Back, QSoftMenuBar::NoLabel);
-	QSoftMenuBar::setLabel(m_text_browser, Qt::Key_Back, QSoftMenuBar::NoLabel);
-	QSoftMenuBar::setLabel(conferenceTextEdit, Qt::Key_Back, QString::null, tr("Send"));
-	QMenu *menu = QSoftMenuBar::menuFor(this);
-	menu->clear();
-	menu->addAction(tr("Clear Chat"), this, SLOT(on_clearButton_clicked()));
-	menu->addSeparator();
-	menu->addAction(tr("Close Chat"), this, SLOT(deleteLater()));
+  QSoftMenuBar::setLabel(this, Qt::Key_Back, QSoftMenuBar::NoLabel);
+  QSoftMenuBar::setLabel(m_text_browser, Qt::Key_Back, QSoftMenuBar::NoLabel);
+  QSoftMenuBar::setLabel(conferenceTextEdit, Qt::Key_Back, QString::null, tr("Send"));
+  QMenu *menu = QSoftMenuBar::menuFor(this);
+  menu->clear();
+  menu->addAction(tr("Clear Chat"), this, SLOT(on_clearButton_clicked()));
+  menu->addSeparator();
+  menu->addAction(tr("Close Chat"), this, SLOT(deleteLater()));
 
 //	m_contact_list = new ConferenceContactList(protocol_name,conference_name,account_name,ui.conferenceList);
 //	m_item_delegate = new ContactListItemDelegate();
@@ -70,121 +70,122 @@ SeparateConference::SeparateConference(
 
 //	m_scroll_at_max = true;
 //	m_current_scroll_position = 0;
-/*	QList<int> sizes;
-        sizes.append(400);
-	sizes.append(20);
-        ui.chatSplitter->setSizes(sizes);
-	sizes.clear();
-	sizes.append(400);
-	sizes.append(100);
-        ui.listSplitter->setSizes(sizes);*/
-	m_last_history=true;
-	ui.t_Edit->installEventFilter(this);
-	m_tab_compl = new TabCompletion(this);
-	m_tab_compl->setTextEdit(ui.t_Edit);
-	m_tab_compl->setContactList(m_contact_list);
-	qDebug() << "ui done...";
+  /*	QList<int> sizes;
+          sizes.append(400);
+  	sizes.append(20);
+          ui.chatSplitter->setSizes(sizes);
+  	sizes.clear();
+  	sizes.append(400);
+  	sizes.append(100);
+          ui.listSplitter->setSizes(sizes);*/
+  m_last_history=true;
+  ui.t_Edit->installEventFilter(this);
+  m_tab_compl = new TabCompletion(this);
+  m_tab_compl->setTextEdit(ui.t_Edit);
+  m_tab_compl->setContactList(m_contact_list);
+  qDebug() << "ui done...";
 }
 
 bool SeparateConference::eventFilter(QObject *obj, QEvent *event)
 {
-	if (obj == ui.t_Edit && event->type() == QEvent::KeyPress)
-	{
-		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-		if ( keyEvent->key() == Qt::Key_Tab )
-		{
-			m_tab_compl->tryComplete();
-			return true;
-		}
+  if (obj == ui.t_Edit && event->type() == QEvent::KeyPress)
+  {
+    QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+    if ( keyEvent->key() == Qt::Key_Tab )
+    {
+      m_tab_compl->tryComplete();
+      return true;
+    }
 
-		m_tab_compl->reset();
-		return false;
-	}
-	return QObject::eventFilter( obj, event );
+    m_tab_compl->reset();
+    return false;
+  }
+  return QObject::eventFilter( obj, event );
 }
 
 SeparateConference::~SeparateConference()
 {
-	m_abstract_chat_layer.removeSeparateConferenceFromList(
-			QString("%1.%2.%3")
-			.arg(m_protocol_name)
-			.arg(m_conference_name)
-			.arg(m_account_name));
-	PluginSystem::instance().leaveConference(m_protocol_name, m_conference_name,
-			m_account_name);
-/*	m_abstract_chat_layer.saveConferenceSizeAndPosition(pos(), size(),
-                        ui.chatSplitter->saveState(), ui.listSplitter->saveState());*/
-	//delete m_item_delegate;
+  m_abstract_chat_layer.removeSeparateConferenceFromList(
+    QString("%1.%2.%3")
+    .arg(m_protocol_name)
+    .arg(m_conference_name)
+    .arg(m_account_name));
+  PluginSystem::instance().leaveConference(m_protocol_name, m_conference_name,
+      m_account_name);
+  /*	m_abstract_chat_layer.saveConferenceSizeAndPosition(pos(), size(),
+                          ui.chatSplitter->saveState(), ui.listSplitter->saveState());*/
+  //delete m_item_delegate;
 }
 
 void SeparateConference::addMessage(const QString &from,
-		const QString &message, const QString &date, bool history)
+                                    const QString &message, const QString &date, bool history)
 {
-	if ( !history )
-		checkForActive(message);
-	if( m_text_browser )
-	{
-		quint64 tmp_position = m_text_browser->textCursor().position();
-		QString add_text;
-		add_text.append(m_mine_nick != from
-				?QString("<b><font color=#0000FF>"):QString("<b><font color=#FF0000>"));
-		add_text.append(QString("[%1]").arg(date));
+  if ( !history )
+    checkForActive(message);
+  if ( m_text_browser )
+  {
+    quint64 tmp_position = m_text_browser->textCursor().position();
+    QString add_text;
+    add_text.append(m_mine_nick != from
+                    ?QString("<b><font color=#0000FF>"):QString("<b><font color=#FF0000>"));
+    add_text.append(QString("[%1]").arg(date));
 
-		if ( m_show_names )
-		{
-			add_text.append(QString(" %1").arg(Qt::escape(from)));
-		}
-		add_text.append(": </font></b>");
-		add_text.append(QString("%1<br>").arg(checkForEmoticons(message)));
-		m_current_scroll_position = m_text_browser->verticalScrollBar()->value();
-		m_scroll_at_max = m_text_browser->verticalScrollBar()->maximum()
-			== m_current_scroll_position;
-		m_text_browser->moveCursor(QTextCursor::End);
-		m_text_browser->insertHtml(add_text);
-		moveCursorToEnd();
-		if ( m_remove_message_after )
-		{
-			if ( m_message_positions.count() >= m_remove_count )
-			{
-				int message_length = m_message_positions.at(0);
-				QTextCursor cursor = m_text_browser->textCursor();
-				cursor.clearSelection();
-				cursor.setPosition(0, QTextCursor::MoveAnchor);
-				cursor.setPosition(message_length, QTextCursor::KeepAnchor);
-				cursor.removeSelectedText();
-				m_message_positions.removeAt(0);
-			}
-			m_message_positions.append(m_text_browser->textCursor().position() - tmp_position);
-		}
-	}
-	if(m_mine_nick != from && message.contains(m_mine_nick)){
-		m_tab_compl->setLastReferrer(from);
-	}
+    if ( m_show_names )
+    {
+      add_text.append(QString(" %1").arg(Qt::escape(from)));
+    }
+    add_text.append(": </font></b>");
+    add_text.append(QString("%1<br>").arg(checkForEmoticons(message)));
+    m_current_scroll_position = m_text_browser->verticalScrollBar()->value();
+    m_scroll_at_max = m_text_browser->verticalScrollBar()->maximum()
+                      == m_current_scroll_position;
+    m_text_browser->moveCursor(QTextCursor::End);
+    m_text_browser->insertHtml(add_text);
+    moveCursorToEnd();
+    if ( m_remove_message_after )
+    {
+      if ( m_message_positions.count() >= m_remove_count )
+      {
+        int message_length = m_message_positions.at(0);
+        QTextCursor cursor = m_text_browser->textCursor();
+        cursor.clearSelection();
+        cursor.setPosition(0, QTextCursor::MoveAnchor);
+        cursor.setPosition(message_length, QTextCursor::KeepAnchor);
+        cursor.removeSelectedText();
+        m_message_positions.removeAt(0);
+      }
+      m_message_positions.append(m_text_browser->textCursor().position() - tmp_position);
+    }
+  }
+  if (m_mine_nick != from && message.contains(m_mine_nick))
+  {
+    m_tab_compl->setLastReferrer(from);
+  }
 }
 
 void SeparateConference::moveCursorToEnd()
 {
-	if( m_text_browser )
-	{
-		m_text_browser->moveCursor(QTextCursor::End);
-		m_text_browser->ensureCursorVisible();
-		m_text_browser->setLineWrapColumnOrWidth(m_text_browser->lineWrapColumnOrWidth());
-		int scroll_maximum = m_text_browser->verticalScrollBar()->maximum();
-		if ( m_scroll_at_max )
-			m_text_browser->verticalScrollBar()->setValue( scroll_maximum );
-		else
-			m_text_browser->verticalScrollBar()->setValue(m_current_scroll_position);
-	}
+  if ( m_text_browser )
+  {
+    m_text_browser->moveCursor(QTextCursor::End);
+    m_text_browser->ensureCursorVisible();
+    m_text_browser->setLineWrapColumnOrWidth(m_text_browser->lineWrapColumnOrWidth());
+    int scroll_maximum = m_text_browser->verticalScrollBar()->maximum();
+    if ( m_scroll_at_max )
+      m_text_browser->verticalScrollBar()->setValue( scroll_maximum );
+    else
+      m_text_browser->verticalScrollBar()->setValue(m_current_scroll_position);
+  }
 }
 
 void SeparateConference::on_clearButton_clicked()
 {
-    if ( m_text_browser )
-	{
-		m_text_browser->clear();
-		m_message_positions.clear();
-	}
-	focusTextEdit();
+  if ( m_text_browser )
+  {
+    m_text_browser->clear();
+    m_message_positions.clear();
+  }
+  focusTextEdit();
 }
 /*
 void SeparateConference::on_onEnterButton_clicked()
@@ -241,42 +242,46 @@ void SeparateConference::on_translitButton_clicked()
 */
 QString SeparateConference::invertMessage(QString &text)
 {
-	QString tableR=tr("qwertyuiop[]asdfghjkl;'zxcvbnm,./QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>?");
-	QString tableE="qwertyuiop[]asdfghjkl;'zxcvbnm,./QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>?";
-	QString txt = text;
-	for(int i = 0; i < txt.length(); i++)
-	{
-		if(txt.at(i) <= QChar('z'))
-	    {
-			int j = 0; bool b=true;
-	        while((j < tableE.length()) && b)
-	        {
-	        	if(txt[i] == tableE[j])
-	            {
-	               b = false;
-	               txt[i] = tableR[j];
-	            }
-	            j++;
-	         }
-	      }else{
-	         int j = 0; bool b = true;
-	         while((j < tableR.length()) && b)
-	         {
-	            if(txt[i] == tableR[j])
-	            {
-	               b = false;
-	               txt[i] = tableE[j];
-	            }
-	            j++;
-	         }
-	      }
-	   }
-	   return txt;
+  QString tableR=tr("qwertyuiop[]asdfghjkl;'zxcvbnm,./QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>?");
+  QString tableE="qwertyuiop[]asdfghjkl;'zxcvbnm,./QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>?";
+  QString txt = text;
+  for (int i = 0; i < txt.length(); i++)
+  {
+    if (txt.at(i) <= QChar('z'))
+    {
+      int j = 0;
+      bool b=true;
+      while ((j < tableE.length()) && b)
+      {
+        if (txt[i] == tableE[j])
+        {
+          b = false;
+          txt[i] = tableR[j];
+        }
+        j++;
+      }
+    }
+    else
+    {
+      int j = 0;
+      bool b = true;
+      while ((j < tableR.length()) && b)
+      {
+        if (txt[i] == tableR[j])
+        {
+          b = false;
+          txt[i] = tableE[j];
+        }
+        j++;
+      }
+    }
+  }
+  return txt;
 }
 
 void SeparateConference::focusTextEdit()
 {
-    	ui.t_Edit->setFocus();
+  ui.t_Edit->setFocus();
 }
 /*
 void SeparateConference::setEmoticonsToMenu()
@@ -361,16 +366,16 @@ void SeparateConference::setConferenceTopic(const QString &topic)
 */
 QString SeparateConference::checkForEmoticons(const QString &message)
 {
-	QString new_message = message;
-	foreach(const QString &emoticon_text, m_urls.keys())
-	{
+  QString new_message = message;
+  foreach(const QString &emoticon_text, m_urls.keys())
+  {
 #if defined(Q_OS_WIN32)
-		new_message.replace(emoticon_text, "<img src='file:///" + m_urls.value(emoticon_text) + "'>");
+    new_message.replace(emoticon_text, "<img src='file:///" + m_urls.value(emoticon_text) + "'>");
 #else
-		new_message.replace(emoticon_text, "<img src='file://" + m_urls.value(emoticon_text) + "'>");
+    new_message.replace(emoticon_text, "<img src='file://" + m_urls.value(emoticon_text) + "'>");
 #endif
-	}
-	return new_message;
+  }
+  return new_message;
 }
 
 /*void SeparateConference::scrollWebViewToEnd()
@@ -388,81 +393,81 @@ QString SeparateConference::checkForEmoticons(const QString &message)
 
 void SeparateConference::newsOnLinkClicked(const QUrl &url)
 {
-	QDesktopServices::openUrl(url);
+  QDesktopServices::openUrl(url);
 }
 
 void SeparateConference::addServiceMessage(const QString &message, const QString &date)
 {
-    if ( m_text_browser )
-	{
-		m_current_scroll_position = m_text_browser->verticalScrollBar()->value();
-		m_scroll_at_max = m_text_browser->verticalScrollBar()->maximum()
-			== m_current_scroll_position;
-		QString modified_message;
-		modified_message= AbstractChatLayer::instance().findUrls(Qt::escape(message)).replace("\n", "<br>");
-		m_text_browser->moveCursor(QTextCursor::End);
-		m_text_browser->insertHtml(QString("<font size='-1' color=#808080>[%1] %2</font><br>")
-				.arg(date)
-				.arg(modified_message));
-		moveCursorToEnd();
-	}
-	moveCursorToEnd();
+  if ( m_text_browser )
+  {
+    m_current_scroll_position = m_text_browser->verticalScrollBar()->value();
+    m_scroll_at_max = m_text_browser->verticalScrollBar()->maximum()
+                      == m_current_scroll_position;
+    QString modified_message;
+    modified_message= AbstractChatLayer::instance().findUrls(Qt::escape(message)).replace("\n", "<br>");
+    m_text_browser->moveCursor(QTextCursor::End);
+    m_text_browser->insertHtml(QString("<font size='-1' color=#808080>[%1] %2</font><br>")
+                               .arg(date)
+                               .arg(modified_message));
+    moveCursorToEnd();
+  }
+  moveCursorToEnd();
 }
 
 void SeparateConference::windowFocused()
 {
-	ui.t_Edit->setFocus();
-	setWindowTitle(m_conference_name);
-	m_already_hred = false;
+  ui.t_Edit->setFocus();
+  setWindowTitle(m_conference_name);
+  m_already_hred = false;
 }
 
 void SeparateConference::checkForActive(const QString &message)
 {
-	if ( (!isActiveWindow() || isMinimized()) && !m_already_hred )
-	{
-	if ( m_text_browser )
-		{
-                        m_text_browser->append("<hr><br>");
-			moveCursorToEnd();
-		}
-		setWindowTitle("*" + m_conference_name);
-		m_already_hred = true;
-	}
-	if ( message.contains(m_mine_nick))
-	{
-		qApp->alert(this, 0);
-	}
+  if ( (!isActiveWindow() || isMinimized()) && !m_already_hred )
+  {
+    if ( m_text_browser )
+    {
+      m_text_browser->append("<hr><br>");
+      moveCursorToEnd();
+    }
+    setWindowTitle("*" + m_conference_name);
+    m_already_hred = true;
+  }
+  if ( message.contains(m_mine_nick))
+  {
+    qApp->alert(this, 0);
+  }
 }
 void SeparateConference::addConferenceItem(const QString &nickname)
 {
-	m_contact_list->addConferenceItem(nickname);
+  m_contact_list->addConferenceItem(nickname);
 }
 
 void SeparateConference::removeConferenceItem(const QString &nickname)
 {
-	m_contact_list->removeConferenceItem(nickname);
+  m_contact_list->removeConferenceItem(nickname);
 }
 
 void SeparateConference::renameConferenceItem(const QString &nickname, const QString &new_nickname)
 {
-	if(m_mine_nick==nickname)
-		m_mine_nick = new_nickname;
-	m_contact_list->renameConferenceItem(nickname, new_nickname);
+  if (m_mine_nick==nickname)
+    m_mine_nick = new_nickname;
+  m_contact_list->renameConferenceItem(nickname, new_nickname);
 }
 
 void SeparateConference::setConferenceItemStatus(const QString &nickname, const QIcon &icon, const QString &status, int mass)
 {
-	m_contact_list->setConferenceItemStatus(nickname,icon,status,mass);
+  m_contact_list->setConferenceItemStatus(nickname,icon,status,mass);
 }
 
 void SeparateConference::setConferenceItemIcon(const QString &nickname,	const QIcon &icon, int position)
 {
-	m_contact_list->setConferenceItemIcon(nickname, icon, position);
+  m_contact_list->setConferenceItemIcon(nickname, icon, position);
 }
 
 void SeparateConference::setConferenceItemRole(const QString &nickname, const QIcon &icon, const QString &role, int mass)
 {
-	m_contact_list->setConferenceItemRole(nickname,icon,role,mass);
+  m_contact_list->setConferenceItemRole(nickname,icon,role,mass);
 }
 
 /*void SeparateConference::restoreSplitters(const QByteArray &state, const QByteArray &state2)
@@ -485,8 +490,8 @@ void SeparateConference::on_configButton_clicked()
 */
 void SeparateConference::showEvent(QShowEvent * event)
 {
-	//windowActivatedByUser();
-	windowFocused();
+  //windowActivatedByUser();
+  windowFocused();
 }
 
 void SeparateConference::keyPressEvent(QKeyEvent *ev)

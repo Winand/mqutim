@@ -19,33 +19,33 @@
 #include "statusdialog.h"
 
 AbstractStatusLayer::AbstractStatusLayer()
-	: m_icon_manager(IconManager::instance())
+    : m_icon_manager(IconManager::instance())
 {
 }
 
 AbstractStatusLayer::~AbstractStatusLayer()
 {
-	
+
 }
 
 AbstractStatusLayer &AbstractStatusLayer::instance()
 {
-	static AbstractStatusLayer asl;
-	return asl;
+  static AbstractStatusLayer asl;
+  return asl;
 }
 
 bool AbstractStatusLayer::setStatusMessage(QString &status_message, bool &dshow)
 {
-	StatusDialog status_dialog(m_profile_name);
-	status_dialog.setStatusMessage(status_message);
-	if ( QtopiaApplication::execDialog(&status_dialog) )
-	{
-		status_message = status_dialog.getStatusMessage();
-		dshow = status_dialog.getDshowFlag();
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+  StatusDialog status_dialog(m_profile_name);
+  status_dialog.setStatusMessage(status_message);
+  if ( QtopiaApplication::execDialog(&status_dialog) )
+  {
+    status_message = status_dialog.getStatusMessage();
+    dshow = status_dialog.getDshowFlag();
+    return true;
+  }
+  else
+  {
+    return false;
+  }
 }

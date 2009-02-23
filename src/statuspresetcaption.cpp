@@ -18,9 +18,9 @@
 StatusPresetCaption::StatusPresetCaption(QWidget *parent)
     : QDialog(parent)
 {
-	ui.setupUi(this);
-	setFixedSize(size());
-	move(desktopCenter());
+  ui.setupUi(this);
+  setFixedSize(size());
+  move(desktopCenter());
 }
 
 StatusPresetCaption::~StatusPresetCaption()
@@ -30,11 +30,11 @@ StatusPresetCaption::~StatusPresetCaption()
 
 QPoint StatusPresetCaption::desktopCenter()
 {
-	QDesktopWidget desktop;
-	return QPoint(desktop.width() / 2 - size().width() / 2, desktop.height() / 2 - size().height() / 2);
+  QDesktopWidget desktop;
+  return QPoint(desktop.width() / 2 - size().width() / 2, desktop.height() / 2 - size().height() / 2);
 }
 
 void StatusPresetCaption::on_presetEdit_textChanged(const QString &text)
 {
-	ui.okButton->setEnabled(!text.isEmpty());
+  ui.okButton->setEnabled(!text.isEmpty());
 }

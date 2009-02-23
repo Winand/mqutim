@@ -55,37 +55,37 @@ SeparateChatWindow::SeparateChatWindow(const QString &protocol_name,
 
   updateInfo();
 
-	setWindowTitle(QString("%1").arg(m_contact_name));
-	m_edit->setFocus();
+  setWindowTitle(QString("%1").arg(m_contact_name));
+  m_edit->setFocus();
 
-	connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),
-			SLOT(onCustomContextMenuRequested(const QPoint &)));
-	//setIconsToButtons();
+  connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),
+          SLOT(onCustomContextMenuRequested(const QPoint &)));
+  //setIconsToButtons();
 
-	m_scroll_at_max = true;
-	m_current_scroll_position = 0;
-	m_last_history = true;
+  m_scroll_at_max = true;
+  m_current_scroll_position = 0;
+  m_last_history = true;
 }
 
 SeparateChatWindow::~SeparateChatWindow()
 {
-	m_abstract_chat_layer.windowActivated(m_protocol_name, m_account_name, m_item_name);
-	m_abstract_chat_layer.sendTypingNotification(m_protocol_name,
-			m_account_name, m_item_name, 0);
-	m_abstract_chat_layer.removeSeparateWindowFromList(QString("%1.%2.%3").arg(m_protocol_name)
-					.arg(m_account_name).arg(m_item_name));
+  m_abstract_chat_layer.windowActivated(m_protocol_name, m_account_name, m_item_name);
+  m_abstract_chat_layer.sendTypingNotification(m_protocol_name,
+      m_account_name, m_item_name, 0);
+  m_abstract_chat_layer.removeSeparateWindowFromList(QString("%1.%2.%3").arg(m_protocol_name)
+      .arg(m_account_name).arg(m_item_name));
 
-	TreeModelItem item;
-	item.m_protocol_name = m_protocol_name;
-	item.m_account_name = m_account_name;
-	item.m_item_name = m_item_name;
-	item.m_item_type = TreeModelItem::Buddy;
-	PluginSystem::instance().chatWindowClosed(item);
+  TreeModelItem item;
+  item.m_protocol_name = m_protocol_name;
+  item.m_account_name = m_account_name;
+  item.m_item_name = m_item_name;
+  item.m_item_type = TreeModelItem::Buddy;
+  PluginSystem::instance().chatWindowClosed(item);
 }
 
 int SeparateChatWindow::getCursorPosition()
 {
-	int cursor_position = 0;
+  int cursor_position = 0;
   if ( m_remove_message_after )
   {
     cursor_position = m_last_message_icon_position;
@@ -96,7 +96,7 @@ int SeparateChatWindow::getCursorPosition()
   {
     cursor_position = m_log->textCursor().position();
   }
-	return cursor_position;
+  return cursor_position;
 }
 
 void SeparateChatWindow::sendMessage()
@@ -106,8 +106,8 @@ void SeparateChatWindow::sendMessage()
 
   int cursor_position = getCursorPosition();
   m_abstract_chat_layer.sendMessageTo(m_protocol_name, m_account_name,
-      m_item_name, m_edit->toPlainText(),
-      cursor_position);
+                                      m_item_name, m_edit->toPlainText(),
+                                      cursor_position);
   m_edit->clear();
   m_edit->moveCursor(QTextCursor::Start);
   m_edit->setFocus();
@@ -116,8 +116,8 @@ void SeparateChatWindow::sendMessage()
 void SeparateChatWindow::addMessage(const QString &message_raw, bool in, const QDateTime &message_date, bool history)
 {
   if ( m_log )
-	{
-		quint64 tmp_position = m_log->textCursor().position();
+  {
+    quint64 tmp_position = m_log->textCursor().position();
 
     QString color_from = "#FF0000";
     QString color_to = "#0000FF";
@@ -130,99 +130,101 @@ void SeparateChatWindow::addMessage(const QString &message_raw, bool in, const Q
 
     QString message_html;
     message_html += message_header_format
-      .arg(in?color_from:color_to) // header font color
-      .arg(in?m_contact_name:m_own_name); // name
+                    .arg(in?color_from:color_to) // header font color
+                    .arg(in?m_contact_name:m_own_name); // name
     message_html += message_body_format
-      .arg(color_timestamp) // timestamp font color
-      .arg(timestamp_font_size) // timestamp font size
-      .arg(message_date.toString(message_timestamp_format)) // timestamp
-      .arg(message_raw); // message body
+                    .arg(color_timestamp) // timestamp font color
+                    .arg(timestamp_font_size) // timestamp font size
+                    .arg(message_date.toString(message_timestamp_format)) // timestamp
+                    .arg(message_raw); // message body
 
-		m_current_scroll_position = m_log->verticalScrollBar()->value();
-		m_scroll_at_max = m_log->verticalScrollBar()->maximum() == m_current_scroll_position;
+    m_current_scroll_position = m_log->verticalScrollBar()->value();
+    m_scroll_at_max = m_log->verticalScrollBar()->maximum() == m_current_scroll_position;
     moveCursorToEnd();
     m_log->textCursor().insertImage(":/icons/crystal_project/message.png");
-		m_log->insertHtml(message_html);
+    m_log->insertHtml(message_html);
     moveCursorToEnd();
-		if ( m_remove_message_after )
-		{
-			if ( m_message_positions.count() >= m_remove_count )
-			{
-				int message_length = m_message_positions.at(0);
-				QTextCursor cursor = m_log->textCursor();
-				cursor.clearSelection();
-				cursor.setPosition(0, QTextCursor::MoveAnchor);
-				cursor.setPosition(message_length, QTextCursor::KeepAnchor);
-				cursor.removeSelectedText();
-				m_message_positions.removeAt(0);
-				foreach( int icon_number, m_message_position_offset.keys() )
-				{
-					int old_position = m_message_position_offset.value(icon_number);
-					m_message_position_offset.remove(icon_number);
-					m_message_position_offset.insert(icon_number, old_position - message_length);
-				}
-			}
-			m_message_positions.append(m_log->textCursor().position() - tmp_position);
-		}
-	}
+    if ( m_remove_message_after )
+    {
+      if ( m_message_positions.count() >= m_remove_count )
+      {
+        int message_length = m_message_positions.at(0);
+        QTextCursor cursor = m_log->textCursor();
+        cursor.clearSelection();
+        cursor.setPosition(0, QTextCursor::MoveAnchor);
+        cursor.setPosition(message_length, QTextCursor::KeepAnchor);
+        cursor.removeSelectedText();
+        m_message_positions.removeAt(0);
+        foreach( int icon_number, m_message_position_offset.keys() )
+        {
+          int old_position = m_message_position_offset.value(icon_number);
+          m_message_position_offset.remove(icon_number);
+          m_message_position_offset.insert(icon_number, old_position - message_length);
+        }
+      }
+      m_message_positions.append(m_log->textCursor().position() - tmp_position);
+    }
+  }
 }
 
 void SeparateChatWindow::addServiceMessage(const QString &message)
 {
   if ( m_log )
-	{
-		m_log->append(QString("<font size='-1' color='grey'>%1</font><br>").arg(message));
-	}
-	moveCursorToEnd();
+  {
+    m_log->append(QString("<font size='-1' color='grey'>%1</font><br>").arg(message));
+  }
+  moveCursorToEnd();
 }
 
 void SeparateChatWindow::setOptions(bool remove_after, quint16 remove_count,
-		bool close_after, bool show_names, bool on_enter, bool typing_notifications)
+                                    bool close_after, bool show_names, bool on_enter, bool typing_notifications)
 {
-	m_remove_message_after = remove_after;
-	m_remove_count = remove_count;
-	m_show_names = show_names;
-	m_send_typing_notifications = typing_notifications;
+  m_remove_message_after = remove_after;
+  m_remove_count = remove_count;
+  m_show_names = show_names;
+  m_send_typing_notifications = typing_notifications;
 }
 
 void SeparateChatWindow::on_chatInputEdit_textChanged()
 {
-	m_text_changed = true;
-	if ( m_send_typing_notifications )
-	{
-		if ( !m_typing_changed )
-		{
-			m_typing_changed = true;
-			m_abstract_chat_layer.sendTypingNotification(m_protocol_name,
-					m_account_name, m_item_name, 2);
-			QTimer::singleShot(5000, this, SLOT(typingNow()));
-		}
+  m_text_changed = true;
+  if ( m_send_typing_notifications )
+  {
+    if ( !m_typing_changed )
+    {
+      m_typing_changed = true;
+      m_abstract_chat_layer.sendTypingNotification(m_protocol_name,
+          m_account_name, m_item_name, 2);
+      QTimer::singleShot(5000, this, SLOT(typingNow()));
+    }
 
-		if ( m_edit->toPlainText().isEmpty() )
-		{
-			m_typing_changed = false;
-			m_abstract_chat_layer.sendTypingNotification(m_protocol_name,
-					m_account_name, m_item_name, 0);
-		}
-	}
+    if ( m_edit->toPlainText().isEmpty() )
+    {
+      m_typing_changed = false;
+      m_abstract_chat_layer.sendTypingNotification(m_protocol_name,
+          m_account_name, m_item_name, 0);
+    }
+  }
 }
 
 void SeparateChatWindow::typingNow()
 {
-	if ( m_send_typing_notifications )
-	{
-		if ( m_text_changed )
-		{
-			m_text_changed= false;
-			m_abstract_chat_layer.sendTypingNotification(m_protocol_name,
-					m_account_name, m_item_name, 1);
-			QTimer::singleShot(5000, this, SLOT(typingNow()));
-		} else {
-			m_typing_changed = false;
-			m_abstract_chat_layer.sendTypingNotification(m_protocol_name,
-					m_account_name, m_item_name, 0);
-		}
-	}
+  if ( m_send_typing_notifications )
+  {
+    if ( m_text_changed )
+    {
+      m_text_changed= false;
+      m_abstract_chat_layer.sendTypingNotification(m_protocol_name,
+          m_account_name, m_item_name, 1);
+      QTimer::singleShot(5000, this, SLOT(typingNow()));
+    }
+    else
+    {
+      m_typing_changed = false;
+      m_abstract_chat_layer.sendTypingNotification(m_protocol_name,
+          m_account_name, m_item_name, 0);
+    }
+  }
 }
 
 void SeparateChatWindow::contactTyping(bool typing)
@@ -231,14 +233,14 @@ void SeparateChatWindow::contactTyping(bool typing)
 
 void SeparateChatWindow::clearChat()
 {
-		m_log->clear();
-		m_message_positions.clear();
-    m_message_position_offset.clear();
+  m_log->clear();
+  m_message_positions.clear();
+  m_message_position_offset.clear();
 }
 
 void SeparateChatWindow::quoteText()
 {
-	QString selected_text;
+  QString selected_text;
 
   selected_text = m_log->textCursor().selectedText();
   if ( !selected_text.isEmpty() )
@@ -253,12 +255,12 @@ void SeparateChatWindow::quoteText()
     // Prepend text with ">" tag
     QStringList list = selected_text.split(QChar(0x2028));
     foreach (const QString &mes, list)
-      m_edit->insertPlainText("> " + mes + "\n");
+    m_edit->insertPlainText("> " + mes + "\n");
     m_edit->moveCursor(QTextCursor::End);
     m_edit->ensureCursorVisible();
     m_edit->setFocus();
   }
-	m_edit->setFocus();
+  m_edit->setFocus();
 }
 
 void SeparateChatWindow::messageDelievered(int position)
@@ -266,20 +268,20 @@ void SeparateChatWindow::messageDelievered(int position)
   if ( m_remove_message_after )
   {
     QTextCursor cursor = m_log->textCursor();
-      cursor.setPosition(m_message_position_offset.value(position), QTextCursor::MoveAnchor);
-      cursor.deleteChar();
-      m_log->setTextCursor(cursor);
-      m_log->textCursor().insertImage(":/icons/crystal_project/message_accept.png");
+    cursor.setPosition(m_message_position_offset.value(position), QTextCursor::MoveAnchor);
+    cursor.deleteChar();
+    m_log->setTextCursor(cursor);
+    m_log->textCursor().insertImage(":/icons/crystal_project/message_accept.png");
   }
   else
   {
     QTextCursor cursor = m_log->textCursor();
-      cursor.setPosition(position, QTextCursor::MoveAnchor);
-      cursor.deleteChar();
-      m_log->setTextCursor(cursor);
-      m_log->textCursor().insertImage(":/icons/crystal_project/message_accept.png");
+    cursor.setPosition(position, QTextCursor::MoveAnchor);
+    cursor.deleteChar();
+    m_log->setTextCursor(cursor);
+    m_log->textCursor().insertImage(":/icons/crystal_project/message_accept.png");
   }
-    moveCursorToEnd();
+  moveCursorToEnd();
 }
 
 void SeparateChatWindow::moveCursorToEnd()
@@ -303,29 +305,29 @@ void SeparateChatWindow::windowActivatedByUser()
 
 void SeparateChatWindow::windowFocused()
 {
-	if ( m_waiting_for_activation )
-	{
-		m_waiting_for_activation = false;
-		m_abstract_chat_layer.windowActivated(m_protocol_name, m_account_name, m_item_name);
+  if ( m_waiting_for_activation )
+  {
+    m_waiting_for_activation = false;
+    m_abstract_chat_layer.windowActivated(m_protocol_name, m_account_name, m_item_name);
     m_edit->setFocus();
-	}
+  }
 }
 
 void SeparateChatWindow::showHistory()
 {
-	TreeModelItem item;
-	item.m_protocol_name = m_protocol_name;
-	item.m_item_type = TreeModelItem::Buddy;
-	item.m_account_name = m_account_name;
-	item.m_item_name = m_item_name;
-	AbstractHistoryLayer::instance().openHistoryWindow(item);
-	m_edit->setFocus();
+  TreeModelItem item;
+  item.m_protocol_name = m_protocol_name;
+  item.m_item_type = TreeModelItem::Buddy;
+  item.m_account_name = m_account_name;
+  item.m_item_name = m_item_name;
+  AbstractHistoryLayer::instance().openHistoryWindow(item);
+  m_edit->setFocus();
 }
 
 void SeparateChatWindow::onCustomContextMenuRequested(const QPoint &pos)
 {
-	m_abstract_chat_layer.askForContactMenu(m_protocol_name, m_account_name,
-			m_item_name, mapToGlobal(pos));
+  m_abstract_chat_layer.askForContactMenu(m_protocol_name, m_account_name,
+                                          m_item_name, mapToGlobal(pos));
 }
 
 void SeparateChatWindow::setIconsToButtons()
@@ -334,12 +336,12 @@ void SeparateChatWindow::setIconsToButtons()
 
 void SeparateChatWindow::newsOnLinkClicked(const QUrl &url)
 {
-	QDesktopServices::openUrl(url);
+  QDesktopServices::openUrl(url);
 }
 
 void SeparateChatWindow::setContactClientIcon()
 {
-	updateInfo();
+  updateInfo();
 }
 
 void SeparateChatWindow::addSeparator()
@@ -350,11 +352,11 @@ void SeparateChatWindow::addSeparator()
 
 bool SeparateChatWindow::event(QEvent *event)
 {
-	if ( event->type() == QEvent::Show )
-	{
+  if ( event->type() == QEvent::Show )
+  {
     m_edit->setFocus();
-	}
-	return QWidget::event(event);
+  }
+  return QWidget::event(event);
 }
 
 void SeparateChatWindow::setID(const QString &id)

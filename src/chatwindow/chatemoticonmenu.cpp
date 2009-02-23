@@ -20,54 +20,54 @@ ChatEmoticonMenu::ChatEmoticonMenu(QWidget *parent)
     : QWidget(parent)
 {
 
-	m_grid_layout = new QGridLayout(this);
-	setLayout(m_grid_layout);
+  m_grid_layout = new QGridLayout(this);
+  setLayout(m_grid_layout);
 }
 
 ChatEmoticonMenu::~ChatEmoticonMenu()
 {
-	clearList();
+  clearList();
 }
 
 void ChatEmoticonMenu::setEmoticons(const QHash<QString, QString> &list, const QString &path)
 {
-	emotList = list;
-	emotPath = path;
-	clearList();
-	int sq  = std::ceil(std::sqrt((float)list.count()));
+  emotList = list;
+  emotPath = path;
+  clearList();
+  int sq  = std::ceil(std::sqrt((float)list.count()));
 
 
 
-	int i = 0, j = 0;
+  int i = 0, j = 0;
 
-	QStringList emotList = list.keys();
-	emotList.sort();
+  QStringList emotList = list.keys();
+  emotList.sort();
 
-	foreach(const QString &name, emotList)
-	{
-		movieLabel *l = new movieLabel;
+  foreach(const QString &name, emotList)
+  {
+    movieLabel *l = new movieLabel;
 //		QMovie *movie = new QMovie(path + "/" + list.key(name));
-		QMovie *movie = new QMovie(path + "/" + name);
-		movieList.append(movie);
-		l->setMovie(movie);
-		movie->setCacheMode(QMovie::CacheAll);
-		movie->start();
-		labelList.append(l);
-                l->setWhatsThis(list.value(name));
-		connect(l, SIGNAL(sendMovieTip(const QString &)), this, SIGNAL(insertSmile(const QString &)));
-		m_grid_layout->addWidget(l,i,j);
+    QMovie *movie = new QMovie(path + "/" + name);
+    movieList.append(movie);
+    l->setMovie(movie);
+    movie->setCacheMode(QMovie::CacheAll);
+    movie->start();
+    labelList.append(l);
+    l->setWhatsThis(list.value(name));
+    connect(l, SIGNAL(sendMovieTip(const QString &)), this, SIGNAL(insertSmile(const QString &)));
+    m_grid_layout->addWidget(l,i,j);
 
 
 
-		if ( j < sq )
-			j++;
-		else
-		{
-			i++;
-			j = 0;
-		}
-		movie->stop();
-	}
+    if ( j < sq )
+      j++;
+    else
+    {
+      i++;
+      j = 0;
+    }
+    movie->stop();
+  }
 
 
 }
@@ -78,31 +78,31 @@ void ChatEmoticonMenu::clearList()
 //		delete l;
 
 
-	qDeleteAll(labelList);
-	labelList.clear();
+  qDeleteAll(labelList);
+  labelList.clear();
 
 //	foreach(QMovie *m, movieList)
 //		delete m;
-	qDeleteAll(movieList);
-	movieList.clear();
+  qDeleteAll(movieList);
+  movieList.clear();
 }
 
 
 void ChatEmoticonMenu::hideEvent(QHideEvent *e)
 {
-	foreach(QMovie *m, movieList)
-		m->stop();
+  foreach(QMovie *m, movieList)
+  m->stop();
 //	clearList();
-	QWidget::hideEvent(e);
+  QWidget::hideEvent(e);
 }
 
 void ChatEmoticonMenu::showEvent(QShowEvent *e)
 {
 //	setEmoticons(emotList, emotPath);
-	foreach(QMovie *m, movieList)
-	{
-		m->setCacheMode(QMovie::CacheAll);
-		m->start();
-	}
-	QWidget::showEvent(e);
+  foreach(QMovie *m, movieList)
+  {
+    m->setCacheMode(QMovie::CacheAll);
+    m->start();
+  }
+  QWidget::showEvent(e);
 }

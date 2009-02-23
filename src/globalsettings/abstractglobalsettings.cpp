@@ -27,13 +27,13 @@ AbstractGlobalSettings::~AbstractGlobalSettings()
 
 AbstractGlobalSettings &AbstractGlobalSettings::instance()
 {
-	static AbstractGlobalSettings ags;
-	return ags;
+  static AbstractGlobalSettings ags;
+  return ags;
 }
 
 void AbstractGlobalSettings::setProfileName(const QString &profile_name)
 {
-	m_profile_name = profile_name;
+  m_profile_name = profile_name;
 //	loadNetworkSettings();
 }
 

@@ -69,7 +69,7 @@ void ContactListItemDelegate::paint(QPainter *painter, const QStyleOptionViewIte
   // draw
 
   QPoint point = option.rect.topLeft();
-  
+
   int height=0;
   QList<QVariant> &list = *reinterpret_cast<QList<QVariant> *>(index.data(AbstractContactList::ContactIconsRole).value<qptrdiff>());
   switch (type)

@@ -21,69 +21,69 @@
 PluginSettings::PluginSettings(QWidget *parent)
     : QDialog(parent)
 {
-	ui.setupUi(this);
-	setAttribute(Qt::WA_QuitOnClose, false);
-	setAttribute(Qt::WA_DeleteOnClose, true);
-	setMinimumSize(size());
-        moveToDesktopCenter();
-	ui.pluginsTree->header()->hide();
+  ui.setupUi(this);
+  setAttribute(Qt::WA_QuitOnClose, false);
+  setAttribute(Qt::WA_DeleteOnClose, true);
+  setMinimumSize(size());
+  moveToDesktopCenter();
+  ui.pluginsTree->header()->hide();
 
-	connect(ui.pluginsTree, SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)),
-			this, SLOT(changeStackWidget(QTreeWidgetItem *)));
+  connect(ui.pluginsTree, SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)),
+          this, SLOT(changeStackWidget(QTreeWidgetItem *)));
 
-	PluginSystem &ps = PluginSystem::instance();
-	for(int i = 0; i < ps.pluginsCount(); ++i)
-	{
-		SimplePluginInterface *plugin = ps.getPluginByIndex(i);
-		addPluginItem(plugin);
-	}
+  PluginSystem &ps = PluginSystem::instance();
+  for (int i = 0; i < ps.pluginsCount(); ++i)
+  {
+    SimplePluginInterface *plugin = ps.getPluginByIndex(i);
+    addPluginItem(plugin);
+  }
 
 }
 
 
 PluginSettings::~PluginSettings()
 {
-	
+
 }
 
 
 void PluginSettings::moveToDesktopCenter()
 {
-	QDesktopWidget desktop;
-	QPoint point = QPoint(desktop.width() / 2 - size().width() / 2,
-						  desktop.height() / 2 - size().height() / 2);
-	move(point);
+  QDesktopWidget desktop;
+  QPoint point = QPoint(desktop.width() / 2 - size().width() / 2,
+                        desktop.height() / 2 - size().height() / 2);
+  move(point);
 }
 
 
 void PluginSettings::addPluginItem(SimplePluginInterface *plugin)
 {
-	QTreeWidgetItem *item = new QTreeWidgetItem(ui.pluginsTree);
-	item->setText(0,plugin->name());
-	if( plugin->icon())
-		item->setIcon(0, *plugin->icon());
-	ui.pluginsStack->addWidget(plugin->settingsWidget());
+  QTreeWidgetItem *item = new QTreeWidgetItem(ui.pluginsTree);
+  item->setText(0,plugin->name());
+  if ( plugin->icon())
+    item->setIcon(0, *plugin->icon());
+  ui.pluginsStack->addWidget(plugin->settingsWidget());
 }
 
 
 void PluginSettings::changeStackWidget(QTreeWidgetItem *current)
 {
-	int index = ui.pluginsTree->indexOfTopLevelItem(current);
-	ui.pluginsStack->setCurrentIndex(index);
+  int index = ui.pluginsTree->indexOfTopLevelItem(current);
+  ui.pluginsStack->setCurrentIndex(index);
 }
 
 void PluginSettings::closeEvent(QCloseEvent * event)
 {
-	PluginSystem::instance().removePluginsSettingsWidget();
+  PluginSystem::instance().removePluginsSettingsWidget();
 }
 
 void PluginSettings::on_cancelButton_clicked()
 {
-	close();
+  close();
 }
 
 void PluginSettings::on_okButton_clicked()
 {
-	PluginSystem::instance().saveAllPluginsSettings();
-	close();
+  PluginSystem::instance().saveAllPluginsSettings();
+  close();
 }

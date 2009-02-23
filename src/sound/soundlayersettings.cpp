@@ -22,154 +22,154 @@
 #include "src/abstractsoundlayer.h"
 
 SoundLayerSettings::SoundLayerSettings(const QString &profile_name, QWidget *parent)
-: QWidget(parent), changed(false)
+    : QWidget(parent), changed(false)
 {
-	m_profile_name = profile_name;
-	ui.setupUi(this);
+  m_profile_name = profile_name;
+  ui.setupUi(this);
 
-	// Filling events table (tree widget)
-        appendEvent(tr("Startup"), NotifyStartup);
-        appendEvent(tr("System event"), NotifySystem);
-        appendEvent(tr("Outgoing message"), NotifyMessageSend);
-        appendEvent(tr("Incoming message"), NotifyMessageGet);
-        appendEvent(tr("Contact is online"), NotifyOnline);
-        appendEvent(tr("Contact changed status"), NotifyStatusChange);
-        appendEvent(tr("Contact went offline"), NotifyOffline);
-        appendEvent(tr("Contact's birthday is comming"), NotifyBirthday);
+  // Filling events table (tree widget)
+  appendEvent(tr("Startup"), NotifyStartup);
+  appendEvent(tr("System event"), NotifySystem);
+  appendEvent(tr("Outgoing message"), NotifyMessageSend);
+  appendEvent(tr("Incoming message"), NotifyMessageGet);
+  appendEvent(tr("Contact is online"), NotifyOnline);
+  appendEvent(tr("Contact changed status"), NotifyStatusChange);
+  appendEvent(tr("Contact went offline"), NotifyOffline);
+  appendEvent(tr("Contact's birthday is comming"), NotifyBirthday);
 
-	//ui.playOnlyTree->setEnabled(false);
+  //ui.playOnlyTree->setEnabled(false);
 
-	// Filling systemCombo
-	ui.systemCombo->setItemData(0, qutim_sdk_0_2::NoSound);
+  // Filling systemCombo
+  ui.systemCombo->setItemData(0, qutim_sdk_0_2::NoSound);
 #ifdef HAVE_PHONON
-	ui.systemCombo->addItem(tr("Phonon"), qutim_sdk_0_2::LibPhonon);
+  ui.systemCombo->addItem(tr("Phonon"), qutim_sdk_0_2::LibPhonon);
 #endif
 #if defined(Q_WS_WIN) || defined(Q_WS_MAC)
-        ui.systemCombo->addItem(tr("QSound"), qutim_sdk_0_2::LibSound);
+  ui.systemCombo->addItem(tr("QSound"), qutim_sdk_0_2::LibSound);
 #endif
-	ui.systemCombo->addItem(tr("Command"), qutim_sdk_0_2::UserCommand);
-	ui.systemCombo->addItem(tr("Plugin"), qutim_sdk_0_2::PluginEngine);
+  ui.systemCombo->addItem(tr("Command"), qutim_sdk_0_2::UserCommand);
+  ui.systemCombo->addItem(tr("Plugin"), qutim_sdk_0_2::PluginEngine);
 
-	// disabling events tab
-	//ui.eventsTab->setEnabled(false);
+  // disabling events tab
+  //ui.eventsTab->setEnabled(false);
 
-	// connections
-	connect(ui.commandEdit, SIGNAL(textChanged(const QString &)),
-		this, SLOT(widgetStateChanged()));
-	loadSettings();
+  // connections
+  connect(ui.commandEdit, SIGNAL(textChanged(const QString &)),
+          this, SLOT(widgetStateChanged()));
+  loadSettings();
 }
 
 inline
 void SoundLayerSettings::appendEvent(const QString &eventName,
-        const NotificationType event)
+                                     const NotificationType event)
 {
-	static const Qt::ItemFlags itemFlags =
-		  Qt::ItemIsSelectable
-		| Qt::ItemIsUserCheckable
-		| Qt::ItemIsEnabled;
+  static const Qt::ItemFlags itemFlags =
+    Qt::ItemIsSelectable
+    | Qt::ItemIsUserCheckable
+    | Qt::ItemIsEnabled;
 
-	QTreeWidgetItem *newItem = new QTreeWidgetItem(ui.eventsTree);
-	newItem->setFlags(itemFlags);
-	newItem->setText(0, eventName);
-	newItem->setCheckState(0, Qt::Unchecked);
-	newItem->setData(0, Qt::UserRole, static_cast<int>(event));
-	eventList << newItem;
+  QTreeWidgetItem *newItem = new QTreeWidgetItem(ui.eventsTree);
+  newItem->setFlags(itemFlags);
+  newItem->setText(0, eventName);
+  newItem->setCheckState(0, Qt::Unchecked);
+  newItem->setData(0, Qt::UserRole, static_cast<int>(event));
+  eventList << newItem;
 }
 
 void SoundLayerSettings::loadSettings()
 {
-        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
-		
-	settings.beginGroup("sounds");
-	ui.systemCombo->setCurrentIndex(ui.systemCombo->findData(static_cast<qutim_sdk_0_2::SoundEngineSystem>(settings.value("soundengine",
-		0).toInt())));
+  QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
 
-	QString fileName;
-	for (int i = 0; i < eventList.size(); i++)
-	{
-		fileName = settings.value("event"
-			+ QString::number(eventList.at(i)->data(0, Qt::UserRole).toInt()),
-			"-").toString();
-		eventList.at(i)->setCheckState(0,
-			(fileName.at(0) == '+') ? Qt::Checked : Qt::Unchecked);
-		eventList.at(i)->setData(0, Qt::UserRole+1, fileName.mid(1));
-	}
+  settings.beginGroup("sounds");
+  ui.systemCombo->setCurrentIndex(ui.systemCombo->findData(static_cast<qutim_sdk_0_2::SoundEngineSystem>(settings.value("soundengine",
+                                  0).toInt())));
+
+  QString fileName;
+  for (int i = 0; i < eventList.size(); i++)
+  {
+    fileName = settings.value("event"
+                              + QString::number(eventList.at(i)->data(0, Qt::UserRole).toInt()),
+                              "-").toString();
+    eventList.at(i)->setCheckState(0,
+                                   (fileName.at(0) == '+') ? Qt::Checked : Qt::Unchecked);
+    eventList.at(i)->setData(0, Qt::UserRole+1, fileName.mid(1));
+  }
 
 #ifndef Q_OS_WIN32
-	ui.commandEdit->setText(settings.value("command", "play \"%1\"").toString());
+  ui.commandEdit->setText(settings.value("command", "play \"%1\"").toString());
 #else
-	ui.commandEdit->setText(settings.value("command", "").toString());
+  ui.commandEdit->setText(settings.value("command", "").toString());
 #endif
 
-	settings.endGroup();
+  settings.endGroup();
 
-	changed = false;
+  changed = false;
 }
 
 void SoundLayerSettings::saveSettings()
 {
-	// we do not save anything until something has been changed
-	if (!changed) return;
+  // we do not save anything until something has been changed
+  if (!changed) return;
 
-        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
-		
-	settings.beginGroup("sounds");
+  QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
 
-	QString command = ui.commandEdit->text().trimmed();
-	if (getCurrentSoundSystem() == qutim_sdk_0_2::UserCommand)
-	{
-		if (command.isEmpty())
-			ui.systemCombo->setCurrentIndex(0);
-		else if (!command.contains("%1")) command += " \"%1\"";
-		ui.commandEdit->setText(command);
-	}
+  settings.beginGroup("sounds");
 
-	settings.setValue("command", command);
+  QString command = ui.commandEdit->text().trimmed();
+  if (getCurrentSoundSystem() == qutim_sdk_0_2::UserCommand)
+  {
+    if (command.isEmpty())
+      ui.systemCombo->setCurrentIndex(0);
+    else if (!command.contains("%1")) command += " \"%1\"";
+    ui.commandEdit->setText(command);
+  }
 
-	settings.setValue("soundengine",
-		ui.systemCombo->itemData(ui.systemCombo->currentIndex()).toInt());
+  settings.setValue("command", command);
 
-	int i;
+  settings.setValue("soundengine",
+                    ui.systemCombo->itemData(ui.systemCombo->currentIndex()).toInt());
 
-	QString fileName;
-	for (i = 0; i < eventList.size(); i++)
-	{
-		fileName = (eventList.at(i)->checkState(0) == Qt::Checked) ? "+" : "-";
-		fileName += eventList.at(i)->data(0, Qt::UserRole+1).toString();
-		settings.setValue("event"
-			+ QString::number(eventList.at(i)->data(0,
-			Qt::UserRole).toInt()), fileName);
-	}
+  int i;
 
-	settings.endGroup();
+  QString fileName;
+  for (i = 0; i < eventList.size(); i++)
+  {
+    fileName = (eventList.at(i)->checkState(0) == Qt::Checked) ? "+" : "-";
+    fileName += eventList.at(i)->data(0, Qt::UserRole+1).toString();
+    settings.setValue("event"
+                      + QString::number(eventList.at(i)->data(0,
+                                                              Qt::UserRole).toInt()), fileName);
+  }
 
-	changed = false;
-	emit settingsSaved();
+  settings.endGroup();
+
+  changed = false;
+  emit settingsSaved();
 }
 
 void SoundLayerSettings::on_systemCombo_currentIndexChanged(int /* index */)
 {
-	qutim_sdk_0_2::SoundEngineSystem sys = getCurrentSoundSystem();
+  qutim_sdk_0_2::SoundEngineSystem sys = getCurrentSoundSystem();
 
-	ui.commandEdit->setEnabled(false);
-	ui.commandButton->setEnabled(false);
-	if (sys != qutim_sdk_0_2::NoSound)
-	{
-		//ui.playOnlyTree->setEnabled(true);
-		//ui.eventsTab->setEnabled(true);
-		if (sys == qutim_sdk_0_2::UserCommand)
-		{
-			ui.commandEdit->setEnabled(true);
-			ui.commandButton->setEnabled(true);
-		}
-	}
-	else
-	{
-		//ui.playOnlyTree->setEnabled(false);
-		//ui.eventsTab->setEnabled(false);
-	}
+  ui.commandEdit->setEnabled(false);
+  ui.commandButton->setEnabled(false);
+  if (sys != qutim_sdk_0_2::NoSound)
+  {
+    //ui.playOnlyTree->setEnabled(true);
+    //ui.eventsTab->setEnabled(true);
+    if (sys == qutim_sdk_0_2::UserCommand)
+    {
+      ui.commandEdit->setEnabled(true);
+      ui.commandButton->setEnabled(true);
+    }
+  }
+  else
+  {
+    //ui.playOnlyTree->setEnabled(false);
+    //ui.eventsTab->setEnabled(false);
+  }
 
-	widgetStateChanged();
+  widgetStateChanged();
 }
 
 /*void SoundLayerSettings::on_commandButton_clicked()
@@ -193,74 +193,74 @@ void SoundLayerSettings::on_systemCombo_currentIndexChanged(int /* index */)
 }*/
 
 void SoundLayerSettings::on_eventsTree_currentItemChanged(QTreeWidgetItem *current,
-	QTreeWidgetItem * /* previous */)
+    QTreeWidgetItem * /* previous */)
 {
-	if (!current) return;
+  if (!current) return;
 
-	if (current->checkState(0) == Qt::Checked)
-	{
-		ui.fileEdit->setEnabled(true);
-		ui.openButton->setEnabled(true);
-	}
-	else
-	{
-		ui.fileEdit->setEnabled(false);
-		ui.openButton->setEnabled(false);
-	}
-	if (ui.fileEdit->text() == getCurrentFile())
-		on_fileEdit_textChanged(getCurrentFile());
-	else
-		ui.fileEdit->setText(getCurrentFile());
+  if (current->checkState(0) == Qt::Checked)
+  {
+    ui.fileEdit->setEnabled(true);
+    ui.openButton->setEnabled(true);
+  }
+  else
+  {
+    ui.fileEdit->setEnabled(false);
+    ui.openButton->setEnabled(false);
+  }
+  if (ui.fileEdit->text() == getCurrentFile())
+    on_fileEdit_textChanged(getCurrentFile());
+  else
+    ui.fileEdit->setText(getCurrentFile());
 }
 
 void SoundLayerSettings::on_eventsTree_itemChanged(QTreeWidgetItem *item, int column)
 {
-	if (column) return;
-	ui.fileEdit->setEnabled(item->checkState(0) == Qt::Checked);
-	on_fileEdit_textChanged(ui.fileEdit->text());
-	ui.openButton->setEnabled(ui.fileEdit->isEnabled());
+  if (column) return;
+  ui.fileEdit->setEnabled(item->checkState(0) == Qt::Checked);
+  on_fileEdit_textChanged(ui.fileEdit->text());
+  ui.openButton->setEnabled(ui.fileEdit->isEnabled());
 
-	widgetStateChanged();
+  widgetStateChanged();
 }
 
 void SoundLayerSettings::on_fileEdit_textChanged(const QString &text)
 {
-	if (ui.fileEdit->isEnabled())
-	{
-		if (text.isEmpty())
-		{
-			ui.applyButton->setEnabled(true);
-			ui.playButton->setEnabled(false);
-		}
-		else if (QFile::exists(text))
-		{
-			QTreeWidgetItem *item = ui.eventsTree->currentItem();
-			if (item)
-				ui.applyButton->setEnabled(getCurrentFile() != text);
-			else
-				ui.applyButton->setEnabled(false);
+  if (ui.fileEdit->isEnabled())
+  {
+    if (text.isEmpty())
+    {
+      ui.applyButton->setEnabled(true);
+      ui.playButton->setEnabled(false);
+    }
+    else if (QFile::exists(text))
+    {
+      QTreeWidgetItem *item = ui.eventsTree->currentItem();
+      if (item)
+        ui.applyButton->setEnabled(getCurrentFile() != text);
+      else
+        ui.applyButton->setEnabled(false);
 
-			ui.playButton->setEnabled(true);
-		}
-		else
-		{
-			ui.applyButton->setEnabled(false);
-			ui.playButton->setEnabled(false);
-		}
-	}
-	else
-	{
-		ui.applyButton->setEnabled(false);
-		ui.playButton->setEnabled(false);
-	}
+      ui.playButton->setEnabled(true);
+    }
+    else
+    {
+      ui.applyButton->setEnabled(false);
+      ui.playButton->setEnabled(false);
+    }
+  }
+  else
+  {
+    ui.applyButton->setEnabled(false);
+    ui.playButton->setEnabled(false);
+  }
 }
 
 void SoundLayerSettings::on_applyButton_clicked()
 {
-	ui.eventsTree->currentItem()->setData(0, Qt::UserRole+1, ui.fileEdit->text());
-	ui.applyButton->setEnabled(false);
+  ui.eventsTree->currentItem()->setData(0, Qt::UserRole+1, ui.fileEdit->text());
+  ui.applyButton->setEnabled(false);
 
-	widgetStateChanged();
+  widgetStateChanged();
 }
 
 /*void SoundLayerSettings::on_openButton_clicked()
@@ -293,25 +293,25 @@ void SoundLayerSettings::on_applyButton_clicked()
 
 void SoundLayerSettings::on_playButton_clicked()
 {
-	qutim_sdk_0_2::SoundEngineSystem sys = getCurrentSoundSystem();
+  qutim_sdk_0_2::SoundEngineSystem sys = getCurrentSoundSystem();
 
-	if (sys == qutim_sdk_0_2::UserCommand)
-	{
-		QString command = ui.commandEdit->text().trimmed();
-		if (command.isEmpty())
-		{
-			ui.systemCombo->setCurrentIndex(0);
-			return;
-		}
-		if (!command.contains("%1"))
-		{
-			command += " \"%1\"";
-			ui.commandButton->setText(command);
-		}
-		AbstractSoundLayer::instance().testPlaySound(sys, command.arg(ui.fileEdit->text()));
-	}
-	else
-		AbstractSoundLayer::instance().testPlaySound(sys, ui.fileEdit->text());
+  if (sys == qutim_sdk_0_2::UserCommand)
+  {
+    QString command = ui.commandEdit->text().trimmed();
+    if (command.isEmpty())
+    {
+      ui.systemCombo->setCurrentIndex(0);
+      return;
+    }
+    if (!command.contains("%1"))
+    {
+      command += " \"%1\"";
+      ui.commandButton->setText(command);
+    }
+    AbstractSoundLayer::instance().testPlaySound(sys, command.arg(ui.fileEdit->text()));
+  }
+  else
+    AbstractSoundLayer::instance().testPlaySound(sys, ui.fileEdit->text());
 }
 
 /*void SoundLayerSettings::on_exportButton_clicked()
@@ -497,14 +497,14 @@ void SoundLayerSettings::on_playButton_clicked()
 
 inline QString SoundLayerSettings::getCurrentFile() const
 {
-	QTreeWidgetItem *item = ui.eventsTree->currentItem();
-	if (item)
-		return item->data(0, Qt::UserRole+1).toString();
-	else
-		return QString();
+  QTreeWidgetItem *item = ui.eventsTree->currentItem();
+  if (item)
+    return item->data(0, Qt::UserRole+1).toString();
+  else
+    return QString();
 }
 
 inline qutim_sdk_0_2::SoundEngineSystem SoundLayerSettings::getCurrentSoundSystem() const
 {
-	return static_cast<qutim_sdk_0_2::SoundEngineSystem>(ui.systemCombo->itemData(ui.systemCombo->currentIndex()).toInt());
+  return static_cast<qutim_sdk_0_2::SoundEngineSystem>(ui.systemCombo->itemData(ui.systemCombo->currentIndex()).toInt());
 }

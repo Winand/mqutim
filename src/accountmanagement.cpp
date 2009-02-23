@@ -18,11 +18,11 @@
 AccountManagement::AccountManagement(QWidget *parent)
     : QWidget(parent)
 {
-	ui.setupUi(this);
-	updateAccountList();
-	ui.editButton->setIcon(QIcon(IconManager::instance().getIcon("edituser")));
-	ui.addButton->setIcon(QIcon(IconManager::instance().getIcon("add")));
-	ui.removeButton->setIcon(QIcon(IconManager::instance().getIcon("remove")));
+  ui.setupUi(this);
+  updateAccountList();
+  ui.editButton->setIcon(QIcon(IconManager::instance().getIcon("edituser")));
+  ui.addButton->setIcon(QIcon(IconManager::instance().getIcon("add")));
+  ui.removeButton->setIcon(QIcon(IconManager::instance().getIcon("remove")));
 }
 
 AccountManagement::~AccountManagement()
@@ -32,51 +32,51 @@ AccountManagement::~AccountManagement()
 
 void AccountManagement::updateAccountList()
 {
-	ui.m_account_list->clear();
-	PluginSystem &ps = PluginSystem::instance();
-	QList<AccountStructure> accounts_list = ps.getAccountsList();
-	foreach ( AccountStructure account, accounts_list )
-	{
-		QListWidgetItem *item = new QListWidgetItem(account.account_name);
-		item->setIcon(account.protocol_icon);
-                item->setWhatsThis(account.protocol_name);
-		ui.m_account_list->addItem(item);
-	}
-	
-	if ( ui.m_account_list->count() )
-	{
-		ui.m_account_list->setCurrentRow(0);
-	}
+  ui.m_account_list->clear();
+  PluginSystem &ps = PluginSystem::instance();
+  QList<AccountStructure> accounts_list = ps.getAccountsList();
+  foreach ( AccountStructure account, accounts_list )
+  {
+    QListWidgetItem *item = new QListWidgetItem(account.account_name);
+    item->setIcon(account.protocol_icon);
+    item->setWhatsThis(account.protocol_name);
+    ui.m_account_list->addItem(item);
+  }
+
+  if ( ui.m_account_list->count() )
+  {
+    ui.m_account_list->setCurrentRow(0);
+  }
 }
 
 void AccountManagement::on_addButton_clicked()
 {
-	AbstractLayer &al = AbstractLayer::instance();
-	al.createNewAccount();
-	updateAccountList();
-	emit updateAccountComboBoxFromMainSettings();
+  AbstractLayer &al = AbstractLayer::instance();
+  al.createNewAccount();
+  updateAccountList();
+  emit updateAccountComboBoxFromMainSettings();
 }
 
 void AccountManagement::on_removeButton_clicked()
 {
-	if ( ui.m_account_list->count() )
-	{
-		QListWidgetItem *selected_item = ui.m_account_list->currentItem();
-		PluginSystem &ps = PluginSystem::instance();
-                ps.removeAccount(selected_item->whatsThis(), selected_item->text());
-		updateAccountList();
-		emit updateAccountComboBoxFromMainSettings();
-		AbstractLayer &al = AbstractLayer::instance();
-		al.updateStausMenusInTrayMenu();
-	}
+  if ( ui.m_account_list->count() )
+  {
+    QListWidgetItem *selected_item = ui.m_account_list->currentItem();
+    PluginSystem &ps = PluginSystem::instance();
+    ps.removeAccount(selected_item->whatsThis(), selected_item->text());
+    updateAccountList();
+    emit updateAccountComboBoxFromMainSettings();
+    AbstractLayer &al = AbstractLayer::instance();
+    al.updateStausMenusInTrayMenu();
+  }
 }
 
 void AccountManagement::on_editButton_clicked()
 {
-	if ( ui.m_account_list->count() )
-	{
-		QListWidgetItem *selected_item = ui.m_account_list->currentItem();
-		PluginSystem &ps = PluginSystem::instance();
-                ps.editAccount(selected_item->whatsThis(), selected_item->text());
-	}
+  if ( ui.m_account_list->count() )
+  {
+    QListWidgetItem *selected_item = ui.m_account_list->currentItem();
+    PluginSystem &ps = PluginSystem::instance();
+    ps.editAccount(selected_item->whatsThis(), selected_item->text());
+  }
 }

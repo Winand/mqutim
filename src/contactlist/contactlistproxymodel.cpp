@@ -32,8 +32,8 @@ ContactListProxyModel::ContactListProxyModel(QObject *parent) : QAbstractProxyMo
   m_sort_status=false;
   m_show_separator=true;//false;
   m_position_buddy = new ProxyModelItem(QModelIndex(), 0);
-        m_empty_model = new QStandardItemModel();
-        m_append_to_expand_list = false;
+  m_empty_model = new QStandardItemModel();
+  m_append_to_expand_list = false;
 }
 void ContactListProxyModel::setSettings(int type, bool show_offline, bool show_empty, bool sort_status, bool show_separator, const QVariant & account_font, const QVariant & group_font, const QVariant & online_font, const QVariant & offline_font, const QVariant & separator_font, const QVariant & account_color, const QVariant & group_color, const QVariant & online_color, const QVariant & offline_color, const QVariant & separator_color)
 {
@@ -52,12 +52,12 @@ void ContactListProxyModel::setSettings(int type, bool show_offline, bool show_e
   m_online_color = online_color;
   m_offline_color = offline_color;
   m_separator_color = separator_color;
-        removeAllItems();
+  removeAllItems();
 }
 void ContactListProxyModel::loadProfile(const QString & profile_name)
 {
   m_profile_name=profile_name;
-        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
+  QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
   settings.beginGroup("contactlist");
   setChildOrder(settings.value("grouporder",QStringList()).toStringList());
   m_is_expanded = settings.value("expandedgroups",QStringList()).toStringList();
@@ -65,7 +65,7 @@ void ContactListProxyModel::loadProfile(const QString & profile_name)
 }
 void ContactListProxyModel::saveSettings()
 {
-        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
+  QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
   settings.beginGroup("contactlist");
   settings.setValue("grouporder",getChildOrder());
   settings.setValue("expandedgroups",m_is_expanded);
@@ -76,7 +76,7 @@ ContactListProxyModel::~ContactListProxyModel()
 {
   delete m_root_item;
   delete m_position_buddy;
-        delete m_empty_model;
+  delete m_empty_model;
 }
 QModelIndex ContactListProxyModel::mapToSource(const QModelIndex &proxyIndex) const
 {
@@ -85,11 +85,11 @@ QModelIndex ContactListProxyModel::mapToSource(const QModelIndex &proxyIndex) co
 }
 QModelIndex ContactListProxyModel::mapFromSource(const QModelIndex &sourceIndex) const
 {
-        QModelIndex proxy = m_source_list.value(reinterpret_cast<TreeItem*>(sourceIndex.internalPointer()),QModelIndex());
-  if(!proxy.isValid())
+  QModelIndex proxy = m_source_list.value(reinterpret_cast<TreeItem*>(sourceIndex.internalPointer()),QModelIndex());
+  if (!proxy.isValid())
     return QModelIndex();
   ProxyModelItem *item = getItem(proxy);
-  if(!item)
+  if (!item)
     return QModelIndex();
   proxy=proxy.sibling(item->childNumber(),0);
   return proxy;
@@ -100,7 +100,7 @@ int ContactListProxyModel::columnCount(const QModelIndex &parent) const
 }
 QVariant ContactListProxyModel::data(const QModelIndex &index, int role) const
 {
-  if(index.column()!=0)
+  if (index.column()!=0)
     return QVariant();
   if (!index.isValid())
     return QVariant();
@@ -111,7 +111,7 @@ QVariant ContactListProxyModel::data(const QModelIndex &index, int role) const
 }
 bool ContactListProxyModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-  if(role!=Qt::EditRole)
+  if (role!=Qt::EditRole)
     return false;
   getItem(index)->setData(value,role);
   return true;
@@ -123,16 +123,16 @@ Qt::ItemFlags ContactListProxyModel::flags(const QModelIndex &index) const
   int type = index.isValid()?index.data(AbstractContactList::ContactTypeRole).toInt():-1000;
   if (type==TreeModelItem::Separator)
     return 0;
-  switch(m_model_type)
+  switch (m_model_type)
   {
   case 0:
     if (!index.isValid())
       return Qt::ItemIsEnabled;
-    if(type<TreeModelItem::Account)
+    if (type<TreeModelItem::Account)
       default_flags |= Qt::ItemIsDragEnabled;
-    if(type>TreeModelItem::Buddy)
+    if (type>TreeModelItem::Buddy)
       default_flags |= Qt::ItemIsDropEnabled;
-    if(type!=TreeModelItem::Undefined)
+    if (type!=TreeModelItem::Undefined)
       default_flags |= Qt::ItemIsSelectable;
     return default_flags;
   case 1:
@@ -147,9 +147,9 @@ Qt::ItemFlags ContactListProxyModel::flags(const QModelIndex &index) const
   case 3:
     if (!index.isValid())
       return Qt::ItemIsEnabled;
-    if(type==TreeModelItem::Buddy)
+    if (type==TreeModelItem::Buddy)
       default_flags |= Qt::ItemIsDragEnabled;
-    if(type!=TreeModelItem::Undefined)
+    if (type!=TreeModelItem::Undefined)
       default_flags |= Qt::ItemIsSelectable;
   default:
     return default_flags;
@@ -158,18 +158,19 @@ Qt::ItemFlags ContactListProxyModel::flags(const QModelIndex &index) const
 
 ProxyModelItem *ContactListProxyModel::getItem(const QModelIndex &index) const
 {
-  if (index.isValid()){
-                ProxyModelItem *item = reinterpret_cast<ProxyModelItem*>(index.internalPointer());
+  if (index.isValid())
+  {
+    ProxyModelItem *item = reinterpret_cast<ProxyModelItem*>(index.internalPointer());
     if (item)
       return item;
-                return 0;
+    return 0;
   }
   return m_root_item;
 }
 QVariant ContactListProxyModel::headerData(int section, Qt::Orientation orientation,
-                int role) const
+    int role) const
 {
-  if(section!=0)
+  if (section!=0)
     return QVariant();
   if (orientation == Qt::Horizontal && role == Qt::DisplayRole && section==0)
     return m_root_item->data(role);
@@ -211,13 +212,13 @@ QModelIndex ContactListProxyModel::parent(const QModelIndex &index) const
     return QModelIndex();
 
   ProxyModelItem *childItem = getItem(index);
-        if(childItem->getChecksum() != 0x12345678)
-            return QModelIndex();
-  if(!childItem)
+  if (childItem->getChecksum() != 0x12345678)
+    return QModelIndex();
+  if (!childItem)
     return QModelIndex();
 
   ProxyModelItem *parentItem = childItem->parent();
-        if(!parentItem || parentItem->getChecksum() != 0x12345678)
+  if (!parentItem || parentItem->getChecksum() != 0x12345678)
     return QModelIndex();
 
   if (parentItem == m_root_item)
@@ -233,11 +234,11 @@ bool ContactListProxyModel::removeColumns(int position, int columns, const QMode
 bool ContactListProxyModel::removeRows(int position, int rows, const QModelIndex &parent)
 {
   ProxyModelItem *parent_item = getItem(parent);
-  if(!parent_item)
+  if (!parent_item)
     return false;
-  if(position<0 || position+rows>parent_item->childCount())
+  if (position<0 || position+rows>parent_item->childCount())
     return false;
-  if(rows<1)
+  if (rows<1)
     return false;
   bool success = true;
   /*for(int i=position;i<position+rows;i++)
@@ -268,88 +269,90 @@ void ContactListProxyModel::setModel(TreeContactListModel *model)
 }
 void ContactListProxyModel::insertItem(const QModelIndex &source)
 {
-  if(!source.isValid())
+  if (!source.isValid())
     return;
   TreeItem *source_item = static_cast<TreeItem*>(source.internalPointer());
   int source_type = source_item->data(AbstractContactList::ContactTypeRole).toInt();
   int mass;
   QString name = source_item->data(Qt::DisplayRole).toString();
   mass = source_item->data(AbstractContactList::ContactMassRole).toInt();
-  if( !m_show_offline && source_type==TreeModelItem::Buddy && (mass==1000) && !source_item->hasContent())
+  if ( !m_show_offline && source_type==TreeModelItem::Buddy && (mass==1000) && !source_item->hasContent())
   {
-    if(!source_item->getAlwaysVisible())
+    if (!source_item->getAlwaysVisible())
       return;
   }
   QModelIndex proxy_index = mapFromSource(source.parent());
   int position=getItem(proxy_index)->childCount();
   QVariant font;
   QVariant color;
-  if(source_type==TreeModelItem::Buddy)
+  if (source_type==TreeModelItem::Buddy)
   {
-    if(source_item->getAlwaysInvisible() && !source_item->hasContent())
+    if (source_item->getAlwaysInvisible() && !source_item->hasContent())
       return;
-  //	if(source_item->parent()->getAlwaysInvisible())
-  //		return;
+    //	if(source_item->parent()->getAlwaysInvisible())
+    //		return;
     font=mass==1000?m_offline_font:m_online_font;
     color=mass==1000?m_offline_color:m_online_color;
   }
-  else if(source_type==TreeModelItem::Group)
+  else if (source_type==TreeModelItem::Group)
   {
-  //	if(source_item->getAlwaysInvisible())
-  //		return;
+    //	if(source_item->getAlwaysInvisible())
+    //		return;
     font=m_group_font;
     color=m_group_color;
   }
-  else if(source_type==TreeModelItem::Account)
+  else if (source_type==TreeModelItem::Account)
   {
     font=m_account_font;
     color=m_account_color;
   }
-  if(source_type==TreeModelItem::Buddy)
+  if (source_type==TreeModelItem::Buddy)
   {
-    if(!m_sort_status && mass<1000)
+    if (!m_sort_status && mass<1000)
       mass=0;
-    if(m_model_type==2 || m_model_type==3)
-      if(source_item->parent()->data(Qt::DisplayRole).toString().isEmpty())
+    if (m_model_type==2 || m_model_type==3)
+      if (source_item->parent()->data(Qt::DisplayRole).toString().isEmpty())
         mass+=2000;
     position = findPosition(proxy_index,name,mass);
   }
-  else if(source_type==TreeModelItem::Group)
+  else if (source_type==TreeModelItem::Group)
     position = findPosition(proxy_index,name,mass);
-  else if(source_type==TreeModelItem::Account)
+  else if (source_type==TreeModelItem::Account)
     mass=-100;
-  switch(m_model_type)
+  switch (m_model_type)
   {
   case 2: // With accounts, without groups
-  case 0:{ // Standart view
-    if(source_type==TreeModelItem::Buddy && m_model_type==2)
+  case 0:  // Standart view
+  {
+    if (source_type==TreeModelItem::Buddy && m_model_type==2)
     {
       proxy_index = mapFromSource(source.parent().parent());
       position = findPosition(proxy_index,name,mass);
     }
-    if(!proxy_index.isValid() && source_type!=TreeModelItem::Account)
+    if (!proxy_index.isValid() && source_type!=TreeModelItem::Account)
     {
       insertItem(source.parent());
       proxy_index = mapFromSource(source.parent());
       position = findPosition(proxy_index,name,mass);
     }
-    switch(source_type)
+    switch (source_type)
     {
     case TreeModelItem::Group:
-      if(m_model_type==2)
+      if (m_model_type==2)
         return;
-      if(!m_show_empty_group && ((source_item->m_visible+m_show_offline?source_item->childCount():0)==0))
+      if (!m_show_empty_group && ((source_item->m_visible+m_show_offline?source_item->childCount():0)==0))
         return;
     case TreeModelItem::Buddy:
-    case TreeModelItem::Account:{
+    case TreeModelItem::Account:
+    {
 //			emit layoutAboutToBeChanged();
       m_tree_view->setUpdatesEnabled(false);
-      if(position>getItem(proxy_index)->childCount())
+      if (position>getItem(proxy_index)->childCount())
         position=getItem(proxy_index)->childCount();
-      else if(position<0)
+      else if (position<0)
         position=0;
       bool expanded;
-      if(source_type>TreeModelItem::Buddy)
+      if (source_type>TreeModelItem::Buddy)
         expanded = source_item->isExpanded();
       else
         expanded=false;
@@ -361,17 +364,17 @@ void ContactListProxyModel::insertItem(const QModelIndex &source)
       item->setData(font,Qt::FontRole);
       item->setData(color,AbstractContactList::ContactColorRole);
       endInsertRows();
-      if(mass!=1000 && source_type==TreeModelItem::Buddy)
+      if (mass!=1000 && source_type==TreeModelItem::Buddy)
         item->parent()->m_online_children++;
       m_source_list.insert(source_item,createIndex(0,0,item));
-      if(source_type>TreeModelItem::Buddy)
-        if(expanded)
-                                {
-                                    if(m_append_to_expand_list)
-                                        m_list_for_expand.append(item);
-                                    else
-                                        m_tree_view->setExpanded(createIndex_(item),true);
-                                }
+      if (source_type>TreeModelItem::Buddy)
+        if (expanded)
+        {
+          if (m_append_to_expand_list)
+            m_list_for_expand.append(item);
+          else
+            m_tree_view->setExpanded(createIndex_(item),true);
+        }
       m_tree_view->setUpdatesEnabled(true);
 //			emit layoutChanged();
       break;
@@ -380,12 +383,13 @@ void ContactListProxyModel::insertItem(const QModelIndex &source)
     break;
   }
   case 3: // without accounts, wihtout groups
-    if(source_type==TreeModelItem::Group || source_type==TreeModelItem::Account)
+    if (source_type==TreeModelItem::Group || source_type==TreeModelItem::Account)
       return;
-  case 1:{ // View without separate to accounts
+  case 1:  // View without separate to accounts
+  {
     TreeItem *source_item = static_cast<TreeItem*>(source.internalPointer());
     int source_type = source_item->data(AbstractContactList::ContactTypeRole).toInt();
-    if(source_type==TreeModelItem::Account)
+    if (source_type==TreeModelItem::Account)
       return;
     /*if(source_type==1)
     {
@@ -394,7 +398,7 @@ void ContactListProxyModel::insertItem(const QModelIndex &source)
     }*/
     // Try to find exists group with needed name
     QString group_name;
-    if(source_type==TreeModelItem::Group)
+    if (source_type==TreeModelItem::Group)
       group_name = source_item->data(Qt::DisplayRole).toString();
     else
       group_name = source_item->parent()->data(Qt::DisplayRole).toString();
@@ -402,41 +406,41 @@ void ContactListProxyModel::insertItem(const QModelIndex &source)
     //	group_name=tr("In list");
     ProxyModelItem *parent_item;
     QModelIndex group_index;
-    if(m_model_type==1)
+    if (m_model_type==1)
     {
       bool found=false;
-      for(int i=0;i<m_root_item->childCount();i++)
+      for (int i=0;i<m_root_item->childCount();i++)
       {
         ProxyModelItem *group = m_root_item->child(i);
         QString name = group->getName();
         //if(m_model_type==3 && !name.isEmpty())
         //	name=tr("In list");
-        if(name==group_name) // if group exists, break
+        if (name==group_name) // if group exists, break
         {
           parent_item=group;
           found=true;
           break;
         }
       }
-      if(source_type==TreeModelItem::Group)
+      if (source_type==TreeModelItem::Group)
         group_index = createIndex(0,0,static_cast<TreeItem*>(source.internalPointer()));
       else
         group_index = createIndex(0,0,static_cast<TreeItem*>(source.parent().internalPointer()));
-      if(!m_show_empty_group && m_model_type==1 && source_type==TreeModelItem::Group && static_cast<TreeItem*>(group_index.internalPointer())->m_visible==0)
+      if (!m_show_empty_group && m_model_type==1 && source_type==TreeModelItem::Group && static_cast<TreeItem*>(group_index.internalPointer())->m_visible==0)
         return;
-      if(!found)// So create new group
+      if (!found)// So create new group
       {
 //				emit layoutAboutToBeChanged();
         bool expanded=isExpanded(group_name);
         int group_mass = getChildPosition(group_name);
         position = findPosition(QModelIndex(), group_name, group_mass);
-        if(position>m_root_item->childCount())
+        if (position>m_root_item->childCount())
           position=m_root_item->childCount();
-        else if(position<0)
+        else if (position<0)
           position=0;
         insertRows(position,1,QModelIndex());
         parent_item = m_root_item->child(position);
-        if(m_model_type==1 || group_name=="")
+        if (m_model_type==1 || group_name=="")
         {
           parent_item->setSourceIndex(group_index);
           m_source_list.insert(static_cast<TreeItem*>(group_index.internalPointer()),createIndex(0,0,m_root_item->child(position)));
@@ -446,21 +450,21 @@ void ContactListProxyModel::insertItem(const QModelIndex &source)
         parent_item->setData(font,Qt::FontRole);
         parent_item->setData(color,AbstractContactList::ContactColorRole);
         endInsertRows();
-                                if(expanded)
-                                {
-                                    if(m_append_to_expand_list)
-                                        m_list_for_expand.append(parent_item);
-                                    else
-                                        m_tree_view->setExpanded(createIndex(position,0,parent_item),expanded);
-                                }
+        if (expanded)
+        {
+          if (m_append_to_expand_list)
+            m_list_for_expand.append(parent_item);
+          else
+            m_tree_view->setExpanded(createIndex(position,0,parent_item),expanded);
+        }
 //				emit layoutChanged();
       }
-      if(!m_source_list.contains(static_cast<TreeItem*>(group_index.internalPointer())))
+      if (!m_source_list.contains(static_cast<TreeItem*>(group_index.internalPointer())))
       {
         parent_item->appendSourceIndex(group_index);
         m_source_list.insert(static_cast<TreeItem*>(group_index.internalPointer()),createIndex_(parent_item));
       }
-      if(source_type==TreeModelItem::Group) // This is all for creating group
+      if (source_type==TreeModelItem::Group) // This is all for creating group
         return;
     }
     else
@@ -478,7 +482,7 @@ void ContactListProxyModel::insertItem(const QModelIndex &source)
     item->setData(font,Qt::FontRole);
     item->setData(color,AbstractContactList::ContactColorRole);
     endInsertRows();
-    if(mass!=1000)
+    if (mass!=1000)
       item->parent()->m_online_children++;
     m_source_list.insert(source_item,createIndex(0,0,item));
     proxy_index = createIndex_(parent_item);
@@ -488,25 +492,25 @@ void ContactListProxyModel::insertItem(const QModelIndex &source)
   }
   position=getItem(proxy_index)->childCount();
   //return;
-  if(source_type==TreeModelItem::Buddy)
+  if (source_type==TreeModelItem::Buddy)
   {
-    if(!m_sort_status && mass<1000)
+    if (!m_sort_status && mass<1000)
       mass=0;
     // Add separator if need
-    if(m_show_separator)
-      if((mass==1000 && !getItem(proxy_index)->getSeparator(1)) || (mass>-1 && mass<999 && !getItem(proxy_index)->getSeparator(0)) || (mass>1999 && !getItem(proxy_index)->getSeparator(2) ))
+    if (m_show_separator)
+      if ((mass==1000 && !getItem(proxy_index)->getSeparator(1)) || (mass>-1 && mass<999 && !getItem(proxy_index)->getSeparator(0)) || (mass>1999 && !getItem(proxy_index)->getSeparator(2) ))
       {
 //				emit layoutAboutToBeChanged();
         int separator_mass;
         //int separator_position;
         QString separator_name;
-        if(mass<1000)
+        if (mass<1000)
         {
           getItem(proxy_index)->setSeparator(0,true);
           separator_mass=-1;
           separator_name=tr("Online");
         }
-        else if(mass==1000)
+        else if (mass==1000)
         {
           getItem(proxy_index)->setSeparator(1,true);
           separator_mass=999;
@@ -537,7 +541,7 @@ void ContactListProxyModel::insertItem(const QModelIndex &source)
 void ContactListProxyModel::removeItem(const QModelIndex &source)
 {
   QModelIndex proxy = mapFromSource(source);
-  if(!proxy.isValid())
+  if (!proxy.isValid())
     return;
 //	emit layoutAboutToBeChanged();
   TreeItem *source_item = static_cast<TreeItem*>(source.internalPointer());
@@ -545,42 +549,42 @@ void ContactListProxyModel::removeItem(const QModelIndex &source)
   ProxyModelItem *item = getItem(proxy);
   ProxyModelItem *parent_item = item->parent();
   int source_type = source_item->data(AbstractContactList::ContactTypeRole).toInt();
-  if(source_type==TreeModelItem::Buddy)
+  if (source_type==TreeModelItem::Buddy)
   {
-    if(item->getMass()!=1000)
+    if (item->getMass()!=1000)
       item->parent()->m_online_children--;
     int position = item->childNumber();
     // Remove separator lines if it is last online/offline contact
-    if(m_show_separator)
+    if (m_show_separator)
     {
       int mass = item->getMass();
-      if(mass<1000 && parent_item->getSeparator(0))
+      if (mass<1000 && parent_item->getSeparator(0))
       {
-        if(position==1)
+        if (position==1)
         {
-          if(position==(parent_item->childCount()-1) || parent_item->child(position+1)->getMass()==999 || parent_item->child(position+1)->getMass()==1500)
+          if (position==(parent_item->childCount()-1) || parent_item->child(position+1)->getMass()==999 || parent_item->child(position+1)->getMass()==1500)
           {
             removeRows(position-1,1,createIndex_(parent_item));
             parent_item->setSeparator(0,false);
           }
         }
       }
-      else if(mass==1000 && parent_item->getSeparator(1))
+      else if (mass==1000 && parent_item->getSeparator(1))
       {
-        if(parent_item->child(position-1)->getMass()==999)
+        if (parent_item->child(position-1)->getMass()==999)
         {
-          if(position==(parent_item->childCount()-1) || parent_item->child(position+1)->getMass()==1500)
+          if (position==(parent_item->childCount()-1) || parent_item->child(position+1)->getMass()==1500)
           {
             removeRows(position-1,1,createIndex_(parent_item));
             parent_item->setSeparator(1,false);
           }
         }
       }
-      else if(parent_item->getSeparator(2))
+      else if (parent_item->getSeparator(2))
       {
-        if(parent_item->child(position-1)->getMass()==1500)
+        if (parent_item->child(position-1)->getMass()==1500)
         {
-          if(position==(parent_item->childCount()-1))
+          if (position==(parent_item->childCount()-1))
           {
             removeRows(position-1,1,createIndex_(parent_item));
             parent_item->setSeparator(2,false);
@@ -603,14 +607,14 @@ void ContactListProxyModel::removeItem(const QModelIndex &source)
         }*/
     }
   }
-  switch(m_model_type)
+  switch (m_model_type)
   {
   case 0:
     m_source_list.remove(source_item);
     removeRows(item->childNumber(),1,createIndex_(item->parent()));
-    if(source_type==TreeModelItem::Buddy)
+    if (source_type==TreeModelItem::Buddy)
     {
-      if(!m_show_empty_group && parent_item->childCount()==0)
+      if (!m_show_empty_group && parent_item->childCount()==0)
       {
         m_source_list.remove(source_parent_item);
         removeRows(parent_item->childNumber(),1,createIndex_(parent_item->parent()));
@@ -622,12 +626,13 @@ void ContactListProxyModel::removeItem(const QModelIndex &source)
     removeRows(item->childNumber(),1,createIndex_(item->parent()));
     break;
   case 1:
-  case 3:{
-    if(source_type==TreeModelItem::Account)
+  case 3:
+  {
+    if (source_type==TreeModelItem::Account)
       break;
     ProxyModelItem *group = item;
     TreeItem *source_group;
-    if(source_type==TreeModelItem::Group)
+    if (source_type==TreeModelItem::Group)
     {
       group = item;
       source_group = source_item;
@@ -637,24 +642,25 @@ void ContactListProxyModel::removeItem(const QModelIndex &source)
       group = item->parent();
       source_group = source_item->parent();
     }
-    if(source_type==TreeModelItem::Buddy)
+    if (source_type==TreeModelItem::Buddy)
       removeRows(item->childNumber(),1,createIndex_(item->parent()));
-    if(m_model_type==3)
+    if (m_model_type==3)
       break;
-    if(source_type==TreeModelItem::Group || (!m_show_empty_group && group->childCount()==0)) //(!m_show_offline && source_group->m_visible==0 && group->m_online_children==0 && group->childCount()==0 || m_show_offline && source_group->childCount()==0)))
+    if (source_type==TreeModelItem::Group || (!m_show_empty_group && group->childCount()==0)) //(!m_show_offline && source_group->m_visible==0 && group->m_online_children==0 && group->childCount()==0 || m_show_offline && source_group->childCount()==0)))
     {
       int num = group->childCount();
-      for(int i=0;i<num;i++)
+      for (int i=0;i<num;i++)
       {
         QModelIndex child_index = group->getSourceIndex();
-        if(child_index.isValid())
+        if (child_index.isValid())
           m_source_list.remove(static_cast<TreeItem*>(child_index.internalPointer()));
         //removeRows(0,1,createIndex(0,0,group));
       }
       m_source_list.remove(source_group);
       removeRows(group->childNumber(),1,createIndex_(group->parent()));
     }
-    break;}
+    break;
+  }
   }
   /*if(!m_show_empty_group && source_type==0 && parent_item->childCount()==0)
   {
@@ -669,12 +675,12 @@ void ContactListProxyModel::removeItem(const QModelIndex &source)
 }
 void ContactListProxyModel::setName(const QModelIndex &source, const QString &value)
 {
-  if(!source.isValid())
+  if (!source.isValid())
     return;
   TreeItem *source_item = static_cast<TreeItem*>(source.internalPointer());
   //qWarning() << source_item;
   int source_type = source_item->data(AbstractContactList::ContactTypeRole).toInt();
-  if(source_type==TreeModelItem::Buddy)
+  if (source_type==TreeModelItem::Buddy)
   {
     removeItem(source);
     insertItem(source);
@@ -682,7 +688,7 @@ void ContactListProxyModel::setName(const QModelIndex &source, const QString &va
   else
   {
     QModelIndex proxy_index = mapFromSource(source);
-    if(!proxy_index.isValid())
+    if (!proxy_index.isValid())
       return;
     ProxyModelItem *item = getItem(proxy_index);
     item->setName(value);
@@ -696,15 +702,15 @@ void ContactListProxyModel::setStatus(const QModelIndex &source, const QIcon &/*
 
 void ContactListProxyModel::checkItem(const QModelIndex &source)
 {
-  if(!source.isValid())
+  if (!source.isValid())
     return;
   TreeItem *source_item = static_cast<TreeItem*>(source.internalPointer());
   bool exists = m_source_list.contains(source_item);
-  if(exists && source_item->hasContent())
+  if (exists && source_item->hasContent())
     return;
-  if(!(exists || source_item->hasContent()))
+  if (!(exists || source_item->hasContent()))
     return;
-  if(!exists)
+  if (!exists)
   {
     insertItem(source);
     return;
@@ -712,17 +718,17 @@ void ContactListProxyModel::checkItem(const QModelIndex &source)
   int source_type = source_item->data(AbstractContactList::ContactTypeRole).toInt();
   int mass;
   mass = source_item->data(AbstractContactList::ContactTypeRole).toInt();
-  if( !m_show_offline && source_type==TreeModelItem::Buddy && (mass==1000))
+  if ( !m_show_offline && source_type==TreeModelItem::Buddy && (mass==1000))
   {
-    if(!source_item->getAlwaysVisible())
+    if (!source_item->getAlwaysVisible())
     {
       removeItem(source);
       return;
     }
   }
-  if(source_type==TreeModelItem::Buddy)
+  if (source_type==TreeModelItem::Buddy)
   {
-    if(source_item->getAlwaysInvisible())
+    if (source_item->getAlwaysInvisible())
     {
       removeItem(source);
       return;
@@ -755,10 +761,10 @@ int ContactListProxyModel::findPosition(const QModelIndex &parent, const QString
 
 void ContactListProxyModel::removeAllItems()
 {
-        m_append_to_expand_list = true;
-        m_tree_view->setModel(m_empty_model);
+  m_append_to_expand_list = true;
+  m_tree_view->setModel(m_empty_model);
 //	emit layoutAboutToBeChanged();
-        m_list_for_expand.clear();
+  m_list_for_expand.clear();
 //	reset();
   m_source_list.clear();
   m_root_item->removeChildren();
@@ -767,58 +773,58 @@ void ContactListProxyModel::removeAllItems()
   m_root_item->setSeparator(1,false);
   m_root_item->setSeparator(2,false);
 //	emit layoutChanged();
-        m_tree_model->reinsertAllItems();
-        m_tree_view->setModel(this);
-        foreach(ProxyModelItem *item, m_list_for_expand)
-            m_tree_view->setExpanded(createIndex_(item), true);
-        m_append_to_expand_list = false;
+  m_tree_model->reinsertAllItems();
+  m_tree_view->setModel(this);
+  foreach(ProxyModelItem *item, m_list_for_expand)
+  m_tree_view->setExpanded(createIndex_(item), true);
+  m_append_to_expand_list = false;
 }
 void ContactListProxyModel::setShowOffline(bool show)
 {
-  if(show!=m_show_offline)
+  if (show!=m_show_offline)
   {
     m_show_offline=show;
-                removeAllItems();
+    removeAllItems();
   }
 }
 void ContactListProxyModel::setShowEmptyGroup(bool show)
 {
-  if(show!=m_show_empty_group)
+  if (show!=m_show_empty_group)
   {
     m_show_empty_group=show;
-                removeAllItems();
+    removeAllItems();
   }
 }
 void ContactListProxyModel::setSortStatus(bool sort)
 {
-  if(sort!=m_sort_status)
+  if (sort!=m_sort_status)
   {
     m_sort_status=sort;
-                removeAllItems();
+    removeAllItems();
   }
 }
 void ContactListProxyModel::setShowSeparator(bool show)
 {
-  if(show!=m_show_separator)
+  if (show!=m_show_separator)
   {
     m_show_separator=show;
-                removeAllItems();
+    removeAllItems();
   }
 }
 void ContactListProxyModel::setModelType(int type)
 {
   type%=4;
-  if(type!=m_model_type)
+  if (type!=m_model_type)
   {
     m_model_type=type;
-                removeAllItems();
+    removeAllItems();
   }
 }
 void ContactListProxyModel::newData(const QModelIndex &left, const QModelIndex &right)
 {
   QModelIndex proxy_left = mapFromSource(left);
   QModelIndex proxy_right = mapFromSource(right);
-  if(proxy_left.isValid() && proxy_right.isValid())
+  if (proxy_left.isValid() && proxy_right.isValid())
     emit dataChanged(proxy_left,proxy_right);
 }
 bool ContactListProxyModel::getShowOffline()
@@ -847,10 +853,10 @@ void ContactListProxyModel::setTreeView(QTreeView *tree_view)
 }
 int ContactListProxyModel::getChildPosition(const QString &child)
 {
-  if(child=="")
+  if (child=="")
     return 10000;
   int position = m_child_order.indexOf(child);
-  if(position<0)
+  if (position<0)
   {
     position=m_child_order.size();
     m_child_order.append(child);
@@ -859,12 +865,12 @@ int ContactListProxyModel::getChildPosition(const QString &child)
 }
 void ContactListProxyModel::moveChild(const QString &child, int position)
 {
-  if(child=="")
+  if (child=="")
     return;
   m_child_order.removeAll(child);
-  if(position<0)
+  if (position<0)
     position=0;
-  else if(position>m_child_order.size())
+  else if (position>m_child_order.size())
     position=m_child_order.size();
   m_child_order.insert(position, child);
 }
@@ -878,11 +884,11 @@ QStringList ContactListProxyModel::getChildOrder()
 }
 void ContactListProxyModel::setExpanded(const QString & child, bool expanded)
 {
-  if(m_model_type==0 || m_model_type==2)
+  if (m_model_type==0 || m_model_type==2)
     return;
-  if(!expanded)
+  if (!expanded)
     m_is_expanded.removeAll(child);
-  else if(m_is_expanded.indexOf(child)<0)
+  else if (m_is_expanded.indexOf(child)<0)
     m_is_expanded.append(child);
 }
 bool ContactListProxyModel::isExpanded(const QString & child)
@@ -891,10 +897,10 @@ bool ContactListProxyModel::isExpanded(const QString & child)
 }
 void ContactListProxyModel::setExpanded(const QModelIndex & index, bool expanded)
 {
-  if(m_model_type==0 || m_model_type==2)
+  if (m_model_type==0 || m_model_type==2)
   {
     QModelIndex source_index = static_cast<ProxyModelItem*>(index.internalPointer())->getSourceIndex();
-    if(!source_index.isValid())
+    if (!source_index.isValid())
       return;
     TreeItem *item = static_cast<TreeItem*>(source_index.internalPointer());
     item->setExpanded(expanded);
@@ -907,9 +913,9 @@ void ContactListProxyModel::setExpanded(const QModelIndex & index, bool expanded
 
 QModelIndex ContactListProxyModel::createIndex_(ProxyModelItem *item)
 {
-  if(!item)
+  if (!item)
     return QModelIndex();
-  if(item == m_root_item)
+  if (item == m_root_item)
     return QModelIndex();
   /*if(item == m_root_item)
     return createIndex(0,0,item);*/

@@ -20,16 +20,16 @@
 
 movieLabel::movieLabel(QWidget *parent) : QLabel(parent)
 {
-	
+
 }
 
 movieLabel::~movieLabel()
 {
-	
+
 }
 
 void movieLabel::mousePressEvent( QMouseEvent * event )
 {
-        emit sendMovieTip(whatsThis());
-	QLabel::mousePressEvent(event);
+  emit sendMovieTip(whatsThis());
+  QLabel::mousePressEvent(event);
 }

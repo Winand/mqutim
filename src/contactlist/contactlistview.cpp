@@ -4,7 +4,7 @@
 #include "contactlistitemdelegate_qtopia.h"
 
 ContactListView::ContactListView(QWidget *parent)
-  : QTreeView(parent)
+    : QTreeView(parent)
 {
   header()->hide();
   setIndentation(0);

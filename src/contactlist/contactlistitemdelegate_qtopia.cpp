@@ -9,7 +9,7 @@
 #define BUDDY_INDENT 10
 
 QtopiaCLItemDelegate::QtopiaCLItemDelegate(QObject *parent)
-  : QtopiaItemDelegate(parent)
+    : QtopiaItemDelegate(parent)
 {
   m_tree_view = qobject_cast<QTreeView *>(parent);
 
@@ -55,37 +55,37 @@ QSize QtopiaCLItemDelegate::sizeHint(const QStyleOptionViewItem &option,
 }
 
 void QtopiaCLItemDelegate::tuneStyleOption(QStyleOptionViewItem &option,
-                                           const QModelIndex &index) const
+    const QModelIndex &index) const
 {
   switch (index.data(AbstractContactList::ContactTypeRole).toInt())
   {
-    case TreeModelItem::Account:
-      option.displayAlignment = Qt::AlignCenter;
-      option.font = accountFont;
-      break;
-    case TreeModelItem::Group:
-      option.displayAlignment = Qt::AlignLeft | Qt::AlignVCenter;
-      option.font = groupFont;
-      if (index.model()->hasChildren(index))
-      {
+  case TreeModelItem::Account:
+    option.displayAlignment = Qt::AlignCenter;
+    option.font = accountFont;
+    break;
+  case TreeModelItem::Group:
+    option.displayAlignment = Qt::AlignLeft | Qt::AlignVCenter;
+    option.font = groupFont;
+    if (index.model()->hasChildren(index))
+    {
 #if 0
-        if (!m_tree_view || (m_tree_view && m_tree_view->isExpanded(index)))
+      if (!m_tree_view || (m_tree_view && m_tree_view->isExpanded(index)))
 #endif
-          option.font.setBold(true);
-      }
-      else
-        option.font.setItalic(true);
-      break;
-    case TreeModelItem::Separator:
-      option.displayAlignment = Qt::AlignCenter;
-      option.font = separatorFont;
-      break;
-    case TreeModelItem::Buddy:
-      option.rect.setLeft(option.rect.left()+BUDDY_INDENT);
-      option.displayAlignment = Qt::AlignLeft | Qt::AlignTop;
-      option.font = firstLineFont;
-      break;
-    default:
-      option.displayAlignment = Qt::AlignLeft | Qt::AlignTop;
+        option.font.setBold(true);
+    }
+    else
+      option.font.setItalic(true);
+    break;
+  case TreeModelItem::Separator:
+    option.displayAlignment = Qt::AlignCenter;
+    option.font = separatorFont;
+    break;
+  case TreeModelItem::Buddy:
+    option.rect.setLeft(option.rect.left()+BUDDY_INDENT);
+    option.displayAlignment = Qt::AlignLeft | Qt::AlignTop;
+    option.font = firstLineFont;
+    break;
+  default:
+    option.displayAlignment = Qt::AlignLeft | Qt::AlignTop;
   }
 }

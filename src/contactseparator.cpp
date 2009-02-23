@@ -18,54 +18,56 @@
 
 contactSeparator::contactSeparator(QTreeWidget *parent) : QTreeWidgetItem(parent, 3)
 {
-	setFlags(flags() & (~Qt::ItemIsSelectable));
+  setFlags(flags() & (~Qt::ItemIsSelectable));
 }
 
 contactSeparator::contactSeparator(QTreeWidgetItem *parent) :  QTreeWidgetItem(parent, 3)
 {
-	setFlags(flags() & (~Qt::ItemIsSelectable));
+  setFlags(flags() & (~Qt::ItemIsSelectable));
 }
 
 contactSeparator::~contactSeparator()
 {
-	
+
 }
 
 void contactSeparator::hideSeparator(bool hide)
 {
-	if ( hide )
-	{
+  if ( hide )
+  {
 //		QTreeWidgetItem::setText(1, "");
 //		if (this->columnCount() >= 1)
-			setSizeHint(0, QSize(sizeHint(0).width(), 0));
+    setSizeHint(0, QSize(sizeHint(0).width(), 0));
 
 //		if (this->columnCount() >= 2)
-			setSizeHint(1, QSize(sizeHint(1).width(), 0));
+    setSizeHint(1, QSize(sizeHint(1).width(), 0));
 
 //		if (this->columnCount() >= 3)
-			setSizeHint(2, QSize(sizeHint(2).width(), 0));
+    setSizeHint(2, QSize(sizeHint(2).width(), 0));
 
 //		if (this->columnCount() >= 4)
-			setSizeHint(3, QSize(sizeHint(3).width(), 0));	
-	} else {
+    setSizeHint(3, QSize(sizeHint(3).width(), 0));
+  }
+  else
+  {
 //		QTreeWidgetItem::setText(1, currentText);
-		if (this->columnCount() >= 1)
-			setSizeHint(0, QSize(sizeHint(0).width(), 16));
-	
-		if (this->columnCount() >= 2)
-			setSizeHint(1, QSize(sizeHint(1).width(), 16));
+    if (this->columnCount() >= 1)
+      setSizeHint(0, QSize(sizeHint(0).width(), 16));
 
-		if (this->columnCount() >= 3)
-			setSizeHint(2, QSize(sizeHint(2).width(), 16));
+    if (this->columnCount() >= 2)
+      setSizeHint(1, QSize(sizeHint(1).width(), 16));
 
-		if (this->columnCount() >= 4)
-			setSizeHint(3, QSize(sizeHint(3).width(), 16));	
-		
-	}
+    if (this->columnCount() >= 3)
+      setSizeHint(2, QSize(sizeHint(2).width(), 16));
+
+    if (this->columnCount() >= 4)
+      setSizeHint(3, QSize(sizeHint(3).width(), 16));
+
+  }
 }
 
 void contactSeparator::setText(int column, const QString &text)
 {
-	currentText = text;
-	QTreeWidgetItem::setText(column, text);
+  currentText = text;
+  QTreeWidgetItem::setText(column, text);
 }

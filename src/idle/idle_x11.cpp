@@ -24,8 +24,14 @@
 
 IdlePlatform::IdlePlatform() {}
 IdlePlatform::~IdlePlatform() {}
-bool IdlePlatform::init() { return false; }
-int IdlePlatform::secondsIdle() { return 0; }
+bool IdlePlatform::init()
+{
+  return false;
+}
+int IdlePlatform::secondsIdle()
+{
+  return 0;
+}
 
 #else
 
@@ -40,59 +46,61 @@ int IdlePlatform::secondsIdle() { return 0; }
 static XErrorHandler old_handler = 0;
 extern "C" int xerrhandler(Display* dpy, XErrorEvent* err)
 {
-	if(err->error_code == BadDrawable)
-		return 0;
+  if (err->error_code == BadDrawable)
+    return 0;
 
-	return (*old_handler)(dpy, err);
+  return (*old_handler)(dpy, err);
 }
 
 class IdlePlatform::Private
 {
 public:
-	Private() {}
+  Private() {}
 
-	XScreenSaverInfo *ss_info;
+  XScreenSaverInfo *ss_info;
 };
 
 IdlePlatform::IdlePlatform()
 {
-	d = new Private;
-	d->ss_info = 0;
+  d = new Private;
+  d->ss_info = 0;
 }
 
 IdlePlatform::~IdlePlatform()
 {
-	if(d->ss_info)
-		XFree(d->ss_info);
-	if(old_handler) {
-		XSetErrorHandler(old_handler);
-		old_handler = 0;
-	}
-	delete d;
+  if (d->ss_info)
+    XFree(d->ss_info);
+  if (old_handler)
+  {
+    XSetErrorHandler(old_handler);
+    old_handler = 0;
+  }
+  delete d;
 }
 
 bool IdlePlatform::init()
 {
-	if(d->ss_info)
-		return true;
+  if (d->ss_info)
+    return true;
 
-	old_handler = XSetErrorHandler(xerrhandler);
+  old_handler = XSetErrorHandler(xerrhandler);
 
-	int event_base, error_base;
-	if(XScreenSaverQueryExtension(QApplication::desktop()->screen()->x11Display(), &event_base, &error_base)) {
-		d->ss_info = XScreenSaverAllocInfo();
-		return true;
-	}
-	return false;
+  int event_base, error_base;
+  if (XScreenSaverQueryExtension(QApplication::desktop()->screen()->x11Display(), &event_base, &error_base))
+  {
+    d->ss_info = XScreenSaverAllocInfo();
+    return true;
+  }
+  return false;
 }
 
 int IdlePlatform::secondsIdle()
 {
-	if(!d->ss_info)
-		return 0;
-	if(!XScreenSaverQueryInfo(QApplication::desktop()->screen()->x11Display(), QX11Info::appRootWindow(), d->ss_info))
-		return 0;
-	return d->ss_info->idle / 1000;
+  if (!d->ss_info)
+    return 0;
+  if (!XScreenSaverQueryInfo(QApplication::desktop()->screen()->x11Display(), QX11Info::appRootWindow(), d->ss_info))
+    return 0;
+  return d->ss_info->idle / 1000;
 }
 
 #endif

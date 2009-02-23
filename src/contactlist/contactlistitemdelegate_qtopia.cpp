@@ -68,7 +68,9 @@ void QtopiaCLItemDelegate::tuneStyleOption(QStyleOptionViewItem &option,
       option.font = groupFont;
       if (index.model()->hasChildren(index))
       {
+#if 0
         if (!m_tree_view || (m_tree_view && m_tree_view->isExpanded(index)))
+#endif
           option.font.setBold(true);
       }
       else

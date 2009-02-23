@@ -52,7 +52,7 @@ void PluginEventEater::setStatus(const QList<void *> &event)
 			}
 		}
 		else{
-			foreach( QString account, account_list)
+			foreach(const QString &account, account_list)
 			{
 				icqAccount *paccount = m_icq_list.value(account);
 				if ( paccount )
@@ -82,7 +82,7 @@ void PluginEventEater::restoreStatus(const QList<void *> &event)
 			}
 		}
 		else{
-			foreach( QString account, account_list)
+			foreach(const QString &account, account_list)
 			{
 				icqAccount *paccount = m_icq_list.value(account);
 				if ( paccount )

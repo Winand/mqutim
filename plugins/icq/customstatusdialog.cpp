@@ -42,7 +42,7 @@ void customStatusDialog::setStatuses(int index, const QList<QString> &list)
 {
 	QListWidgetItem *none = new QListWidgetItem(ui.iconList);
 	none->setIcon(IcqPluginSystem::instance().getIcon("icq_xstatus"));
-	foreach(QString path, list)
+	foreach(const QString &path, list)
 	{
 		QListWidgetItem *tmp= new QListWidgetItem(ui.iconList);
 		itemList.append(tmp);
@@ -58,7 +58,7 @@ void customStatusDialog::setStatuses(int index, const QList<QString> &list)
 	else
 		setCaption(cap);
 	setMessage(settings.value("xstatus"+ QString::number(statusIndex - 1) +"/message", "").toString());
-	
+
 
 	if ( !index )
 	{
@@ -133,7 +133,7 @@ QString customStatusDialog::getToolTip(int index) const
 	case 31:
 		return tr("Love");
 	case 34:
-		return tr("Sex");	
+		return tr("Sex");
 	case 35:
 		return tr("Smoking");
 	case 36:

@@ -78,7 +78,7 @@ void privacyListWindow::createLists()
 
 	QStringList visibleList = contacts.value("list/visible").toStringList();
 
-	foreach(QString uin, visibleList)
+	foreach(const QString &uin, visibleList)
 	{
 		QTreeWidgetItem *buddy = new QTreeWidgetItem(ui.visibleTreeWidget);
 		buddy->setText(0,uin);
@@ -91,7 +91,7 @@ void privacyListWindow::createLists()
 
 	QStringList invisibleList = contacts.value("list/invisible").toStringList();
 
-	foreach(QString uin, invisibleList)
+	foreach(const QString &uin, invisibleList)
 	{
 		QTreeWidgetItem *buddy = new QTreeWidgetItem(ui.invisibleTreeWidget);
 		buddy->setText(0,uin);
@@ -104,7 +104,7 @@ void privacyListWindow::createLists()
 
 	QStringList ignoreList = contacts.value("list/ignore").toStringList();
 
-	foreach(QString uin, ignoreList)
+	foreach(const QString &uin, ignoreList)
 	{
 		QTreeWidgetItem *buddy = new QTreeWidgetItem(ui.ignoreTreeWidget);
 		buddy->setText(0,uin);

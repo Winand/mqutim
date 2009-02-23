@@ -84,7 +84,7 @@ void IcqLayer::removeAccount(const QString &account_name)
 {
         QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
 	QStringList accounts = settings.value("accounts/list").toStringList();
-	accounts.removeAll(account_name);	
+	accounts.removeAll(account_name);
 	accounts.sort();
 	settings.setValue("accounts/list", accounts);
 	killAccount(account_name, true);
@@ -135,7 +135,7 @@ QList<AccountStructure> IcqLayer::getAccountList()
         QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
 	QList<AccountStructure> accounts_list;
 	QStringList accounts = settings.value("accounts/list").toStringList();
-	foreach(QString account_name, accounts)
+	foreach(const QString &account_name, accounts)
 	{
 		AccountStructure info_account;
 		info_account.protocol_icon = QIcon("icons/icq_protocol.png");
@@ -161,7 +161,7 @@ void IcqLayer::addAccountButtonsToLayout(QHBoxLayout *account_button_layout)
 	m_account_buttons_layout = account_button_layout;
         QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
 	QStringList accountList = settings.value("accounts/list").toStringList();
-	foreach( QString account_from_list, accountList)
+	foreach(const QString &account_from_list, accountList)
 	{
 		addAccount(account_from_list);
 	}
@@ -189,14 +189,14 @@ void IcqLayer::saveLoginDataFromLoginWidget()
 		settings.setValue("accounts/list", accounts);
                 QSettings account_settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+account_name, "accountsettings");
 		account_settings.setValue("main/name",account_name);
-		
+
 		//simple password encryption
-		
+
 		account_password.truncate(8);
 		QByteArray roasted_pass;
 		for ( int i = 0; i < account_password.length(); i++ )
 			roasted_pass[i] = account_password.at(i).unicode() ^ crypter[i];
-		
+
 		account_settings.setValue("main/password",roasted_pass);
 		account_settings.setValue("main/savepass", m_login_widget->getSavePass());
 		addAccount(account_name);
@@ -220,7 +220,7 @@ QList<SettingsStructure> IcqLayer::getSettingsList()
 	tmp_struc.settings_item = m_general_icq_item;
 	tmp_struc.settings_widget = m_general_icq_settings;
 	settings_list.append(tmp_struc);
-	
+
 	if ( !m_network_item )
 	{
 		m_network_item = new QTreeWidgetItem;
@@ -234,7 +234,7 @@ QList<SettingsStructure> IcqLayer::getSettingsList()
 	tmp_struc.settings_item = m_network_item;
 	tmp_struc.settings_widget = m_network_settings;
 	settings_list.append(tmp_struc);
-	
+
 	if ( !m_status_item )
 	{
 		m_status_item = new QTreeWidgetItem;
@@ -248,7 +248,7 @@ QList<SettingsStructure> IcqLayer::getSettingsList()
 	tmp_struc.settings_item = m_status_item;
 	tmp_struc.settings_widget = m_status_settings;
 	settings_list.append(tmp_struc);
-	
+
 	if ( !m_contact_item )
 	{
 		m_contact_item = new QTreeWidgetItem;
@@ -262,7 +262,7 @@ QList<SettingsStructure> IcqLayer::getSettingsList()
 	tmp_struc.settings_item = m_contact_item;
 	tmp_struc.settings_widget = m_contact_settings;
 	settings_list.append(tmp_struc);
-	
+
 	foreach( icqAccount *account, m_icq_list)
 	{
 		QObject::connect(m_general_icq_settings, SIGNAL(settingsSaved()),

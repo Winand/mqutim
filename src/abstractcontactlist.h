@@ -24,7 +24,6 @@
 
 #include "src/contactlist/contactlistproxymodel.h"
 #include "src/contactlist/treecontactlistmodel.h"
-#include "src/contactlist/contactlisteventeater.h"
 
 using namespace qutim_sdk_0_2;
 
@@ -96,7 +95,6 @@ private:
 	QString m_profile_name;
 	QTreeView *m_tree_view;
 	TreeContactListModel *m_item_model;
-	ContactListEventEater *m_event_eater;
 	ContactListProxyModel *m_proxy_model;
   bool m_has_tree_view;
 };

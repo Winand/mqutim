@@ -60,14 +60,6 @@ void AbstractContactList::setTreeView(QTreeView *TreeView)
 
   QObject::connect(m_item_model, SIGNAL(dataChanged(QModelIndex,QModelIndex)), m_proxy_model, SLOT(newData(QModelIndex,QModelIndex)));
 
-  m_event_eater = new ContactListEventEater();
-  m_tree_view->installEventFilter(m_event_eater);
-  m_tree_view->findChild<QObject *>("qt_scrollarea_viewport")->installEventFilter(m_event_eater);
-  QObject::connect(m_tree_view, SIGNAL(collapsed(QModelIndex)), m_event_eater, SLOT(collapsed(QModelIndex)));
-  QObject::connect(m_tree_view, SIGNAL(expanded(QModelIndex)), m_event_eater, SLOT(expanded(QModelIndex)));
-  m_tree_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
-
   m_item_model->loadSettings(m_profile_name);
   m_proxy_model->loadProfile(m_profile_name);
   m_first_load=false;

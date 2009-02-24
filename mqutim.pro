@@ -77,7 +77,6 @@ HEADERS += src/aboutinfo.h \
     src/chatwindow/movielabel.h \
     src/chatwindow/separatechatwindow.h \
     src/chatwindow/separateconference.h \
-    src/contactlist/contactlisteventeater.h \
     src/contactlist/contactlistitemdelegate.h \
     src/contactlist/contactlistitemdelegate_qtopia.h \
     src/contactlist/contactlistproxymodel.h \
@@ -149,7 +148,6 @@ SOURCES += main.cpp \
     src/chatwindow/movielabel.cpp \
     src/chatwindow/separatechatwindow.cpp \
     src/chatwindow/separateconference.cpp \
-    src/contactlist/contactlisteventeater.cpp \
     src/contactlist/contactlistitemdelegate.cpp \
     src/contactlist/contactlistitemdelegate_qtopia.cpp \
     src/contactlist/contactlistproxymodel.cpp \

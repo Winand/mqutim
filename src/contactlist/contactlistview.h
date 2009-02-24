@@ -9,6 +9,10 @@ class ContactListView: public QTreeView
   public:
     ContactListView(QWidget *parent = NULL);
     virtual ~ContactListView();
+  private slots:
+    void onDoubleClicked(const QModelIndex &index);
+    void onCollapsed(const QModelIndex &index);
+    void onExpanded(const QModelIndex &index);
   protected:
     void drawBranches(QPainter *painter,
                       const QRect &rect,
@@ -16,6 +20,9 @@ class ContactListView: public QTreeView
     void drawRow(QPainter *painter,
                  const QStyleOptionViewItem &option,
                  const QModelIndex &index) const;
+
+    void mousePressEvent(QMouseEvent *event);
+    void keyPressEvent(QKeyEvent *event);
 };
 
 #endif // CONTACTLISTVIEW_H_

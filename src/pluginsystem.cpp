@@ -544,8 +544,6 @@ QList<AccountStructure> PluginSystem::getAccountsStatusesList() const
 
 void PluginSystem::updateStatusIcons()
 {
-  AbstractLayer &as = AbstractLayer::instance();
-  as.updateTrayIcon();
 }
 
 void PluginSystem::setAutoAway()

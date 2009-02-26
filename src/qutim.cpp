@@ -68,16 +68,10 @@ qutIM::qutIM(QWidget *parent, Qt::WFlags f ) :
 //	qApp->installTranslator(&applicationTranslator);
 
   m_abstract_layer.setPointers(this);
-  if ( !m_abstract_layer.showLoginDialog() )
-  {
-    bShouldRun = false;
-    QApplication::quit();
-    return;
-  }
+  m_abstract_layer.setupProfile();
 
 //	m_abstract_layer->loadCurrentProfile();
   m_profile_name = m_abstract_layer.getCurrentProfile();
-  reloadStyleLanguage();
   quitAction = NULL;
   msgIcon = false;
   m_plugin_settings = 0;
@@ -110,15 +104,17 @@ qutIM::qutIM(QWidget *parent, Qt::WFlags f ) :
 
   // Activate idle detector
   fIdleDetector.start();
-
-  QMutexLocker locker(&fInstanceGuard);
+  
+  fInstanceGuard.lock();
   fInstance = this;
+  fInstanceGuard.unlock();
 
   initIcons();
 
   m_abstract_layer.initializePointers(ui.contactListView, ui.hboxLayout, trayMenu,
                                       settingsAction);
   AbstractContextLayer::instance().createActions();
+
 }
 
 qutIM::~qutIM()
@@ -129,7 +125,9 @@ qutIM::~qutIM()
 
 qutIM *qutIM::getInstance()
 {
+  qDebug() << "qutIM lock 2";
   QMutexLocker locker(&fInstanceGuard);
+  qDebug() << "qutIM unlock 2";
   return fInstance;
 }
 
@@ -141,12 +139,9 @@ void qutIM::createActions()
                                tr("&Settings..."), this);
   m_pluginSettingsAction = new QAction(m_iconManager.getIcon("additional"),
                                        tr("Plug-in settings..."), this);
-  switchUserAction = new QAction(m_iconManager.getIcon("switch_user"),
-                                 tr("Switch profile"), this);
   connect(quitAction            , SIGNAL(triggered()), this, SLOT(appQuit()));
   connect(settingsAction        , SIGNAL(triggered()), this, SLOT(qutimSettingsMenu()));
   connect(m_pluginSettingsAction, SIGNAL(triggered()), this, SLOT(qutimPluginSettingsMenu()));
-  connect(switchUserAction      , SIGNAL(triggered()), this, SLOT(switchUser()));
 }
 
 void qutIM::appQuit()
@@ -185,8 +180,8 @@ void qutIM::loadMainSettings()
 
 void qutIM::qutimSettingsMenu()
 {
+  qDebug() << "qutIM::qutimSettingsMenu()";
   settingsAction->setDisabled(true);
-  switchUserAction->setDisabled(true);
   ui.showHideButton->setEnabled(false);
   ui.showHideGroupsButton->setEnabled(false);
   ui.soundOnOffButton->setEnabled(false);
@@ -204,8 +199,8 @@ void qutIM::qutimPluginSettingsMenu()
 
 void qutIM::destroySettings()
 {
+  qDebug() << "qutIM::destroySettings()";
   settingsAction->setDisabled(false);
-  switchUserAction->setDisabled(false);
   ui.showHideButton->setEnabled(true);
   ui.showHideGroupsButton->setEnabled(true);
   ui.soundOnOffButton->setEnabled(true);
@@ -223,34 +218,11 @@ void qutIM::reloadGeneralSettings()
   }
   bool visible_now = isVisible();
 
-  Qt::WindowFlags flags = windowFlags();
-  if ( settings.value("general/ontop", false).toBool())
-    flags |= Qt::WindowStaysOnTopHint;
-  else
-    flags &= ~Qt::WindowStaysOnTopHint;
-  setWindowFlags(flags);
-
   setVisible(visible_now);
   m_abstract_layer.setCurrentAccountIconName(settings.value("general/currentaccount", "").toString());
   m_auto_away = settings.value("general/autoaway", true).toBool();
   m_auto_away_minutes = settings.value("general/awaymin", 10).toUInt();
 }
-
-void qutIM::switchUser()
-{
-  m_switch_user = true;
-  QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim", "qutimsettings");
-  settings.setValue("general/switch", true);
-  QProcess::startDetached(qApp->applicationFilePath());
-  appQuit();
-}
-
-void qutIM::keyPressEvent( QKeyEvent *event )
-{
-  if (event->key() == Qt::Key_Back)
-    return; // ignore
-}
-
 
 void qutIM::checkEventChanging()
 {
@@ -277,9 +249,6 @@ void qutIM::createMainMenu()
     mainMenu->addSeparator();
   }
   mainMenu->addAction(settingsAction);
-  //mainMenu->addAction(m_pluginSettingsAction);
-  mainMenu->addAction(switchUserAction);
-  mainMenu->addSeparator();
   mainMenu->addAction(quitAction);
 }
 
@@ -346,10 +315,6 @@ void qutIM::on_showHideGroupsButton_clicked()
   acl.loadSettings();
 }
 
-void qutIM::showBallon(const QString &title, const QString &message, int time)
-{
-}
-
 void qutIM::on_soundOnOffButton_clicked()
 {
   QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
@@ -358,30 +323,6 @@ void qutIM::on_soundOnOffButton_clicked()
   settings.setValue("enable",!enable);
   settings.endGroup();
   AbstractSoundLayer::instance().loadSettings();
-}
-
-void qutIM::reloadStyleLanguage()
-{
-  QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
-  qApp->removeTranslator(&applicationTranslator);
-  QString translation_path = settings.value("gui/language", "").toString() + "/main.qm";
-  applicationTranslator.load(translation_path);
-  qApp->installTranslator(&applicationTranslator);
-  QString current_style = settings.value("gui/style", "").toString();
-  if ( !current_style.isEmpty() )
-  {
-    QString path_to_style = current_style.section("/", 0, -2);
-    QFile file(current_style);
-    if (file.open(QFile::ReadOnly))
-    {
-      qApp->setStyleSheet("");
-      QString styleSheet = QLatin1String(file.readAll());
-      qApp->setStyleSheet(styleSheet.replace("%path%", path_to_style));
-      file.close();
-    }
-  }
-  else
-    qApp->setStyleSheet("");
 }
 
 void qutIM::pluginSettingsDeleted(QObject *)
@@ -394,11 +335,18 @@ void qutIM::addActionToList(QAction *action)
   m_plugin_actions.append(action);
 }
 
+void qutIM::keyPressEvent( QKeyEvent *event )
+{
+  if (event->key() == Qt::Key_Back)
+    return; // ignore
+}
+
 bool qutIM::eventFilter(QObject *watched, QEvent *event)
 {
-  QWidget *w_receiver = qobject_cast<QWidget *>(watched);
-  if (w_receiver)
+  if (watched->isWidgetType())
   {
+    QWidget *w_receiver = static_cast<QWidget *>(watched);
+    Q_ASSERT(w_receiver);
     int tab_index = indexOf(w_receiver);
     if (tab_index<0)
       return false; // not a tab

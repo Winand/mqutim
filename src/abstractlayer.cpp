@@ -55,41 +55,10 @@ void AbstractLayer::setPointers(qutIM *parent)
   m_parent = parent;
 }
 
-bool AbstractLayer::showLoginDialog()
+void AbstractLayer::setupProfile()
 {
-  QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim", "qutimsettings");
-  if ( !settings.value("general/showstart", false).toBool() ||
-       settings.value("general/switch", false).toBool())
-  {
-    settings.setValue("general/switch", false);
-    ProfileLoginDialog login_dialog;
-    if ( QtopiaApplication::execDialog(&login_dialog) )
-    {
-      m_current_profile = login_dialog.getProfileName();
-      loadCurrentProfile();
-      m_is_new_profile = login_dialog.isNewProfile();
-      return true;
-    }
-    return false;
-  }
-  else
-  {
-    QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim", "qutimsettings");
-    QStringList profiles = settings.value("profiles/list").toStringList();
-    int profile_index = settings.value("profiles/last", 0).toInt();
-    if (profile_index >= profiles.size() || profile_index < 0)
-    {
-      settings.setValue("general/switch", true);
-      return showLoginDialog();
-    }
-    m_current_profile = profiles.at(profile_index);
-    loadCurrentProfile();
-    return true;
-  }
-}
-
-void AbstractLayer::loadCurrentProfile()
-{
+  m_current_profile = "main";
+  
   m_plugin_system.loadProfile(m_current_profile);
   AbstractStatusLayer &asl = AbstractStatusLayer::instance();
   asl.setProfileName(m_current_profile);
@@ -189,7 +158,6 @@ void AbstractLayer::addStatusesToMenu()
 void AbstractLayer::reloadGeneralSettings()
 {
   m_parent->reloadGeneralSettings();
-  updateTrayIcon();
 }
 
 void AbstractLayer::addAccountMenusToTrayMenu(bool add)
@@ -203,35 +171,6 @@ void AbstractLayer::addAccountMenusToTrayMenu(bool add)
     clearMenuFromStatuses();
   }
   m_show_account_menus = add;
-}
-
-void AbstractLayer::updateTrayIcon()
-{
-  /*
-  QList<AccountStructure> status_list = m_plugin_system.getAccountsStatusesList();
-  bool account_founded = false;
-  foreach(AccountStructure account_status, status_list)
-  {
-  	if ( m_current_account_icon_name == ( account_status.protocol_name + "." +
-  			account_status.account_name ) )
-  	{
-  		account_founded = true;
-  		m_parent->updateTrayIcon(account_status.protocol_icon);
-  	}
-  }
-
-  if ( !account_founded )
-  {
-  	if ( status_list.count() > 0 )
-  	{
-  		m_parent->updateTrayIcon(status_list.at(0).protocol_icon);
-  	}
-  	else
-  	{
-  		m_parent->updateTrayIcon(QIcon(":/icons/qutim.png"));
-  	}
-  }
-  */
 }
 
 void AbstractLayer::updateStausMenusInTrayMenu()
@@ -250,29 +189,9 @@ void AbstractLayer::setStatusAfterAutoAway()
   m_plugin_system.setStatusAfterAutoAway();
 }
 
-void AbstractLayer::animateTrayNewMessage()
-{
-  //m_parent->animateNewMessageInTray();
-}
-
-void AbstractLayer::stopTrayNewMessageAnimation()
-{
-  //m_parent->stopNewMessageAnimation();
-}
-
 qutIM *AbstractLayer::getParent()
 {
   return m_parent;
-}
-
-void AbstractLayer::showBalloon(const QString &title, const QString &message, int time)
-{
-  //m_parent->showBallon(title, message, time);
-}
-
-void AbstractLayer::reloadStyleLanguage()
-{
-  m_parent->reloadStyleLanguage();
 }
 
 void AbstractLayer::addActionToMainMenu(QAction *action)

@@ -188,7 +188,6 @@ void AbstractChatLayer::addMessage(const TreeModelItem &item, const QString &mes
       m_unreaded_messages_list.append(new_unreaded_message);
       if ( !m_unreaded_contacts.contains(identification) )
         m_unreaded_contacts.insert(identification, item);
-      animateTrayIconMessage();
       if ( m_dont_show_content_in_notifications )
         AbstractNotificationLayer::instance().userMessage(item,
             QObject::tr("Incoming message"), NotifyMessageGet);
@@ -273,7 +272,6 @@ void AbstractChatLayer::readAllUnreadedMessages()
     m_waiting_for_activation_list.clear();
     m_unreaded_messages_list.clear();
     m_unreaded_contacts.clear();
-    AbstractLayer::instance().stopTrayNewMessageAnimation();
   }
   else
   {
@@ -295,7 +293,6 @@ void AbstractChatLayer::readAllUnreadedMessages()
            !m_unreaded_messages_list.count() &&
            !m_unreaded_contacts.count() )
       {
-        AbstractLayer::instance().stopTrayNewMessageAnimation();
       }
     }
   }
@@ -340,8 +337,6 @@ void AbstractChatLayer::readUnreaded(const TreeModelItem &item)
        !m_unreaded_messages_list.count() &&
        !m_unreaded_contacts.count() )
   {
-    AbstractLayer &al = AbstractLayer::instance();
-    al.stopTrayNewMessageAnimation();
   }
 }
 
@@ -488,15 +483,6 @@ void AbstractChatLayer::messageDelievered(const TreeModelItem &item, int message
   }
 }
 
-void AbstractChatLayer::animateTrayIconMessage()
-{
-  if ( !m_dont_show_tray_event )
-  {
-    AbstractLayer &as = AbstractLayer::instance();
-    as.animateTrayNewMessage();
-  }
-}
-
 void AbstractChatLayer::windowActivated(const QString &protocol_name, const QString &account_name,
                                         const QString &item_name)
 {
@@ -524,7 +510,6 @@ void AbstractChatLayer::windowActivated(const QString &protocol_name, const QStr
        !m_unreaded_messages_list.count() )
   {
     AbstractLayer &al = AbstractLayer::instance();
-    al.stopTrayNewMessageAnimation();
   }
 }
 

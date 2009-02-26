@@ -58,7 +58,6 @@ HEADERS += src/aboutinfo.h \
     src/mainsettings.h \
     src/pluginsettings.h \
     src/pluginsystem.h \
-    src/profilelogindialog.h \
     src/qutim.h \
     src/qutimsettings.h \
     src/statusdialog.h \
@@ -100,7 +99,6 @@ FORMS += src/aboutinfo.ui \
     src/console.ui \
     src/mainsettings.ui \
     src/pluginsettings.ui \
-    src/profilelogindialog.ui \
     src/qutim.ui \
     src/qutimsettings.ui \
     src/statusdialogvisual.ui \
@@ -132,7 +130,6 @@ SOURCES += main.cpp \
     src/mainsettings.cpp \
     src/pluginsettings.cpp \
     src/pluginsystem.cpp \
-    src/profilelogindialog.cpp \
     src/qutim.cpp \
     src/qutimsettings.cpp \
     src/statusdialog.cpp \

@@ -24,13 +24,6 @@
 #include <QFile>
 #include "abstractcontactlist.h"
 
-enum CLWindowStyle
-{
-	CLRegularWindow = 0,
-	CLThemeBorder,
-	CLBorderLessWindow
-};
-
 #include "iconmanager.h"
 #include "pluginsettings.h"
 #include "ui_qutim.h"
@@ -77,11 +70,8 @@ public:
 	void reloadGeneralSettings();
 
 	void updateTrayIcon(const QIcon &);
-	void animateNewMessageInTray();
-	void stopNewMessageAnimation();
 	void showBallon(const QString &title, const QString &message, int time);
 
-	void reloadStyleLanguage();
 	void addActionToList(QAction *);
 
   bool eventFilter (QObject *watched, QEvent *event); // Intercept some events to provide pseudo-wm
@@ -92,7 +82,6 @@ private slots:
 	void qutimPluginSettingsMenu();//!< Now it only shows plug-in settings window.
 	void pluginSettingsDeleted(QObject *);
 	void destroySettings();
-	void switchUser();
 	void checkEventChanging();
 	void updateTrayToolTip();
 	void infoWindowDestroyed(QObject *);

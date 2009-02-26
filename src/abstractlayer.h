@@ -30,29 +30,26 @@ class AbstractLayer
 public:
 	AbstractLayer();
 	~AbstractLayer();
-	bool showLoginDialog();
-	void loadCurrentProfile();
+  
+  static AbstractLayer &instance();
+  
+	void setupProfile();
+  
 	void openSettingsDialog();
 	void setPointers(qutIM *);
 	void createNewAccount();
-	static AbstractLayer &instance();
-	void initializePointers(QTreeView *, QHBoxLayout *, QMenu *, QAction *);
+  void initializePointers(QTreeView *, QHBoxLayout *, QMenu *, QAction *);
 	void clearMenuFromStatuses();
 	void addStatusesToMenu();
 	void reloadGeneralSettings();
 	void addAccountMenusToTrayMenu(bool add);
-	void updateTrayIcon(); //huhuhuhu ;DD
 	void setCurrentAccountIconName(const QString &account_name) 
 	{ m_current_account_icon_name = account_name; }
 	void updateStausMenusInTrayMenu();
 	void setAutoAway();
 	void setStatusAfterAutoAway();
 	QString getCurrentProfile() const {return m_current_profile; }
-	void animateTrayNewMessage();
-	void stopTrayNewMessageAnimation();
 	qutIM *getParent();
-	void showBalloon(const QString &title, const QString &message, int time);
-	void reloadStyleLanguage();
 	void addActionToMainMenu(QAction *action);
 private:
 	QString m_current_profile;

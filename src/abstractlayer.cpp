@@ -16,7 +16,6 @@
 #include <QtopiaApplication>
 
 #include "abstractlayer.h"
-#include "profilelogindialog.h"
 #include "addaccountwizard.h"
 #include "qutimsettings.h"
 #include "qutim.h"

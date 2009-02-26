@@ -70,6 +70,18 @@ QVariant TreeItem::data(int role) const
 {
   switch (role)
   {
+  /*
+  case Qt::DecorationRole:
+    if (m_item_icons[1].canConvert<QIcon>())
+      return m_item_icons[1];
+    else
+      return m_current_status_icon;
+  case Qtopia::AdditionalDecorationRole:
+    if (m_item_icons[1].canConvert<QIcon>())
+      return m_current_status_icon;
+    else
+      return QVariant();
+    */    
   case AbstractContactList::ContactIconsRole:
     return reinterpret_cast<qptrdiff>(&m_item_icons);
   case Qt::DisplayRole:
@@ -85,6 +97,7 @@ QVariant TreeItem::data(int role) const
     return reinterpret_cast<qptrdiff>(&m_item_bottom_rows);
   case AbstractContactList::ContactStatusRole:
     return m_item_status;
+  case Qt::DecorationRole:
   case AbstractContactList::ContactStatusIconRole:
     return m_current_status_icon;
   case AbstractContactList::ContactVisibilityRole:

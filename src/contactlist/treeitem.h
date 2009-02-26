@@ -28,7 +28,7 @@ using namespace qutim_sdk_0_2;
 
 class TreeItem
 {
-public:
+public:  
 	TreeItem(const QVariant &display, TreeItem *parent = 0);
 	virtual ~TreeItem();
 	TreeItem *child(int number);

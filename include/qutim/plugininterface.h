@@ -79,6 +79,16 @@ struct TreeModelItem
     ConferenceItem = 3,
     Conference = 4,
   };
+  
+  enum IconRole
+  {
+    LeftIconGroupStart = 1,
+    LeftIconGroupEnd = 2,
+    
+    RightIconGroupStart = 3,
+    RightIconGroupEnd = 12,    
+  };
+  
 	QString m_protocol_name; /*!< Protocol name */
 	QString m_account_name; /*!< Account name */
 	QString m_item_name; /*!< Item name */

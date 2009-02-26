@@ -141,8 +141,8 @@ QVariant ProxyModelItem::data(int role) const
         if(m_has_online_separator)
         	online--;*/
         int num=0;
-        foreach(QModelIndex index, m_source_index)
-        num+=static_cast<TreeItem*>(index.internalPointer())->childCount()-static_cast<TreeItem*>(index.internalPointer())->m_invisible;
+        foreach(const QModelIndex &index, m_source_index)
+          num+=static_cast<TreeItem*>(index.internalPointer())->childCount()-static_cast<TreeItem*>(index.internalPointer())->m_invisible;
         ans+=" ("+QString().setNum(online)+"/"+QString().setNum(num)+")";
       }
       return ans;

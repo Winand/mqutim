@@ -37,7 +37,7 @@ public:
     ContactMassRole = Qtopia::UserRole+1,
     ContactTextRole = Qtopia::UserRole+2,
     ContactStatusRole = Qtopia::UserRole+3,
-    ContactStatusIconRole = /* Qtopia::UserRole+4, */ Qt::DecorationRole,
+    ContactStatusIconRole = Qtopia::UserRole+4,
     ContactVisibilityRole = Qtopia::UserRole+5,
     ContactIconsRole = Qtopia::UserRole+6,
     ContactColorRole = Qtopia::UserRole+10,

@@ -27,7 +27,8 @@ DEPENDPATH += . \
     src/history \
     src/idle \
     src/notifications \
-    src/sound
+    src/sound \
+    src/messaging
 INCLUDEPATH += . \
     src \
     src/contactlist \
@@ -39,7 +40,8 @@ INCLUDEPATH += . \
     src/notifications \
     src/antispam \
     src/sound \
-    src/globalsettings
+    src/globalsettings \
+    src/messaging
 
 # Input
 HEADERS += src/aboutinfo.h \
@@ -93,7 +95,9 @@ HEADERS += src/aboutinfo.h \
     src/idle/idle.h \
     src/notifications/abstractnotificationlayer.h \
     src/notifications/notificationslayersettings.h \
-    src/sound/soundlayersettings.h
+    src/sound/soundlayersettings.h \
+    src/messaging/message.h \
+    src/messaging/messagelistmodel.h
 FORMS += src/aboutinfo.ui \
     src/accountmanagement.ui \
     src/console.ui \
@@ -165,5 +169,7 @@ SOURCES += main.cpp \
     src/idle/idle_x11.cpp \
     src/notifications/abstractnotificationlayer.cpp \
     src/notifications/notificationslayersettings.cpp \
-    src/sound/soundlayersettings.cpp
+    src/sound/soundlayersettings.cpp \
+    src/messaging/message.cpp \
+    src/messaging/messagelistmodel.cpp
 RESOURCES += qutim.qrc

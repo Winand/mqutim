@@ -1163,9 +1163,10 @@ void contactListTree::getOfflineMessage()
 		}
     else
     {
-                QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+account_name, "contactlist");
+          QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+account_name, "contactlist");
 
 					treeGroupItem *group = groupList.value(0);
+          Q_ASSERT(group);
 					msg->from = msg->fromUin;
 					treeBuddyItem *buddy = new treeBuddyItem(icqUin, m_profile_name);
 					initializeBuddy(buddy);
@@ -1216,7 +1217,7 @@ void contactListTree::updateSorting()
 
 void contactListTree::createContactList()
 {
-        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+account_name, "contactlist");
+  QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+account_name, "contactlist");
 	getGroups = settings.value("list/group").toStringList();
 	getBuddies = settings.value("list/contacts").toStringList();
 	visibleList = settings.value("list/visible").toStringList();
@@ -1224,67 +1225,68 @@ void contactListTree::createContactList()
 	ignoreList = settings.value("list/ignore").toStringList();
 	if (getGroups.size())
 	{
-	foreach(const QString &groupId, getGroups)
-	{
-		treeGroupItem *group = new treeGroupItem;
-		group->setOnOffLists();
-		groupList.insert(groupId.toInt(), group);
-		group->setGroupText(settings.value(groupId + "/name").toString());
-		addGroupToCL(groupId.toInt(), group->name);
+    foreach(const QString &groupId, getGroups)
+    {
+      treeGroupItem *group = new treeGroupItem;
+      group->setOnOffLists();
+      groupList.insert(groupId.toInt(), group);
+      group->setGroupText(settings.value(groupId + "/name").toString());
+      addGroupToCL(groupId.toInt(), group->name);
+    }
+    createNil();
+
+    // Days to birthday
+    int birthTo;
+    if ( getBuddies.size())
+    {
+      foreach(const QString &buddyUin, getBuddies)
+      {
+        int group_id = settings.value(buddyUin + "/groupid").toInt();
+        if ( treeGroupItem *group = groupList.value(group_id) )
+        {
+            treeBuddyItem *buddy = new treeBuddyItem(icqUin, m_profile_name);
+            initializeBuddy(buddy);
+            settings.beginGroup(buddyUin);
+            buddy->underline = !dontUnderlineNotAutho;
+            buddy->groupID = settings.value("groupid").toInt();
+
+            buddy->birth = !hideBirth;
+            buddy->birthDay = QDate(settings.value("birthyear", 0).toInt(),
+                settings.value("birthmonth", 0).toInt(),
+                settings.value("birthday", 0).toInt());
+
+                                  // if birthday is comming -> play sound
+                                  birthTo = QDate::currentDate().daysTo(buddy->birthDay);
+                                  if ((birthTo >= 0) && (birthTo <= 3))
+                                  // we don't check if birthday sound has already been played
+                                  // for today. SoundEvents class does it for us.
+                                      notifyAboutBirthday(buddy->getUin(), buddy->groupID);
+
+            buddy->groupName = group->name;
+            group->userCount++;
+            group->updateText();
+            buddyList.insert(buddyUin, buddy);
+            buddy->setBuddyUin(buddyUin);
+            buddy->setName(settings.value("nickname").toString());
+
+            addContactToCL(group_id, buddyUin, buddy->getName());
+            buddy->setAvatarHash(QByteArray::fromHex(settings.value("iconhash").toByteArray()));
+            buddy->setNotAuthorizated(!settings.value("authorized",true).toBool());
+            buddy->lastonlineTime = settings.value("lastonline",0).toInt();
+            buddy->updateBuddyText();
+            settings.endGroup();
+
+            updateNil();
+
+        }
+      }
+    }
 	}
-	createNil();
+  else // if (getGroups.size())
+    createNil();
 
-
-        // Days to birthday
-        int birthTo;
-	if ( getBuddies.size())
-	{
-		foreach(const QString &buddyUin, getBuddies)
-		{
-			int group_id = settings.value(buddyUin + "/groupid").toInt();
-			if ( treeGroupItem *group = groupList.value(group_id) )
-			{
-					treeBuddyItem *buddy = new treeBuddyItem(icqUin, m_profile_name);
-					initializeBuddy(buddy);
-					settings.beginGroup(buddyUin);
-					buddy->underline = !dontUnderlineNotAutho;
-					buddy->groupID = settings.value("groupid").toInt();
-
-					buddy->birth = !hideBirth;
-					buddy->birthDay = QDate(settings.value("birthyear", 0).toInt(),
-							settings.value("birthmonth", 0).toInt(),
-							settings.value("birthday", 0).toInt());
-
-                                // if birthday is comming -> play sound
-                                birthTo = QDate::currentDate().daysTo(buddy->birthDay);
-                                if ((birthTo >= 0) && (birthTo <= 3))
-                                // we don't check if birthday sound has already been played
-                                // for today. SoundEvents class does it for us.
-                                		notifyAboutBirthday(buddy->getUin(), buddy->groupID);
-
-					buddy->groupName = group->name;
-					group->userCount++;
-					group->updateText();
-					buddyList.insert(buddyUin, buddy);
-					buddy->setBuddyUin(buddyUin);
-					buddy->setName(settings.value("nickname").toString());
-
-					addContactToCL(group_id, buddyUin, buddy->getName());
-					buddy->setAvatarHash(QByteArray::fromHex(settings.value("iconhash").toByteArray()));
-					buddy->setNotAuthorizated(!settings.value("authorized",true).toBool());
-					buddy->lastonlineTime = settings.value("lastonline",0).toInt();
-					buddy->updateBuddyText();
-					settings.endGroup();
-
-					updateNil();
-
-			}
-		}
-	}
-	}
 	if ( clearNil )
 		clearNilUsers();
-
 
 	QStringList chatWithList = settings.value("list/chatwindow").toStringList();
 	foreach(const QString &buddyUin, chatWithList)

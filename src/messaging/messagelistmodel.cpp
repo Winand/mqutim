@@ -21,28 +21,28 @@ QVariant MessageListModel::data(const QModelIndex &index, int role) const
   }
 }
 
-Qt::ItemFlags MessageListModel::flags(const QModelIndex &index) const
+Qt::ItemFlags MessageListModel::flags(const QModelIndex &) const
 {
   return Qt::ItemIsSelectable|Qt::ItemIsEnabled;
 }
 
-QModelIndex MessageListModel::index(int row, int column, const QModelIndex &parent) const
+QModelIndex MessageListModel::index(int row, int column, const QModelIndex &) const
 {
   const Message &msg = m_messages[row];
   return createIndex(row, column, (void *)(&msg));
 }
 
-int MessageListModel::rowCount(const QModelIndex &parent) const
+int MessageListModel::rowCount(const QModelIndex &) const
 {
   return m_messages.size();
 }
-
 
 bool MessageListModel::removeRows(int row, int count, const QModelIndex &parent)
 {
   beginRemoveRows(parent, row, row+count-1);
   m_messages.erase(m_messages.begin()+row, m_messages.begin()+row+count);
   endRemoveRows();
+  return true;
 }
 
 bool MessageListModel::insertRows(int row, int count, const QModelIndex &parent)
@@ -53,12 +53,24 @@ bool MessageListModel::insertRows(int row, int count, const QModelIndex &parent)
   for (int i=0; i<count; i++)
     pos = m_messages.insert(pos, emptyMessage);
   endInsertRows();
+  return true;
 }
 
 //=======================
 
 void MessageListModel::append(const Message &msg)
 {
+  insertRow(rowCount());
+  m_messages.last() = msg;
+  QModelIndex i = index(rowCount()-1, 0);
+  emit dataChanged(i, i);
+  if (m_isFixedSize)
+  {
+    int rowsToBeDeleted = rowCount()-m_fixedSize;
+    if (rowsToBeDeleted<=0)
+      return; // nothing to delete
+    removeRows(0, rowsToBeDeleted);
+  }
 }
 
 bool MessageListModel::isFixedSize() const

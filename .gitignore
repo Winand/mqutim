@@ -1,0 +1,14 @@
+# qtopiamake build infrastructure
+.moc
+.obj
+.ui
+.rcc
+*.cache
+Makefile
+Makefile.target
+# packages
+pkg
+# binaries
+mqutim
+*.so
+core

@@ -9,7 +9,8 @@ MessageData::MessageData()
 
 MessageData::MessageData(const MessageData &other)
   : QSharedData(other),
-  type(other.type), status(other.status), 
+  type(other.type), is_groupchat(false),
+  status(other.status), 
   author(other.author), nick(other.nick),
   time(other.time), text(other.text),
   id(-1) // This message is not registered anymore as it may differ form its parent
@@ -44,6 +45,16 @@ void Message::setType(Message::Type t)
   data->type = t;
 }
 
+bool Message::isGroupChat() const
+{
+  return data->is_groupchat;
+}
+
+void Message::setIsGroupChat(bool is_g)
+{
+  data->is_groupchat = is_g;
+}
+
 Message::DeliveryStatus Message::status() const
 {
   return static_cast<DeliveryStatus>(data->status);
@@ -66,12 +77,12 @@ void Message::setAuthor(const TreeModelItem &a)
 
 const QString &Message::nick() const
 {
-  return d->nick;
+  return data->nick;
 }
 
 void Message::setNick(const QString &nick)
 {
-  d->nick = nick;
+  data->nick = nick;
 }
 
 const QDateTime &Message::time() const

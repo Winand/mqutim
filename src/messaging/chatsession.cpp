@@ -1,7 +1,7 @@
 #include "chatsession.h"
 
-ChatSession::ChatSession(const TreeModelItem &contact, QObject *parent = NULL)
-: QObject(parent), m_model(this), m_contact(contact)
+ChatSession::ChatSession(const TreeModelItem &contact, ChatSession::Type t, QObject *parent)
+: QObject(parent), m_model(this), m_contact(contact), m_type(t)
 {
 }
 
@@ -9,9 +9,14 @@ ChatSession::~ChatSession()
 {
 }
     
-const TreeModelItem &ChatSession::contact()
+const TreeModelItem &ChatSession::contact() const
 {
   return m_contact;
+}
+
+ChatSession::Type ChatSession::type() const
+{
+  return m_type;
 }
 
 MessageListModel *ChatSession::model()
@@ -19,6 +24,15 @@ MessageListModel *ChatSession::model()
   return &m_model;
 }
 
-ChatSession::notifyTyping(bool state)
+void ChatSession::notifyTyping(bool state)
 {
 }
+
+void ChatSession::appendMessage(const Message &msg)
+{
+}
+
+void ChatSession::activate()
+{
+}
+

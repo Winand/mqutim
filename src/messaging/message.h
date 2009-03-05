@@ -19,6 +19,7 @@ class MessageData: public QSharedData
     ~MessageData();
     
     int type;
+    bool is_groupchat;
     int status;
     TreeModelItem author;
     QString nick;
@@ -45,7 +46,9 @@ class Message
       StatusChange, // A participant has changed his status
       Action, // A participant has done some action
       Error, // Some technical error
-      Notification // Some synthetic notification
+      Notification, // Some synthetic notification
+      TypingStarted, // User started typing a message
+      TypingStopped // User stopped typing a message
     };
     enum DeliveryStatus
     {
@@ -64,6 +67,12 @@ class Message
     **/
     Type type() const;
     void setType(Type t);
+    
+    /**
+      Is this a groupchat message?
+    **/
+    bool isGroupChat() const;
+    void setIsGroupChat(bool is_g);
     
     /**
       Message delivery status

@@ -14,36 +14,63 @@ class ChatSession: public QObject
 {
   Q_OBJECT
   public:
-    ChatSession(const TreeModelItem &contact, QObject *parent = NULL);
+    enum Type
+    {
+      Public, // Multi-User chat
+      Private // Private chat
+    };
+    
+    ChatSession(const TreeModelItem &contact, Type t, QObject *parent = NULL);
     virtual ~ChatSession();
     
     /**
       Partner's address
     **/
-    const TreeModelItem &contact();    
+    const TreeModelItem &contact() const;    
+    /**
+      Chat type
+    **/
+    Type type() const;
     /**
       Get message list model for this chat session
     **/
     MessageListModel *model();
     /**
       Set your partner's typing notification status
+      
+      Default: does nothing.
+      Reimplement to show something to the user.
     **/
-    virtual notifyTyping(bool state);
+    virtual void notifyTyping(bool state);
+    /**
+      Process a message for this chat session
+      
+      Default: appends the message to the model. 
+      Reimplement it to filter messages.
+    **/
+    virtual void appendMessage(const Message &msg);
+    /**
+      Activate this session somehow.
+      
+      Default: does nothing.
+    **/
+    virtual void activate();
     
   signals:
     /**
       Notify if user starts or stops typing 
     **/
-    typing(bool state);
+    void typing(bool state);
     /**
       A message should be sent
     **/
-    message(const QString &text);
+    void messageComposed(const QString &text);
   private:
-    ChatSession(const ChatSession &) {}; // copy prevention
+    ChatSession(const ChatSession &): QObject(NULL) {}; // copy prevention
     
     MessageListModel m_model;
     TreeModelItem m_contact;
+    Type m_type;
 };
 
 #endif // CHATSESSION_H_

@@ -96,8 +96,11 @@ HEADERS += src/aboutinfo.h \
     src/notifications/abstractnotificationlayer.h \
     src/notifications/notificationslayersettings.h \
     src/sound/soundlayersettings.h \
+    src/messaging/messagedispatcher.h \
+    src/messaging/messagelistmodel.h \
+    src/messaging/chatsessionfactory.h \
     src/messaging/message.h \
-    src/messaging/messagelistmodel.h
+    src/messaging/chatsession.h
 FORMS += src/aboutinfo.ui \
     src/accountmanagement.ui \
     src/console.ui \
@@ -171,5 +174,8 @@ SOURCES += main.cpp \
     src/notifications/notificationslayersettings.cpp \
     src/sound/soundlayersettings.cpp \
     src/messaging/message.cpp \
-    src/messaging/messagelistmodel.cpp
+    src/messaging/messagelistmodel.cpp \
+    src/messaging/messagedispatcher.cpp \
+    src/messaging/chatsession.cpp
+    
 RESOURCES += qutim.qrc

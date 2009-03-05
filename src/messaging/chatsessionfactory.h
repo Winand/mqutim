@@ -9,7 +9,8 @@
 **/
 class ChatSessionFactory
 {
-  virtual ChatSession *createChatSession(const TreeModelItem *contact) = 0;
+  public:
+    virtual ChatSession *createChatSession(const TreeModelItem &contact, ChatSession::Type type) = 0;
 };
 
 #endif // CHATSESSIONFACTORY_H_

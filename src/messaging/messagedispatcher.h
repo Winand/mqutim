@@ -26,6 +26,11 @@ class MessageDispatcher: public QObject
   private slots:
     void userTyping(bool state);
     void messageComposed(const QString &message);
+  
+  private:
+    QString userId(const TreeModelItem &item); // Provide a userId 
+    
+    QHash<QString, ChatSession *> sessions;
 };
 
 #endif // MESSAGEDISPATCHER_H_

@@ -1,5 +1,7 @@
 #include "message.h"
 
+// TODO: QExplicitlySharedPointer
+
 MessageData::MessageData()
   : type(Message::Undefined), status(Message::None), id(-1)
 {
@@ -7,7 +9,8 @@ MessageData::MessageData()
 
 MessageData::MessageData(const MessageData &other)
   : QSharedData(other),
-  type(other.type), status(other.status), author(other.author),
+  type(other.type), status(other.status), 
+  author(other.author), nick(other.nick),
   time(other.time), text(other.text),
   id(-1) // This message is not registered anymore as it may differ form its parent
 {
@@ -59,6 +62,16 @@ const TreeModelItem &Message::author() const
 void Message::setAuthor(const TreeModelItem &a)
 {
   data->author = a;
+}
+
+const QString &Message::nick() const
+{
+  return d->nick;
+}
+
+void Message::setNick(const QString &nick)
+{
+  d->nick = nick;
 }
 
 const QDateTime &Message::time() const

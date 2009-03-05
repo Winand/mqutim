@@ -21,6 +21,7 @@ class MessageData: public QSharedData
     int type;
     int status;
     TreeModelItem author;
+    QString nick;
     QDateTime time;
     QString text;
     int id;
@@ -37,12 +38,14 @@ class Message
   public:
     enum Type
     {
-      Undefined,
-      IncomingDialog, 
-      OutgoingDialog,
-      Conference,
-      StatusChange,
-      Error
+      Undefined, // Only makes sense for uninitialized messages. Normally such message will be ignored.
+      IncomingDialog, // Incoming regular chat message
+      OutgoingDialog, // Outgoing regular chat message
+      Conference, // Regular conference message
+      StatusChange, // A participant has changed his status
+      Action, // A participant has done some action
+      Error, // Some technical error
+      Notification // Some synthetic notification
     };
     enum DeliveryStatus
     {
@@ -56,18 +59,41 @@ class Message
     Message();
     virtual ~Message();
     
+    /**
+      Message type
+    **/
     Type type() const;
     void setType(Type t);
     
+    /**
+      Message delivery status
+    **/
     DeliveryStatus status() const;
     void setStatus(DeliveryStatus s);
     
+    /**
+      Message author id. Used to find a corresponding chat session.
+      For conference public messages, this should be conference's id,
+      real author is determined by 'nick' property.
+    **/
     const TreeModelItem &author() const;
     void setAuthor(const TreeModelItem &a);
     
+    /**
+      Specify person's nick. Actual [only] for conferences.
+    **/
+    const QString &nick() const;
+    void setNick(const QString &nick);
+    
+    /**
+      Message timestamp.
+    **/
     const QDateTime &time() const;
     void setTime(const QDateTime &t);
     
+    /**
+      Message contents
+    **/
     const QString &text() const;
     void setText(const QString &t);
     

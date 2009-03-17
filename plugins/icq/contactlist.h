@@ -88,7 +88,6 @@ public:
 //      accountStatus currentStatus;
 	void appExiting();
 	QString accountNickname;
-	void setAvatarDisabled(bool);
 	void initializaMenus(QMenu *);
 	void showGroupMenu(treeGroupItem *, const QPoint &);
 	void showBuddyMenu(const QList<QAction*> &action_list, treeBuddyItem *, const QPoint &);
@@ -375,7 +374,6 @@ private:
 	QString answer;
 	QString messageAfterAnswer;
 	QStringList blockedBotList;
-	bool disableAvatars;
 
 	QAction *serviceMessages;
 	QAction *findUser;

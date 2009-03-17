@@ -15,7 +15,8 @@
 
 //#include <QtGui>
 #include <QTcpSocket>
-#include <QNetworkProxy>
+/*#include <QNetworkProxy>*/
+#include <QHostAddress>
 
 #include <QtopiaApplication>
 
@@ -582,8 +583,8 @@ void contactListTree::oncomingBuddy(const QString &uin, quint16 length)
 
 
 
-		if (! disableAvatars)
-			askForAvatars(buddy->getAvatarHash(), uin);
+/*		if (! disableAvatars)
+                        askForAvatars(buddy->getAvatarHash(), uin);*/
 //		if ( chatWindowList.contains(uin))
 //			chatWindowList.value(uin)->setContactClient(buddy->clientId);
 	}
@@ -1382,7 +1383,6 @@ void contactListTree::loadSettings()
         QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
         QSettings account_settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+account_name, "accountsettings");
 	accountNickname = account_settings.value("main/nick", icqUin).toString();
-	disableAvatars = settings.value("connection/disavatars", false).toBool();
 
 	//messaging settings
 
@@ -2093,15 +2093,13 @@ void contactListTree::readSSTserver(quint16 length)
                                                                 buddyConnection->connectToServ(avatarAddress, avatarPort, avatarCookie/*, tcpSocket->proxy()*/);
 		}
 
-		if ( !disableAvatars )
+/*		if ( !disableAvatars )
 		{
 		QHostAddress hostAddr = QHostAddress(avatarAddress);
 		if ( !hostAddr.isNull())
 				if ( !buddyConnection->connectedToServ )
-                                                buddyConnection->connectToServ(avatarAddress, avatarPort, avatarCookie/*, tcpSocket->proxy()*/);
-		}
-
-
+                                                buddyConnection->connectToServ(avatarAddress, avatarPort, avatarCookie);//, tcpSocket->proxy());
+                }*/
 }
 
 void contactListTree::emptyAvatarList()
@@ -2200,12 +2198,6 @@ bool contactListTree::turnOnAntiSpamBot(const QString &from, const QString &msg,
 	}
 
 	return true;
-
-}
-
-void contactListTree::setAvatarDisabled(bool disable)
-{
-	disableAvatars = disable;
 
 }
 

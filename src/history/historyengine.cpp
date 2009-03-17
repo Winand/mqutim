@@ -15,13 +15,14 @@
 
 #include "historyengine.h"
 
-HistoryEngine::HistoryEngine()
-{
+HistoryEngine::HistoryEngine() {
+    //
 }
 
-HistoryEngine::~HistoryEngine()
-{
+HistoryEngine::~HistoryEngine() {
+    //
 }
+
 bool HistoryEngine::saveHistoryMessage(const HistoryItem &item)
 {
   /*QString line = item.m_time.toString("|yyyy-MM-ddThh:mm:ss|");
@@ -39,6 +40,7 @@ bool HistoryEngine::saveHistoryMessage(const HistoryItem &item)
   out << line;*/
   return true;
 }
+
 bool HistoryEngine::saveSystemMessage(const HistoryItem &item)
 {
   //QString line = item.m_time.toString("|yyyy-MM-ddThh:mm:ss|");

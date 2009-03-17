@@ -49,7 +49,7 @@ statusSettings::~statusSettings()
 
 void statusSettings::loadSettings()
 {
-	QSettings settings(QSettings::IniFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
+        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
 	settings.beginGroup("statuses");
 	ui.webawareBox->setChecked(settings.value("webaware", false).toBool());
 	ui.contactToolTip->setChecked(settings.value("xstattool", true).toBool());
@@ -96,7 +96,7 @@ void statusSettings::loadSettings()
 
 void statusSettings::saveSettings()
 {
-	QSettings settings(QSettings::IniFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
+        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
 	settings.beginGroup("statuses");
 	settings.setValue("webaware", ui.webawareBox->isChecked());
 	settings.setValue("xstattool", ui.contactToolTip->isChecked());

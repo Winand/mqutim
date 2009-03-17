@@ -151,7 +151,6 @@ void multipleSending::on_stopButton_clicked()
 	ui.stopButton->setEnabled(false);
 	sendToList.clear();
 	sendTimer->stop();
-	ui.progressBar->setValue(0);
 }
 
 void multipleSending::sendMessage()
@@ -168,7 +167,6 @@ void multipleSending::sendMessage()
 			emit sendMessageToContact(msg);
 			sendToList.removeAt(0);
 			sendTimer->start(2000);
-			ui.progressBar->setValue(ui.progressBar->value() + 100 / barInterval );
 			if ( !sendToList.count() )
 				on_stopButton_clicked();
 		} else

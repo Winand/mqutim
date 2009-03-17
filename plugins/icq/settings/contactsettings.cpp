@@ -46,7 +46,7 @@ ContactSettings::~ContactSettings()
 
 void ContactSettings::loadSettings()
 {
-	QSettings settings(QSettings::IniFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
+        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
 	settings.beginGroup("contacts");
 	ui.xstatusBox->setChecked(settings.value("xstaticon", true).toBool());
 	ui.birthBox->setChecked(settings.value("birthicon", true).toBool());
@@ -60,7 +60,7 @@ void ContactSettings::loadSettings()
 
 void ContactSettings::saveSettings()
 {
-	QSettings settings(QSettings::IniFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
+        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
 	settings.beginGroup("contacts");
 	settings.setValue("xstaticon", ui.xstatusBox->isChecked());
 	settings.setValue("birthicon", ui.birthBox->isChecked());

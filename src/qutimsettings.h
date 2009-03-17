@@ -33,7 +33,7 @@
 #include "sound/soundlayersettings.h"
 #include "contactlist/contactlistsettings.h"
 #include "history/historysettings.h"
-#include "globalsettings/globalproxysettings.h"
+/*#include "globalsettings/globalproxysettings.h"*/
 
 class qutimSettings : public QStackedWidget
 {
@@ -88,7 +88,7 @@ private:
   SoundLayerSettings *m_sound_settings;
   ContactListSettings *m_contact_list_settings;
   HistorySettings *m_history_settings;
-  GlobalProxySettings *m_proxy_settings;
+/*  GlobalProxySettings *m_proxy_settings;*/
   QWidget *settingsSelector;
   
   QTreeWidgetItem *m_chat_settings_item;
@@ -99,7 +99,7 @@ private:
   QTreeWidgetItem *m_notifications_settings_item;
   QTreeWidgetItem *m_sound_settings_item;
   QTreeWidgetItem *m_history_settings_item;
-  QTreeWidgetItem *m_global_proxy_item;
+/*  QTreeWidgetItem *m_global_proxy_item;*/
   
   AccountManagement *m_account_management_widget;
   IconManager& m_iconManager;//!< use it to get icons from file or program

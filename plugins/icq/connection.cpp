@@ -16,7 +16,7 @@
 #include <QTcpSocket>
 #include <QDebug>
 #include <QSettings>
-#include <QAuthenticator>
+/*#include <QAuthenticator>*/
 //#include "buffer.h"
 //#include "clientIdentification.h"
 //#include "tlv.h"
@@ -31,8 +31,8 @@ connection::connection(QTcpSocket *tcpSocket, icqBuffer *buff, const QString &ac
     , m_profile_name(profile_name)
 {
 	connectedToBos = false;
-	connect(socket, SIGNAL(proxyAuthenticationRequired ( const QNetworkProxy & , QAuthenticator * ) ), this,
-			SLOT(proxyAuthenticationRequired ( const QNetworkProxy & , QAuthenticator *) ));
+/*        connect(socket, SIGNAL(proxyAuthenticationRequired ( const QNetworkProxy & , QAuthenticator * ) ), this,
+                        SLOT(proxyAuthenticationRequired ( const QNetworkProxy & , QAuthenticator *) ));*/
 }
 
 connection::~connection()
@@ -175,8 +175,8 @@ bool connection::getProxy()
 	return success;
 }
 
-void connection::proxyAuthenticationRequired ( const QNetworkProxy & /* proxy */,
-	QAuthenticator * /*authenticator*/  )
+/*void connection::proxyAuthenticationRequired ( const QNetworkProxy &  proxy ,
+        QAuthenticator * authenticator  )
 {
 //	qDebug()<<socket->proxy().user();
 //	qDebug()<<socket->proxy().password();
@@ -186,7 +186,7 @@ void connection::proxyAuthenticationRequired ( const QNetworkProxy & /* proxy */
 //	QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/ICQ."+icqUin, "account");
 //	authenticator->setUser(settings.value("proxy/user").toString());
 //	authenticator->setPassword(settings.value("proxy/pass").toString());
-}
+}*/
 
 void connection::dnsResults(QHostInfo info)
 {

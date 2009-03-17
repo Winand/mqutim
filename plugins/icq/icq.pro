@@ -7,7 +7,6 @@ TARGET = ../icq
 DEPENDPATH += . \
     settings
 INCLUDEPATH += ../../include
-
 QT += core \
     gui \
     network \
@@ -31,9 +30,6 @@ HEADERS += acceptauthdialog.h \
     contactlist.h \
     customstatusdialog.h \
     deletecontactdialog.h \
-    filerequestwindow.h \
-    filetransfer.h \
-    filetransferwindow.h \
     flap.h \
     icqaccount.h \
     icqlayer.h \
@@ -71,8 +67,6 @@ FORMS += acceptauthdialog.ui \
     addrenamedialog.ui \
     customstatusdialog.ui \
     deletecontactdialog.ui \
-    filerequestwindow.ui \
-    filetransferwindow.ui \
     multiplesending.ui \
     notewidget.ui \
     passwordchangedialog.ui \
@@ -101,9 +95,6 @@ SOURCES += acceptauthdialog.cpp \
     contactlist.cpp \
     customstatusdialog.cpp \
     deletecontactdialog.cpp \
-    filerequestwindow.cpp \
-    filetransfer.cpp \
-    filetransferwindow.cpp \
     flap.cpp \
     icqaccount.cpp \
     icqlayer.cpp \

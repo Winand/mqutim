@@ -33,7 +33,7 @@ public:
 
 private slots:
 	void widgetStateChanged() { changed = true; emit settingsChanged(); }
-	void proxyTypeChanged( int );
+/*	void proxyTypeChanged( int );*/
     
 signals:
     void settingsChanged();

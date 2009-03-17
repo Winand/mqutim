@@ -63,7 +63,7 @@ qutimSettings::~qutimSettings()
   delete m_notification_settings;
   delete m_sound_settings;
   delete m_history_settings;
-  delete m_proxy_settings;
+/*  delete m_proxy_settings;*/
   deleteCurrentProtocolSettings();
 }
 
@@ -112,9 +112,9 @@ void qutimSettings::createSettingsWidget()
   m_sound_settings_item->setIcon(0, m_iconManager.getIcon("soundsett"));
 
 
-  m_global_proxy_item = new QTreeWidgetItem(ui.settingsTree);
+/*  m_global_proxy_item = new QTreeWidgetItem(ui.settingsTree);
   m_global_proxy_item->setText(0, tr("Global proxy"));
-  m_global_proxy_item->setIcon(0, m_iconManager.getIcon("proxy"));
+  m_global_proxy_item->setIcon(0, m_iconManager.getIcon("proxy"));*/
 
   //ui.settingsTree->resizeColumnToContents(0);
   createWidgetsStack();
@@ -167,9 +167,9 @@ void qutimSettings::createWidgetsStack()
   connect(m_sound_settings, SIGNAL(settingsSaved()),
           this, SLOT(soundSettingsChanged()));
 
-  m_proxy_settings = new GlobalProxySettings(m_profile_name);
+/*  m_proxy_settings = new GlobalProxySettings(m_profile_name);
   addWidget(m_proxy_settings);
-  /*	connect(m_proxy_settings, SIGNAL(settingsSaved()),
+        connect(m_proxy_settings, SIGNAL(settingsSaved()),
                   this, SLOT(globalProxySettingsChanged()));*/
 }
 
@@ -201,7 +201,7 @@ void qutimSettings::saveAllSettings()
   m_notification_settings->saveSettings();
   m_sound_settings->saveSettings();
   m_history_settings->saveSettings();
-  m_proxy_settings->saveSettings();
+/*  m_proxy_settings->saveSettings();*/
 }
 
 void qutimSettings::changeProtocolSettings(int index)

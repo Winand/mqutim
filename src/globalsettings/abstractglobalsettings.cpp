@@ -17,12 +17,12 @@
 //#include <QNetworkProxy>
 #include <QSettings>
 
-AbstractGlobalSettings::AbstractGlobalSettings()
-{
+AbstractGlobalSettings::AbstractGlobalSettings() {
+    //
 }
 
-AbstractGlobalSettings::~AbstractGlobalSettings()
-{
+AbstractGlobalSettings::~AbstractGlobalSettings() {
+    //
 }
 
 AbstractGlobalSettings &AbstractGlobalSettings::instance()

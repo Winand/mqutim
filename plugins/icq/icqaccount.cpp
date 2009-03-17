@@ -565,8 +565,8 @@ void icqAccount::setStatusFromPlugin(accountStatus status, const QString &status
 	} else
 	{
 		QString sName(StatusNames[static_cast<int>(m_restore_status)]);
-		QSettings settings(QSettings::IniFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
-		QSettings account_settings(QSettings::IniFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+icqUin , "accountsettings");
+                QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
+                QSettings account_settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+icqUin , "accountsettings");
 		m_restore_status_text = account_settings.value("autoreply/" + sName
 				+ "msg", "").toString();	
 		account_settings.setValue("autoreply/" + sName
@@ -621,7 +621,9 @@ void icqAccount::loadAccountSettings()
 {
         QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
         QSettings account_settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+icqUin, "accountsettings");
-	autoConnect = settings.value("connection/auto", true).toBool();
+        qDebug()<<("qutim/qutim."+m_profile_name);
+        autoConnect = settings.value("connection/auto", false).toBool();
+        qDebug()<<settings.value("connection/auto", false).toBool();
 	statusIconIndex = settings.value("main/staticon", 0).toInt();
 	thisIcqProtocol->reconnectOnDisc = settings.value("connection/reconnect", true).toBool();
 /*	thisIcqProtocol->getContactListClass()->fileTransferObject->setListenPort(settings.value("connection/listen", 5191).toUInt());*/
@@ -665,6 +667,7 @@ void icqAccount::saveAccountSettings()
 
 void icqAccount::autoconnecting()
 {
+    qDebug()<<"icqAccount::autoConnect="<<autoConnect;
 	if ( autoConnect )
 	{
                 QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
@@ -783,7 +786,6 @@ QString icqAccount::getIconPathForUin(const QString &uin) const
 void icqAccount::generalSettingsChanged()
 {
         QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
-	thisIcqProtocol->getContactListClass()->setAvatarDisabled(settings.value("connection/disavatars", false).toBool());
 	thisIcqProtocol->reconnectOnDisc = settings.value("connection/reconnect", true).toBool();
 
 	int statindex = settings.value("main/staticon", 0).toInt();
@@ -960,7 +962,7 @@ void icqAccount::setXstatusFromPlugin(int status, const QString &status_title, Q
 {
 
 	
-	QSettings settings(QSettings::IniFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+icqUin, "accountsettings");
+        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+icqUin, "accountsettings");
 
 	if ( m_restore_xstatus_num == -10 )
 	{

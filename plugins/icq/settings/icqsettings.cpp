@@ -13,7 +13,7 @@
  ***************************************************************************
 */
 
-
+#include <QDebug>
 #include "icqsettings.h"
 
 icqSettings::icqSettings(const QString &profile_name,
@@ -35,8 +35,6 @@ icqSettings::icqSettings(const QString &profile_name,
 			this, SLOT(widgetStateChanged()));
 	connect( ui.saveStatusOnExitBox, SIGNAL(stateChanged(int)),
 				this, SLOT(widgetStateChanged()));
-	connect( ui.avatarBox, SIGNAL(stateChanged(int)),
-					this, SLOT(widgetStateChanged()));
 	connect( ui.reconnectBox, SIGNAL(stateChanged(int)),
 					this, SLOT(widgetStateChanged()));
 	connect( ui.clientComboBox, SIGNAL(currentIndexChanged(int)),
@@ -68,13 +66,10 @@ icqSettings::~icqSettings()
 
 void icqSettings::loadSettings()
 {
-	QSettings settings(QSettings::IniFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
+        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
 	bool autoC = settings.value("connection/auto", true).toBool();
 	ui.autoBox->setChecked(autoC);
-	if ( autoC )
-		ui.saveStatusOnExitBox->setChecked(settings.value("connection/statonexit", true).toBool());
-	
-	ui.avatarBox->setChecked(settings.value("connection/disavatars", false).toBool());
+        if ( autoC ) ui.saveStatusOnExitBox->setChecked(settings.value("connection/statonexit", true).toBool());
 	ui.reconnectBox->setChecked(settings.value("connection/reconnect", true).toBool());
 	
 	settings.beginGroup("clientid");
@@ -117,16 +112,13 @@ void icqSettings::loadSettings()
 
 void icqSettings::saveSettings()
 {
-	QSettings settings(QSettings::IniFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
+        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
+    qDebug()<<settings.value("connection/auto", false).toBool();
 	bool autoC = ui.autoBox->isChecked();
 	settings.setValue("connection/auto", autoC);
-	if ( autoC )
-		settings.setValue("connection/statonexit", ui.saveStatusOnExitBox->isChecked());
-	else
-		settings.remove("connection/statonexit");
-	
-	
-	settings.setValue("connection/disavatars", ui.avatarBox->isChecked());
+    qDebug()<<settings.value("connection/auto", false).toBool();
+        if ( autoC ) settings.setValue("connection/statonexit", ui.saveStatusOnExitBox->isChecked());
+        else settings.remove("connection/statonexit");
 	settings.setValue("connection/reconnect", ui.reconnectBox->isChecked());
 	
 	if ( ui.mainIconRadio->isChecked())

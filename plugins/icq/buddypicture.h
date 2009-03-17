@@ -22,7 +22,7 @@
 
 class QTcpSocket;
 class icqBuffer;
-class QNetworkProxy;
+/*class QNetworkProxy;*/
 
 
 class buddyPicture : public QObject

@@ -18,9 +18,9 @@
 #define CONNECTION_H
 
 #include <QObject>
-#include <QNetworkProxy>
+/*#include <QNetworkProxy>*/
 #include <QHostInfo>
-#include <QAuthenticator>
+/*#include <QAuthenticator>*/
 #include "buffer.h"
 #include "clientIdentification.h"
 #include "tlv.h"
@@ -45,7 +45,7 @@ signals:
 	void sendLogin();
 	void connectingToBos();
 private slots:
-	void proxyAuthenticationRequired ( const QNetworkProxy & proxy, QAuthenticator * authenticator );
+/*        void proxyAuthenticationRequired ( const QNetworkProxy & proxy, QAuthenticator * authenticator );*/
     void dnsResults(QHostInfo);
 private:
 //	QNetworkProxy currentProxy;

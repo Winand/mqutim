@@ -25,8 +25,6 @@ mainSettings::mainSettings(const QString &profile_name,
   changed = false;
   loadSettings();
   updateAccountComboBox();
-  connect(ui.loginDialogBox, SIGNAL(stateChanged(int)),
-          this, SLOT(widgetStateChanged()));
   connect(ui.autoAwayBox, SIGNAL(toggled(bool)),
           this, SLOT(widgetStateChanged()));
   connect(ui.autoAwayBox, SIGNAL(toggled(bool)),
@@ -37,9 +35,8 @@ mainSettings::mainSettings(const QString &profile_name,
           this, SLOT(widgetStateChanged()));
 }
 
-mainSettings::~mainSettings()
-{
-
+mainSettings::~mainSettings() {
+    //
 }
 
 
@@ -54,7 +51,6 @@ void mainSettings::loadSettings()
   ui.awayMinBox->setValue(profile_settings.value("awaymin", 10).toUInt());
   m_current_account_icon = profile_settings.value("currentaccount", "").toString();
   profile_settings.endGroup();
-  ui.loginDialogBox->setChecked(settings.value("general/showstart", true).toBool());
 }
 
 void mainSettings::saveSettings()
@@ -67,7 +63,6 @@ void mainSettings::saveSettings()
   m_current_account_icon = ui.accountComboBox->itemData(ui.accountComboBox->currentIndex()).toString();
   profile_settings.setValue("currentaccount", m_current_account_icon);
   profile_settings.endGroup();
-  settings.setValue("general/showstart", ui.loginDialogBox->isChecked());
   if ( changed )
     emit settingsSaved();
   changed = false;

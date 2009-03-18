@@ -29,14 +29,12 @@ userInformation::userInformation(const QString &profile_name,bool owner, bool fr
 	IcqPluginSystem &ips = IcqPluginSystem::instance();
 	ui.setupUi(this);
 
-//	setFixedSize(size());
-	move(desktopCenter());
 	setWindowTitle(tr("%1 contact information").arg(uin));
 	setWindowIcon(ips.getIcon("contactinfo"));
-	pictureChanged= false;
+/*	pictureChanged= false;*/
 	ui.maritalComboBox->setVisible(false);
 	ui.label_7->setVisible(false);
-	ui.pictureLabel->setText(QString ("<img src='") + ips.getIconFileName("noavatar") + "'>");
+/*	ui.pictureLabel->setText(QString ("<img src='") + ips.getIconFileName("noavatar") + "'>");*/
 	if (mineUin == uin)
 		owner = true;
 
@@ -111,8 +109,6 @@ userInformation::userInformation(const QString &profile_name,bool owner, bool fr
 	 		ui.birthDateEdit->setVisible(false);
 	 		ui.birthDateEdit->setEnabled(false);
 	 		ui.birthBox->setVisible(false);
-	 		ui.addButton->setVisible(false);
-	 		ui.removeButton->setVisible(false);
 	 		if ( !fromList)
 	 		{
 	 			ui.saveButton->setVisible(false);
@@ -273,7 +269,7 @@ userInformation::userInformation(const QString &profile_name,bool owner, bool fr
 
 	 			 setAboutInfo(contacts.value("about", "").toString());
 
-	 			QByteArray hash = contacts.value("iconhash").toByteArray();
+/*	 			QByteArray hash = contacts.value("iconhash").toByteArray();
 	 			if ( !hash.isEmpty() )
 	 			{
 	 			 QString avatarPath = checkForAvatar(contacts.fileName().section('/', 0, -3),
@@ -286,7 +282,7 @@ userInformation::userInformation(const QString &profile_name,bool owner, bool fr
 	 				QSize picSize = getPictureSize(avatarPath);
 	 			 	ui.pictureLabel->setText(tr("<img src='%1' height='%2' width='%3'>").arg(avatarPath).arg(picSize.height()).arg(picSize.width()));
 	 			 }
-	 			}
+                                }*/
 	 			contacts.endGroup();
 	 			makeSummary();
 	 		}
@@ -294,9 +290,9 @@ userInformation::userInformation(const QString &profile_name,bool owner, bool fr
 
 	 if ( owner )
 	 {
-                        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+ownUin, "accountsettings");
+/*                        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+ownUin, "accountsettings");
 
-		 QByteArray hash = settings.value("main/iconhash").toByteArray();
+                 QByteArray hash = settings.value("main/iconhash").toByteArray();
 			if ( !hash.isEmpty() )
 			{
 			 QString avatarPath = checkForAvatar(settings.fileName().section('/', 0, -3),
@@ -309,7 +305,7 @@ userInformation::userInformation(const QString &profile_name,bool owner, bool fr
 				QSize picSize = getPictureSize(avatarPath);
 			 	ui.pictureLabel->setText(tr("<img src='%1' height='%2' width='%3'>").arg(avatarPath).arg(picSize.height()).arg(picSize.width()));
 			 }
-			}
+                        }*/
 
 			ui.label->setVisible(false);
 			ui.ageEdit->setVisible(false);
@@ -317,32 +313,11 @@ userInformation::userInformation(const QString &profile_name,bool owner, bool fr
 
 }
 
-userInformation::~userInformation()
-{
-
+userInformation::~userInformation() {
+    //
 }
 
-void userInformation::rellocateDialogToCenter(QWidget *widget)
-{
-	QDesktopWidget desktop;
-	// Get current screen num
-	int curScreen = desktop.screenNumber(widget);
-	// Get available geometry of the screen
-	QRect screenGeom = desktop.availableGeometry(curScreen);
-	// Let's calculate point to move dialog
-	QPoint moveTo(screenGeom.left(), screenGeom.top());
-
-	moveTo.setX(moveTo.x() + screenGeom.width() / 2);
-	moveTo.setY(moveTo.y() + screenGeom.height() / 2);
-
-	moveTo.setX(moveTo.x() - this->size().width() / 2);
-	moveTo.setY(moveTo.y() - this->size().height() / 2);
-
-	this->move(moveTo);
-}
-
-void userInformation::setCountry(quint16 code)
-{
+void userInformation::setCountry(quint16 code) {
 	ui.countryComboBox->setCurrentIndex(getIndexFromCountryCode(code));
 }
 
@@ -1089,21 +1064,14 @@ void userInformation::setInterests(const QString &keyWords, quint16 code, quint8
 	}
 }
 
-QPoint userInformation::desktopCenter()
-{
-	QDesktopWidget desktop;
-	return QPoint(desktop.width() / 2 - size().width() / 2, desktop.height() / 2 - size().height() / 2);
-}
-
-
-QString userInformation::checkForAvatar(const QString &path, const QString &hash)
+/*QString userInformation::checkForAvatar(const QString &path, const QString &hash)
 {
 
 	if ( QFile::exists(path + "/icqicons/" + hash) )
 		return (path + "/icqicons/" + hash);
 	else
 		return QString("");
-}
+}*/
 
 void userInformation::on_saveButton_clicked()
 {
@@ -1177,8 +1145,8 @@ void userInformation::on_saveButton_clicked()
 
 	contacts.endGroup();
 	} else {
-		emit saveOwnerInfo(pictureChanged, picturePath);
-		pictureChanged = false;
+                emit saveOwnerInfo(/*pictureChanged, picturePath*/);
+/*		pictureChanged = false;*/
 	}
 }
 
@@ -2001,17 +1969,17 @@ quint8 userInformation::getAuth()
 	return 0;
 }
 
-void userInformation::on_addButton_clicked()
+/*void userInformation::on_addButton_clicked()
 {
 //	QString fileName =   QFileDialog::getOpenFileName(this, tr("Open File"),
 //			 "",
 //	                                                 tr("Images (*.gif *.bmp *.jpg *.jpeg *.png)"));
-/*	QFileDialog dialog(0,tr("Open File"),"",tr("Images (*.gif *.bmp *.jpg *.jpeg *.png)"));
-        dialog.setAttribute(Qt::WA_QuitOnClose, false);*/
+        QFileDialog dialog(0,tr("Open File"),"",tr("Images (*.gif *.bmp *.jpg *.jpeg *.png)"));
+        dialog.setAttribute(Qt::WA_QuitOnClose, false);
 	QStringList fileList;
 
-/*	if ( dialog.exec())
-                fileList = dialog.selectedFiles();*/
+        if ( dialog.exec())
+                fileList = dialog.selectedFiles();
 	if ( fileList.count())
 	{
 		QString fileName = fileList.at(0);
@@ -2042,7 +2010,7 @@ void userInformation::on_removeButton_clicked()
 	pictureChanged = true;
 	picturePath.clear();
 	ui.pictureLabel->clear();
-}
+}*/
 
 QStringList userInformation::getCountryList()
 {

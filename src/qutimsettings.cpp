@@ -61,7 +61,7 @@ qutimSettings::~qutimSettings()
   delete m_chat_window_settings;
   delete m_anti_spam_settings;
   delete m_notification_settings;
-  delete m_sound_settings;
+/*  delete m_sound_settings;*/
   delete m_history_settings;
 /*  delete m_proxy_settings;*/
   deleteCurrentProtocolSettings();
@@ -107,12 +107,12 @@ void qutimSettings::createSettingsWidget()
   m_anti_spam_settings_item->setText(0, tr("Anti-spam"));
   m_anti_spam_settings_item->setIcon(0, m_iconManager.getIcon("antispam"));
 
-  m_sound_settings_item = new QTreeWidgetItem(ui.settingsTree);
+/*  m_sound_settings_item = new QTreeWidgetItem(ui.settingsTree);
   m_sound_settings_item->setText(0, tr("Sound"));
   m_sound_settings_item->setIcon(0, m_iconManager.getIcon("soundsett"));
 
 
-/*  m_global_proxy_item = new QTreeWidgetItem(ui.settingsTree);
+  m_global_proxy_item = new QTreeWidgetItem(ui.settingsTree);
   m_global_proxy_item->setText(0, tr("Global proxy"));
   m_global_proxy_item->setIcon(0, m_iconManager.getIcon("proxy"));*/
 
@@ -162,12 +162,12 @@ void qutimSettings::createWidgetsStack()
   connect(m_anti_spam_settings, SIGNAL(settingsSaved()),
           this, SLOT(antiSpamSettingsChanged()));
 
-  m_sound_settings = new SoundLayerSettings(m_profile_name);
+/*  m_sound_settings = new SoundLayerSettings(m_profile_name);
   addWidget(m_sound_settings);
   connect(m_sound_settings, SIGNAL(settingsSaved()),
           this, SLOT(soundSettingsChanged()));
 
-/*  m_proxy_settings = new GlobalProxySettings(m_profile_name);
+  m_proxy_settings = new GlobalProxySettings(m_profile_name);
   addWidget(m_proxy_settings);
         connect(m_proxy_settings, SIGNAL(settingsSaved()),
                   this, SLOT(globalProxySettingsChanged()));*/
@@ -199,7 +199,7 @@ void qutimSettings::saveAllSettings()
   m_chat_window_settings->saveSettings();
   m_anti_spam_settings->saveSettings();
   m_notification_settings->saveSettings();
-  m_sound_settings->saveSettings();
+/*  m_sound_settings->saveSettings();*/
   m_history_settings->saveSettings();
 /*  m_proxy_settings->saveSettings();*/
 }

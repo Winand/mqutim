@@ -33,7 +33,6 @@ public:
     multipleSending(QWidget *parent = 0);
     ~multipleSending();
 
-	void rellocateDialogToCenter(QWidget *widget);
     void setTreeModel(const QString &, const QHash<quint16, treeGroupItem *> *, const QHash<QString, treeBuddyItem *> *);
 
 private slots:
@@ -46,7 +45,6 @@ signals:
 
 private:
     Ui::multipleSendingClass ui;
-    QPoint desktopCenter();
     QStringList sendToList;
     QTreeWidgetItem *rootItem;
     QTimer *sendTimer;

@@ -17,23 +17,13 @@
 
 #include "addrenamedialog.h"
 
-addRenameDialog::addRenameDialog(QWidget *parent)
-    : QDialog(parent)
+addRenameDialog::addRenameDialog(QWidget *parent) : QDialog(parent)
 {
 	ui.setupUi(this);
-	setFixedSize(size());
-	move(desktopCenter());
 }
 
-addRenameDialog::~addRenameDialog()
-{
-
-}
-
-QPoint addRenameDialog::desktopCenter()
-{
-	QDesktopWidget desktop;
-	return QPoint(desktop.width() / 2 - size().width() / 2, desktop.height() / 2 - size().height() / 2);
+addRenameDialog::~addRenameDialog() {
+    //
 }
 
 void addRenameDialog::on_lineEdit_textChanged(const QString &t)

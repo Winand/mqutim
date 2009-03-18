@@ -29,7 +29,6 @@ public:
     searchUser(const QString &profile_name, QWidget *parent = 0);
     ~searchUser();
 
-	void rellocateDialogToCenter(QWidget *widget);
     QString getUin();
     QString getEmail();
     void addFoundedContact(bool, bool, const QString &, const QString &,
@@ -79,7 +78,6 @@ private:
 	QAction *userInformationAction;
 	QAction *sendMessageAction;
     Ui::searchUserClass ui;
-    QPoint desktopCenter();
     QTreeWidgetItem *clickedItemForContext;
     QString m_profile_name;
 };

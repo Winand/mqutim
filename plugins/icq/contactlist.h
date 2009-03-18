@@ -182,7 +182,7 @@ private slots:
 	void deletePrivacyWindow(QObject *);
 	void deleteFromPrivacyList(const QString &, int);
 	void openSelfInfo();
-	void saveOwnerInfo(bool, const QString &);
+        void saveOwnerInfo(/*bool, const QString &*/);
 	void getUploadIconData(quint16);
 	void openChangePasswordDialog();
 	void createNewGroup();

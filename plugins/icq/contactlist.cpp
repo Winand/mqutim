@@ -1972,52 +1972,47 @@ bool contactListTree::checkBuddyPictureHash(const QByteArray &hash)
 
 void contactListTree::askForAvatars(const QByteArray &hash, const QString &uin)
 {
+qDebug("contactListTree::askForAvatars");
+    if ( !hash.isEmpty() && (hash.size() == 16 ))
+    {
+            if ( !checkBuddyPictureHash(hash) )
+            {
+
+                    QHostAddress hostAddr = QHostAddress(avatarAddress);
+                    if ( !hostAddr.isNull())
+                    {
+
+                            if ( !buddyConnection->connectedToServ )
+                            {
+
+                                    avatartList.insert(uin, hash);
+                                    buddyConnection->connectToServ(avatarAddress, avatarPort, avatarCookie/*, tcpSocket->proxy()*/);
+
+                            }
+                            else
+                            {
+                                    if ( buddyConnection->canSendReqForAvatars )
+                                    {
 
 
+                                            buddyConnection->sendHash(uin,hash);
+                                    }
+                                    else
+                                    {
 
-	if ( !hash.isEmpty() && (hash.size() == 16 ))
-	{
-		if ( !checkBuddyPictureHash(hash) )
-		{
+                                            avatartList.insert(uin, hash);
+                                    }
+                            }
+                    } else {
 
-			QHostAddress hostAddr = QHostAddress(avatarAddress);
-			if ( !hostAddr.isNull())
-			{
+                            avatartList.insert(uin, hash);
+                    }
 
-				if ( !buddyConnection->connectedToServ )
-				{
-
-					avatartList.insert(uin, hash);
-                                        buddyConnection->connectToServ(avatarAddress, avatarPort, avatarCookie/*, tcpSocket->proxy()*/);
-
-				}
-				else
-				{
-					if ( buddyConnection->canSendReqForAvatars )
-					{
-
-
-						buddyConnection->sendHash(uin,hash);
-					}
-					else
-					{
-
-						avatartList.insert(uin, hash);
-					}
-				}
-			} else {
-
-				avatartList.insert(uin, hash);
-			}
-
-		} else {
-                        QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+account_name, "contactlist");
-			settings.setValue(uin + "/iconhash", hash.toHex());
-		}
-	}
-
-
-
+            } else {
+                    QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+account_name, "contactlist");
+                    settings.setValue(uin + "/iconhash", hash.toHex());
+            }
+    }
 }
 
 void contactListTree::sendReqForRedirect()
@@ -2404,8 +2399,8 @@ void contactListTree::openInfoWindow(const QString &uin, const QString &nick, co
 			this, SLOT(infoUserWindowClosed(QObject *)));
 	connect( infoWin, SIGNAL(requestUserInfo(const QString &)),
 				this, SLOT(askForFullUserInfo(const QString &)));
-	connect( infoWin, SIGNAL(saveOwnerInfo(bool,const QString &)),
-				this, SLOT(saveOwnerInfo(bool, const QString &)));
+        connect( infoWin, SIGNAL(saveOwnerInfo(/*bool,const QString &*/)),
+                                this, SLOT(saveOwnerInfo(/*bool, const QString &*/)));
 
 	infoWindowList.insert(uin, infoWin);
 
@@ -3315,7 +3310,7 @@ void contactListTree::openSelfInfo()
 	openInfoWindow(icqUin);
 }
 
-void contactListTree::saveOwnerInfo(bool saveAvatar, const QString &avatarPath)
+void contactListTree::saveOwnerInfo(/*bool saveAvatar, const QString &avatarPath*/)
 {
 	if ( infoWindowList.contains(icqUin))
 	{
@@ -3401,12 +3396,12 @@ void contactListTree::saveOwnerInfo(bool saveAvatar, const QString &avatarPath)
 //		metaInfo.sendMoreInfo(tcpSocket, *flapSeq, *snacSeq, *metaSeq);
 //		emit incFlapSeq();
 
-		if ( !waitForIconUpload && saveAvatar)
+/*		if ( !waitForIconUpload && saveAvatar)
 		{
 			waitForIconUpload = saveAvatar;
 			ownIconPath = avatarPath;
 			uploadIcon();
-		}
+                }*/
 	}
 }
 

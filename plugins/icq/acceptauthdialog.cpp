@@ -20,22 +20,13 @@ acceptAuthDialog::acceptAuthDialog(const QString &u,QWidget *parent)
     : QDialog(parent), uin(u)
 {
 	ui.setupUi(this);
-	setFixedSize(size());
-	move(desktopCenter());
 	setAttribute(Qt::WA_QuitOnClose, false);
 	setAttribute(Qt::WA_DeleteOnClose, true);
 	acceptAuth = false;
 }
 
-acceptAuthDialog::~acceptAuthDialog()
-{
-	
-}
-
-QPoint acceptAuthDialog::desktopCenter()
-{
-	QDesktopWidget desktop;
-	return QPoint(desktop.width() / 2 - size().width() / 2, desktop.height() / 2 - size().height() / 2);
+acceptAuthDialog::~acceptAuthDialog() {
+    //
 }
 
 void acceptAuthDialog::on_acceptButton_clicked()

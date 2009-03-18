@@ -22,19 +22,10 @@ passwordChangeDialog::passwordChangeDialog(const QString &u, const QString &prof
     , m_profile_name(profile_name)
 {
 	ui.setupUi(this);
-	setFixedSize(size());
-	move(desktopCenter());
 }
 
-passwordChangeDialog::~passwordChangeDialog()
-{
-
-}
-
-QPoint passwordChangeDialog::desktopCenter()
-{
-	QDesktopWidget desktop;
-	return QPoint(desktop.width() / 2 - size().width() / 2, desktop.height() / 2 - size().height() / 2);
+passwordChangeDialog::~passwordChangeDialog() {
+    //
 }
 
 void passwordChangeDialog::on_changeButton_clicked()

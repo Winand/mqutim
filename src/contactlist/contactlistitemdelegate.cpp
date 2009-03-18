@@ -30,12 +30,11 @@ ContactListItemDelegate::ContactListItemDelegate(QObject *parent) : QtopiaItemDe
   m_show_icons.fill(true, 13);
 }
 
-ContactListItemDelegate::~ContactListItemDelegate()
-{
+ContactListItemDelegate::~ContactListItemDelegate() {
+    //
 }
 
-void ContactListItemDelegate::setSettings(QVector<bool> show_icons)
-{
+void ContactListItemDelegate::setSettings(QVector<bool> show_icons) {
   m_show_icons = show_icons;
 }
 

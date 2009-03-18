@@ -17,21 +17,11 @@
 
 #include "requestauthdialog.h"
 
-requestAuthDialog::requestAuthDialog(QWidget *parent)
-    : QDialog(parent)
+requestAuthDialog::requestAuthDialog(QWidget *parent) : QDialog(parent)
 {
 	ui.setupUi(this);
-	move(desktopCenter());
-	setFixedSize(size());
 }
 
-requestAuthDialog::~requestAuthDialog()
-{
-
-}
-
-QPoint requestAuthDialog::desktopCenter()
-{
-	QDesktopWidget desktop;
-	return QPoint(desktop.width() / 2 - size().width() / 2, desktop.height() / 2 - size().height() / 2);
+requestAuthDialog::~requestAuthDialog() {
+    //
 }

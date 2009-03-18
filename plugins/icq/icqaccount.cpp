@@ -621,9 +621,7 @@ void icqAccount::loadAccountSettings()
 {
         QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
         QSettings account_settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/ICQ."+icqUin, "accountsettings");
-        qDebug()<<("qutim/qutim."+m_profile_name);
         autoConnect = settings.value("connection/auto", false).toBool();
-        qDebug()<<settings.value("connection/auto", false).toBool();
 	statusIconIndex = settings.value("main/staticon", 0).toInt();
 	thisIcqProtocol->reconnectOnDisc = settings.value("connection/reconnect", true).toBool();
 /*	thisIcqProtocol->getContactListClass()->fileTransferObject->setListenPort(settings.value("connection/listen", 5191).toUInt());*/

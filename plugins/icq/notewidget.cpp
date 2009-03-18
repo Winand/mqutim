@@ -22,8 +22,6 @@ noteWidget::noteWidget(const QString &mu, const QString &cu, const QString &name
     , m_profile_name(profile_name)
 {
 	ui.setupUi(this);
-	setFixedSize(size());
-	move(desktopCenter());
 	setAttribute(Qt::WA_QuitOnClose, false);
 	setAttribute(Qt::WA_DeleteOnClose, true);
 	setWindowTitle(name);
@@ -31,15 +29,8 @@ noteWidget::noteWidget(const QString &mu, const QString &cu, const QString &name
 	ui.noteEdit->setPlainText(settings.value(contactUin + "/note", "").toString());
 }
 
-noteWidget::~noteWidget()
-{
-
-}
-
-QPoint noteWidget::desktopCenter()
-{
-	QDesktopWidget desktop;
-	return QPoint(desktop.width() / 2 - size().width() / 2, desktop.height() / 2 - size().height() / 2);
+noteWidget::~noteWidget() {
+    //
 }
 
 void noteWidget::on_okButton_clicked()

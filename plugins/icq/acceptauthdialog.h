@@ -36,7 +36,6 @@ signals:
 	void sendAuthReqAnswer(bool, const QString &);
 private:
     Ui::acceptAuthDialogClass ui;
-    QPoint desktopCenter();
     QString uin;
 };
 

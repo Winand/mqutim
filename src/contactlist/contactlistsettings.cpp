@@ -18,7 +18,6 @@ ContactListSettings::ContactListSettings(const QString &profile_name, QWidget *p
   connect (ui.sortstatusCheckBox, SIGNAL(stateChanged(int)), this, SLOT(widgetSettingsChanged()));
   connect (ui.alternatingCheckBox, SIGNAL(stateChanged(int)), this, SLOT(widgetSettingsChanged()));
   connect (ui.clientIconCheckBox, SIGNAL(stateChanged(int)), this, SLOT(widgetSettingsChanged()));
-  connect (ui.avatarIconCheckBox, SIGNAL(stateChanged(int)), this, SLOT(widgetSettingsChanged()));
 }
 
 ContactListSettings::~ContactListSettings()
@@ -30,7 +29,6 @@ void ContactListSettings::loadSettings()
   QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
   settings.beginGroup("contactlist");
   ui.alternatingCheckBox->setChecked(settings.value("alternatingrc",false).toBool());
-  ui.avatarIconCheckBox->setChecked(settings.value("showicon1",false).toBool());
   ui.clientIconCheckBox->setChecked(settings.value("showicon12",false).toBool());
   ui.showAccountsBox->setChecked((settings.value("modeltype",0).toInt()&1)==0);
   ui.showGroupsBox->setChecked((settings.value("modeltype",0).toInt()&2)==0);
@@ -46,7 +44,6 @@ void ContactListSettings::saveSettings()
   QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
   settings.beginGroup("contactlist");
   settings.setValue("alternatingrc",ui.alternatingCheckBox->isChecked());
-  settings.setValue("showicon1",ui.avatarIconCheckBox->isChecked());
   settings.setValue("showicon12",ui.clientIconCheckBox->isChecked());
   int model_type = ui.showAccountsBox->isChecked()?0:1;
   model_type += ui.showGroupsBox->isChecked()?0:2;

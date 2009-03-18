@@ -22,40 +22,11 @@ addBuddyDialog::addBuddyDialog(QWidget *parent)
 {
 	ui.setupUi(this);
 	setWindowIcon(IcqPluginSystem::instance().getIcon("add_user.png"));
-	setFixedSize(size());
 	setAttribute(Qt::WA_QuitOnClose, false);
-	
-	move(desktopCenter());
 }
 
-addBuddyDialog::~addBuddyDialog()
-{
-
-}
-
-void addBuddyDialog::rellocateDialogToCenter(QWidget *widget)
-{
-	QDesktopWidget desktop;
-	// Get current screen num
-	int curScreen = desktop.screenNumber(widget);
-	// Get available geometry of the screen
-	QRect screenGeom = desktop.availableGeometry(curScreen);
-	// Let's calculate point to move dialog
-	QPoint moveTo(screenGeom.left(), screenGeom.top());
-
-	moveTo.setX(moveTo.x() + screenGeom.width() / 2);
-	moveTo.setY(moveTo.y() + screenGeom.height() / 2);
-
-	moveTo.setX(moveTo.x() - this->size().width() / 2);
-	moveTo.setY(moveTo.y() - this->size().height() / 2);
-
-	this->move(moveTo);
-}
-
-QPoint addBuddyDialog::desktopCenter()
-{
-	QDesktopWidget desktop;
-	return QPoint(desktop.width() / 2 - size().width() / 2, desktop.height() / 2 - size().height() / 2);
+addBuddyDialog::~addBuddyDialog() {
+    //
 }
 
 void addBuddyDialog::setContactData(const QString &name, const QStringList &groups)

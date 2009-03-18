@@ -34,7 +34,6 @@ private slots:
 
 private:
     Ui::addRenameDialogClass ui;
-    QPoint desktopCenter();
 };
 
 #endif // ADDRENAMEDIALOG_H

@@ -29,7 +29,6 @@ public:
     userInformation(const QString &profile_name, bool, bool, const QString &,const QString &, QWidget *parent = 0);
     ~userInformation();
 
-	void rellocateDialogToCenter(QWidget *widget);
     void setNick(const QString &t){ui.nickEdit->setText(t);}
     void setFirst(const QString &t){ui.firstEdit->setText(t);}
     void setLast(const QString &t){ui.lastEdit->setText(t);}
@@ -141,26 +140,25 @@ protected:
 private slots:
 	void on_saveButton_clicked();
 	void on_requestButton_clicked();
-	void on_addButton_clicked();
-	void on_removeButton_clicked();
+/*	void on_addButton_clicked();
+        void on_removeButton_clicked();*/
 
 
 signals:
 	void requestUserInfo(const QString &);
-	void saveOwnerInfo(bool, const QString &);
+        void saveOwnerInfo(/*bool, const QString &*/);
 
 private:
     Ui::userInformationClass ui;
     int getIndexFromCountryCode(quint16);
-    QPoint desktopCenter();
 
-    QString checkForAvatar(const QString&, const QString &);
+/*    QString checkForAvatar(const QString&, const QString &);*/
     QString ownUin;
     void makeSummary();
     QSize getPictureSize(const QString &);
     quint16 getCountryCodeFromIndex(int);
-    bool pictureChanged;
-    QString picturePath;
+/*    bool pictureChanged;
+    QString picturePath;*/
     QStringList getCountryList();
     QStringList getLangList();
     QStringList getInterestList();

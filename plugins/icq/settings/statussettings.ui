@@ -1,162 +1,144 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>statusSettingsClass</class>
- <widget class="QWidget" name="statusSettingsClass" >
-  <property name="geometry" >
+ <widget class="QWidget" name="statusSettingsClass">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>532</width>
-    <height>472</height>
+    <width>285</width>
+    <height>226</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>statusSettings</string>
   </property>
-  <layout class="QGridLayout" >
-   <property name="leftMargin" >
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <property name="leftMargin">
     <number>0</number>
    </property>
-   <property name="topMargin" >
+   <property name="topMargin">
+    <number>9</number>
+   </property>
+   <property name="rightMargin">
     <number>0</number>
    </property>
-   <property name="rightMargin" >
-    <number>0</number>
-   </property>
-   <property name="bottomMargin" >
+   <property name="bottomMargin">
     <number>1</number>
    </property>
-   <item row="0" column="0" >
-    <widget class="QFrame" name="frame" >
-     <property name="frameShape" >
-      <enum>QFrame::StyledPanel</enum>
+   <item>
+    <widget class="QCheckBox" name="webawareBox">
+     <property name="text">
+      <string>Allow viewing my status from the Web</string>
      </property>
-     <property name="frameShadow" >
-      <enum>QFrame::Raised</enum>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="customStatusBox">
+     <property name="text">
+      <string>Add additional statuses to status menu</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout" >
-      <property name="margin" >
-       <number>6</number>
-      </property>
-      <item row="0" column="0" >
-       <layout class="QVBoxLayout" name="verticalLayout" >
-        <item>
-         <widget class="QCheckBox" name="webawareBox" >
-          <property name="text" >
-           <string>Allow other to view my status from the Web</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="customStatusBox" >
-          <property name="text" >
-           <string>Add additional statuses to status menu</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="contactToolTip" >
-          <property name="text" >
-           <string>Ask for xStauses automatically</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="notifyBox" >
-          <property name="text" >
-           <string>Notify about reading your status</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout" >
-          <item>
-           <widget class="QComboBox" name="statusBox" >
-            <property name="sizePolicy" >
-             <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <item>
-             <property name="text" >
-              <string>Away</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>Lunch</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>Evil</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>Depression</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>At home</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>At work</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>N/A</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>Occupied</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>DND</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="messageWinBox" >
-            <property name="sizePolicy" >
-             <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text" >
-             <string>Don't show autoreply dialog</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="QTextEdit" name="statusEdit" >
-          <property name="lineWrapMode" >
-           <enum>QTextEdit::NoWrap</enum>
-          </property>
-          <property name="acceptRichText" >
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="contactToolTip">
+     <property name="text">
+      <string>Ask for xStauses automatically</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="notifyBox">
+     <property name="text">
+      <string>Notify about reading your status</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QComboBox" name="statusBox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <item>
+        <property name="text">
+         <string>Away</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Lunch</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Evil</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Depression</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>At home</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>At work</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>N/A</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Occupied</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>DND</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="messageWinBox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Don't show autoreply dialog</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTextEdit" name="statusEdit">
+     <property name="lineWrapMode">
+      <enum>QTextEdit::NoWrap</enum>
+     </property>
+     <property name="acceptRichText">
+      <bool>false</bool>
+     </property>
     </widget>
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
+ <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections/>
 </ui>

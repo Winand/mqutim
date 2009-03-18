@@ -29,7 +29,6 @@ public:
     bool deleteHistory(){return ui.checkBox->isChecked();}
 private:
     Ui::deleteContactDialogClass ui;
-    QPoint desktopCenter();
 };
 
 #endif // DELETECONTACTDIALOG_H

@@ -13,42 +13,37 @@
  ***************************************************************************
 */
 
-#include <QDesktopWidget>
-
 #include "passworddialog.h"
 
-passwordDialog::passwordDialog(QWidget *parent)
-    : QDialog(parent)
+passwordDialog::passwordDialog(QWidget *parent) : QDialog(parent)
 {
-	ui.setupUi(this);
-	resetSettings();
-	setFixedSize(size());
-	connect( ui.passwordEdit, SIGNAL(textChanged ( const QString &) ),
-			this, SLOT(okEnable(const QString &)));
-	
-	connect( ui.saveBox, SIGNAL(stateChanged(int)),
-				this, SLOT(savePass(int)));
+    ui.setupUi(this);
+    resetSettings();
+    setFixedSize(size());
+    connect(ui.passwordEdit, SIGNAL(textChanged ( const QString &) ),
+            this, SLOT(okEnable(const QString &)));
+    connect(ui.saveBox, SIGNAL(stateChanged(int)),
+            this, SLOT(savePass(int)));
 }
 
-passwordDialog::~passwordDialog()
-{
+passwordDialog::~passwordDialog(){
+    //
 }
 
 void passwordDialog::okEnable(const QString &text)
 {
-	ui.saveButton->setEnabled(text != "");
-	password = text;
+    ui.saveButton->setEnabled(text != "");
+    password = text;
 }
 
 void passwordDialog::resetSettings()
 {
-	ui.passwordEdit->clear();
-	ui.saveBox->setChecked(false);
-	savePassword = false;
+    ui.passwordEdit->clear();
+    ui.saveBox->setChecked(false);
+    savePassword = false;
 }
 
-void passwordDialog::setTitle(const QString &account)
-{
-	setWindowTitle(tr("Enter %1 password").arg(account));
+void passwordDialog::setTitle(const QString &account) {
+    setWindowTitle(tr("Enter %1 password").arg(account));
 }
 

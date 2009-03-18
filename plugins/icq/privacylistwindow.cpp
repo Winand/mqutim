@@ -25,7 +25,6 @@ privacyListWindow::privacyListWindow(const QString &uin, const QString &profile_
 	ui.setupUi(this);
 	setWindowTitle(tr("Privacy lists"));
 	setWindowIcon(IcqPluginSystem::instance().getIcon("privacylist"));
-	move(desktopCenter());
 	ui.visibleTreeWidget->setColumnWidth(2,22);
 	ui.visibleTreeWidget->setColumnWidth(3,22);
 	ui.visibleTreeWidget->setColumnWidth(1,200);
@@ -40,34 +39,8 @@ privacyListWindow::privacyListWindow(const QString &uin, const QString &profile_
 	createLists();
 }
 
-privacyListWindow::~privacyListWindow()
-{
-
-}
-
-void privacyListWindow::rellocateDialogToCenter(QWidget *widget)
-{
-	QDesktopWidget desktop;
-	// Get current screen num
-	int curScreen = desktop.screenNumber(widget);
-	// Get available geometry of the screen
-	QRect screenGeom = desktop.availableGeometry(curScreen);
-	// Let's calculate point to move dialog
-	QPoint moveTo(screenGeom.left(), screenGeom.top());
-
-	moveTo.setX(moveTo.x() + screenGeom.width() / 2);
-	moveTo.setY(moveTo.y() + screenGeom.height() / 2);
-
-	moveTo.setX(moveTo.x() - this->size().width() / 2);
-	moveTo.setY(moveTo.y() - this->size().height() / 2);
-
-	this->move(moveTo);
-}
-
-QPoint privacyListWindow::desktopCenter()
-{
-	QDesktopWidget desktop;
-	return QPoint(desktop.width() / 2 - size().width() / 2, desktop.height() / 2 - size().height() / 2);
+privacyListWindow::~privacyListWindow() {
+    //
 }
 
 void privacyListWindow::createLists()

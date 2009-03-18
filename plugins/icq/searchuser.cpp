@@ -38,9 +38,7 @@ searchUser::searchUser(const QString &profile_name, QWidget *parent)
 	adjustSize();
 	setWindowTitle(tr("Add/find users"));
 	setWindowIcon(IcqPluginSystem::instance().getIcon("search"));
-	resize(700,500);
-//	setFixedSize(700,500);
-	move(desktopCenter());
+
 	ui.uinButton->setChecked(true);
 	ui.resultTreeWidget->setColumnWidth(0,22);
 	ui.resultTreeWidget->setColumnWidth(1,22);
@@ -59,35 +57,12 @@ searchUser::searchUser(const QString &profile_name, QWidget *parent)
 	ui.maritalLabel->setVisible(false);
 }
 
-searchUser::~searchUser()
-{
-
+searchUser::~searchUser() {
+    //
 }
 
-void searchUser::rellocateDialogToCenter(QWidget *widget)
-{
-	QDesktopWidget desktop;
-	// Get current screen num
-	int curScreen = desktop.screenNumber(widget);
-	// Get available geometry of the screen
-	QRect screenGeom = desktop.availableGeometry(curScreen);
-	// Let's calculate point to move dialog
-	QPoint moveTo(screenGeom.left(), screenGeom.top());
-
-	moveTo.setX(moveTo.x() + screenGeom.width() / 2);
-	moveTo.setY(moveTo.y() + screenGeom.height() / 2);
-
-	moveTo.setX(moveTo.x() - this->size().width() / 2);
-	moveTo.setY(moveTo.y() - this->size().height() / 2);
-
-	this->move(moveTo);
-}
-
-void searchUser::on_moreButton_toggled(bool toggled)
-{
-
-	ui.moreBox->setVisible(toggled);
-
+void searchUser::on_moreButton_toggled(bool toggled) {
+    ui.moreBox->setVisible(toggled);
 }
 
 void searchUser::on_clearButton_clicked()
@@ -106,12 +81,6 @@ void searchUser::on_clearButton_clicked()
 	ui.languageComboBox->setCurrentIndex(0);
 	ui.occupationComboBox->setCurrentIndex(0);
 	ui.keyWordEdit->clear();
-}
-
-QPoint searchUser::desktopCenter()
-{
-	QDesktopWidget desktop;
-	return QPoint(desktop.width() / 2 - size().width() / 2, desktop.height() / 2 - size().height() / 2);
 }
 
 QString searchUser::getUin()

@@ -32,7 +32,6 @@ private slots:
 
 private:
     Ui::passwordChangeDialogClass ui;
-    QPoint desktopCenter();
     QString ownerUin;
     QString m_profile_name;
 };

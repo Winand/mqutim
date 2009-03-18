@@ -30,7 +30,7 @@
 #include "chatwindow/chatwindowsettings.h"
 #include "antispam/antispamlayersettings.h"
 #include "notifications/notificationslayersettings.h"
-#include "sound/soundlayersettings.h"
+/*#include "sound/soundlayersettings.h"*/
 #include "contactlist/contactlistsettings.h"
 #include "history/historysettings.h"
 /*#include "globalsettings/globalproxysettings.h"*/
@@ -85,7 +85,7 @@ private:
   ChatWindowSettings *m_chat_window_settings;
   AntiSpamLayerSettings *m_anti_spam_settings;
   NotificationsLayerSettings *m_notification_settings;
-  SoundLayerSettings *m_sound_settings;
+/*  SoundLayerSettings *m_sound_settings;*/
   ContactListSettings *m_contact_list_settings;
   HistorySettings *m_history_settings;
 /*  GlobalProxySettings *m_proxy_settings;*/
@@ -97,7 +97,7 @@ private:
   QTreeWidgetItem *general;
   QTreeWidgetItem *m_account_management_item;
   QTreeWidgetItem *m_notifications_settings_item;
-  QTreeWidgetItem *m_sound_settings_item;
+/*  QTreeWidgetItem *m_sound_settings_item;*/
   QTreeWidgetItem *m_history_settings_item;
 /*  QTreeWidgetItem *m_global_proxy_item;*/
   

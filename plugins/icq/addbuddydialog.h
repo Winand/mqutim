@@ -28,7 +28,6 @@ public:
     addBuddyDialog(QWidget *parent = 0);
     ~addBuddyDialog();
 
-	void rellocateDialogToCenter(QWidget *widget);
     void setTitle(const QString &t) { setWindowTitle(tr("Add %1").arg(t));}
     void setContactData(const QString &, const QStringList &);
     inline QString getNick() const { return ui.nickEdit->text(); };
@@ -36,7 +35,6 @@ public:
     void setMoveData(const QStringList &);
 private:
     Ui::addBuddyDialogClass ui;
-    QPoint desktopCenter();
 };
 
 #endif // ADDBUDDYDIALOG_H

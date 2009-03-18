@@ -32,7 +32,6 @@ private slots:
     
 private:
     Ui::noteWidgetClass ui;
-    QPoint desktopCenter();
     QString contactUin;
     QString mineUin;
     QString m_profile_name;

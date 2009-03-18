@@ -113,10 +113,8 @@ void icqSettings::loadSettings()
 void icqSettings::saveSettings()
 {
         QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "icqsettings");
-    qDebug()<<settings.value("connection/auto", false).toBool();
 	bool autoC = ui.autoBox->isChecked();
 	settings.setValue("connection/auto", autoC);
-    qDebug()<<settings.value("connection/auto", false).toBool();
         if ( autoC ) settings.setValue("connection/statonexit", ui.saveStatusOnExitBox->isChecked());
         else settings.remove("connection/statonexit");
 	settings.setValue("connection/reconnect", ui.reconnectBox->isChecked());

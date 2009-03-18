@@ -1,41 +1,42 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>StatusPresetCaptionClass</class>
- <widget class="QDialog" name="StatusPresetCaptionClass" >
-  <property name="geometry" >
+ <widget class="QDialog" name="StatusPresetCaptionClass">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>293</width>
-    <height>104</height>
+    <width>221</width>
+    <height>112</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>StatusPresetCaption</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" >
-   <property name="margin" >
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="margin">
     <number>2</number>
    </property>
-   <item row="0" column="0" >
-    <layout class="QVBoxLayout" name="verticalLayout" >
+   <item row="0" column="0">
+    <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QLabel" name="label" >
-       <property name="text" >
+      <widget class="QLabel" name="label">
+       <property name="text">
         <string>Please enter preset caption</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="presetEdit" />
+      <widget class="QLineEdit" name="presetEdit"/>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout" >
+      <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <spacer name="horizontalSpacer" >
-         <property name="orientation" >
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>40</width>
            <height>20</height>
@@ -44,18 +45,18 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="okButton" >
-         <property name="enabled" >
+        <widget class="QPushButton" name="okButton">
+         <property name="enabled">
           <bool>false</bool>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>OK</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="cancelButton" >
-         <property name="text" >
+        <widget class="QPushButton" name="cancelButton">
+         <property name="text">
           <string>Cancel</string>
          </property>
         </widget>
@@ -66,7 +67,7 @@
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
+ <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections>
   <connection>
@@ -75,11 +76,11 @@
    <receiver>StatusPresetCaptionClass</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>169</x>
      <y>77</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>81</x>
      <y>70</y>
     </hint>
@@ -91,11 +92,11 @@
    <receiver>StatusPresetCaptionClass</receiver>
    <slot>reject()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>271</x>
      <y>77</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>295</x>
      <y>63</y>
     </hint>

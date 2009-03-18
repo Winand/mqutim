@@ -16,21 +16,11 @@
 
 #include "deletecontactdialog.h"
 
-deleteContactDialog::deleteContactDialog(QWidget *parent)
-    : QDialog(parent)
+deleteContactDialog::deleteContactDialog(QWidget *parent) : QDialog(parent)
 {
 	ui.setupUi(this);
-	setFixedSize(size());
-	move(desktopCenter());
 }
 
-deleteContactDialog::~deleteContactDialog()
-{
-
-}
-
-QPoint deleteContactDialog::desktopCenter()
-{
-	QDesktopWidget desktop;
-	return QPoint(desktop.width() / 2 - size().width() / 2, desktop.height() / 2 - size().height() / 2);
+deleteContactDialog::~deleteContactDialog() {
+    //
 }

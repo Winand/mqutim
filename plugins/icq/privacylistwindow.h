@@ -28,7 +28,6 @@ public:
     privacyListWindow(const QString &, const QString &profile_name, QWidget *parent = 0);
     ~privacyListWindow();
 
-	void rellocateDialogToCenter(QWidget *widget);
     void createLists();
     void setOnline(bool);
 
@@ -43,7 +42,6 @@ signals:
 	void deleteFromPrivacyList(const QString &, int);
 private:
     Ui::privacyListWindowClass ui;
-    QPoint desktopCenter();
     QString accountUin;
     QString m_profile_name;
 };

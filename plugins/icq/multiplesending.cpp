@@ -26,7 +26,6 @@ multipleSending::multipleSending(QWidget *parent)
 	ui.setupUi(this);
 	setWindowTitle(tr("Send multiple"));
 	setWindowIcon(IcqPluginSystem::instance().getIcon("multiple"));
-	move(desktopCenter());
 	ui.contactListWidget->header()->hide();
 /*	QList<int> listSize;
 	listSize.append(408);
@@ -36,28 +35,8 @@ multipleSending::multipleSending(QWidget *parent)
 	connect(sendTimer, SIGNAL(timeout()), this, SLOT(sendMessage()));
 }
 
-multipleSending::~multipleSending()
-{
-
-}
-
-void multipleSending::rellocateDialogToCenter(QWidget *widget)
-{
-	QDesktopWidget desktop;
-	// Get current screen num
-	int curScreen = desktop.screenNumber(widget);
-	// Get available geometry of the screen
-	QRect screenGeom = desktop.availableGeometry(curScreen);
-	// Let's calculate point to move dialog
-	QPoint moveTo(screenGeom.left(), screenGeom.top());
-
-	moveTo.setX(moveTo.x() + screenGeom.width() / 2);
-	moveTo.setY(moveTo.y() + screenGeom.height() / 2);
-
-	moveTo.setX(moveTo.x() - this->size().width() / 2);
-	moveTo.setY(moveTo.y() - this->size().height() / 2);
-
-	this->move(moveTo);
+multipleSending::~multipleSending() {
+    //
 }
 
 void multipleSending::setTreeModel(const QString &uin, const QHash<quint16, treeGroupItem *> *groupList, const QHash<QString, treeBuddyItem *> *buddyList)
@@ -107,12 +86,6 @@ void multipleSending::on_contactListWidget_itemChanged(QTreeWidgetItem *item, in
 		}
 	}
 
-}
-
-QPoint multipleSending::desktopCenter()
-{
-	QDesktopWidget desktop;
-	return QPoint(desktop.width() / 2 - size().width() / 2, desktop.height() / 2 - size().height() / 2);
 }
 
 void multipleSending::on_sendButton_clicked()

@@ -1,97 +1,101 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>AntiSpamLayerSettingsClass</class>
- <widget class="QScrollArea" name="AntiSpamLayerSettingsClass" >
-  <property name="geometry" >
+ <widget class="QScrollArea" name="AntiSpamLayerSettingsClass">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>381</width>
-    <height>456</height>
+    <width>332</width>
+    <height>316</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>AntiSpamSettings</string>
   </property>
-  <property name="frameShape" >
+  <property name="frameShape">
    <enum>QFrame::NoFrame</enum>
   </property>
-  <property name="widgetResizable" >
+  <property name="widgetResizable">
    <bool>true</bool>
   </property>
-  <widget class="QWidget" name="scrollAreaWidgetContents" >
-   <property name="geometry" >
+  <widget class="QWidget" name="scrollAreaWidgetContents">
+   <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>381</width>
-     <height>456</height>
+     <width>332</width>
+     <height>316</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout_2" >
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <property name="margin">
+     <number>0</number>
+    </property>
     <item>
-     <widget class="QCheckBox" name="fromClBox" >
-      <property name="text" >
+     <widget class="QCheckBox" name="fromClBox">
+      <property name="text">
        <string>Accept messages only from contact list</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QCheckBox" name="notifyBox" >
-      <property name="text" >
+     <widget class="QCheckBox" name="notifyBox">
+      <property name="text">
        <string>Notify when blocking message</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QCheckBox" name="authorizationBox" >
-      <property name="text" >
+     <widget class="QCheckBox" name="authorizationBox">
+      <property name="text">
        <string>Do not accept NIL messages concerning authorization</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QCheckBox" name="urlBox" >
-      <property name="text" >
+     <widget class="QCheckBox" name="urlBox">
+      <property name="text">
        <string>Do not accept NIL messages with URLs</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QGroupBox" name="botGroupBox" >
-      <property name="title" >
+     <widget class="QGroupBox" name="botGroupBox">
+      <property name="title">
        <string>Enable anti-spam bot</string>
       </property>
-      <property name="flat" >
+      <property name="flat">
        <bool>false</bool>
       </property>
-      <property name="checkable" >
+      <property name="checkable">
        <bool>true</bool>
       </property>
-      <property name="checked" >
+      <property name="checked">
        <bool>true</bool>
       </property>
-      <layout class="QGridLayout" name="gridLayout" >
-       <property name="margin" >
-        <number>6</number>
+      <layout class="QGridLayout" name="gridLayout">
+       <property name="margin">
+        <number>0</number>
        </property>
-       <item row="0" column="0" >
-        <layout class="QVBoxLayout" name="verticalLayout" >
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <widget class="QLabel" name="label" >
-           <property name="text" >
+          <widget class="QLabel" name="label">
+           <property name="text">
             <string>Anti-spam question:</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QTextEdit" name="questionTextEdit" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
+          <widget class="QTextEdit" name="questionTextEdit">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="minimumSize" >
+           <property name="minimumSize">
             <size>
              <width>40</width>
              <height>0</height>
@@ -100,29 +104,37 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_2" >
-           <property name="text" >
-            <string>Answer to question:</string>
-           </property>
-          </widget>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>Answer:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="answerLineEdit"/>
+           </item>
+          </layout>
          </item>
          <item>
-          <widget class="QLineEdit" name="answerLineEdit" />
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QLabel" name="label_3">
+             <property name="text">
+              <string>Msg on right answer:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="afterAnswerLineEdit"/>
+           </item>
+          </layout>
          </item>
          <item>
-          <widget class="QLabel" name="label_3" >
-           <property name="text" >
-            <string>Message after right answer:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="afterAnswerLineEdit" />
-         </item>
-         <item>
-          <widget class="QCheckBox" name="invisibleBox" >
-           <property name="text" >
-            <string>Don't send question/reply if my status is "invisible"</string>
+          <widget class="QCheckBox" name="invisibleBox">
+           <property name="text">
+            <string>Don't send question/reply if my status is &quot;invisible&quot;</string>
            </property>
           </widget>
          </item>

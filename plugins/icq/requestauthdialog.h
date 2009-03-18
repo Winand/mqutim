@@ -31,7 +31,6 @@ public:
 
 private:
     Ui::requestAuthDialogClass ui;
-    QPoint desktopCenter();
 };
 
 #endif // REQUESTAUTHDIALOG_H

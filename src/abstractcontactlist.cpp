@@ -481,11 +481,10 @@ void AbstractContactList::loadSettings()
   m_tree_view->setUpdatesEnabled(false);
 
   settings.beginGroup("contactlist");
-  double opacity = settings.value("opacity",1).toDouble();
   m_tree_view->setAlternatingRowColors(settings.value("alternatingrc",false).toBool());
   QList<bool> show_icons;
   show_icons.append(settings.value("showicon0",true).toBool());
-  show_icons.append(settings.value("showicon1",false).toBool());
+  show_icons.append(false /*settings.value("showicon1",false).toBool()*/); //Отображение аватара
   for (int i=2;i<12;i++)
     show_icons.append(settings.value("showicon"+QString::number(i),true).toBool());
   show_icons.append(settings.value("showicon12",false).toBool());

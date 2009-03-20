@@ -341,7 +341,7 @@ void jPluginSystem::changeOwnConferenceNickName(const QString &protocol_name, co
 
 void jPluginSystem::addConferenceItem(const QString &protocol_name, const QString &conference_name, const QString &account_name, const QString &nickname)
 {
-	m_parent_layer->getMainPluginSystemPointer()->addConferenceItem(protocol_name, conference_name, account_name, nickname);	
+        m_parent_layer->getMainPluginSystemPointer()->addConferenceItem(protocol_name, conference_name, account_name, nickname);
 }
 
 void jPluginSystem::removeConferenceItem(const QString &protocol_name, const QString &conference_name, const QString &account_name, const QString &nickname)

@@ -840,9 +840,9 @@ bool AbstractChatLayer::addConferenceItem(const QString &protocol_name, const QS
                            .arg(protocol_name)
                            .arg(conference_name)
                            .arg(account_name);
-  if ( m_separate_conference_list.contains(identification) )
+qDebug("AbstractChatLayer::addConferenceItem0");  if ( m_separate_conference_list.contains(identification) )
   {
-    m_separate_conference_list.value(identification)->addConferenceItem(nickname);
+qDebug("AbstractChatLayer::addConferenceItem1");    m_separate_conference_list.value(identification)->addConferenceItem(nickname);
   }
   return true;
 }

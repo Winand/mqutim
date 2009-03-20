@@ -18,7 +18,9 @@
 ConferenceItemModel::ConferenceItemModel(ConferenceContactList *contact_list, QObject *parent)
     : QAbstractItemModel(parent)
 {
+    qDebug("ConferenceItemModel::ConferenceItemModel1");
   m_contact_list = contact_list;
+      qDebug("ConferenceItemModel::ConferenceItemModel2");
 }
 
 ConferenceItemModel::~ConferenceItemModel()
@@ -119,8 +121,9 @@ bool ConferenceItemModel::removeRows(int position, int rows, const QModelIndex &
 
 bool ConferenceItemModel::addBuddy(const QString & name)
 {
-  if (!insertRows(0,1,QModelIndex()))
-    return false;
+qDebug("0");  if (!insertRows(0,1,QModelIndex())) {
+    qDebug("1");
+    return false;}
   if (m_item_hash.contains(name))
     return false;
   ConferenceItem *item = m_item_list[0];

@@ -16,7 +16,7 @@
 #ifndef JFILETRANSFER_H
 #define JFILETRANSFER_H
 
-#include <jFileTransferWidget.h>
+/*#include <jFileTransferWidget.h>
 #include <QObject>
 #include <QHash>
 #include <gloox/client.h>
@@ -26,7 +26,7 @@
 #include <gloox/socks5bytestreammanager.h>
 #include <gloox/iqhandler.h>
 
-/*
+
 using namespace gloox;
 
 class jFileTransfer : public QObject, SIProfileFTHandler

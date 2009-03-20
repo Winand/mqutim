@@ -89,8 +89,8 @@ private:
 	bool m_remove_message_after;
 	quint16 m_remove_count;
 	QList<quint64> m_message_positions;
-	bool m_close_after_send;
-	bool m_show_names;
+/*	bool m_close_after_send;
+        bool m_show_names;*/
 	QTextBrowser *m_text_browser;
 	QTextEdit *conferenceTextEdit;
 	QString m_now_html;

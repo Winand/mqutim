@@ -80,8 +80,10 @@ ConferenceContactList::ConferenceContactList(const QString &protocol_name, const
     : m_protocol_name(protocol_name), m_conference_name(conference_name),
     m_account_name(account_name), m_plugin_system(PluginSystem::instance())
 {
+  qDebug("ConferenceContactList::ConferenceContactList0");
   m_list_view=list_view;
   m_item_model = new ConferenceItemModel(this);
+  qDebug("ConferenceContactList::ConferenceContactList1");
 }
 
 ConferenceContactList::~ConferenceContactList()
@@ -91,7 +93,7 @@ ConferenceContactList::~ConferenceContactList()
 
 void ConferenceContactList::addConferenceItem(const QString &nickname)
 {
-  m_item_model->addBuddy(nickname);
+qDebug("ConferenceContactList::addConferenceItem");  m_item_model->addBuddy(nickname);
 }
 
 void ConferenceContactList::removeConferenceItem(const QString &nickname)

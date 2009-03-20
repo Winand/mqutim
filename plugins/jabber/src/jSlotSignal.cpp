@@ -93,8 +93,8 @@ void jSlotSignal::sendTypingNotification(const TreeModelItem &item, bool composi
 void jSlotSignal::addConferenceItem(const QString &protocol_name,const QString &conference_name,
 		const QString &account_name,const QString &nickname)
 {
-	m_jabber_account->getPluginSystem().addConferenceItem(protocol_name,conference_name,account_name,nickname);
-	m_jabber_account->getPluginSystem().setConferenceItemIcon(protocol_name, conference_name, account_name, nickname,QIcon(":/icons/clients/unknown"),12);
+        m_jabber_account->getPluginSystem().addConferenceItem(protocol_name,conference_name,account_name,nickname);
+        m_jabber_account->getPluginSystem().setConferenceItemIcon(protocol_name, conference_name, account_name, nickname,QIcon(":/icons/clients/unknown"),12);
 }
 
 void jSlotSignal::removeConferenceItem(const QString &protocol_name,const QString &conference_name,

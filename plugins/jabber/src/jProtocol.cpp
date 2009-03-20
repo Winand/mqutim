@@ -445,8 +445,8 @@ void jProtocol::handleRoster(const Roster& roster)
 	m_jabber_roster->stopLoadRoster();
 }
 
-void jProtocol::handleRosterError(Stanza *stanza)
-{
+void jProtocol::handleRosterError(Stanza *stanza) {
+    //
 }
 
 void jProtocol::handlePresence (const Presence &presence)

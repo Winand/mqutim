@@ -55,7 +55,7 @@ SeparateConference::SeparateConference(
   menu->addSeparator();
   menu->addAction(tr("Close Chat"), this, SLOT(deleteLater()));
 
-//	m_contact_list = new ConferenceContactList(protocol_name,conference_name,account_name,ui.conferenceList);
+      m_contact_list = new ConferenceContactList(protocol_name,conference_name,account_name,0/*ui.conferenceList*/);
 //	m_item_delegate = new ContactListItemDelegate();
 //	m_item_delegate->setTreeView(ui.conferenceList);
 //	ui.conferenceList->setItemDelegate(m_item_delegate);
@@ -86,9 +86,9 @@ SeparateConference::SeparateConference(
   qDebug() << "ui done...";
 }
 
-bool SeparateConference::eventFilter(QObject *obj, QEvent *event)
+bool SeparateConference::eventFilter(QObject *obj, QEvent *evt)
 {
-  if (obj == ui.t_Edit && event->type() == QEvent::KeyPress)
+/*  if (obj == ui.t_Edit && event->type() == QEvent::KeyPress)
   {
     QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
     if ( keyEvent->key() == Qt::Key_Tab )
@@ -100,7 +100,19 @@ bool SeparateConference::eventFilter(QObject *obj, QEvent *event)
     m_tab_compl->reset();
     return false;
   }
-  return QObject::eventFilter( obj, event );
+  return QObject::eventFilter( obj, event );*/
+  if (obj==conferenceTextEdit && evt->type()==QEvent::KeyPress)
+  {
+    QKeyEvent *ke = static_cast<QKeyEvent *>(evt);
+    if (ke->key()==Qt::Key_Back)
+    {
+        m_abstract_chat_layer.sendMessageToConference(m_protocol_name, m_conference_name, m_account_name,
+            conferenceTextEdit->toPlainText());
+        conferenceTextEdit->clear();
+      return true;
+    }
+  }
+  return false;
 }
 
 SeparateConference::~SeparateConference()
@@ -130,7 +142,7 @@ void SeparateConference::addMessage(const QString &from,
                     ?QString("<b><font color=#0000FF>"):QString("<b><font color=#FF0000>"));
     add_text.append(QString("[%1]").arg(date));
 
-    if ( m_show_names )
+/*    if ( m_show_names )*/
     {
       add_text.append(QString(" %1").arg(Qt::escape(from)));
     }
@@ -440,7 +452,7 @@ void SeparateConference::checkForActive(const QString &message)
 }
 void SeparateConference::addConferenceItem(const QString &nickname)
 {
-  m_contact_list->addConferenceItem(nickname);
+qDebug("SeparateConference::addConferenceItem");  m_contact_list->addConferenceItem(nickname);
 }
 
 void SeparateConference::removeConferenceItem(const QString &nickname)

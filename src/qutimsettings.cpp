@@ -31,8 +31,6 @@
 #include "abstractcontactlist.h"
 #include "globalsettings/abstractglobalsettings.h"
 
-
-
 qutimSettings::qutimSettings(const QString &profile_name,
                              QWidget *parent) :
     QStackedWidget(parent),

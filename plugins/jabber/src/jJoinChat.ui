@@ -1,10 +1,11 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>JoinChat</class>
- <widget class="QWidget" name="JoinChat" >
-  <property name="windowModality" >
+ <widget class="QWidget" name="JoinChat">
+  <property name="windowModality">
    <enum>Qt::WindowModal</enum>
   </property>
-  <property name="geometry" >
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -12,11 +13,11 @@
     <height>228</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Join groupchat</string>
   </property>
-  <widget class="QTabWidget" name="tabWidget" >
-   <property name="geometry" >
+  <widget class="QTabWidget" name="tabWidget">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>10</y>
@@ -24,15 +25,15 @@
      <height>211</height>
     </rect>
    </property>
-   <property name="currentIndex" >
+   <property name="currentIndex">
     <number>0</number>
    </property>
-   <widget class="QWidget" name="tab" >
-    <attribute name="title" >
+   <widget class="QWidget" name="tab">
+    <attribute name="title">
      <string>Settings</string>
     </attribute>
-    <widget class="QPushButton" name="joinButton" >
-     <property name="geometry" >
+    <widget class="QPushButton" name="joinButton">
+     <property name="geometry">
       <rect>
        <x>0</x>
        <y>120</y>
@@ -40,12 +41,12 @@
        <height>28</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Join</string>
      </property>
     </widget>
-    <widget class="QCheckBox" name="autoJoinCheckBox" >
-     <property name="geometry" >
+    <widget class="QCheckBox" name="autoJoinCheckBox">
+     <property name="geometry">
       <rect>
        <x>80</x>
        <y>100</y>
@@ -53,12 +54,12 @@
        <height>23</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Auto join</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="searchButton" >
-     <property name="geometry" >
+    <widget class="QPushButton" name="searchButton">
+     <property name="geometry">
       <rect>
        <x>0</x>
        <y>150</y>
@@ -66,12 +67,12 @@
        <height>28</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Search</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="nickLineEdit" >
-     <property name="geometry" >
+    <widget class="QLineEdit" name="nickLineEdit">
+     <property name="geometry">
       <rect>
        <x>90</x>
        <y>40</y>
@@ -80,8 +81,8 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="passwordLineEdit" >
-     <property name="geometry" >
+    <widget class="QLineEdit" name="passwordLineEdit">
+     <property name="geometry">
       <rect>
        <x>90</x>
        <y>70</y>
@@ -89,12 +90,12 @@
        <height>24</height>
       </rect>
      </property>
-     <property name="echoMode" >
+     <property name="echoMode">
       <enum>QLineEdit::Password</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="label_6" >
-     <property name="geometry" >
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
       <rect>
        <x>10</x>
        <y>70</y>
@@ -102,12 +103,12 @@
        <height>24</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Password</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="closeButton" >
-     <property name="geometry" >
+    <widget class="QPushButton" name="closeButton">
+     <property name="geometry">
       <rect>
        <x>160</x>
        <y>150</y>
@@ -115,12 +116,12 @@
        <height>28</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Close</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="saveButton" >
-     <property name="geometry" >
+    <widget class="QPushButton" name="saveButton">
+     <property name="geometry">
       <rect>
        <x>80</x>
        <y>150</y>
@@ -128,12 +129,12 @@
        <height>28</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Save</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_5" >
-     <property name="geometry" >
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
       <rect>
        <x>10</x>
        <y>40</y>
@@ -141,12 +142,12 @@
        <height>24</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Nick</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_4" >
-     <property name="geometry" >
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
       <rect>
        <x>80</x>
        <y>120</y>
@@ -154,12 +155,12 @@
        <height>23</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Conference</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="conferenceNameLineEdit" >
-     <property name="geometry" >
+    <widget class="QLineEdit" name="conferenceNameLineEdit">
+     <property name="geometry">
       <rect>
        <x>90</x>
        <y>10</y>
@@ -168,8 +169,8 @@
       </rect>
      </property>
     </widget>
-    <widget class="QComboBox" name="conferenceLineEdit" >
-     <property name="geometry" >
+    <widget class="QComboBox" name="conferenceLineEdit">
+     <property name="geometry">
       <rect>
        <x>160</x>
        <y>120</y>
@@ -177,18 +178,18 @@
        <height>23</height>
       </rect>
      </property>
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="editable" >
+     <property name="editable">
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="label_3" >
-     <property name="geometry" >
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
       <rect>
        <x>10</x>
        <y>10</y>
@@ -196,17 +197,17 @@
        <height>24</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Name</string>
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="tab_2" >
-    <attribute name="title" >
+   <widget class="QWidget" name="tab_2">
+    <attribute name="title">
      <string>Bookmarks</string>
     </attribute>
-    <widget class="QGroupBox" name="bookmarkBox" >
-     <property name="geometry" >
+    <widget class="QGroupBox" name="bookmarkBox">
+     <property name="geometry">
       <rect>
        <x>10</x>
        <y>0</y>
@@ -214,11 +215,11 @@
        <height>181</height>
       </rect>
      </property>
-     <property name="title" >
+     <property name="title">
       <string>Bookmarks</string>
      </property>
-     <widget class="QListWidget" name="conferenceListWidget" >
-      <property name="geometry" >
+     <widget class="QListWidget" name="conferenceListWidget">
+      <property name="geometry">
        <rect>
         <x>10</x>
         <y>20</y>
@@ -227,8 +228,8 @@
        </rect>
       </property>
      </widget>
-     <widget class="QToolButton" name="addConferenceButton" >
-      <property name="geometry" >
+     <widget class="QToolButton" name="addConferenceButton">
+      <property name="geometry">
        <rect>
         <x>190</x>
         <y>20</y>
@@ -237,8 +238,8 @@
        </rect>
       </property>
      </widget>
-     <widget class="QToolButton" name="removeConferenceButton" >
-      <property name="geometry" >
+     <widget class="QToolButton" name="removeConferenceButton">
+      <property name="geometry">
        <rect>
         <x>190</x>
         <y>50</y>
@@ -273,11 +274,11 @@
    <receiver>JoinChat</receiver>
    <slot>close()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>466</x>
      <y>271</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>256</x>
      <y>149</y>
     </hint>

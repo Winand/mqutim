@@ -97,6 +97,7 @@ jConference::jConference(jProtocol *real_parent, Client *client, jAccount *plugi
 	m_join_form = 0;
 
 //	m_client_base->registerPresenceHandler(this);
+        qDebug("jConference::jConference");
 }
 
 jConference::~jConference()
@@ -466,31 +467,32 @@ void jConference::handlePresence (const Presence &presence)
 			mass=0;
 			break;
 		}
-		if(!contacts->contains(nick) || (*contacts)[nick].m_info.m_name.isNull() || (*contacts)[nick].m_info.m_name.isEmpty())
+                if(!contacts->contains(nick) || (*contacts)[nick].m_info.m_name.isNull() || (*contacts)[nick].m_info.m_name.isEmpty())
 		{
 			//online
-			if(!contacts->contains(nick))
+                        if(!contacts->contains(nick))
 			{
-				MucContact contact;
+                                MucContact contact;
 				jBuddy::ResourceInfo info;
-				info.m_name = nick;
+                                info.m_name = nick;
 				info.m_chat_state = ChatStateActive;
-				contact.m_info = info;
+                                contact.m_info = info;
 				contact.m_affiliation = AffiliationNone;
-				contact.m_role = RoleInvalid ;
+                                contact.m_role = RoleInvalid ;
 				contacts->insert(nick,contact);
-				emit addConferenceItem("Jabber",
-					conference, m_account_name, nick);
+qDebug("from jabber: addConferenceItem");				emit addConferenceItem("Jabber",
+                                        conference, m_account_name, nick);
 			}
-			MucContact *contact = &(*contacts)[nick];
-			jBuddy::ResourceInfo *info = &contact->m_info;
-			info->m_name = nick;
-			info->m_presence = presence.presence();
+qDebug("Zzegfault!!!");			MucContact *contact = &(*contacts)[nick];
+                        jBuddy::ResourceInfo *info = &contact->m_info;
+qDebug("Where is my segfaults??");
+                        info->m_name = nick;
+                        info->m_presence = presence.presence();
 			if(presence.presence() == Presence::Invalid)
 				info->m_presence = Presence::Available;
-			info->m_priority = 0;
+                        info->m_priority = 0;
 			if_join=true;
-			emit setConferenceItemRole("Jabber",
+                        emit setConferenceItemRole("Jabber",
 				conference, m_account_name, nick, status, mass);
 			send_role=true;
 //			JID jid(room->name()+"@"+room->service()+"/"+participant.nick->resource());
@@ -621,7 +623,7 @@ void jConference::handlePresence (const Presence &presence)
 	if(vcard_update)
 	{
 		QString hash = jProtocol::fromStd(vcard_update->hash());
-		if(!hash.isEmpty())
+                if(!hash.isEmpty())
 		{
 			if(QFile(m_jabber_account->getPathToAvatars()+"/"+hash).exists())
 			{

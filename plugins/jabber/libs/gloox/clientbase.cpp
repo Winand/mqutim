@@ -67,6 +67,8 @@
 # include <iomanip>
 #endif
 
+#include <QDebug>
+
 namespace gloox
 {
 
@@ -1242,10 +1244,13 @@ namespace gloox
       t = itj++;
       if( (*t).jid->bare() == pres.from().bare() && (*t).ph )
       {
+        qDebug("ClientBase::notifyPresenceHandlers(0)");
         (*t).ph->handlePresence( pres );
+        qDebug("ClientBase::notifyPresenceHandlers(1)");
         match = true;
       }
     }
+
     if( match )
       return;
 

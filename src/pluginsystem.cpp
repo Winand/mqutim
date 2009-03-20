@@ -1063,8 +1063,8 @@ void PluginSystem::leaveConference(const QString &protocol_name,
 void PluginSystem::addConferenceItem(const QString &protocol_name, const QString &conference_name,
                                      const QString &account_name, const QString &nickname)
 {
-  AbstractChatLayer &acl = AbstractChatLayer::instance();
-  acl.addConferenceItem(protocol_name, conference_name, account_name, nickname);
+qDebug("PluginSystem::addConferenceItem0");  AbstractChatLayer &acl = AbstractChatLayer::instance();
+qDebug("PluginSystem::addConferenceItem1");  acl.addConferenceItem(protocol_name, conference_name, account_name, nickname);
 }
 void PluginSystem::removeConferenceItem(const QString &protocol_name, const QString &conference_name,
                                         const QString &account_name, const QString &nickname)

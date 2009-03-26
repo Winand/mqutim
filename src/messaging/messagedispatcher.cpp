@@ -26,9 +26,9 @@ void MessageDispatcher::dispatch(const Message &msg)
 
 ChatSession *MessageDispatcher::sessionFor(const TreeModelItem &item, ChatSession::Type type)
 {
-  ChatSession *session = sessions[userId(item)];
-  if (session)
-    return session;
+  QHash<QString, ChatSession *>::iterator psession = sessions.find(userId(item));
+  if (psession != sessions.end())
+    return psession.value();
   // Create a new one
   if (!m_chatfactory)
   {
@@ -37,13 +37,13 @@ ChatSession *MessageDispatcher::sessionFor(const TreeModelItem &item, ChatSessio
   }
   else
   {
-    session = m_chatfactory->createChatSession(item, type);
+    ChatSession *session = m_chatfactory->createChatSession(item, type);
     Q_ASSERT(session);
     session->setParent(this);
     connect(session, SIGNAL(messageComposed(QString)), SLOT(messageComposed(QString)));
     connect(session, SIGNAL(typing(bool)), SLOT(userTyping(bool)));
+    return session;
   }
-  return session;
 }
 
 void MessageDispatcher::setChatSessionFactory(ChatSessionFactory *factory)

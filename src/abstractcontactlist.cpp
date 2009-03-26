@@ -183,8 +183,8 @@ bool AbstractContactList::setItemIcon(const TreeModelItem & Item, QIcon icon, in
   //m_tree_view->setUpdatesEnabled(false);
   //qWarning() << "setItemIcon		" << Item.m_item_type << Item.m_protocol_name << Item.m_account_name << Item.m_parent_name << Item.m_item_name << position;
   bool result = m_item_model->setItemIcon(Item, icon, position);
-  if (position==12)
-    AbstractChatLayer::instance().contactChangeCLientIcon(Item);
+//   if (position==12)
+//     AbstractChatLayer::instance().contactChangeCLientIcon(Item);
   //m_tree_view->setUpdatesEnabled(true);
   return result;
 }
@@ -203,7 +203,7 @@ bool AbstractContactList::setItemStatus(const TreeModelItem & Item, QIcon icon, 
   if (!m_has_tree_view)
     return false;
   AbstractChatLayer &acl = AbstractChatLayer::instance();
-  acl.contactChageStatusIcon(Item,icon);
+//   acl.contactChageStatusIcon(Item,icon);
   m_tree_view->setUpdatesEnabled(false);
   //qWarning() << "setItemStatus	" << Item.m_item_type << Item.m_protocol_name << Item.m_account_name << Item.m_parent_name << Item.m_item_name << mass;
   bool result = m_item_model->setItemStatus(Item, icon, text, mass);

@@ -779,7 +779,7 @@ void PluginSystem::addMessageFromContact(const TreeModelItem &item, const QStrin
   }
 
   AbstractChatLayer &acl = AbstractChatLayer::instance();
-  acl.addModifiedMessage(item, tmp_message, true, message_date);
+  acl.addMessage(item, tmp_message, true, message_date);
 }
 
 void PluginSystem::addServiceMessage(const TreeModelItem &item, const QString &message)
@@ -815,7 +815,7 @@ void PluginSystem::sendImageTo(const TreeModelItem &item, const QByteArray &imag
 void PluginSystem::addImage(const TreeModelItem &item, const QByteArray &image_raw)
 {
   AbstractChatLayer &acl = AbstractChatLayer::instance();
-  acl.addImage(item, image_raw, true);
+//   acl.addImage(item, image_raw, true);
 }
 
 void PluginSystem::sendFileTo(const TreeModelItem &item, const QStringList &file_names)

@@ -62,7 +62,7 @@ void AbstractLayer::setupProfile()
   AbstractStatusLayer &asl = AbstractStatusLayer::instance();
   asl.setProfileName(m_current_profile);
   AbstractChatLayer &acl = AbstractChatLayer::instance();
-  acl.loadProfile(m_current_profile);
+//   acl.loadProfile(m_current_profile);
   AbstractAntiSpamLayer &aasl = AbstractAntiSpamLayer::instance();
   aasl.loadProfile(m_current_profile);
   AbstractNotificationLayer &anl = AbstractNotificationLayer::instance();
@@ -125,7 +125,7 @@ void AbstractLayer::initializePointers(QTreeView *contact_list_view, QHBoxLayout
   if ( m_is_new_profile )
     createNewAccount();
   AbstractChatLayer &acl = AbstractChatLayer::instance();
-  acl.restoreData();
+//   acl.restoreData();
   m_plugin_system.pointersAreInitialized();
 }
 

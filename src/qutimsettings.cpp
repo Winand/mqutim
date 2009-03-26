@@ -274,7 +274,7 @@ void qutimSettings::mainSettingsChanged()
 void qutimSettings::chatWindowSettingsChanged()
 {
   AbstractChatLayer &acl = AbstractChatLayer::instance();
-  acl.loadSettings();
+//   acl.loadSettings();
 }
 
 void qutimSettings::antiSpamSettingsChanged()

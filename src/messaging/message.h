@@ -70,6 +70,8 @@ class Message
     
     /**
       Is this a groupchat message?
+      
+      Default: false
     **/
     bool isGroupChat() const;
     void setIsGroupChat(bool is_g);

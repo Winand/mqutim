@@ -30,6 +30,7 @@ void ChatSession::notifyTyping(bool state)
 
 void ChatSession::appendMessage(const Message &msg)
 {
+  m_model.append(msg);
 }
 
 void ChatSession::activate()

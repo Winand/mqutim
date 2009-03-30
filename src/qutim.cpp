@@ -35,6 +35,8 @@
 #include "abstractsoundlayer.h"
 #include "abstractcontextlayer.h"
 
+#include "eventprofiler.h"
+
 bool eventEater::eventFilter(QObject *obj, QEvent *event)
 {
   if ( event->type() == QEvent::MouseButtonDblClick ||
@@ -66,6 +68,8 @@ qutIM::qutIM(QWidget *parent, Qt::WFlags f ) :
     m_switch_user(false), unreadMessages(false)
 {
 //	qApp->installTranslator(&applicationTranslator);
+
+  new EventProfiler(qApp);
 
   m_abstract_layer.setPointers(this);
   m_abstract_layer.setupProfile();

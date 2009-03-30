@@ -28,8 +28,9 @@ TreeContactListModel::TreeContactListModel(const QStringList &headers, QObject *
   m_root_item = new TreeItem(headers[0]);
   m_icon_timer = new QTimer(this);
   m_icon_timer->setInterval(500);
+  m_icon_timer->setObjectName("qutIM::TreeContactListModel::iconTimer");
   connect(m_icon_timer, SIGNAL(timeout()), this, SLOT(onTimerTimeout()));
-  m_icon_timer->start();
+  //m_icon_timer->start();
   m_show_special_status=false;
   m_status_to_tr.insert("online",tr("Online"));
   m_status_to_tr.insert("ffc",tr("Free for chat"));

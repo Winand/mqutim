@@ -99,7 +99,8 @@ HEADERS += src/aboutinfo.h \
     src/messaging/messagelistmodel.h \
     src/messaging/chatsessionfactory.h \
     src/messaging/message.h \
-    src/messaging/chatsession.h
+    src/messaging/chatsession.h \
+    src/eventprofiler.h
 FORMS += src/aboutinfo.ui \
     src/accountmanagement.ui \
     src/console.ui \
@@ -174,6 +175,7 @@ SOURCES += main.cpp \
     src/messaging/message.cpp \
     src/messaging/messagelistmodel.cpp \
     src/messaging/messagedispatcher.cpp \
-    src/messaging/chatsession.cpp
+    src/messaging/chatsession.cpp \
+    src/eventprofiler.cpp
     
 RESOURCES += qutim.qrc

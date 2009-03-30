@@ -86,7 +86,8 @@ HEADERS += src/aboutinfo.h \
     src/history/historywindow.h \
     src/idle/idle.h \
     src/notifications/abstractnotificationlayer.h \
-    src/notifications/notificationslayersettings.h
+    src/notifications/notificationslayersettings.h \
+    src/eventprofiler.h
 FORMS += src/aboutinfo.ui \
     src/accountmanagement.ui \
     src/console.ui \
@@ -153,5 +154,7 @@ SOURCES += main.cpp \
     src/idle/idle_win.cpp \
     src/idle/idle_x11.cpp \
     src/notifications/abstractnotificationlayer.cpp \
-    src/notifications/notificationslayersettings.cpp
+    src/notifications/notificationslayersettings.cpp \
+    src/eventprofiler.cpp
+    
 RESOURCES += qutim.qrc

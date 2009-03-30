@@ -32,6 +32,7 @@ Idle::Idle()
   d = new Private;
   d->active = false;
   d->idleTime = 0;
+  d->checkTimer.setObjectName("qutIM::Idle::checkTimer");
 
   // try to use platform idle
   if (!platform)
@@ -84,7 +85,7 @@ void Idle::start()
   }
 
   // poll every second (use a lower value if you need more accuracy)
-  d->checkTimer.start(1000);
+  //d->checkTimer.start(1000);
 }
 
 void Idle::stop()

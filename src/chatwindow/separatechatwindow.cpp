@@ -165,6 +165,7 @@ void SeparateChatWindow::addMessage(const QString &message_raw, bool in, const Q
       m_message_positions.append(m_log->textCursor().position() - tmp_position);
     }
   }
+    Vibrate();
 }
 
 void SeparateChatWindow::addServiceMessage(const QString &message)
@@ -402,4 +403,19 @@ void SeparateChatWindow::keyPressEvent(QKeyEvent *ev)
   if (ev->key()==Qt::Key_Back)
     return;
   QWidget::keyPressEvent(ev);
+}
+
+void SeparateChatWindow::Vibrate()
+{
+//    qDebug() << "Start vibrate";
+    QVibrateAccessory vib;
+    vib.setVibrateNow( true );
+    QTimer::singleShot(500, this, SLOT(stopVibrate()));
+}
+
+void SeparateChatWindow::stopVibrate()
+{
+//    qDebug() << "Stop vibrate";
+    QVibrateAccessory vib;
+    vib.setVibrateNow( false );
 }

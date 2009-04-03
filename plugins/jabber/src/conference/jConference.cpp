@@ -347,7 +347,7 @@ void jConference::leaveConference(const QString& conference_name)
 	if ( m_room_list.contains(conference_name))
 	{
 		MUCRoom *tmp_room = m_room_list.value(conference_name);
-		tmp_room->leave("mqutIM...");
+		tmp_room->leave(""); // quit reason
 		m_room_list.remove(m_room_list.key(tmp_room));
 		delete tmp_room;
 		delete m_contacts_list[conference_name];

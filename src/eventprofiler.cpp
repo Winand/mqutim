@@ -14,7 +14,7 @@ EventProfiler::EventProfiler(QObject *parent)
 
 bool EventProfiler::eventFilter(QObject *watched, QEvent *event)
 {
-  qDebug() << watched->metaObject()->className() << watched->objectName() << event->type();
+//  qDebug() << watched->metaObject()->className() << watched->objectName() << event->type();
   m_count++;
   stats[event->type()]++;
   if (m_count%1000==0)
@@ -24,10 +24,10 @@ bool EventProfiler::eventFilter(QObject *watched, QEvent *event)
 
 void EventProfiler::dumpStats()
 {
-  qDebug() << "Events profiling statistics:";
-  double sec = startTime.elapsed()/100.0;
-  for (QMap<int, uint>::iterator it = stats.begin(); it!=stats.end(); it++)
-    qDebug() << "Type:" << it.key() << "total:" << it.value() << "ev; rate:" << it.value()/sec << "ev/sec";
-  qDebug();
+//  qDebug() << "Events profiling statistics:";
+//  double sec = startTime.elapsed()/100.0;
+//  for (QMap<int, uint>::iterator it = stats.begin(); it!=stats.end(); it++)
+//    qDebug() << "Type:" << it.key() << "total:" << it.value() << "ev; rate:" << it.value()/sec << "ev/sec";
+//  qDebug();
 }
 

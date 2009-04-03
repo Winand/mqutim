@@ -77,13 +77,13 @@ public slots:
 	void tagHandled(const QString &xml, bool in);
 	void createXmlConsole();
 	void destroyXmlConsole();
-//	void createBookmark();
-//	void destroyBookmark();
+	void createBookmark();
+	void destroyBookmark();
 
 private:
 	jAccount *m_jabber_account;
 	XmlConsole *m_xml_console;
-	//jBookmark *m_bookmark_settings;
+//	jBookmark *m_bookmark_settings;
 	BookmarkList m_b_list;
 	ConferenceList m_c_list;
 	bool isConnected;

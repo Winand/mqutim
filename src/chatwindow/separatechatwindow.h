@@ -30,6 +30,8 @@
 #include "chatemoticonmenu.h"
 #include <QTextCursor>
 #include "ui_chatwindowform.h"
+#include <QVibrateAccessory>
+#include <QTimer>
 
 class SeparateChatWindow : public QWidget
 {
@@ -69,6 +71,7 @@ public:
   void setID(const QString &id);
 
   bool eventFilter(QObject *obj, QEvent *evt);
+    void Vibrate();
 
 protected:
   bool event(QEvent *event);
@@ -79,11 +82,12 @@ private slots:
 	void on_chatInputEdit_textChanged();
 	void typingNow();
 	void clearChat();
-  void showHistory();
+	void showHistory();
 	void quoteText();
 	void windowFocused();
 	void onCustomContextMenuRequested(const QPoint & pos);
 	void newsOnLinkClicked(const QUrl &url);
+	void stopVibrate();
 
 private:
 	Ui::ChatWindow ui;

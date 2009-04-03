@@ -59,6 +59,7 @@ public:
 	void setConferenceItemRole(const QString &nickname, const QIcon &icon, const QString &role, int mass);
 //	void restoreSplitters(const QByteArray &state, const QByteArray &state2);
 	QStringList getItemsList() { return m_contact_list?m_contact_list->getUsers():QStringList(); };
+    void Vibrate();
 
 protected:
 	void showEvent(QShowEvent * event);
@@ -68,6 +69,7 @@ private slots:
 	void on_clearButton_clicked();
 	void newsOnLinkClicked(const QUrl &url);
 	void windowFocused();
+	void stopVibrate();
 private:
 	void moveCursorToEnd();
 	void focusTextEdit();

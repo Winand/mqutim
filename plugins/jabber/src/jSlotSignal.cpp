@@ -21,7 +21,7 @@
 jSlotSignal::jSlotSignal(jAccount *parent) : m_jabber_account(parent)
 {
 	m_xml_console=0;
-	//m_bookmark_settings=0;
+//	m_bookmark_settings=0;
 	isConnected = false;
 }
 

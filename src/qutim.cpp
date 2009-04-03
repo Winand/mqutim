@@ -321,12 +321,12 @@ void qutIM::on_showHideGroupsButton_clicked()
 
 void qutIM::on_soundOnOffButton_clicked()
 {
-/*  QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
+  QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name, "profilesettings");
   settings.beginGroup("sounds");
   bool enable = settings.value("enable",true).toBool();
   settings.setValue("enable",!enable);
   settings.endGroup();
-  AbstractSoundLayer::instance().loadSettings();*/
+  AbstractSoundLayer::instance().loadSettings();
 }
 
 void qutIM::pluginSettingsDeleted(QObject *)

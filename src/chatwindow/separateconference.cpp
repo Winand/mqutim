@@ -140,6 +140,9 @@ void SeparateConference::addMessage(const QString &from,
     QString add_text;
     add_text.append(m_mine_nick != from
                     ?QString("<b><font color=#0000FF>"):QString("<b><font color=#FF0000>"));
+    if (message.contains(m_mine_nick)) qDebug() << "message.contains(m_mine_nick)";
+    if (m_mine_nick != from) qDebug() << "m_mine_nick != from";
+    if ((message.contains(m_mine_nick)) && (m_mine_nick != from)) Vibrate();
     add_text.append(QString("[%1]").arg(date));
 
 /*    if ( m_show_names )*/
@@ -511,4 +514,19 @@ void SeparateConference::keyPressEvent(QKeyEvent *ev)
   if (ev->key()==Qt::Key_Back)
     return;
   QWidget::keyPressEvent(ev);
+}
+
+void SeparateConference::Vibrate()
+{
+//    qDebug() << "Start vibrate";
+    QVibrateAccessory vib;
+    vib.setVibrateNow( true );
+    QTimer::singleShot(500, this, SLOT(stopVibrate()));
+}
+
+void SeparateConference::stopVibrate()
+{
+//    qDebug() << "Stop vibrate";
+    QVibrateAccessory vib;
+    vib.setVibrateNow( false );
 }

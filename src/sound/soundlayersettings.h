@@ -21,7 +21,6 @@
 #include <QList>
 #include <QTreeWidgetItem>
 #include "include/qutim/plugininterface.h"
-
 #include "ui_soundlayersettings.h"
 
 using namespace qutim_sdk_0_2;

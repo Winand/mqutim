@@ -1094,91 +1094,11 @@ void jProtocol::fetchVCard(const QString &jid, bool is_auto)
 
 void jProtocol::handleVCard(const JID &jid, const VCard *fetchedVCard)
 {
-	QString full = fromStd(jid.full());
-	QString avatarUrl = "";
-	QString hex = "";
-	const VCard *vcard = (!fetchedVCard) ? new VCard() : fetchedVCard;
-	QString str_date = fromStd(vcard->bday());
-	bool isValidDate = QDate::fromString(str_date, "yyyy-MM-dd").isValid();
-	if (isValidDate) // valid date
-	{
-		QDate m_date = QDate::fromString(str_date, "yyyy-MM-dd");
-		m_jabber_roster->setBirthday(jid, m_date);
-	}
-	const VCard::Photo & photo = vcard->photo();
-	if(!photo.binval.empty())
-	{
-		QByteArray data(photo.binval.c_str(),photo.binval.length());
-		SHA sha;
-		sha.feed(photo.binval);
-		sha.finalize();
-		hex = fromStd(sha.hex());
-		QDir dir(m_jabber_account->getPathToAvatars());
-		if(!dir.exists())
-			dir.mkpath(dir.absolutePath());
-		avatarUrl = m_jabber_account->getPathToAvatars()+"/"+hex;
-		QFile file(m_jabber_account->getPathToAvatars()+"/"+hex);
-		if(file.open(QIODevice::WriteOnly))
-		{
-			file.write(data);
-			file.close();
-			if(fromStd(jid.bare())==m_account_name)
-			{
-				/*if(m_avatar_hash!=hex)
-				{
-					m_avatar_hash=hex;
-					StanzaExtensionList *extensions = (StanzaExtensionList *)&(jClient->presence().extensions());
-					StanzaExtensionList::iterator it = extensions->begin();
-					StanzaExtensionList::iterator it2;
-					while( it != extensions->end() )
-					{
-						it2 = it++;
-						if((*it2)->extensionType()==ExtVCardUpdate)
-						{
-							delete (*it2);
-							extensions->erase(it2);
-						}
-					}
-					jClient->presence().addExtension(new VCardUpdate(toStd(m_avatar_hash)));
-					QSettings account_settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/jabber."+m_account_name, "accountsettings");
-					account_settings.setValue("main/avatarhash",hex);
-				}*/
-			}
-			else
-				setAvatar(jid,hex);
-		}
-	}
-	else if(!photo.extval.empty())
-	{
-	}
-	else
-	{
-		setAvatar(jid,"");
-	}
-	if(fromStd(jid.bare())==m_account_name)
-	{
-		updateAvatarPresence(hex);
-		QString my_nick = fromStd(vcard->nickname());
-		if(my_nick.isEmpty())
-			my_nick = m_account_name;
-		if(m_my_nick!=my_nick)
-		{
-			m_my_nick = my_nick;
-			QSettings account_settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/jabber."+m_account_name, "accountsettings");
-			account_settings.setValue("main/nickname",m_my_nick);
-		}
-	}
-	if(!m_jids_auto_vcard.contains(full))
-	{
-		VCard *tmp_vcard = new VCard(vcard->tag());
-		emit onFetchVCard(fromStd(jid.full()), tmp_vcard, avatarUrl);
-	}
-	else
-		m_jids_auto_vcard.removeAll(full);
 }
 
 void jProtocol::updateAvatarPresence(const QString &hash)
 {
+/*
 	if(m_avatar_hash!=hash)
 	{
 		if(m_avatar_hash.isEmpty() && hash.isEmpty())
@@ -1202,6 +1122,7 @@ void jProtocol::updateAvatarPresence(const QString &hash)
 		m_conference_management_object->sendPresenceToAll();
 		jClient->setPresence();
 	}
+*/
 }
 
 void jProtocol::handleVCardResult(VCardContext context, const JID &jid, StanzaError se)

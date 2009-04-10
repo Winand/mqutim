@@ -31,15 +31,6 @@ Qt::ItemFlags MessageListModel::flags(const QModelIndex &) const
 QModelIndex MessageListModel::index(int row, int column, const QModelIndex &) const
 {
   return createIndex(row, column);
-  /* // FIXME: Do we need it?
-  if (row>=rowCount())
-  {
-    qWarning() << __PRETTY_FUNCTION__ << "Index out of range (" << row << ">=" << rowCount() << ")";
-    return createIndex(row, column);
-  }
-  const Message &msg = m_messages[row];
-  return createIndex(row, column, (void *)(&msg));
-  */
 }
 
 int MessageListModel::rowCount(const QModelIndex &) const
@@ -107,7 +98,6 @@ void MessageListModel::setInfiniteSize()
 
 const Message &MessageListModel::message(const QModelIndex &index) const
 {
-  //return *static_cast<const Message *>(index.internalPointer());
   if (index.row()>=rowCount())
   {
     qWarning() << "MessageListModel::message(): index out of range";

@@ -22,7 +22,6 @@ DEPENDPATH += . \
     src/antispam \
     src/chatwindow \
     src/contactlist \
-    src/ex \
     src/globalsettings \
     src/history \
     src/idle \
@@ -34,7 +33,6 @@ INCLUDEPATH += . \
     src/contactlist \
     include \
     src/idle \
-    src/ex \
     src/chatwindow \
     src/history \
     src/notifications \
@@ -77,6 +75,7 @@ HEADERS += src/aboutinfo.h \
     src/chatwindow/conferencetabcompletion.h \
     src/chatwindow/movielabel.h \
     src/chatwindow/chatsession_qtopia.h \
+    src/chatwindow/chatview.h \
     src/contactlist/contactlistitemdelegate.h \
     src/contactlist/contactlistitemdelegate_qtopia.h \
     src/contactlist/contactlistproxymodel.h \
@@ -85,7 +84,6 @@ HEADERS += src/aboutinfo.h \
     src/contactlist/treecontactlistmodel.h \
     src/contactlist/treeitem.h \
     src/contactlist/contactlistview.h \
-    src/ex/exsystrayicon.h \
     src/globalsettings/abstractglobalsettings.h \
     src/globalsettings/globalproxysettings.h \
     src/history/historyengine.h \
@@ -151,6 +149,7 @@ SOURCES += main.cpp \
     src/chatwindow/conferencetabcompletion.cpp \
     src/chatwindow/movielabel.cpp \
     src/chatwindow/chatsession_qtopia.cpp \
+    src/chatwindow/chatview.cpp \
     src/contactlist/contactlistitemdelegate.cpp \
     src/contactlist/contactlistitemdelegate_qtopia.cpp \
     src/contactlist/contactlistproxymodel.cpp \
@@ -159,7 +158,6 @@ SOURCES += main.cpp \
     src/contactlist/treecontactlistmodel.cpp \
     src/contactlist/treeitem.cpp \
     src/contactlist/contactlistview.cpp \
-    src/ex/exsystrayicon.cpp \
     src/globalsettings/abstractglobalsettings.cpp \
     src/globalsettings/globalproxysettings.cpp \
     src/history/historyengine.cpp \

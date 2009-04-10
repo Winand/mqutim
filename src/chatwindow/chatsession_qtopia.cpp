@@ -6,6 +6,7 @@
 
 #include "qutim.h"
 #include "chatsession_qtopia.h"
+#include "chatview.h"
 
 QtopiaChatSession::QtopiaChatSession(const TreeModelItem &contact, Type t, QObject *parent)
   : ChatSession(contact, t, parent), ui(NULL)
@@ -13,11 +14,16 @@ QtopiaChatSession::QtopiaChatSession(const TreeModelItem &contact, Type t, QObje
   qutIM::getInstance()->addTab(&ui, contact.m_item_name);
   
   QVBoxLayout *layout = new QVBoxLayout(&ui);
+#if 0
   QListView *chatlog = new QListView(&ui);
   chatlog->setFrameStyle(QFrame::NoFrame);
   chatlog->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   chatlog->setModel(model());
   chatlog->setItemDelegate(new QtopiaItemDelegate(chatlog));
+#else
+  ChatView *chatlog = new ChatView(&ui);
+  chatlog->setModel(model());
+#endif
   layout->addWidget(chatlog);
 }
 

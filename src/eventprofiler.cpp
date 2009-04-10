@@ -7,6 +7,10 @@ EventProfiler::EventProfiler(QObject *parent)
   : QObject(parent),
     m_count(0)
 {
+  int do_profile = qgetenv("MQUTIM_EVENT_PROFILING").toInt();
+  if (!do_profile)
+    return;
+  
   if (parent)
     parent->installEventFilter(this);
   startTime.start();
@@ -14,7 +18,7 @@ EventProfiler::EventProfiler(QObject *parent)
 
 bool EventProfiler::eventFilter(QObject *watched, QEvent *event)
 {
-  qDebug() << watched->metaObject()->className() << watched->objectName() << event->type();
+  //qDebug() << watched->metaObject()->className() << watched->objectName() << event->type();
   m_count++;
   stats[event->type()]++;
   if (m_count%1000==0)

@@ -26,15 +26,20 @@ class ChatView: public QTextEdit
     void modelRowsAboutToBeRemoved(const QModelIndex & parent, int start, int end);
     void modelReset();
   private:
-    struct MessageCache
+    struct MessageCache // some info about row's display
     {
       int frameObject;
       int imagePos; 
     };    
     
-    void insertMessage(const Message &message, QTextFrame *frame, MessageCache &mcache);
-    void connectModel();
-    void disconnectModel();
+    void updateMessageText(int messageRow); // Fill frame at messageRow with formatted message contents
+    void connectModel(); // connect model's signals
+    void disconnectModel(); // disconnect model's signals
+    
+     // Auto-scroll to bottom if log size changed and currently at bottom
+    void smartScrollBegin(); // Before contents are altered
+    void smartScrollEnd(); // After contents are altered
+    bool m_needToScroll; // should we scroll?
     
     QList<MessageCache> m_cache;
     QTextFrameFormat m_frameformat;

@@ -1,6 +1,7 @@
 #include <QDebug>
 #include <QTextDocument>
 #include <QTextFrame>
+#include <QScrollBar>
 
 #include "chatview.h"
 
@@ -10,9 +11,6 @@ ChatView::ChatView(QWidget *parent)
 {
   setReadOnly(true);
   setTextInteractionFlags(Qt::TextBrowserInteraction);
-  
-  m_frameformat.setBorderStyle(QTextFrameFormat::BorderStyle_Solid);
-  m_frameformat.setBorder(1);
   
   // FIXME: Workaround for empty lines between frames. Simply hide them.
   QFontMetrics fm(font());
@@ -34,6 +32,8 @@ void ChatView::setModel(MessageListModel *model)
 void ChatView::modelRowsInserted(const QModelIndex &parent, int start, int end)
 {
   qDebug() << "ChatView::modelRowsInserted(" << start << "," << end << ")";
+  
+  smartScrollBegin();
   
   QTextDocument *doc = document();
   QTextCursor cursor = textCursor();
@@ -59,11 +59,15 @@ void ChatView::modelRowsInserted(const QModelIndex &parent, int start, int end)
     
     cursor.setPosition(frame->lastPosition()+1);
   }
+  
+  smartScrollEnd();
 }
 
 void ChatView::modelRowsAboutToBeRemoved(const QModelIndex & parent, int start, int end)
 {
   qDebug() << "ChatView::modelRowsAboutToBeRemoved(" << start << "," << end << ")";
+  
+  smartScrollBegin();
   
   QTextDocument *doc = document();
   QTextCursor cursor = textCursor();
@@ -74,6 +78,11 @@ void ChatView::modelRowsAboutToBeRemoved(const QModelIndex & parent, int start, 
   cursor.removeSelectedText();
   
   m_cache.erase(m_cache.begin()+start, m_cache.begin()+end+1);
+  
+  if (m_cache.count())
+    updateMessageText(0); // If messages were grouped, first message should be updated
+    
+  smartScrollEnd();
 }
 
 void ChatView::modelReset()
@@ -82,37 +91,42 @@ void ChatView::modelReset()
   m_cache.clear();
   clear();
   
+  smartScrollBegin();
+  
   int n_rows = m_model->rowCount();
   QTextCursor cursor = textCursor();
   MessageCache current_cache;
   for (int row = 0; row<n_rows; row++)
   {
-    QModelIndex index = m_model->index(row, 0);
-    Message message = m_model->message(index);
-    
     QTextFrame *frame = cursor.insertFrame(m_frameformat);
     current_cache.frameObject = frame->objectIndex();
     current_cache.imagePos = -1;
-    insertMessage(message, frame, current_cache);
     m_cache.append(current_cache);
+    
+    updateMessageText(row);
     
     cursor.setPosition(frame->lastPosition()+1);
   }
+  
+  smartScrollEnd();
 }
 
 void ChatView::modelDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight)
 { 
-  QTextDocument *doc = document();
   for (int row=topLeft.row(); row<=bottomRight.row(); row++)
-  {
-    QModelIndex index = m_model->index(row, 0);
-    QTextFrame *frame = qobject_cast<QTextFrame *>(doc->object(m_cache[row].frameObject));
-    insertMessage(m_model->message(index), frame, m_cache[row]);
-  }
+    updateMessageText(row);
 }
 
-void ChatView::insertMessage(const Message &message, QTextFrame *frame, MessageCache &mcache)
+void ChatView::updateMessageText(int messageRow)
 {
+  QTextFrame *frame = qobject_cast<QTextFrame *>(document()->object(m_cache[messageRow].frameObject));
+  Q_ASSERT(frame != NULL);
+  
+  Message message = m_model->message(m_model->index(messageRow, 0));
+  Message prev_message;
+  if (messageRow>0)
+    prev_message = m_model->message(m_model->index(messageRow-1, 0));
+  
   qDebug() << "Appending message";
   qDebug() << "From:" << message.author().m_item_name;
   qDebug() << "Text:" << Qt::escape(message.text());
@@ -127,9 +141,38 @@ void ChatView::insertMessage(const Message &message, QTextFrame *frame, MessageC
   cursor.removeSelectedText();
   cursor.setPosition(frame->firstPosition());
   
+  // Format strings
+  static const QString dialog_nick_color_in = "#FF0000";
+  static const QString dialog_nick_color_out = "#00FF00";
+  static const QString dialog_nick_format = "<font color=\"%1\"><b>%2</b></font><br>";
+  static const QString time_format = "'<font color=\"#999999\" size=\"-2\">'h:mm'</font> '";  
+  
   // Insert text
-  mcache.imagePos = -1;
-  cursor.insertHtml(QString("<b>%1:</b><br>%2").arg(message.author().m_item_name).arg(Qt::escape(message.text())));
+  QString html_text;
+  bool append_timestamp = true;
+  switch (message.type())
+  {
+    case Message::IncomingDialog:
+      if (prev_message.type()!=message.type())
+        html_text += dialog_nick_format.arg(dialog_nick_color_in).arg(message.nick());
+      if (append_timestamp)
+        html_text += message.time().toString(time_format);
+      html_text += Qt::escape(message.text());
+      break;
+      
+    case Message::OutgoingDialog:
+      if (prev_message.type()!=message.type())
+        html_text += dialog_nick_format.arg(dialog_nick_color_out).arg(message.nick());
+      if (append_timestamp)
+        html_text += message.time().toString(time_format);
+      html_text += Qt::escape(message.text());
+      break;
+      
+    default:
+      break;
+  }
+  
+  cursor.insertHtml(html_text);
   
   cursor.endEditBlock();
 }
@@ -151,4 +194,16 @@ void ChatView::disconnectModel()
     return;
   
   m_model->disconnect(this);
+}
+
+#define SMART_SCROLL_THRESHOLD 3
+void ChatView::smartScrollBegin()
+{
+  m_needToScroll = (verticalScrollBar()->maximum()-verticalScrollBar()->sliderPosition())<SMART_SCROLL_THRESHOLD;
+}
+
+void ChatView::smartScrollEnd()
+{
+  if (m_needToScroll)
+    verticalScrollBar()->setSliderPosition(verticalScrollBar()->maximum());
 }

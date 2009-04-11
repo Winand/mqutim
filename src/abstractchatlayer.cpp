@@ -54,11 +54,16 @@ void AbstractChatLayer::addMessage(const TreeModelItem &item, const QString &mes
 {
   if (in)
   {
+    QStringList info = m_plugin_system.getAdditionalInfoAboutContact(item);
     Message msg;
     msg.setType(Message::IncomingDialog);
     msg.setAuthor(item);
     msg.setTime(message_date);
     msg.setText(message);
+    if (info.count()>0)
+      msg.setNick(info[0]);
+    else
+      msg.setNick(item.m_item_name);
     msg.reg();
     dispatcher.dispatch(msg);
   }

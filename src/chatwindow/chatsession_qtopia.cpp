@@ -1,6 +1,8 @@
 
 #include <QListView>
 #include <QVBoxLayout>
+#include <QTextEdit>
+#include <QFrame>
 
 #include <QtopiaItemDelegate>
 
@@ -14,6 +16,8 @@ QtopiaChatSession::QtopiaChatSession(const TreeModelItem &contact, Type t, QObje
   qutIM::getInstance()->addTab(&ui, contact.m_item_name);
   
   QVBoxLayout *layout = new QVBoxLayout(&ui);
+  layout->setContentsMargins(0, 0, 0, 0);
+  layout->setSpacing(0);
 #if 0
   QListView *chatlog = new QListView(&ui);
   chatlog->setFrameStyle(QFrame::NoFrame);
@@ -23,8 +27,24 @@ QtopiaChatSession::QtopiaChatSession(const TreeModelItem &contact, Type t, QObje
 #else
   ChatView *chatlog = new ChatView(&ui);
   chatlog->setModel(model());
+  chatlog->setFrameStyle(QFrame::NoFrame);
 #endif
+  chatlog->setFocusPolicy(Qt::NoFocus);
+  QFrame *delimiter = new QFrame(&ui);
+  delimiter->setFixedHeight(1);
+  delimiter->setFrameStyle(QFrame::HLine | QFrame::Plain);
+  QTextEdit *input = new QTextEdit(&ui);
+  input->setFrameStyle(QFrame::NoFrame);
+  input->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+  
   layout->addWidget(chatlog);
+  layout->addWidget(delimiter);
+  layout->addWidget(input);
+  layout->setStretchFactor(chatlog, 5);
+  layout->setStretchFactor(input, 1);
+  
+  ui.setFocusProxy(input);
+  chatlog->setFocusProxy(input);
 }
 
 QtopiaChatSession::~QtopiaChatSession()

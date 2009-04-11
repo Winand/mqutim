@@ -56,20 +56,20 @@ SeparateConference::SeparateConference(
   menu->addAction(tr("Close Chat"), this, SLOT(deleteLater()));
 
       m_contact_list = new ConferenceContactList(protocol_name,conference_name,account_name,0/*ui.conferenceList*/);
-//	m_item_delegate = new ContactListItemDelegate();
-//	m_item_delegate->setTreeView(ui.conferenceList);
-//	ui.conferenceList->setItemDelegate(m_item_delegate);
+/*        m_item_delegate = new ContactListItemDelegate();
+        m_item_delegate->setTreeView(ui.conferenceList);
+        ui.conferenceList->setItemDelegate(m_item_delegate);
 //	ui.conferenceList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 //	ui.conferenceList->setSelectionMode(QAbstractItemView::SingleSelection);
 //	ui.conferenceList->setSelectionBehavior(QAbstractItemView::SelectItems);
-//	m_cl_event_eater = new ConferenceContactListEventEater();
-//        m_cl_event_eater->m_contact_list = m_contact_list;
-//        ui.conferenceList->findChild<QObject *>("qt_scrollarea_viewport")->installEventFilter(m_cl_event_eater);
-//        ui.conferenceList->installEventFilter(m_cl_event_eater);
-//	m_contact_list->nowActive();
+        m_cl_event_eater = new ConferenceContactListEventEater();
+        m_cl_event_eater->m_contact_list = m_contact_list;
+        ui.conferenceList->findChild<QObject *>("qt_scrollarea_viewport")->installEventFilter(m_cl_event_eater);
+        ui.conferenceList->installEventFilter(m_cl_event_eater);
+        m_contact_list->nowActive();
 
-//	m_scroll_at_max = true;
-//	m_current_scroll_position = 0;
+        m_scroll_at_max = true;
+        m_current_scroll_position = 0;*/
   /*	QList<int> sizes;
           sizes.append(400);
   	sizes.append(20);
@@ -80,9 +80,9 @@ SeparateConference::SeparateConference(
           ui.listSplitter->setSizes(sizes);*/
   m_last_history=true;
   ui.t_Edit->installEventFilter(this);
-  m_tab_compl = new TabCompletion(this);
+/*  m_tab_compl = new TabCompletion(this);
   m_tab_compl->setTextEdit(ui.t_Edit);
-  m_tab_compl->setContactList(m_contact_list);
+  m_tab_compl->setContactList(m_contact_list);*/
   qDebug() << "ui done...";
 }
 
@@ -107,7 +107,7 @@ bool SeparateConference::eventFilter(QObject *obj, QEvent *evt)
     if (ke->key()==Qt::Key_Back)
     {
         m_abstract_chat_layer.sendMessageToConference(m_protocol_name, m_conference_name, m_account_name,
-            conferenceTextEdit->toPlainText());
+            conferenceTextEdit->text());
         conferenceTextEdit->clear();
       return true;
     }
@@ -172,10 +172,10 @@ void SeparateConference::addMessage(const QString &from,
       m_message_positions.append(m_text_browser->textCursor().position() - tmp_position);
     }
   }
-  if (m_mine_nick != from && message.contains(m_mine_nick))
+/*  if (m_mine_nick != from && message.contains(m_mine_nick))
   {
     m_tab_compl->setLastReferrer(from);
-  }
+  }*/
 }
 
 void SeparateConference::moveCursorToEnd()
@@ -254,7 +254,7 @@ void SeparateConference::on_translitButton_clicked()
 		ui.conferenceTextEdit->insertPlainText(txt);
 	focusTextEdit();
 }
-*/
+
 QString SeparateConference::invertMessage(QString &text)
 {
   QString tableR=tr("qwertyuiop[]asdfghjkl;'zxcvbnm,./QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>?");
@@ -292,7 +292,7 @@ QString SeparateConference::invertMessage(QString &text)
     }
   }
   return txt;
-}
+}*/
 
 void SeparateConference::focusTextEdit()
 {
@@ -381,16 +381,11 @@ void SeparateConference::setConferenceTopic(const QString &topic)
 */
 QString SeparateConference::checkForEmoticons(const QString &message)
 {
-  QString new_message = message;
-  foreach(const QString &emoticon_text, m_urls.keys())
-  {
-#if defined(Q_OS_WIN32)
-    new_message.replace(emoticon_text, "<img src='file:///" + m_urls.value(emoticon_text) + "'>");
-#else
-    new_message.replace(emoticon_text, "<img src='file://" + m_urls.value(emoticon_text) + "'>");
-#endif
-  }
-  return new_message;
+    QString new_message = message;
+    foreach(const QString &emoticon_text, m_urls.keys()) {
+        new_message.replace(emoticon_text, "<img src='file://" + m_urls.value(emoticon_text) + "'>");
+    }
+    return new_message;
 }
 
 /*void SeparateConference::scrollWebViewToEnd()

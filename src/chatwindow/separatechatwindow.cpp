@@ -101,15 +101,15 @@ int SeparateChatWindow::getCursorPosition()
 
 void SeparateChatWindow::sendMessage()
 {
-  if (m_edit->toPlainText().trimmed().isEmpty())
+  if (m_edit->text().trimmed().isEmpty())
     return; // Empty message
 
   int cursor_position = getCursorPosition();
   m_abstract_chat_layer.sendMessageTo(m_protocol_name, m_account_name,
-                                      m_item_name, m_edit->toPlainText(),
+                                      m_item_name, m_edit->text(),
                                       cursor_position);
   m_edit->clear();
-  m_edit->moveCursor(QTextCursor::Start);
+/*  m_edit->moveCursor(QTextCursor::Start);*/
   m_edit->setFocus();
 }
 
@@ -186,7 +186,7 @@ void SeparateChatWindow::setOptions(bool remove_after, quint16 remove_count,
   m_send_typing_notifications = typing_notifications;
 }
 
-void SeparateChatWindow::on_chatInputEdit_textChanged()
+void SeparateChatWindow::on_chatInputEdit_textChanged(const QString & text)
 {
   m_text_changed = true;
   if ( m_send_typing_notifications )
@@ -199,7 +199,7 @@ void SeparateChatWindow::on_chatInputEdit_textChanged()
       QTimer::singleShot(5000, this, SLOT(typingNow()));
     }
 
-    if ( m_edit->toPlainText().isEmpty() )
+    if ( text.isEmpty() )
     {
       m_typing_changed = false;
       m_abstract_chat_layer.sendTypingNotification(m_protocol_name,
@@ -239,7 +239,7 @@ void SeparateChatWindow::clearChat()
   m_message_position_offset.clear();
 }
 
-void SeparateChatWindow::quoteText()
+/*void SeparateChatWindow::quoteText()
 {
   QString selected_text;
 
@@ -256,13 +256,13 @@ void SeparateChatWindow::quoteText()
     // Prepend text with ">" tag
     QStringList list = selected_text.split(QChar(0x2028));
     foreach (const QString &mes, list)
-    m_edit->insertPlainText("> " + mes + "\n");
+    m_edit->insert("> " + mes + "\n");
     m_edit->moveCursor(QTextCursor::End);
     m_edit->ensureCursorVisible();
     m_edit->setFocus();
   }
   m_edit->setFocus();
-}
+}*/
 
 void SeparateChatWindow::messageDelievered(int position)
 {

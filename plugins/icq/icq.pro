@@ -37,7 +37,6 @@ HEADERS += acceptauthdialog.h \
     icqpluginsystem.h \
     metainformation.h \
     modifyitem.h \
-    multiplesending.h \
     notewidget.h \
     oscarprotocol.h \
     passwordchangedialog.h \
@@ -67,7 +66,6 @@ FORMS += acceptauthdialog.ui \
     addrenamedialog.ui \
     customstatusdialog.ui \
     deletecontactdialog.ui \
-    multiplesending.ui \
     notewidget.ui \
     passwordchangedialog.ui \
     passworddialog.ui \
@@ -101,7 +99,6 @@ SOURCES += acceptauthdialog.cpp \
     icqmessage.cpp \
     icqpluginsystem.cpp \
     metainformation.cpp \
-    multiplesending.cpp \
     notewidget.cpp \
     oscarprotocol.cpp \
     passwordchangedialog.cpp \

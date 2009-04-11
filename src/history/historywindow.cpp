@@ -22,6 +22,7 @@
 #include "../iconmanager.h"
 #include "../pluginsystem.h"
 #include <QScrollBar>
+#include <QHeaderView>
 
 HistoryWindow::HistoryWindow(const QString &protocol_name,
                              const QString &account_name,
@@ -39,18 +40,19 @@ HistoryWindow::HistoryWindow(const QString &protocol_name,
   item.m_item_name = item_name;
   m_item_name = AbstractHistoryLayer::instance().getContactHistoryName(item);
   ui.setupUi(this);
+  ui.dateTreeWidget->header()->hide();
+  setWindowState(Qt::WindowMaximized);
 
   ui.historyLog->setHtml("<p align='center'><span style='font-size:36pt;'>"
                          + tr("No History") + "</span></p>");
 
   codec = QTextCodec::codecForName("UTF-8");
-  moveToDesktopCenter();
   setAttribute(Qt::WA_QuitOnClose, false);
   setAttribute(Qt::WA_DeleteOnClose, true);
-  QList<int> sizes;
+/*  QList<int> sizes;
   sizes.append(80);
   sizes.append(250);
-  /*	ui.splitter->setSizes(sizes);
+  	ui.splitter->setSizes(sizes);
           ui.splitter->setCollapsible(1,false);*/
   QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+profile_name, "profilesettings");
   m_history_path = QFileInfo(settings.fileName()).absolutePath()+"/history/";
@@ -81,14 +83,6 @@ HistoryWindow::~HistoryWindow()
 {
   AbstractHistoryLayer::instance().closeHistoyWindow(QString("%1.%2.%3").arg(m_protocol_name)
       .arg(m_account_name).arg(m_item_name));
-}
-
-void HistoryWindow::moveToDesktopCenter()
-{
-  QDesktopWidget desktop;
-  QPoint point = QPoint(desktop.width() / 2 - size().width() / 2,
-                        desktop.height() / 2 - size().height() / 2);
-  move(point);
 }
 
 void HistoryWindow::setIcons()
@@ -314,9 +308,9 @@ void HistoryWindow::on_dateTreeWidget_currentItemChanged( QTreeWidgetItem* curre
             }
             else
             {
-              history_html_2.append("<font style=background-color:white>"
+              history_html_2.append("<font style=background-color:white>" /*#FFFFFF=white*/
                                     +history_message.replace(search_word,
-                                                             "<font style=background-color:yellow>"
+                                                             "<font style=background-color:#A0A000>" /*#FFFF00=yellow*/
                                                              +search_word+"</font>", Qt::CaseInsensitive)+"</font><br>");
             }
             history_html.append(history_html_2);
@@ -338,4 +332,10 @@ void HistoryWindow::on_searchButton_clicked()
   {
     fillDateTreeWidget(ui.fromComboBox->currentIndex(), ui.searchEdit->text());
   }
+}
+
+void HistoryWindow::on_cmdsh_clicked()
+{
+  if(ui.dateTreeWidget->isVisible()) ui.dateTreeWidget->hide();
+  else ui.dateTreeWidget->show();
 }

@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>noteWidgetClass</class>
- <widget class="QWidget" name="noteWidgetClass" >
-  <property name="geometry" >
+ <widget class="QWidget" name="noteWidgetClass">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,28 +10,28 @@
     <height>232</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>noteWidget</string>
   </property>
-  <property name="windowIcon" >
-   <iconset resource="../../qutim.qrc" >
+  <property name="windowIcon">
+   <iconset>
     <normaloff>:/icons/crystal_project/note.png</normaloff>:/icons/crystal_project/note.png</iconset>
   </property>
-  <layout class="QGridLayout" name="gridLayout" >
-   <property name="margin" >
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="margin">
     <number>3</number>
    </property>
-   <item row="0" column="0" >
-    <widget class="QTextEdit" name="noteEdit" />
+   <item row="0" column="0">
+    <widget class="QTextEdit" name="noteEdit"/>
    </item>
-   <item row="1" column="0" >
-    <layout class="QHBoxLayout" name="horizontalLayout" >
+   <item row="1" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <spacer name="horizontalSpacer" >
-       <property name="orientation" >
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeHint" stdset="0" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>40</width>
          <height>20</height>
@@ -39,48 +40,33 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="okButton" >
-       <property name="text" >
+      <widget class="QPushButton" name="okButton">
+       <property name="text">
         <string>OK</string>
        </property>
-       <property name="icon" >
-        <iconset resource="../../qutim.qrc" >
+       <property name="icon">
+        <iconset>
          <normaloff>:/icons/crystal_project/apply.png</normaloff>:/icons/crystal_project/apply.png</iconset>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="cancelButton" >
-       <property name="text" >
+      <widget class="QPushButton" name="cancelButton">
+       <property name="text">
         <string>Cancel</string>
        </property>
-       <property name="icon" >
-        <iconset resource="../../qutim.qrc" >
+       <property name="icon">
+        <iconset>
          <normaloff>:/icons/crystal_project/cancel.png</normaloff>:/icons/crystal_project/cancel.png</iconset>
        </property>
       </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_2" >
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0" >
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
      </item>
     </layout>
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
- <resources>
-  <include location="../../qutim.qrc" />
- </resources>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
  <connections>
   <connection>
    <sender>cancelButton</sender>
@@ -88,11 +74,11 @@
    <receiver>noteWidgetClass</receiver>
    <slot>close()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>179</x>
      <y>163</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>208</x>
      <y>153</y>
     </hint>

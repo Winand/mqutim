@@ -63,13 +63,10 @@ HEADERS += src/aboutinfo.h \
     include/qutim/protocolinterface.h \
     src/antispam/abstractantispamlayer.h \
     src/antispam/antispamlayersettings.h \
-    src/chatwindow/chatemoticonmenu.h \
     src/chatwindow/chatwindowsettings.h \
     src/chatwindow/conferencecontactlist.h \
     src/chatwindow/conferenceitem.h \
     src/chatwindow/conferenceitemmodel.h \
-    src/chatwindow/conferencetabcompletion.h \
-    src/chatwindow/movielabel.h \
     src/chatwindow/separatechatwindow.h \
     src/chatwindow/separateconference.h \
     src/contactlist/contactlistitemdelegate.h \
@@ -128,13 +125,10 @@ SOURCES += main.cpp \
     src/statuspresetcaption.cpp \
     src/antispam/abstractantispamlayer.cpp \
     src/antispam/antispamlayersettings.cpp \
-    src/chatwindow/chatemoticonmenu.cpp \
     src/chatwindow/chatwindowsettings.cpp \
     src/chatwindow/conferencecontactlist.cpp \
     src/chatwindow/conferenceitem.cpp \
     src/chatwindow/conferenceitemmodel.cpp \
-    src/chatwindow/conferencetabcompletion.cpp \
-    src/chatwindow/movielabel.cpp \
     src/chatwindow/separatechatwindow.cpp \
     src/chatwindow/separateconference.cpp \
     src/contactlist/contactlistitemdelegate.cpp \
@@ -150,9 +144,6 @@ SOURCES += main.cpp \
     src/history/historysettings.cpp \
     src/history/historywindow.cpp \
     src/idle/idle.cpp \
-    src/idle/idle_mac.cpp \
-    src/idle/idle_win.cpp \
-    src/idle/idle_x11.cpp \
     src/notifications/abstractnotificationlayer.cpp \
     src/notifications/notificationslayersettings.cpp \
     src/eventprofiler.cpp

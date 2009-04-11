@@ -24,8 +24,6 @@ PluginSettings::PluginSettings(QWidget *parent)
   ui.setupUi(this);
   setAttribute(Qt::WA_QuitOnClose, false);
   setAttribute(Qt::WA_DeleteOnClose, true);
-  setMinimumSize(size());
-  moveToDesktopCenter();
   ui.pluginsTree->header()->hide();
 
   connect(ui.pluginsTree, SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)),
@@ -41,20 +39,9 @@ PluginSettings::PluginSettings(QWidget *parent)
 }
 
 
-PluginSettings::~PluginSettings()
-{
-
+PluginSettings::~PluginSettings() {
+    //
 }
-
-
-void PluginSettings::moveToDesktopCenter()
-{
-  QDesktopWidget desktop;
-  QPoint point = QPoint(desktop.width() / 2 - size().width() / 2,
-                        desktop.height() / 2 - size().height() / 2);
-  move(point);
-}
-
 
 void PluginSettings::addPluginItem(SimplePluginInterface *plugin)
 {

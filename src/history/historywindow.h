@@ -38,7 +38,8 @@ private slots:
 	void fillDateTreeWidget(int index, const QString &search_word = "");
 	void on_dateTreeWidget_currentItemChanged( QTreeWidgetItem* current, QTreeWidgetItem* previous );
 	void on_searchButton_clicked();
-    
+        void on_cmdsh_clicked();
+
 private:
 	void fillAccountComboBox();
 	void setIcons();
@@ -51,7 +52,6 @@ private:
 		return codec->toUnicode(QByteArray::fromHex(text.toUtf8()));
 	}
     Ui::HistoryWindowClass ui;
-    void moveToDesktopCenter();
     QString m_protocol_name;
     QString m_account_name;
     QString m_item_name;

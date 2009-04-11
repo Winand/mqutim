@@ -34,7 +34,7 @@ AntiSpamLayerSettings::AntiSpamLayerSettings(const QString &profile_name,
           this, SLOT(widgetStateChanged()));
   connect(ui.botGroupBox, SIGNAL(toggled(bool)),
           this, SLOT(widgetStateChanged()));
-  connect(ui.questionTextEdit, SIGNAL(textChanged()),
+  connect(ui.questionTextEdit, SIGNAL(textChanged(const QString &)),
           this, SLOT(widgetStateChanged()));
   connect(ui.answerLineEdit, SIGNAL(textChanged(const QString &)),
           this, SLOT(widgetStateChanged()));
@@ -44,9 +44,8 @@ AntiSpamLayerSettings::AntiSpamLayerSettings(const QString &profile_name,
           this, SLOT(widgetStateChanged()));
 }
 
-AntiSpamLayerSettings::~AntiSpamLayerSettings()
-{
-
+AntiSpamLayerSettings::~AntiSpamLayerSettings() {
+    //
 }
 
 void AntiSpamLayerSettings::loadSettings()
@@ -58,7 +57,7 @@ void AntiSpamLayerSettings::loadSettings()
   ui.authorizationBox->setChecked(settings.value("authorization", false).toBool());
   ui.urlBox->setChecked(settings.value("urls", false).toBool());
   ui.botGroupBox->setChecked(settings.value("botenabled", false).toBool());
-  ui.questionTextEdit->setPlainText(settings.value("question", "").toString());
+  ui.questionTextEdit->setText(settings.value("question", "").toString());
   ui.answerLineEdit->setText(settings.value("answer", "").toString());
   ui.afterAnswerLineEdit->setText(settings.value("afteranswer", "").toString());
   ui.invisibleBox->setChecked(settings.value("oninvisible", false).toBool());
@@ -74,7 +73,7 @@ void AntiSpamLayerSettings::saveSettings()
   settings.setValue("authorization", ui.authorizationBox->isChecked());
   settings.setValue("urls", ui.urlBox->isChecked());
   settings.setValue("botenabled", ui.botGroupBox->isChecked());
-  settings.setValue("question", ui.questionTextEdit->toPlainText());
+  settings.setValue("question", ui.questionTextEdit->text());
   settings.setValue("answer", ui.answerLineEdit->text());
   settings.setValue("afteranswer", ui.afterAnswerLineEdit->text());
   settings.setValue("oninvisible", ui.invisibleBox->isChecked());

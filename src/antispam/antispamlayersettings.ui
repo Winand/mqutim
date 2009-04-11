@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>332</width>
-    <height>316</height>
+    <width>240</width>
+    <height>258</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,18 +24,22 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>332</width>
-     <height>316</height>
+     <width>240</width>
+     <height>258</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_2">
+    <property name="spacing">
+     <number>2</number>
+    </property>
     <property name="margin">
      <number>0</number>
     </property>
     <item>
      <widget class="QCheckBox" name="fromClBox">
       <property name="text">
-       <string>Accept messages only from contact list</string>
+       <string>Accept messages only from
+contact list</string>
       </property>
      </widget>
     </item>
@@ -49,14 +53,16 @@
     <item>
      <widget class="QCheckBox" name="authorizationBox">
       <property name="text">
-       <string>Do not accept NIL messages concerning authorization</string>
+       <string>Do not accept NIL messages
+concerning authorization</string>
       </property>
      </widget>
     </item>
     <item>
      <widget class="QCheckBox" name="urlBox">
       <property name="text">
-       <string>Do not accept NIL messages with URLs</string>
+       <string>Do not accept NIL messages
+with URLs</string>
       </property>
      </widget>
     </item>
@@ -74,71 +80,62 @@
       <property name="checked">
        <bool>true</bool>
       </property>
-      <layout class="QGridLayout" name="gridLayout">
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="spacing">
+        <number>2</number>
+       </property>
        <property name="margin">
         <number>0</number>
        </property>
-       <item row="0" column="0">
-        <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
           <widget class="QLabel" name="label">
            <property name="text">
-            <string>Anti-spam question:</string>
+            <string>Question:</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QTextEdit" name="questionTextEdit">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>40</width>
-             <height>0</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout">
-           <item>
-            <widget class="QLabel" name="label_2">
-             <property name="text">
-              <string>Answer:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="answerLineEdit"/>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_2">
-           <item>
-            <widget class="QLabel" name="label_3">
-             <property name="text">
-              <string>Msg on right answer:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="afterAnswerLineEdit"/>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="invisibleBox">
-           <property name="text">
-            <string>Don't send question/reply if my status is &quot;invisible&quot;</string>
-           </property>
-          </widget>
+          <widget class="QLineEdit" name="questionTextEdit"/>
          </item>
         </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Answer:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="answerLineEdit"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Msg on right answer:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="afterAnswerLineEdit"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="invisibleBox">
+         <property name="text">
+          <string>Don't send question/reply
+if my status is &quot;invisible&quot;</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

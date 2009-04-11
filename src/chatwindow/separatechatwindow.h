@@ -27,11 +27,17 @@
 #include <QSplitter>
 #include "../abstractchatlayer.h"
 #include "../pluginsystem.h"
-#include "chatemoticonmenu.h"
+/*#include "chatemoticonmenu.h"*/
 #include <QTextCursor>
 #include "ui_chatwindowform.h"
+//<<<<<<< Updated upstream:src/chatwindow/separatechatwindow.h
 #include <QVibrateAccessory>
 #include <QTimer>
+//=======
+#include <QScrollBar>
+#include <QDesktopServices>
+#include <QKeyEvent>
+//>>>>>>> Stashed changes:src/chatwindow/separatechatwindow.h*/
 
 class SeparateChatWindow : public QWidget
 {
@@ -79,11 +85,16 @@ protected:
 
 private slots:
 	void sendMessage();
-	void on_chatInputEdit_textChanged();
+        void on_chatInputEdit_textChanged(const QString & text);
 	void typingNow();
 	void clearChat();
-	void showHistory();
-	void quoteText();
+//<<<<<<< Updated upstream:src/chatwindow/separatechatwindow.h
+//	void showHistory();
+//	void quoteText();
+//=======
+  void showHistory();
+/*	void quoteText();*/
+//>>>>>>> Stashed changes:src/chatwindow/separatechatwindow.h
 	void windowFocused();
 	void onCustomContextMenuRequested(const QPoint & pos);
 	void newsOnLinkClicked(const QUrl &url);
@@ -92,7 +103,7 @@ private slots:
 private:
 	Ui::ChatWindow ui;
 	void setIconsToButtons();
-	QString invertMessage(QString &message);
+/*	QString invertMessage(QString &message);*/
 	void moveCursorToEnd();
   void checkForActiveState();
   void updateInfo();
@@ -107,7 +118,7 @@ private:
   QString m_contact_name;
   QString m_own_name;
 
-	QTextEdit *m_edit;
+        QLineEdit *m_edit;
 	QTextBrowser *m_log;
 
   bool m_last_message_sender;

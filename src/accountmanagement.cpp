@@ -25,9 +25,8 @@ AccountManagement::AccountManagement(QWidget *parent)
   ui.removeButton->setIcon(QIcon(IconManager::instance().getIcon("remove")));
 }
 
-AccountManagement::~AccountManagement()
-{
-
+AccountManagement::~AccountManagement() {
+    //
 }
 
 void AccountManagement::updateAccountList()

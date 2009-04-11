@@ -18,10 +18,10 @@
 
 #include <QtGui/QWidget>
 #include "ui_conferenceform.h"
-#include "chatemoticonmenu.h"
+/*#include "chatemoticonmenu.h"*/
 #include "separatechatwindow.h"
 #include "conferencecontactlist.h"
-#include "conferencetabcompletion.h"
+/*#include "conferencetabcompletion.h"*/
 #include <QPushButton>
 #include <QToolButton>
 #include <QTextEdit>
@@ -76,7 +76,7 @@ private:
 	void checkForActive(const QString &message);
 	bool eventFilter(QObject *obj, QEvent *ev);
 	QString checkForEmoticons(const QString &message);
-	QString invertMessage(QString &text);
+/*	QString invertMessage(QString &text);*/
 	AbstractChatLayer &m_abstract_chat_layer;
 	QString m_conference_name;
 	QString m_account_name;
@@ -84,7 +84,7 @@ private:
 	Ui::ConferenceForm ui;
 	QMenu *m_emotic_menu;
 	QWidgetAction *m_emoticon_action;
-	ChatEmoticonMenu *m_emoticon_widget;
+/*	ChatEmoticonMenu *m_emoticon_widget;*/
 	QString m_emoticons_path;
 	QHash<QString, QString> m_emoticon_list;
 	QHash<QString, QString> m_urls;
@@ -94,7 +94,7 @@ private:
 /*	bool m_close_after_send;
         bool m_show_names;*/
 	QTextBrowser *m_text_browser;
-	QTextEdit *conferenceTextEdit;
+        QLineEdit *conferenceTextEdit;
 	QString m_now_html;
 	QString m_mine_nick;
 	QString m_last_sender;
@@ -106,7 +106,7 @@ private:
 	ConferenceContactListEventEater *m_cl_event_eater;
 	bool m_scroll_at_max;
 	quint64 m_current_scroll_position;
-	TabCompletion *m_tab_compl;
+/*	TabCompletion *m_tab_compl;*/
 };
 
 #endif // SEPARATECONFERENCE_H

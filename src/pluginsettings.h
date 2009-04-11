@@ -31,8 +31,6 @@ public:
 
 private:
 	Ui::PluginSettingsClass ui;
-
-	void moveToDesktopCenter();
 	void addPluginItem(SimplePluginInterface  *plugin);
 
 private slots:

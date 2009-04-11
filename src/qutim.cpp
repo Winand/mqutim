@@ -61,7 +61,7 @@ QMutex				qutIM::fInstanceGuard;
 
 qutIM::qutIM(QWidget *parent, Qt::WFlags f ) :
     QTabWidget(parent),
-    bShouldRun(true),
+/*    bShouldRun(true),*/
     m_iconManager (IconManager::instance()),
     m_abstract_layer(AbstractLayer::instance()),
     m_contact_list(AbstractContactList::instance()),
@@ -92,14 +92,14 @@ qutIM::qutIM(QWidget *parent, Qt::WFlags f ) :
   createMainMenu();
   eventObject = new eventEater(this);
   qApp->installEventFilter(eventObject);
-  letMeQuit = false;
+/*  letMeQuit = false;*/
   setAttribute(Qt::WA_AlwaysShowToolTips, true);
   setFocus(Qt::ActiveWindowFocusReason);
 
   loadMainSettings();
 
-  if (!bShouldRun)
-    return;
+/*  if (!bShouldRun)
+    return;*/
 
   QTimer::singleShot(60000, this, SLOT(checkEventChanging()));
 

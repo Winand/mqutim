@@ -94,13 +94,14 @@ bool ConferenceItemModel::removeColumns(int position, int columns, const QModelI
 
 bool ConferenceItemModel::insertRows(int position, int rows, const QModelIndex &parent)
 {
-  if (position>m_item_list.size()+1)
+qDebug("11");  if (position>m_item_list.size()+1)
     return false;
-  beginInsertRows(parent, position, position + rows - 1);
-  for (int i=position;i<position+rows;i++)
-    m_item_list.insert(i,new ConferenceItem("",m_contact_list));
-  endInsertRows();
-  return true;
+qDebug("12");  beginInsertRows(parent, position, position + rows - 1);
+  for (int i=position;i<position+rows;i++) {
+    qDebug("inserting");
+    m_item_list.insert(i,new ConferenceItem("",m_contact_list));}
+qDebug("13");  endInsertRows();
+qDebug("14");  return true;
 }
 
 bool ConferenceItemModel::removeRows(int position, int rows, const QModelIndex &parent)
@@ -121,16 +122,15 @@ bool ConferenceItemModel::removeRows(int position, int rows, const QModelIndex &
 
 bool ConferenceItemModel::addBuddy(const QString & name)
 {
-qDebug("0");  if (!insertRows(0,1,QModelIndex())) {
-    qDebug("1");
-    return false;}
+  if (!insertRows(0,1,QModelIndex()))
+    return false;
   if (m_item_hash.contains(name))
     return false;
   ConferenceItem *item = m_item_list[0];
   item->setData(name, Qt::DisplayRole);
   m_item_hash[name] = item;
-  position(item);
-  return true;
+qDebug("0");  //position(item);
+qDebug("1");  return true;
 }
 
 bool ConferenceItemModel::removeBuddy(const QString & name)

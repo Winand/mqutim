@@ -32,7 +32,6 @@
 #include "userinformation.h"
 #include "addbuddydialog.h"
 //#include "modifyitem.h"
-#include "multiplesending.h"
 #include "privacylistwindow.h"
 #include "passwordchangedialog.h"
 #include "addrenamedialog.h"
@@ -80,7 +79,6 @@ contactListTree::contactListTree(QTcpSocket *s, icqBuffer *buff,
 
 	currentStatus = offline;
 	findUserWindowOpen = false;
-	multipleSendingOpen = false;
 	privacyListWindowOpen = false;
 	waitForIconUpload = false;
 	movingBuddy = false;
@@ -138,9 +136,6 @@ contactListTree::~contactListTree()
 
 	if ( findUserWindowOpen )
 			delete searchWin;
-
-	if ( multipleSendingOpen )
-		delete multipleSendingWin;
 	if (privacyListWindowOpen)
 		delete privacyWindow;
 
@@ -1331,7 +1326,6 @@ void contactListTree::goingOnline(bool iAmOnlineSignal)
 //		w->setOnline(true);
 
 		findUser->setEnabled(true);
-		sendMultiple->setEnabled(true);
 		changePassword->setEnabled(true);
 		if ( privacyListWindowOpen)
 			privacyWindow->setOnline(true);
@@ -1343,7 +1337,6 @@ void contactListTree::goingOnline(bool iAmOnlineSignal)
 		invisibleList.clear();
 		ignoreList.clear();
 		findUser->setEnabled(false);
-		sendMultiple->setEnabled(false);
 		changePassword->setEnabled(false);
 		waitForIconUpload = false;
 
@@ -2206,11 +2199,6 @@ void contactListTree::initializaMenus(QMenu *accountAdditionalMenu)
 	connect(findUser, SIGNAL(triggered()), this, SLOT(findAddUser()));
 	findUser->setEnabled(false);
 
-	sendMultiple = new QAction(m_icq_plugin_system.getIcon("multiple"),
-			tr("Send multiple"), this);
-	connect(sendMultiple, SIGNAL(triggered()), this, SLOT(sendMultipleWindow()));
-	sendMultiple->setEnabled(false);
-
 	privacyList = new QAction(m_icq_plugin_system.getIcon("privacylist"),
 			tr("Privacy lists"), this);
 	connect(privacyList, SIGNAL(triggered()), this, SLOT(openPrivacyWindow()));
@@ -2227,7 +2215,6 @@ void contactListTree::initializaMenus(QMenu *accountAdditionalMenu)
 
 	accountAdditionalMenu->addAction(findUser);
 //	accountAdditionalMenu->addAction(serviceMessages);
-	accountAdditionalMenu->addAction(sendMultiple);
 	accountAdditionalMenu->addAction(privacyList);
 	accountAdditionalMenu->addAction(selfInfo);
 	accountAdditionalMenu->addAction(changePassword);
@@ -3176,27 +3163,6 @@ void contactListTree::youWereAdded(quint16 length)
 	addMessageFromContact(msg->fromUin,
 			buddyList.contains(msg->fromUin)?buddyList.value(msg->fromUin)->groupID : 0
 			, msg->message, msg->date);
-}
-
-void contactListTree::sendMultipleWindow()
-{
-	multipleSendingWin = new multipleSending();
-	multipleSendingWin->setTreeModel(icqUin, &groupList, &buddyList);
-	multipleSendingOpen = true;
-	multipleSendingWin->setAttribute(Qt::WA_QuitOnClose, false);
-	multipleSendingWin->setAttribute(Qt::WA_DeleteOnClose, true);
-		connect( multipleSendingWin, SIGNAL(destroyed ( QObject *)),
-				this, SLOT(deleteSendMultipleWindow(QObject *)));
-		connect( multipleSendingWin, SIGNAL(sendMessageToContact(const messageFormat &)),
-				this, SLOT(sendMessage(const messageFormat &)));
-	sendMultiple->setEnabled(false);
-	multipleSendingWin->show();
-}
-
-void contactListTree::deleteSendMultipleWindow(QObject */*obj*/)
-{
-	multipleSendingOpen = false;
-	sendMultiple->setEnabled(true);
 }
 
 void contactListTree::openPrivacyWindow()

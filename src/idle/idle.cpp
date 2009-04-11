@@ -24,8 +24,8 @@
 #include <QDateTime>
 #include <QTimer>
 
-static IdlePlatform *platform = 0;
-static int platform_ref = 0;
+/*static IdlePlatform *platform = 0;
+static int platform_ref = 0;*/
 
 Idle::Idle()
 {
@@ -34,7 +34,7 @@ Idle::Idle()
   d->idleTime = 0;
   d->checkTimer.setObjectName("qutIM::Idle::checkTimer");
 
-  // try to use platform idle
+/*  // try to use platform idle
   if (!platform)
   {
     IdlePlatform *p = new IdlePlatform;
@@ -44,14 +44,14 @@ Idle::Idle()
       delete p;
   }
   if (platform)
-    ++platform_ref;
+    ++platform_ref;*/
 
   connect(&d->checkTimer, SIGNAL(timeout()), SLOT(doCheck()));
 }
 
 Idle::~Idle()
 {
-  if (platform)
+/*  if (platform)
   {
     --platform_ref;
     if (platform_ref == 0)
@@ -59,7 +59,7 @@ Idle::~Idle()
       delete platform;
       platform = 0;
     }
-  }
+  }*/
   delete d;
 }
 
@@ -68,16 +68,16 @@ bool Idle::isActive() const
   return d->active;
 }
 
-bool Idle::usingPlatform() const
+/*bool Idle::usingPlatform() const
 {
   return (platform ? true: false);
-}
+}*/
 
 void Idle::start()
 {
   d->startTime = QDateTime::currentDateTime();
 
-  if (!platform)
+/*  if (!platform)*/
   {
     // generic idle
     d->lastMousePos = QCursor::pos();
@@ -96,9 +96,9 @@ void Idle::stop()
 int Idle::secondsIdle()
 {
   int i;
-  if (platform)
+/*  if (platform)
     i = platform->secondsIdle();
-  else
+  else*/
   {
     QPoint curMousePos = QCursor::pos();
     QDateTime curDateTime = QDateTime::currentDateTime();

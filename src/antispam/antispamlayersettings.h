@@ -24,16 +24,16 @@ class AntiSpamLayerSettings : public QScrollArea
     Q_OBJECT
 
 public:
-	AntiSpamLayerSettings(const QString &profile_name, QWidget *parent = 0);
+    AntiSpamLayerSettings(const QString &profile_name, QWidget *parent = 0);
     ~AntiSpamLayerSettings();
     void loadSettings();
     void saveSettings();
 
 private slots:
-	void widgetStateChanged() { changed = true; emit settingsChanged(); }
+    void widgetStateChanged() { changed = true; emit settingsChanged(); }
 
 signals:
-  	void settingsChanged();
+    void settingsChanged();
     void settingsSaved();
 
 private:

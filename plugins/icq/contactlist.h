@@ -48,7 +48,6 @@ class metaInformation;
 class buddyPicture;
 class searchUser;
 class userInformation;
-class multipleSending;
 class privacyListWindow;
 class readAwayDialog;
 class noteWidget;
@@ -176,8 +175,6 @@ private slots:
 	void addUserToList(const QString &, const QString &,bool);
 	void getModifyItemFromServer(quint16);
 	void youWereAdded(quint16);
-	void sendMultipleWindow();
-	void deleteSendMultipleWindow(QObject *);
 	void openPrivacyWindow();
 	void deletePrivacyWindow(QObject *);
 	void deleteFromPrivacyList(const QString &, int);
@@ -377,7 +374,6 @@ private:
 
 	QAction *serviceMessages;
 	QAction *findUser;
-	QAction *sendMultiple;
 	QAction *privacyList;
 	QAction *selfInfo;
 	QAction *changePassword;
@@ -405,9 +401,6 @@ private:
 	void addModifiedBuddyToGroup(quint16, quint16, const QString &, bool, const QString &);
 	QList<modifyObject> modifyReqList;
 	QString iconPath;
-
-	bool multipleSendingOpen;
-	multipleSending *multipleSendingWin;
 
 	bool privacyListWindowOpen;
 	privacyListWindow *privacyWindow;

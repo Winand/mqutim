@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>ChatWindow</class>
- <widget class="QWidget" name="ChatWindow" >
-  <property name="geometry" >
+ <widget class="QWidget" name="ChatWindow">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,62 +10,37 @@
     <height>240</height>
    </rect>
   </property>
-  <property name="contextMenuPolicy" >
+  <property name="contextMenuPolicy">
    <enum>Qt::NoContextMenu</enum>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Chat</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" >
-   <property name="spacing" >
-    <number>0</number>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>3</number>
+   </property>
+   <property name="margin">
+    <number>1</number>
    </property>
    <item>
-    <widget class="QTextBrowser" name="chatLog" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+    <widget class="QTextBrowser" name="chatLog">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>5</verstretch>
       </sizepolicy>
      </property>
-     <property name="focusPolicy" >
+     <property name="focusPolicy">
       <enum>Qt::ClickFocus</enum>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QTextEdit" name="chatInputEdit" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
-       <horstretch>0</horstretch>
-       <verstretch>1</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize" >
-      <size>
-       <width>0</width>
-       <height>60</height>
-      </size>
-     </property>
-     <property name="focusPolicy" >
-      <enum>Qt::ClickFocus</enum>
-     </property>
-     <property name="acceptRichText" >
-      <bool>false</bool>
-     </property>
-    </widget>
+    <widget class="QLineEdit" name="chatInputEdit"/>
    </item>
   </layout>
-  <zorder>chatLog</zorder>
-  <zorder>chatInputEdit</zorder>
-  <zorder>typingLabel</zorder>
-  <zorder>clientLabel</zorder>
-  <zorder>clientLabel_2</zorder>
-  <zorder>clientLabel</zorder>
-  <zorder>typingLabel</zorder>
  </widget>
- <resources>
-  <include location="../../qutim.qrc" />
- </resources>
+ <resources/>
  <connections/>
 </ui>

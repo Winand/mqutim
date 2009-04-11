@@ -66,10 +66,10 @@ public:
   void hideTabBar();
   void showTabBar();
 
-	bool isShouldRun() { return bShouldRun; }
+/*	bool isShouldRun() { return bShouldRun; }*/
 	void reloadGeneralSettings();
 
-	void updateTrayIcon(const QIcon &);
+        void updateTrayIcon(const QIcon &);
 	void showBallon(const QString &title, const QString &message, int time);
 
 	void addActionToList(QAction *);
@@ -111,9 +111,9 @@ private:
   QMenu *mainMenu;
   QMenu *trayMenu;
 
-  bool bShouldRun;
+/*  bool bShouldRun;*/
   bool createMenuAccounts;
-  bool letMeQuit;
+/*  bool letMeQuit;*/
   bool unreadMessages;
   bool m_auto_away;
   bool msgIcon;

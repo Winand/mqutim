@@ -26,7 +26,7 @@
 #include <QDateTime>
 #include <QTimer>
 
-class IdlePlatform;
+/*class IdlePlatform;*/
 
 class Idle : public QObject
 {
@@ -36,7 +36,7 @@ public:
 	~Idle();
 
 	bool isActive() const;
-	bool usingPlatform() const;
+/*	bool usingPlatform() const;*/
 	void start();
 	void stop();
 	int secondsIdle();
@@ -52,7 +52,7 @@ private:
 	Private *d;
 };
 
-class IdlePlatform
+/*class IdlePlatform
 {
 public:
 	IdlePlatform();
@@ -64,7 +64,7 @@ public:
 private:
 	class Private;
 	Private *d;
-};
+};*/
 
 class Idle::Private
 {

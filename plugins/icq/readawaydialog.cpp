@@ -16,18 +16,16 @@
 
 #include "readawaydialog.h"
 
-readAwayDialog::readAwayDialog(QWidget *parent)
-    : QDialog(parent)
+readAwayDialog::readAwayDialog(QWidget *parent) : QDialog(parent)
 {
-	ui.setupUi(this);
+    ui.setupUi(this);
 }
 
-readAwayDialog::~readAwayDialog()
-{
+readAwayDialog::~readAwayDialog() {
+    //
 }
 
-void readAwayDialog::addMessage(QString &t)
-{
-	ui.awayMessage->setPlainText(t);
+void readAwayDialog::addMessage(QString &t) {
+    ui.awayMessage->setPlainText(t);
 }
 

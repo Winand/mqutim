@@ -1,64 +1,42 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>ConferenceForm</class>
- <widget class="QWidget" name="ConferenceForm" >
-  <property name="geometry" >
+ <widget class="QWidget" name="ConferenceForm">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>240</width>
-    <height>240</height>
+    <height>256</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QTextBrowser" name="t_Browser" >
-   <property name="geometry" >
-    <rect>
-     <x>10</x>
-     <y>8</y>
-     <width>222</width>
-     <height>162</height>
-    </rect>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>3</number>
    </property>
-   <property name="sizePolicy" >
-    <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
-     <horstretch>0</horstretch>
-     <verstretch>5</verstretch>
-    </sizepolicy>
+   <property name="margin">
+    <number>1</number>
    </property>
-   <property name="focusPolicy" >
-    <enum>Qt::ClickFocus</enum>
-   </property>
-  </widget>
-  <widget class="QTextEdit" name="t_Edit" >
-   <property name="geometry" >
-    <rect>
-     <x>10</x>
-     <y>170</y>
-     <width>222</width>
-     <height>60</height>
-    </rect>
-   </property>
-   <property name="sizePolicy" >
-    <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
-     <horstretch>0</horstretch>
-     <verstretch>1</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="minimumSize" >
-    <size>
-     <width>0</width>
-     <height>60</height>
-    </size>
-   </property>
-   <property name="focusPolicy" >
-    <enum>Qt::ClickFocus</enum>
-   </property>
-   <property name="acceptRichText" >
-    <bool>false</bool>
-   </property>
-  </widget>
+   <item>
+    <widget class="QTextBrowser" name="t_Browser">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>5</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="t_Edit"/>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

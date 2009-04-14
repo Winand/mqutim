@@ -34,7 +34,7 @@ jJoinChat::jJoinChat(jAccount *jabber_account, const QString &room, const QStrin
 	connect(ui.conferenceLineEdit, SIGNAL(currentIndexChanged(int)), this, SLOT(changeRecent(int)));
 	ui.joinButton->setIcon(m_jabber_account->getPluginSystem().getIcon("apply"));
 	ui.closeButton->setIcon(m_jabber_account->getPluginSystem().getIcon("cancel"));
-	ui.searchButton->setIcon(m_jabber_account->getPluginSystem().getIcon("search"));
+//	ui.searchButton->setIcon(m_jabber_account->getPluginSystem().getIcon("search"));
 	ui.saveButton->setIcon(m_jabber_account->getPluginSystem().getIcon("save_all"));
 	ui.addConferenceButton->setIcon(m_jabber_account->getPluginSystem().getIcon("add"));
 	ui.removeConferenceButton->setIcon(m_jabber_account->getPluginSystem().getIcon("remove"));
@@ -230,7 +230,7 @@ void jJoinChat::setConferenceRoom(const QString &conference)
 
 void jJoinChat::finishSearch()
 {
-	ui.searchButton->setEnabled(true);
+//	ui.searchButton->setEnabled(true);
 }
 
 QPoint jJoinChat::desktopCenter()
@@ -279,7 +279,7 @@ void jJoinChat::on_joinButton_clicked()
 	emit createConferenceRoom(ui.conferenceLineEdit->currentText(), ui.nickLineEdit->text(), ui.passwordLineEdit->text());
 	close();
 }
-
+/*
 void jJoinChat::on_searchButton_clicked()
 {
 	jSearchConference *jSConf = new jSearchConference("conference", m_jabber_account);
@@ -288,7 +288,7 @@ void jJoinChat::on_searchButton_clicked()
 	jSConf->show();
 	ui.searchButton->setEnabled(false);
 }
-
+*/
 void jJoinChat::on_saveButton_clicked()
 {
 	int row = ui.conferenceListWidget->currentRow() - 1;

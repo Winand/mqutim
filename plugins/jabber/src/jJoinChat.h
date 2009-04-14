@@ -35,7 +35,7 @@ class jJoinChat : public QWidget
 		void showConference(QListWidgetItem *current, QListWidgetItem *previous);
 		void on_addConferenceButton_clicked();
 		void on_removeConferenceButton_clicked();
-		void on_searchButton_clicked();
+//		void on_searchButton_clicked();
 
 	signals:
 		void createConferenceRoom(const QString&, const QString&, const QString&);

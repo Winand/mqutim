@@ -70,6 +70,8 @@ using namespace qutim_sdk_jabber;
 #include "xeps/tuneextension.h"
 #include "conference/jConference.h"
 #include <QDateTime>
+#include <string>
+#include <list>
 
 class jAccount;
 class jRoster;

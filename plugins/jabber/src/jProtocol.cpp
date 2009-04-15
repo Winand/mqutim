@@ -1509,28 +1509,28 @@ void jProtocol::clearRecentBookmarks()
 
 void jProtocol::setRecentBookmarks(const BookmarkList &b_list, const ConferenceList &c_list)
 {
-//	QSettings *recent_settings = new QSettings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/jabber."+m_account_name, "recent");
-//	recent_settings->beginWriteArray("bookmarks");
-// fixme
-//	QList<ConferenceListItem> m_c_list = QList<ConferenceListItem>::fromStdList(c_list);
-//	for (int i = 0; i < m_c_list.size(); ++i)
-//	{
-//		recent_settings->setArrayIndex(i);
-//		recent_settings->setValue("name", jProtocol::fromStd(m_c_list[i].name));
-//		recent_settings->setValue("jid", jProtocol::fromStd(m_c_list[i].jid));
-//		recent_settings->setValue("nick", jProtocol::fromStd(m_c_list[i].nick));
-//		recent_settings->setValue("password", jProtocol::fromStd(m_c_list[i].password));
-//		recent_settings->setValue("autojoin", m_c_list[i].autojoin);
-//	}
-//	recent_settings->endArray();
-//	recent_settings->beginWriteArray("urlmarks");
-// fixme
-//	QList<BookmarkListItem> m_b_list = QList<BookmarkListItem>::fromStdList(b_list);
-//	for (int i = 0; i < m_b_list.size(); ++i)
-//	{
-//		recent_settings->setArrayIndex(i);
-//		recent_settings->setValue("name", jProtocol::fromStd(m_b_list[i].name));
-//		recent_settings->setValue("url", jProtocol::fromStd(m_b_list[i].url));
-//	}
-//	recent_settings->endArray();
+	QSettings *recent_settings = new QSettings(QSettings::NativeFormat, QSettings::UserScope, "qutim/qutim."+m_profile_name+"/jabber."+m_account_name, "recent");
+	recent_settings->beginWriteArray("bookmarks");
+	QList<ConferenceListItem> m_c_list;
+	for (ConferenceList::const_iterator it=c_list.begin(); it!=c_list.end(); it++) m_c_list.append(*it);
+	for (int i = 0; i < m_c_list.size(); ++i)
+	{
+		recent_settings->setArrayIndex(i);
+		recent_settings->setValue("name", jProtocol::fromStd(m_c_list[i].name));
+		recent_settings->setValue("jid", jProtocol::fromStd(m_c_list[i].jid));
+		recent_settings->setValue("nick", jProtocol::fromStd(m_c_list[i].nick));
+		recent_settings->setValue("password", jProtocol::fromStd(m_c_list[i].password));
+		recent_settings->setValue("autojoin", m_c_list[i].autojoin);
+	}
+	recent_settings->endArray();
+	recent_settings->beginWriteArray("urlmarks");
+	QList<BookmarkListItem> m_b_list;
+	for (BookmarkList::const_iterator it=b_list.begin(); it!=b_list.end(); it++) m_b_list.append(*it);
+	for (int i = 0; i < m_b_list.size(); ++i)
+	{
+		recent_settings->setArrayIndex(i);
+		recent_settings->setValue("name", jProtocol::fromStd(m_b_list[i].name));
+		recent_settings->setValue("url", jProtocol::fromStd(m_b_list[i].url));
+	}
+	recent_settings->endArray();
 }
